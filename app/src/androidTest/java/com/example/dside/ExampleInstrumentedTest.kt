@@ -1,4 +1,4 @@
-package com.example.actualenvironment
+package com.example.dside
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4

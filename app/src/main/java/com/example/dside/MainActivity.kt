@@ -8,7 +8,7 @@
 // REVIEW:      (check / relay)      (#505DFF)
 
 
-package com.example.actualenvironment
+package com.example.dside
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -21,7 +21,6 @@ import com.google.firebase.ktx.Firebase
 import android.content.ContentValues.TAG
 import android.widget.Button
 import android.widget.EditText
-import android.widget.TextView
 import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
