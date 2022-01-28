@@ -1,4 +1,4 @@
-package com.example.dside
+package com.example.dsideapp
 
 import org.junit.Test
 
