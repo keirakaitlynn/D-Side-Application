@@ -1,13 +1,4 @@
 
-
-// XXXXX:       (fix ASAP!)          (#FF0052)
-// KEIRA:       (main headers)       (#FF009D)
-// KKKKK:       (sub headers)        (#FFCAF8)
-// NOTES:       (explanation)        (#55618D)
-// TODO:        (incomplete)         (#C8FF00)
-// REVIEW:      (check / relay)      (#505DFF)
-
-
 package com.example.dside
 
 import androidx.appcompat.app.AppCompatActivity
