@@ -8,13 +8,18 @@
     android:orientation="vertical">
 
     <LinearLayout
+        android:id="@+id/linearLayout2"
         android:layout_width="wrap_content"
-        android:orientation="vertical"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="122dp"
-        android:id="@+id/linearLayout2">
+        android:orientation="vertical">
+
+        <ImageView
+            android:layout_width="206dp"
+            android:layout_height="192dp"
+            android:src="@drawable/dside_logo" />
 
         <TextView
             android:id="@+id/textView2"
@@ -30,6 +35,7 @@
             android:id="@+id/emailInput"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:backgroundTint="@color/purple_200"
             android:ems="10"
             android:hint="Email "
             android:inputType="textEmailAddress"
@@ -39,6 +45,7 @@
             android:id="@+id/passInput"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:backgroundTint="@color/purple_200"
             android:ems="10"
             android:hint="Password"
             android:inputType="textEmailAddress"
@@ -48,6 +55,7 @@
             android:id="@+id/submitButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:fontFamily="@font/secondary"
             android:text="Submit" />
     </LinearLayout>
 </LinearLayout>
