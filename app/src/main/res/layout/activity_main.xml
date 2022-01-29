@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -9,53 +10,85 @@
 
     <LinearLayout
         android:id="@+id/linearLayout2"
-        android:layout_width="wrap_content"
+        android:layout_width="303dp"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="122dp"
         android:orientation="vertical">
 
         <ImageView
-            android:layout_width="206dp"
-            android:layout_height="192dp"
-            android:src="@drawable/dside_logo" />
-
-        <TextView
-            android:id="@+id/textView2"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/linearLayout2"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="21dp"
-            android:text="Fill fields to REGISTER:" />
-
+            android:layout_height="145dp"
+            android:src="@drawable/dside_logo" />
 
         <EditText
             android:id="@+id/emailInput"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:backgroundTint="@color/purple_200"
+            android:background="@drawable/edittext_round"
+            android:layout_marginTop="30dp"
+            android:paddingStart="25dp"
+            android:drawableStart="@drawable/icon_user_smallxxxhdpi"
+            android:drawablePadding="10dp"
             android:ems="10"
             android:hint="Email "
+            android:textSize="12sp"
+            android:textColor="@color/white"
             android:inputType="textEmailAddress"
-            android:minHeight="48dp" />
+            android:minHeight="56dp"/>
 
         <EditText
             android:id="@+id/passInput"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:backgroundTint="@color/purple_200"
+            android:background="@drawable/edittext_round"
+            android:layout_marginTop="10dp"
+            android:paddingStart="25dp"
+            android:drawableStart="@drawable/icon_lock_smallxxxhdpi"
+            android:drawablePadding="10dp"
             android:ems="10"
             android:hint="Password"
+            android:textSize="12sp"
+            android:textColor="@color/white"
             android:inputType="textEmailAddress"
-            android:minHeight="48dp" />
+            android:minHeight="56dp" />
 
         <Button
             android:id="@+id/submitButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/secondary"
-            android:text="Submit" />
+            android:layout_marginTop="20dp"
+            android:minHeight="68dp"
+            android:fontFamily="@font/primary"
+            android:letterSpacing=".01"
+            android:text="Sign Up"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:cornerRadius="80dp" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="10dp">
+
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="wrap_content"
+                android:layout_height="35dp"
+                android:text="Already have an account?"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/textView3"
+                android:layout_width="wrap_content"
+                android:layout_height="35dp"
+                android:paddingStart="10dp"
+                android:fontFamily="@font/primary"
+                android:textStyle="bold"
+                android:textColor="@color/pink"
+                android:text="@string/sign_in"
+                android:textSize="12sp" />
+        </LinearLayout>
     </LinearLayout>
 </LinearLayout>

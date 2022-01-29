@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">DSide</string>
+    <string name="sign_in"><u>Sign In</u></string>
 </resources>
