@@ -11,12 +11,46 @@
         <item name="colorOnSecondary">@color/purple_400</item>
         <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
+
         <!-- Customize your theme here. -->
-        <item name="android:background">@color/purple_400</item>
+        <!-- KEIRA: Default font settings. -->
+        <item name="android:fontFamily">@font/primary</item>
         <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">12sp</item>
         <item name="android:editTextColor">@color/white</item>
         <item name="android:textColorHint">@color/purple_100</item>
-        <item name="android:fontFamily">@font/primary</item>
+
+        <!-- KEIRA: Background settings. -->
+        <item name="android:background">@color/purple_400</item>
+
+        <!-- KEIRA: Button styles. -->
+        <item name="materialButtonStyle">@style/button_pink</item>
     </style>
+
+    <!-- KEIRA: A pink button. -->
+    <style name="button_pink" parent="Widget.MaterialComponents.Button">
+        <item name="cornerRadius">80dp</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:letterSpacing">.01</item>
+        <!-- To add...
+            android:minHeight="68dp"
+        -->
+    </style>
+
+    <!-- KEIRA: A round EditText. -->
+    <style name="edittext_round">
+        <item name="paddingStart">25dp</item>
+        <item name="android:drawablePadding">10dp</item>
+        <item name="android:ems">10</item>
+        <!-- To add...
+            style="@style/edittext_round"
+            android:background="@drawable/rectangle_round"
+            android:minHeight="56dp"
+            android:paddingStart="25dp"
+            android:drawableStart="@drawable/icon_name"
+        -->
+    </style>
+
 
 </resources>

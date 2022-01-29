@@ -23,35 +23,29 @@
 
         <EditText
             android:id="@+id/emailInput"
+            style="@style/edittext_round"
+            android:background="@drawable/rectangle_round"
+            android:minHeight="56dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/edittext_round"
             android:layout_marginTop="30dp"
             android:paddingStart="25dp"
             android:drawableStart="@drawable/icon_user_smallxxxhdpi"
-            android:drawablePadding="10dp"
-            android:ems="10"
             android:hint="Email "
-            android:textSize="12sp"
-            android:textColor="@color/white"
-            android:inputType="textEmailAddress"
-            android:minHeight="56dp"/>
+            android:inputType="textEmailAddress" />
 
         <EditText
             android:id="@+id/passInput"
+            style="@style/edittext_round"
+            android:background="@drawable/rectangle_round"
+            android:minHeight="56dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/edittext_round"
             android:layout_marginTop="10dp"
             android:paddingStart="25dp"
             android:drawableStart="@drawable/icon_lock_smallxxxhdpi"
-            android:drawablePadding="10dp"
-            android:ems="10"
             android:hint="Password"
-            android:textSize="12sp"
-            android:textColor="@color/white"
-            android:inputType="textEmailAddress"
-            android:minHeight="56dp" />
+            android:inputType="textEmailAddress" />
 
         <Button
             android:id="@+id/submitButton"
@@ -59,16 +53,12 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:minHeight="68dp"
-            android:fontFamily="@font/primary"
-            android:letterSpacing=".01"
-            android:text="Sign Up"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            app:cornerRadius="80dp" />
+            android:text="Sign Up" />
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
             android:orientation="horizontal"
             android:layout_marginTop="10dp">
 
@@ -76,19 +66,16 @@
                 android:id="@+id/textView2"
                 android:layout_width="wrap_content"
                 android:layout_height="35dp"
-                android:text="Already have an account?"
-                android:textSize="12sp" />
+                android:text="Already have an account?" />
 
             <TextView
                 android:id="@+id/textView3"
                 android:layout_width="wrap_content"
                 android:layout_height="35dp"
                 android:paddingStart="10dp"
-                android:fontFamily="@font/primary"
                 android:textStyle="bold"
                 android:textColor="@color/pink"
-                android:text="@string/sign_in"
-                android:textSize="12sp" />
+                android:text="@string/log_in"/>
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>

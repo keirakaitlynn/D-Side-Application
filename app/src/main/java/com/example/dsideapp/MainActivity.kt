@@ -67,7 +67,7 @@ class MainActivity : AppCompatActivity() {
             password = findViewById(R.id.passInput)
             createAccount(email.getText().toString().trim(), password.getText().toString().trim())
         }
-        //signIn("barackobama42@gmail.com", "fortnite")       // THE IMPORTANT BITS
+        //signIn("keirakaitlynn@gmail.com", "AHHHHH")       // THE IMPORTANT BITS
 
     }
     public override fun onStart() {
