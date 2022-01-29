@@ -1,13 +1,4 @@
 
-
-// XXXXX:       (fix ASAP!)          (#FF0052)
-// KEIRA:       (main headers)       (#FF009D)
-// KKKKK:       (sub headers)        (#FFCAF8)
-// NOTES:       (explanation)        (#55618D)
-// TODO:        (incomplete)         (#C8FF00)
-// REVIEW:      (check / relay)      (#505DFF)
-
-
 package com.example.dsideapp
 
 import androidx.appcompat.app.AppCompatActivity
@@ -34,7 +25,7 @@ class MainActivity : AppCompatActivity() {
     lateinit var button: Button
     private lateinit var email: EditText
     private lateinit var password: EditText
-    lateinit var textView: TextView // KEIRA
+    lateinit var textView: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
@@ -69,12 +60,10 @@ class MainActivity : AppCompatActivity() {
             password = findViewById(R.id.passInput)
             createAccount(email.getText().toString().trim(), password.getText().toString().trim())
         }
-        //signIn("keirakaitlynn@gmail.com", "AHHHHH")       // THE IMPORTANT BITS
 
-        // KEIRA:
         textView = findViewById(R.id.log_in)
         textView.setOnClickListener{
-            // Change View from this activity to Log In Activity
+            // KEIRA: Change View from this activity to Log In Activity
             val intent = Intent(this, LoginActivity::class.java)
             startActivity(intent)
         }
