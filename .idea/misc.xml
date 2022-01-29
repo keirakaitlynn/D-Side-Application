@@ -7,11 +7,15 @@
         <entry key="..\:/Users/keira/AndroidStudioProjects/D-Side-Application/app/src/main/res/drawable/edittext_round.xml" value="0.34270833333333334" />
         <entry key="..\:/Users/keira/AndroidStudioProjects/D-Side-Application/app/src/main/res/drawable/edittext_rounded.xml" value="0.34270833333333334" />
         <entry key="..\:/Users/keira/AndroidStudioProjects/D-Side-Application/app/src/main/res/drawable/ic_launcher_background.xml" value="0.34270833333333334" />
+        <entry key="..\:/Users/keira/AndroidStudioProjects/D-Side-Application/app/src/main/res/drawable/rectangle_round.xml" value="0.275" />
         <entry key="..\:/Users/keira/AndroidStudioProjects/D-Side-Application/app/src/main/res/font-v26/primary.xml" value="0.3567708333333333" />
         <entry key="..\:/Users/keira/AndroidStudioProjects/D-Side-Application/app/src/main/res/font/font.xml" value="0.3567708333333333" />
         <entry key="..\:/Users/keira/AndroidStudioProjects/D-Side-Application/app/src/main/res/font/primary.xml" value="0.3567708333333333" />
         <entry key="..\:/Users/keira/AndroidStudioProjects/D-Side-Application/app/src/main/res/font/secondary.xml" value="0.2962962962962963" />
-        <entry key="..\:/Users/keira/AndroidStudioProjects/D-Side-Application/app/src/main/res/layout/activity_main.xml" value="0.37216828478964403" />
+        <entry key="..\:/Users/keira/AndroidStudioProjects/D-Side-Application/app/src/main/res/layout/activity_login.xml" value="0.16666666666666666" />
+        <entry key="..\:/Users/keira/AndroidStudioProjects/D-Side-Application/app/src/main/res/layout/activity_main.xml" value="0.22" />
+        <entry key="..\:/Users/keira/AndroidStudioProjects/D-Side-Application/app/src/main/res/layout/fragment_signup.xml" value="0.3333333333333333" />
+        <entry key="..\:/Users/keira/AndroidStudioProjects/D-Side-Application/app/src/main/res/layout/old_activity_main.xml" value="0.11481481481481481" />
       </map>
     </option>
   </component>

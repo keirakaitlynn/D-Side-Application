@@ -48,12 +48,12 @@
             android:inputType="textEmailAddress" />
 
         <Button
-            android:id="@+id/sign_up"
+            android:id="@+id/log_in"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:minHeight="68dp"
-            android:text="Sign Up" />
+            android:text="Log In" />
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -66,16 +66,16 @@
                 android:id="@+id/textView2"
                 android:layout_width="wrap_content"
                 android:layout_height="35dp"
-                android:text="Already have an account?" />
+                android:text="Don't have an account?" />
 
             <TextView
-                android:id="@+id/log_in"
+                android:id="@+id/sign_up"
                 android:layout_width="wrap_content"
                 android:layout_height="35dp"
                 android:paddingStart="10dp"
                 android:textStyle="bold"
                 android:textColor="@color/pink"
-                android:text="@string/log_in_underlined"/>
+                android:text="@string/sign_up_underlined"/>
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>

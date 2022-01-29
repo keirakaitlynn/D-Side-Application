@@ -28,7 +28,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 
 
-class MainActivity : AppCompatActivity() {
+class LoginActivity : AppCompatActivity() {
 
     private lateinit var auth: FirebaseAuth
     lateinit var button: Button
@@ -61,21 +61,21 @@ class MainActivity : AppCompatActivity() {
         })
 
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        setContentView(R.layout.activity_login)
 
-        button = findViewById(R.id.sign_up)
+        button = findViewById(R.id.log_in)
         button.setOnClickListener{
             email = findViewById(R.id.emailInput)
             password = findViewById(R.id.passInput)
-            createAccount(email.getText().toString().trim(), password.getText().toString().trim())
+            logIn(email.getText().toString().trim(), password.getText().toString().trim())
         }
         //signIn("keirakaitlynn@gmail.com", "AHHHHH")       // THE IMPORTANT BITS
 
         // KEIRA:
-        textView = findViewById(R.id.log_in)
-        textView.setOnClickListener{
-            // Change View from this activity to Log In Activity
-            val intent = Intent(this, LoginActivity::class.java)
+        textView = findViewById(R.id.sign_up)
+        textView.setOnClickListener {
+            // change View from this activity to Main Activity
+            val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
         }
     }
