@@ -21,6 +21,9 @@
         <activity
             android:name="com.example.dsideapp.LoginActivity">
         </activity>
+        <activity
+            android:name="com.example.dsideapp.HomeActivity">
+        </activity>
     </application>
 
 </manifest>

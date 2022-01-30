@@ -36,7 +36,6 @@ class MainActivity : AppCompatActivity() {
 
         myRef.setValue("Victor is testing further")
 
-
         myRef.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 // This method is called once with the initial value and again

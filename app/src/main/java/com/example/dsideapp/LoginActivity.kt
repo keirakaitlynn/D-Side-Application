@@ -127,6 +127,9 @@ class LoginActivity : AppCompatActivity() {
                     }
                     Log.w("IDK ", user?.email.toString())
 
+                    // KEIRA: Change View from this activity to Home Activity
+                    val intent = Intent(this, HomeActivity::class.java)
+                    startActivity(intent)
                 } else {
                     // If sign in fails, display a message to the user.
                     Log.w(TAG, "signInWithEmail:failure", task.exception)

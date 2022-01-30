@@ -6,7 +6,8 @@
     android:layout_height="match_parent"
     android:baselineAligned="false"
     android:gravity="center"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="@color/purple_400">
 
     <LinearLayout
         android:id="@+id/linearLayout2"
