@@ -7,4 +7,11 @@
     <color name="pink">#ed1458</color>
     <color name="red">#600528</color>
     <color name="white">#FFFFFF</color>
+
+
+    <!--    MAKE OUR OWN CUSTOM COLORS HERE 🙂 -->
+    <color name="orangeColor">#FFA500</color>
+    <color name="orangeRedColor">#FF4500</color>
+    <color name="blueVioletColor"> #8A2BE2</color>
+    <color name="limeGreenColor"> #00FF00</color>
 </resources>

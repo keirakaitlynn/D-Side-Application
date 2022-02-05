@@ -52,5 +52,19 @@
         -->
     </style>
 
+    <!-- Here we are defining the styles for each of our calendar's components.
+            Meaning that we can even create presets and allow the users to change freely.
+            Tbh idk what the parent's names really came from, I just googled until I was able to make the colors change
+            -->
+    <style name="CustomCalendarMonth" parent="Theme.AppCompat">
+        <item name="android:textColorPrimary">@color/orangeColor</item>
+    </style>
 
+    <style name="CustomCalendarDay" parent="TextAppearance.MaterialComponents.Caption">
+        <item name="android:textColor">@color/limeGreenColor</item>
+    </style>
+
+    <style name="CustomCalendarWeek" parent="TextAppearance.MaterialComponents.Caption">
+        <item name="android:textColor">@color/blueVioletColor</item>
+    </style>
 </resources>
