@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@color/purple_400"
+    tools:context=".fragments.SuggestionsFragment">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fillViewport="true"
+        android:padding="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout_editor_absoluteX="4dp">
+
+        <TextView
+            android:id="@+id/textViewScroll"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@id/textViewScroll"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="10dp"
+            android:padding="4dp"
+            android:text=""></TextView>
+    </ScrollView>
+</FrameLayout>

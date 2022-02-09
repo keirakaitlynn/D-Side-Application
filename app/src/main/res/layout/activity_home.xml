@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/purple_400"
+    android:id="@+id/activities_layout"
     tools:context=".HomeActivity">
 
     <FrameLayout
