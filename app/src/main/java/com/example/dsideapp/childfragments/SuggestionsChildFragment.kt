@@ -1,20 +1,18 @@
-package com.example.dsideapp.fragments
+package com.example.dsideapp.childfragments
 
 import android.os.AsyncTask
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.TextView
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentTransaction
 import com.example.dsideapp.R
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Element
 import java.io.IOException
 
-class SuggestionsFragment : Fragment() {
+class SuggestionsChildFragment : Fragment() {
     private lateinit var textView: TextView
 
     override fun onCreateView(
@@ -23,7 +21,7 @@ class SuggestionsFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
 
-        val v = inflater.inflate(R.layout.fragment_suggestions, container, false)
+        val v = inflater.inflate(R.layout.fragment_child_suggestions, container, false)
         textView = v.findViewById(R.id.textViewScroll)
         //----------
             class WebScratch : AsyncTask<Void, Void, Void>() {
