@@ -47,7 +47,8 @@ class ActivitiesFragment : Fragment() {
 
                 val activity = Activity(name, location, date_time)
 
-                database.reference.child("users").child(userId).child("data").child("activities").setValue(activity)
+                //For true functionality, set random list of characters to "userId" to properly write to currently logged in user. As well, set name in ".child(name)" as an ID in the future to make it easier to search and read from DB.
+                database.reference.child("users").child("WHBqJbAom0Yz0MQPQg0zuDnv4Xv1").child("data").child("activities").child(name).setValue(activity)
 
             }
             writeNewActivity(auth.uid.toString(), "Party at CSULB","1212 N Bellflower Blvd, Long Beach, CA 90815", "02-10-2022 20:10")
