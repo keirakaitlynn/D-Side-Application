@@ -28,14 +28,24 @@ class SuggestionsFragment : Fragment() {
         //----------
             class WebScratch : AsyncTask<Void, Void, Void>() {
                 private lateinit var words: String
-                private lateinit var restaurants: List<Element>
+                private lateinit var dishName: List<Element>
+                private lateinit var prices: List<Element>
+                private lateinit var street: List<Element>
+                private lateinit var city: List<Element>
+                private lateinit var state: List<Element>
                 private lateinit var formattedRestaurant: String
+                private var counter: Int=0
                 override fun doInBackground(vararg params: Void): Void? {
                     try {
-                        val document =  Jsoup.connect("https://www.yelp.com/search?find_desc=taco&find_loc=Carson%2C+CA").get()
-                        words = document.text()
+                        val document =  Jsoup.connect("https://www.yelp.com/biz/tacos-el-goloso-los-angeles?show_platform_modal=True").get()
+                        //words = document.text()
                         formattedRestaurant =  ""
-                        restaurants = document.getElementsByClass(" css-1e4fdj9")
+                        dishName = document.getElementsByClass(" css-1peqmen")
+                        street = document.getElementsByClass(" css-1bp797t")
+                        city = document.getElementsByClass(" css-5588ua")
+                        state = document.getElementsByClass(" css-1k57hak")
+                        prices = document.getElementsByClass("price__09f24__F1T0p css-dwc5z2")
+                        //restaurants = document.getElementsByClass(" css-1e4fdj9")
                     } catch (e: IOException) {
                         e.printStackTrace()
                     }
@@ -44,8 +54,13 @@ class SuggestionsFragment : Fragment() {
                 override fun onPostExecute(aVoid: Void?) {
                     super.onPostExecute(aVoid)
                     //textView.text = words
-                    restaurants.forEach { element ->
+                    formattedRestaurant += street.get(0).text() + " " +
+                            city.get(0).text() + " " +
+                            state.get(0).text() + "\n------------------\n"
+                    prices.forEach { element ->
+                        formattedRestaurant += dishName.get(counter).text() + "\n"
                         formattedRestaurant += element.text() + "\n------------------\n"
+                        counter += 1
                     }
                     textView.text = formattedRestaurant
                 }
