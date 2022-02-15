@@ -1,4 +1,4 @@
-package com.example.dsideapp.fragments
+package com.example.dsideapp.childfragments
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,10 +7,15 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.example.dsideapp.R
 
-class HomeFragment : Fragment() {
+class CoinChildFragment : Fragment() {
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? = inflater.inflate(R.layout.fragment_home, container, false)
+    ): View? {
+
+        val v = inflater.inflate(R.layout.fragment_child_coin, container, false)
+        return v
+    }
 }
