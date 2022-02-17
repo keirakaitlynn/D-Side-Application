@@ -23,7 +23,7 @@ class ActivitiesFragment : Fragment() {
     private val coinFragment = CoinChildFragment()
     private val diceFragment = DiceChildFragment()
     private val wheelFragment = WheelChildFragment()
-
+    private val concertsFragment = ConcertsFragment()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -47,7 +47,10 @@ class ActivitiesFragment : Fragment() {
         }
         wheelButton = v.findViewById<Button>(R.id.wheel_button)
         wheelButton.setOnClickListener{
-            replaceChildFragment(wheelFragment)
+            //Temporarily have this in concert fragment to avoid code clash
+            replaceChildFragment(concertsFragment)
+
+            //replaceChildFragment(wheelFragment)
         }
 
         return v
