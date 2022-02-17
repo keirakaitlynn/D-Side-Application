@@ -24,7 +24,7 @@ class CartPopUpFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         val v = inflater.inflate(R.layout.fragment_cart_pop_up, container, false)
-        //In here is where we get the info from database to populate the popup window
+        /*//In here is where we get the info from database to populate the popup window
         val user = auth.currentUser
         if (user != null) {
             println("WORK")
@@ -34,10 +34,7 @@ class CartPopUpFragment : Fragment() {
             print("PAIN")
         }
         val activityInfo = user?.let { FirebaseDatabase.getInstance().getReference(it.uid) }
-
-        popUpText = v.findViewById(R.id.popUpText)
-        var tempTestText = "Activity 1\nActivity 4\nActivity 10\n"
-        popUpText.text = tempTestText
+        */
         return v
     }
 }
