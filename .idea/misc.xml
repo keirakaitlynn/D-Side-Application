@@ -3,13 +3,19 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/joshu/AndroidStudioProjects/D-Side-Application_2.0/app/src/main/res/drawable/concerts_icon.xml" value="0.12708333333333333" />
         <entry key="..\:/Users/joshu/AndroidStudioProjects/D-Side-Application_2.0/app/src/main/res/layout/activity_home.xml" value="0.1793478260869565" />
+        <entry key="..\:/Users/joshu/AndroidStudioProjects/D-Side-Application_2.0/app/src/main/res/layout/activity_login.xml" value="0.1109375" />
         <entry key="..\:/Users/joshu/AndroidStudioProjects/D-Side-Application_2.0/app/src/main/res/layout/activity_main.xml" value="0.17300724637681159" />
         <entry key="..\:/Users/joshu/AndroidStudioProjects/D-Side-Application_2.0/app/src/main/res/layout/fragment_account.xml" value="0.17300724637681159" />
-        <entry key="..\:/Users/joshu/AndroidStudioProjects/D-Side-Application_2.0/app/src/main/res/layout/fragment_activities.xml" value="0.1793478260869565" />
+        <entry key="..\:/Users/joshu/AndroidStudioProjects/D-Side-Application_2.0/app/src/main/res/layout/fragment_activities.xml" value="0.16" />
+        <entry key="..\:/Users/joshu/AndroidStudioProjects/D-Side-Application_2.0/app/src/main/res/layout/fragment_cart_pop_up.xml" value="0.1" />
+        <entry key="..\:/Users/joshu/AndroidStudioProjects/D-Side-Application_2.0/app/src/main/res/layout/fragment_child_suggestions.xml" value="0.12604166666666666" />
         <entry key="..\:/Users/joshu/AndroidStudioProjects/D-Side-Application_2.0/app/src/main/res/layout/fragment_concerts.xml" value="0.12708333333333333" />
+        <entry key="..\:/Users/joshu/AndroidStudioProjects/D-Side-Application_2.0/app/src/main/res/layout/fragment_home.xml" value="0.1109375" />
         <entry key="..\:/Users/joshu/AndroidStudioProjects/D-Side-Application_2.0/app/src/main/res/layout/fragment_suggestions.xml" value="0.1793478260869565" />
         <entry key="..\:/Users/joshu/AndroidStudioProjects/D-Side-Application_2.0/app/src/main/res/layout/fragment_test_wheel.xml" value="0.11979166666666667" />
+        <entry key="..\:/Users/joshu/AndroidStudioProjects/D-Side-Application_2.0/app/src/main/res/layout/fragment_trail_suggestions_child.xml" value="0.12604166666666666" />
         <entry key="..\:/Users/joshu/AndroidStudioProjects/D-Side-Application_2.0/app/src/main/res/menu/navbar.xml" value="0.25" />
         <entry key="..\:/Users/keira/AndroidStudioProjects/491/app/src/main/res/layout/activity_main.xml" value="0.1408514492753623" />
         <entry key="..\:/Users/keira/AndroidStudioProjects/D-Side-Application/app/src/main/res/drawable/account_icon.xml" value="0.1" />

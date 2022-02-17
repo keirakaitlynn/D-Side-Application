@@ -20,29 +20,26 @@ class SuggestionsChildFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
         val v = inflater.inflate(R.layout.fragment_child_suggestions, container, false)
         textView = v.findViewById(R.id.textViewScroll)
         //----------
             class WebScratch : AsyncTask<Void, Void, Void>() {
-                private lateinit var words: String
-                private lateinit var dishName: List<Element>
-                private lateinit var prices: List<Element>
-                private lateinit var street: List<Element>
-                private lateinit var city: List<Element>
-                private lateinit var state: List<Element>
-                private lateinit var formattedRestaurant: String
-                private var counter: Int=0
+            private lateinit var trailName: List<Element>
+            private lateinit var trailLinks: MutableList<String>
+            private lateinit var formattedFrontEnd: String
+            private var counter = 0
                 override fun doInBackground(vararg params: Void): Void? {
                     try {
-                        val document =  Jsoup.connect("https://www.yelp.com/biz/tacos-el-goloso-los-angeles?show_platform_modal=True").get()
+                        var inputtedCity = "san+pedro"
+                        var searchedURL = "https://www.traillink.com/trailsearch/?city=" + inputtedCity
+                        val document =  Jsoup.connect(searchedURL).get()
                         //words = document.text()
-                        formattedRestaurant =  ""
-                        dishName = document.getElementsByClass(" css-1peqmen")
-                        street = document.getElementsByClass(" css-1bp797t")
-                        city = document.getElementsByClass(" css-5588ua")
-                        state = document.getElementsByClass(" css-1k57hak")
-                        prices = document.getElementsByClass("price__09f24__F1T0p css-dwc5z2")
+                        formattedFrontEnd =  ""
+                        trailLinks = mutableListOf()
+                        trailName = document.getElementsByClass("small-7 column details")
+                        //<a class="xlate-none styles-module__location___hAqkh styles-module__info___jMR_5 styles-module__link___yhpft"
+                    // href="/parks/us/california/charles-h-wilson-park?ref=result-card" title="Charles H Wilson Park" style="padding-right: 0px;">Charles H Wilson Park</a>
+                        //trailName = document.getElementsByClass("xlate-none styles-module__link___EEZXn")
                         //restaurants = document.getElementsByClass(" css-1e4fdj9")
                     } catch (e: IOException) {
                         e.printStackTrace()
@@ -52,15 +49,19 @@ class SuggestionsChildFragment : Fragment() {
                 override fun onPostExecute(aVoid: Void?) {
                     super.onPostExecute(aVoid)
                     //textView.text = words
-                    formattedRestaurant += street.get(0).text() + " " +
-                            city.get(0).text() + " " +
-                            state.get(0).text() + "\n------------------\n"
-                    prices.forEach { element ->
-                        formattedRestaurant += dishName.get(counter).text() + "\n"
-                        formattedRestaurant += element.text() + "\n------------------\n"
+                    trailName.forEach { element ->
+                        //tag "a" gets the trail name
+                        formattedFrontEnd += element.getElementsByTag("a").text() + "\n----------------------------\n"
+                        var link = element.getElementsByTag("a").attr("href")
+                        trailLinks.add(link)
                         counter += 1
                     }
-                    textView.text = formattedRestaurant
+                    textView.text = formattedFrontEnd
+                    //Print testing if links are being stored
+/*                    trailLinks.forEach{
+                        l ->
+                        println(l.toString())
+                    }*/
                 }
             }
             WebScratch().execute()

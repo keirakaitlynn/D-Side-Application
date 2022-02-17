@@ -7,11 +7,38 @@
     android:background="@color/purple_400"
     tools:context=".fragments.ActivitiesFragment">
 
+    <ImageButton
+        android:id="@+id/back_button"
+        android:layout_width="58dp"
+        android:layout_height="50dp"
+        android:scaleType="fitXY"
+        android:src="@drawable/left_arrow"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"></ImageButton>
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:src="@drawable/dside_logo"
+        app:layout_constraintEnd_toEndOf="@+id/cart_button"
+        app:layout_constraintStart_toStartOf="@+id/back_button"
+        app:layout_constraintTop_toTopOf="parent"></ImageView>
+    <ImageButton
+        android:id="@+id/cart_button"
+        android:scaleType="fitXY"
+        android:src="@drawable/cart_icon"
+        android:layout_width="58dp"
+        android:layout_height="50dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"></ImageButton>
+
     <HorizontalScrollView
         android:id="@+id/activities_navbar"
         android:layout_width="match_parent"
         android:layout_height="58dp"
-        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginVertical="50dp"
+        app:layout_constraintTop_toTopOf="@+id/cart_button"
         android:fillViewport="true">
 
         <LinearLayout
@@ -56,6 +83,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/activities_navbar"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"/>
+        app:layout_constraintLeft_toLeftOf="parent">
+    </FrameLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

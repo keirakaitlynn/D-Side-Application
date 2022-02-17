@@ -22,12 +22,11 @@ import com.google.firebase.auth.ktx.auth
 
 class LoginActivity : AppCompatActivity() {
 
-    private lateinit var auth: FirebaseAuth
+    lateinit var auth: FirebaseAuth
     lateinit var button: Button
     private lateinit var email: EditText
     private lateinit var password: EditText
     lateinit var textView: TextView
-
     override fun onCreate(savedInstanceState: Bundle?) {
 
         // Write a message to the database
