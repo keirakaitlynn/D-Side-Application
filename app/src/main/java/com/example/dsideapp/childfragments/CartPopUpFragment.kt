@@ -12,11 +12,11 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.ktx.Firebase
 import com.example.dsideapp.LoginActivity
+import com.example.dsideapp.auth
 import com.google.firebase.database.DataSnapshot
 
 class CartPopUpFragment : Fragment() {
-    var authGlobal = LoginActivity()
-    private var auth = authGlobal.auth
+    var authGlobal = auth
     private lateinit var popUpText: TextView
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

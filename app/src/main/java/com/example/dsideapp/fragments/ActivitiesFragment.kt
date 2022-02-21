@@ -14,13 +14,20 @@ import android.view.MotionEvent
 import android.view.Gravity
 
 import android.content.Context.LAYOUT_INFLATER_SERVICE
+import android.util.Log
 import android.view.View.OnTouchListener
 import android.widget.*
 import androidx.core.content.ContextCompat
 
 import androidx.core.content.ContextCompat.getSystemService
 
-
+import com.example.dsideapp.LoginActivity
+import com.example.dsideapp.auth
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
+import com.google.firebase.ktx.Firebase
 
 
 class ActivitiesFragment : Fragment() {
@@ -75,14 +82,27 @@ class ActivitiesFragment : Fragment() {
             val height = LinearLayout.LayoutParams.WRAP_CONTENT
             val focusable = true // lets taps outside the popup also dismiss it
             val popupWindow = PopupWindow(v, width, height, focusable)
+
+            //getting database info
+            var authorization = auth
+            var user = authorization.currentUser
+            var userID = authorization.currentUser?.uid
+            var db = FirebaseDatabase.getInstance().getReference()
+            //getting the db info
+            var tempTestText = "Activity 1\nActivity 4\nActivity 10\n"
+            var emailInfo = db.child("users").child(userID.toString()).get().addOnSuccessListener {
+            popUpText = v.findViewById(R.id.popUpText)
+                if (it.exists()){
+                    popUpText.text = it.child("email").value.toString()
+                }
+            }
+            println(tempTestText)
             // show the popup window
             // which view you pass in doesn't matter, it is only used for the window token
             popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0)
             // dismiss the popup window when touched
-            popUpText = v.findViewById(R.id.popUpText)
-            var tempTestText = "Activity 1\nActivity 4\nActivity 10\n"
-            popUpText.text = tempTestText
-            println("\n\nHERE\n\n")
+            //popUpText = v.findViewById(R.id.popUpText)
+            //popUpText.text = tempTestText
             v.setOnTouchListener { v, event ->
                 popupWindow.dismiss()
                 true

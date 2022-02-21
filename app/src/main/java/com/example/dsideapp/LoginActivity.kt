@@ -19,10 +19,10 @@ import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 
+lateinit var auth: FirebaseAuth
 
 class LoginActivity : AppCompatActivity() {
 
-    lateinit var auth: FirebaseAuth
     lateinit var button: Button
     private lateinit var email: EditText
     private lateinit var password: EditText
@@ -103,6 +103,8 @@ class LoginActivity : AppCompatActivity() {
 
     /// THE IMPORTANT BITS
     private fun logIn(email: String, password: String) {
+        println("WOOOOOOOOOOOOOOOOOOOOOOOORK")
+        println(auth.toString())
         // [START sign_in_with_email]
         auth.signInWithEmailAndPassword(email, password)
             .addOnCompleteListener(this) { task ->
