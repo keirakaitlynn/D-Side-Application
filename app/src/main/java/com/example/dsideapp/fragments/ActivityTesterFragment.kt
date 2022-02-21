@@ -1,16 +1,12 @@
 package com.example.dsideapp.fragments
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.animation.AccelerateInterpolator
-import android.view.animation.AlphaAnimation
-import android.view.animation.Animation
-import android.view.animation.DecelerateInterpolator
 import android.widget.Button
 import android.widget.EditText
-import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import com.example.dsideapp.R
@@ -20,7 +16,6 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.ktx.Firebase
-import java.util.*
 
 class ActivityTesterFragment : Fragment() {
 
@@ -28,7 +23,6 @@ class ActivityTesterFragment : Fragment() {
     lateinit var button: Button
     lateinit var textView: TextView
 
-    lateinit var backButton: Button
     lateinit var writeButton: Button
     lateinit var readButton: Button
     private lateinit var id: EditText
@@ -74,12 +68,9 @@ class ActivityTesterFragment : Fragment() {
             database.reference.child("users").child(userId).child("data").child("activities").child(id).setValue(activity)
 
         }
-        backButton = v.findViewById<Button>(R.id.back_button)
-        backButton.setOnClickListener {
-        }
 
-        backButton = v.findViewById<Button>(R.id.write_button)
-        backButton.setOnClickListener {
+        writeButton = v.findViewById<Button>(R.id.write_button)
+        writeButton.setOnClickListener {
             // Write a message to the database
             writeNewActivity(
                 auth.uid.toString(),
@@ -97,8 +88,14 @@ class ActivityTesterFragment : Fragment() {
             )
         }
 
-        backButton = v.findViewById<Button>(R.id.read_button)
-        backButton.setOnClickListener {
+        readButton = v.findViewById<Button>(R.id.read_button)
+        readButton.setOnClickListener {
+            val readId = id.getText().toString()
+            database.reference.child("users").child(auth.uid.toString()).child("data").child("activities").child(readId).get().addOnSuccessListener {
+                Log.i("firebase", "Got value ${it.value}")
+            }.addOnFailureListener {
+                Log.e("firebase", "Error getting data", it)
+            }
         }
 
         return v
