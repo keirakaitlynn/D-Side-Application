@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.dsideapp.R
-//import kotlinx.android.synthetic.main.item_restaurant.view.*
 
 class RestaurantsAdapter(val context: Context, val restaurants: List<YelpRestaurant>) :
     RecyclerView.Adapter<RestaurantsAdapter.ViewHolder>() {
