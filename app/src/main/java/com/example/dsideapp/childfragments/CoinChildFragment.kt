@@ -9,7 +9,12 @@ import android.widget.ImageView
 import androidx.fragment.app.Fragment
 import com.example.dsideapp.R
 import java.util.*
+import android.graphics.Matrix
 import android.view.animation.*
+import android.view.animation.Transformation
+import android.graphics.Camera
+import android.view.animation.LinearInterpolator
+
 
 class CoinChildFragment : Fragment() {
 
@@ -20,33 +25,104 @@ class CoinChildFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        var curSide = R.drawable.heads
         val v = inflater.inflate(R.layout.fragment_child_coin, container, false)
         coin = v.findViewById<View>(R.id.coin) as ImageView
         btn = v.findViewById<View>(R.id.btn) as Button
-        btn!!.setOnClickListener { flipCoin() }
+        btn!!.setOnClickListener {
+            val stayTheSame = kotlin.random.Random.Default.nextBoolean()
+            val animation: Rotate3dAnimation
+            if (curSide == R.drawable.heads) {
+                animation = Rotate3dAnimation(coin!!, R.drawable.heads, R.drawable.tails, 0f, 180f, 0f, 0f, 0f, 0f)
+                curSide = R.drawable.tails
+            } else {
+                animation = Rotate3dAnimation(coin!!, R.drawable.tails, R.drawable.heads, 0f, 180f, 0f, 0f, 0f, 0f)
+                curSide = R.drawable.heads
+            }
+            if (stayTheSame) {
+                animation.repeatCount = 5 // must be odd (5+1 = 6 flips so the side will stay the same)
+            } else {
+                animation.repeatCount = 6 // must be even (6+1 = 7 flips so the side will not stay the same)
+            }
+            animation.duration = 110
+            animation.interpolator = LinearInterpolator()
+            coin!!.startAnimation(animation)
+        }
         return v
         }
 
-    private fun flipCoin() {
-        val fadeOut: Animation = AlphaAnimation(1f, 0f)
-        fadeOut.interpolator = AccelerateInterpolator()
-        fadeOut.duration = 1000
-        fadeOut.fillAfter = true
-        fadeOut.setAnimationListener(object : Animation.AnimationListener {
-            override fun onAnimationStart(animation: Animation) {}
-            override fun onAnimationEnd(animation: Animation) {
-                coin?.setImageResource(if (RANDOM.nextFloat() > 0.5f) R.drawable.tails else R.drawable.heads)
-                val fadeIn: Animation = AlphaAnimation(0f, 1f)
-                fadeIn.interpolator = DecelerateInterpolator()
-                fadeIn.duration = 3000
-                fadeIn.fillAfter = true
-                coin!!.startAnimation(fadeIn)
+    class Rotate3dAnimation(
+        private val imageView: ImageView,
+        private var curDrawable: Int,
+        private var nextDrawable: Int,
+        private val fromXDegrees: Float,
+        private val toXDegrees: Float,
+        private val fromYDegrees: Float,
+        private val toYDegrees: Float,
+        private val fromZDegrees: Float,
+        private val toZDegrees: Float
+    ) :
+        Animation() {
+        private var camera: Camera? = null
+        private var width = 0
+        private var height = 0
+        private var numOfRepetition = 0
+        private var repeatCount = 0f
+        override fun setRepeatCount(repeatCount: Int) {
+            super.setRepeatCount(repeatCount)
+            this.repeatCount = (repeatCount + 1).toFloat()
+        }
+
+        override fun initialize(width: Int, height: Int, parentWidth: Int, parentHeight: Int) {
+            super.initialize(width, height, parentWidth, parentHeight)
+            this.width = width / 2
+            this.height = height / 2
+            camera = Camera()
+        }
+
+        override fun applyTransformation(interpolatedTime: Float, t: Transformation) {
+            var xDegrees = fromXDegrees + (toXDegrees - fromXDegrees) * interpolatedTime
+            val yDegrees = fromYDegrees + (toYDegrees - fromYDegrees) * interpolatedTime
+            val zDegrees = fromZDegrees + (toZDegrees - fromZDegrees) * interpolatedTime
+            val matrix: Matrix = t.matrix
+
+
+            // ----------------- ZOOM ----------------- //
+            if ((numOfRepetition + interpolatedTime) / (repeatCount / 2) <= 1) {
+                imageView.scaleX = 1 + (numOfRepetition + interpolatedTime) / (repeatCount / 2)
+                imageView.scaleY = 1 + (numOfRepetition + interpolatedTime) / (repeatCount / 2)
+            } else if (numOfRepetition < repeatCount) {
+                imageView.scaleX = 3 - (numOfRepetition + interpolatedTime) / (repeatCount / 2)
+                imageView.scaleY = 3 - (numOfRepetition + interpolatedTime) / (repeatCount / 2)
             }
 
-            override fun onAnimationRepeat(animation: Animation) {}
-        })
-        coin!!.startAnimation(fadeOut)
+
+            // ----------------- ROTATE ----------------- //
+            System.err.println(interpolatedTime)
+            if (interpolatedTime >= 0.5f) {
+                if (interpolatedTime == 1f) {
+                    val temp = curDrawable
+                    curDrawable = nextDrawable
+                    nextDrawable = temp
+                    numOfRepetition++
+                } else {
+                    imageView.setImageResource(nextDrawable)
+                }
+                xDegrees -= 180f
+            } else if (interpolatedTime == 0f) {
+                imageView.setImageResource(curDrawable)
+            }
+            camera!!.save()
+            camera!!.rotateX(-xDegrees)
+            camera!!.rotateY(yDegrees)
+            camera!!.rotateZ(zDegrees)
+            camera!!.getMatrix(matrix)
+            camera!!.restore()
+            matrix.preTranslate(-width.toFloat(), -height.toFloat())
+            matrix.postTranslate(width.toFloat(), height.toFloat())
+        }
     }
+
 
     companion object {
         val RANDOM = Random()
