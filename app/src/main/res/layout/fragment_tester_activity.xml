@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/purple_400"
+    tools:context=".fragments.AccountFragment">
+
+
+    <Button
+        android:id="@+id/write_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="70dp"
+        android:layout_marginEnd="0dp"
+        android:layout_weight="1"
+        android:text="@string/write"
+        app:layout_constraintEnd_toStartOf="@+id/read_button"
+        app:layout_constraintStart_toEndOf="@+id/read_button"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/read_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="16dp"
+        android:layout_weight="1"
+        android:text="@string/read"
+        app:layout_constraintBottom_toTopOf="@+id/activity_id"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/write_button"
+        app:layout_constraintTop_toBottomOf="@+id/write_button" />
+
+    <EditText
+        android:id="@+id/activity_id"
+        android:layout_width="0dp"
+        android:layout_height="25dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginEnd="15dp"
+        android:layout_marginBottom="9dp"
+        android:layout_weight="1"
+        android:background="@color/pink"
+        android:hint="@string/activity_id"
+        app:layout_constraintBottom_toTopOf="@+id/activity_title"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/read_button" />
+
+    <EditText
+        android:id="@+id/activity_phone"
+        android:layout_width="0dp"
+        android:layout_height="25dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginEnd="15dp"
+        android:layout_marginBottom="10dp"
+        android:layout_weight="1"
+        android:background="@color/pink"
+        android:hint="@string/activity_phone"
+        app:layout_constraintBottom_toTopOf="@+id/activity_image"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/activity_title" />
+
+    <EditText
+        android:id="@+id/activity_image"
+        android:layout_width="0dp"
+        android:layout_height="25dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginEnd="15dp"
+        android:layout_marginBottom="10dp"
+        android:layout_weight="1"
+        android:background="@color/pink"
+        android:hint="@string/activity_image"
+        app:layout_constraintBottom_toTopOf="@+id/activity_location"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/activity_phone" />
+
+    <TextView
+        android:id="@+id/activity_location"
+        android:layout_width="0dp"
+        android:layout_height="25dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginEnd="15dp"
+        android:layout_marginBottom="5dp"
+        android:layout_weight="1"
+        android:background="@color/pink"
+        android:hint="@string/activity_location"
+        app:layout_constraintBottom_toTopOf="@+id/location_address"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/activity_image" />
+
+    <EditText
+        android:id="@+id/location_address"
+        android:layout_width="330dp"
+        android:layout_height="25dp"
+        android:layout_marginBottom="10dp"
+        android:layout_weight="1"
+        android:background="@color/pink"
+        android:hint="@string/location_address"
+        app:layout_constraintBottom_toTopOf="@+id/location_city"
+        app:layout_constraintEnd_toEndOf="@+id/activity_location"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="@+id/location_city"
+        app:layout_constraintTop_toBottomOf="@+id/activity_location" />
+
+    <EditText
+        android:id="@+id/location_city"
+        android:layout_width="330dp"
+        android:layout_height="25dp"
+        android:layout_marginBottom="10dp"
+        android:layout_weight="1"
+        android:background="@color/pink"
+        android:hint="@string/location_city"
+        app:layout_constraintBottom_toTopOf="@+id/location_country"
+        app:layout_constraintEnd_toEndOf="@+id/location_country"
+        app:layout_constraintStart_toStartOf="@+id/location_country"
+        app:layout_constraintTop_toBottomOf="@+id/location_address" />
+
+    <EditText
+        android:id="@+id/location_country"
+        android:layout_width="330dp"
+        android:layout_height="25dp"
+        android:layout_marginBottom="10dp"
+        android:layout_weight="1"
+        android:background="@color/pink"
+        android:hint="@string/location_country"
+        app:layout_constraintBottom_toTopOf="@+id/location_zip"
+        app:layout_constraintEnd_toEndOf="@+id/location_zip"
+        app:layout_constraintStart_toStartOf="@+id/location_zip"
+        app:layout_constraintTop_toBottomOf="@+id/location_city" />
+
+    <EditText
+        android:id="@+id/location_zip"
+        android:layout_width="330dp"
+        android:layout_height="25dp"
+        android:layout_marginBottom="10dp"
+        android:layout_weight="1"
+        android:background="@color/pink"
+        android:hint="@string/location_zip"
+        app:layout_constraintBottom_toTopOf="@+id/location_state"
+        app:layout_constraintEnd_toEndOf="@+id/location_state"
+        app:layout_constraintStart_toStartOf="@+id/location_state"
+        app:layout_constraintTop_toBottomOf="@+id/location_country" />
+
+    <EditText
+        android:id="@+id/location_state"
+        android:layout_width="330dp"
+        android:layout_height="25dp"
+        android:layout_marginEnd="15dp"
+        android:layout_marginBottom="15dp"
+        android:layout_weight="1"
+        android:background="@color/pink"
+        android:hint="@string/location_state"
+        app:layout_constraintBottom_toTopOf="@+id/activity_business_name"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/location_zip" />
+
+    <EditText
+        android:id="@+id/activity_business_name"
+        android:layout_width="0dp"
+        android:layout_height="25dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginEnd="15dp"
+        android:layout_marginBottom="11dp"
+        android:layout_weight="1"
+        android:background="@color/pink"
+        android:hint="@string/activity_business_name"
+        app:layout_constraintBottom_toTopOf="@+id/activity_price"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/location_state" />
+
+    <EditText
+        android:id="@+id/activity_price"
+        android:layout_width="0dp"
+        android:layout_height="25dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginEnd="15dp"
+        android:layout_marginBottom="235dp"
+        android:layout_weight="1"
+        android:background="@color/pink"
+        android:hint="@string/activity_price"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/activity_business_name" />
+
+    <EditText
+        android:id="@+id/activity_title"
+        android:layout_width="0dp"
+        android:layout_height="25dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginEnd="15dp"
+        android:layout_marginBottom="10dp"
+        android:layout_weight="1"
+        android:background="@color/pink"
+        android:hint="@string/activity_title"
+        app:layout_constraintBottom_toTopOf="@+id/activity_phone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/activity_id" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+

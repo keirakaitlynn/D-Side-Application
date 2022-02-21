@@ -41,15 +41,32 @@
         <entry key="..\:/Users/keira/AndroidStudioProjects/D-Side-Application/app/src/main/res/layout/old_activity_main.xml" value="0.11481481481481481" />
         <entry key="..\:/Users/keira/AndroidStudioProjects/D-Side-Application/app/src/main/res/menu/bottom_navigation.xml" value="0.1" />
         <entry key="..\:/Users/keira/AndroidStudioProjects/D-Side-Application/app/src/main/res/menu/navbar.xml" value="0.1" />
-        <entry key="..\:/Users/keira/StudioProjects/D-Side-Application/app/src/main/res/layout/activity_home.xml" value="0.15881458966565348" />
+        <entry key="..\:/Users/keira/StudioProjects/D-Side-Application/app/src/main/res/drawable/activities_icon.xml" value="0.1" />
+        <entry key="..\:/Users/keira/StudioProjects/D-Side-Application/app/src/main/res/drawable/ic_account_selected.xml" value="0.1595" />
+        <entry key="..\:/Users/keira/StudioProjects/D-Side-Application/app/src/main/res/drawable/rectangle_round.xml" value="0.1235" />
+        <entry key="..\:/Users/keira/StudioProjects/D-Side-Application/app/src/main/res/drawable/tick.xml" value="0.1615" />
+        <entry key="..\:/Users/keira/StudioProjects/D-Side-Application/app/src/main/res/font/primary.xml" value="0.2953703703703704" />
+        <entry key="..\:/Users/keira/StudioProjects/D-Side-Application/app/src/main/res/font/secondary.xml" value="0.2953703703703704" />
+        <entry key="..\:/Users/keira/StudioProjects/D-Side-Application/app/src/main/res/layout/activity_home.xml" value="0.13333333333333333" />
+        <entry key="..\:/Users/keira/StudioProjects/D-Side-Application/app/src/main/res/layout/activity_login.xml" value="0.2269021739130435" />
+        <entry key="..\:/Users/keira/StudioProjects/D-Side-Application/app/src/main/res/layout/activity_main.xml" value="0.22" />
+        <entry key="..\:/Users/keira/StudioProjects/D-Side-Application/app/src/main/res/layout/fragment_account.xml" value="0.2269021739130435" />
         <entry key="..\:/Users/keira/StudioProjects/D-Side-Application/app/src/main/res/layout/fragment_activities.xml" value="0.22" />
+        <entry key="..\:/Users/keira/StudioProjects/D-Side-Application/app/src/main/res/layout/fragment_child_dice.xml" value="0.29739583333333336" />
+        <entry key="..\:/Users/keira/StudioProjects/D-Side-Application/app/src/main/res/layout/fragment_child_suggestions.xml" value="0.14463019250253292" />
+        <entry key="..\:/Users/keira/StudioProjects/D-Side-Application/app/src/main/res/layout/fragment_child_wheel.xml" value="0.29739583333333336" />
         <entry key="..\:/Users/keira/StudioProjects/D-Side-Application/app/src/main/res/layout/fragment_coin.xml" value="0.2477355072463768" />
+        <entry key="..\:/Users/keira/StudioProjects/D-Side-Application/app/src/main/res/layout/fragment_concerts.xml" value="0.2269021739130435" />
         <entry key="..\:/Users/keira/StudioProjects/D-Side-Application/app/src/main/res/layout/fragment_dice.xml" value="0.2477355072463768" />
+        <entry key="..\:/Users/keira/StudioProjects/D-Side-Application/app/src/main/res/layout/fragment_home.xml" value="0.19927536231884058" />
         <entry key="..\:/Users/keira/StudioProjects/D-Side-Application/app/src/main/res/layout/fragment_suggestions.xml" value="0.21920289855072464" />
         <entry key="..\:/Users/keira/StudioProjects/D-Side-Application/app/src/main/res/layout/fragment_wheel.xml" value="0.7950581395348837" />
         <entry key="..\:/Users/sgkwa/AndroidStudioProjects/D-Side-Application/app/src/main/res/layout/fragment_child_coin.xml" value="0.12158054711246201" />
         <entry key="..\:/Users/thevi/StudioProjects/D-Side-Application/app/src/main/res/layout/activity_home.xml" value="0.22" />
+        <entry key="..\:/Users/thevi/StudioProjects/D-Side-Application/app/src/main/res/layout/activity_login.xml" value="0.1105072463768116" />
+        <entry key="..\:/Users/thevi/StudioProjects/D-Side-Application/app/src/main/res/layout/activity_main.xml" value="0.1" />
         <entry key="..\:/Users/thevi/StudioProjects/D-Side-Application/app/src/main/res/layout/fragment_calendar.xml" value="0.1" />
+        <entry key="..\:/Users/thevi/StudioProjects/D-Side-Application/app/src/main/res/layout/fragment_concerts.xml" value="0.22" />
       </map>
     </option>
   </component>

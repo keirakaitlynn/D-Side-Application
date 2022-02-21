@@ -13,6 +13,7 @@ class HomeActivity : AppCompatActivity() {
     private val concertsFragment = ConcertsFragment()
     private val calendarFragment = CalendarFragment()
     private val accountFragment = AccountFragment()
+    private val activityTesterFragment = ActivityTesterFragment()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,7 +29,8 @@ class HomeActivity : AppCompatActivity() {
                 R.id.navbar_activities -> replaceFragment(activitiesFragment)
                 R.id.navbar_concerts -> replaceFragment(concertsFragment)
                 R.id.navbar_calendar -> replaceFragment(calendarFragment)
-                R.id.navbar_account -> replaceFragment(accountFragment)
+                //REPLACE NAVBAR_ACCOUNT WITH THIS WHEN WE GET TO ACCOUNT PAGE WORK -> accountFragment
+                R.id.navbar_account -> replaceFragment(activityTesterFragment)
             }
             true
         }
