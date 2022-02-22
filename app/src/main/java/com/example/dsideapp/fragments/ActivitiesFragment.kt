@@ -90,10 +90,10 @@ class ActivitiesFragment : Fragment() {
             var db = FirebaseDatabase.getInstance().getReference()
             //getting the db info
             var tempTestText = "Activity 1\nActivity 4\nActivity 10\n"
-            var emailInfo = db.child("users").child(userID.toString()).get().addOnSuccessListener {
+            var activityInfo = db.child("users").child(userID.toString()).get().addOnSuccessListener {
             popUpText = v.findViewById(R.id.popUpText)
                 if (it.exists()){
-                    popUpText.text = it.child("email").value.toString()
+                    popUpText.text = it.child("data").child("title").value.toString()
                 }
             }
             println(tempTestText)
