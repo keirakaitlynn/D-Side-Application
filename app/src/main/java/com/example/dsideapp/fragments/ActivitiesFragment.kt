@@ -9,28 +9,16 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import com.example.dsideapp.R
 import com.example.dsideapp.childfragments.*
-import android.view.MotionEvent
 
 import android.view.Gravity
 
-import android.content.Context.LAYOUT_INFLATER_SERVICE
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.AsyncTask
-import android.util.Log
-import android.view.View.OnTouchListener
 import android.widget.*
-import androidx.core.content.ContextCompat
 
-import androidx.core.content.ContextCompat.getSystemService
-
-import com.example.dsideapp.LoginActivity
 import com.example.dsideapp.auth
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ValueEventListener
-import com.google.firebase.ktx.Firebase
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Element
 import java.io.IOException
@@ -42,19 +30,26 @@ class ActivitiesFragment : Fragment() {
     lateinit var coinButton : Button
     lateinit var diceButton : Button
     lateinit var wheelButton : Button
-    private lateinit var popUpText: TextView
-
+    private lateinit var cartPopUpText: TextView
+    private lateinit var infoPopUpText: TextView
     private val suggestionsFragment = SuggestionsChildFragment()
     private val coinFragment = CoinChildFragment()
     private val diceFragment = DiceChildFragment()
     private val wheelFragment = WheelChildFragment()
     private val concertsFragment = ConcertsFragment()
     private val trailSuggestionsFragment = TrailSuggestionsChildFragment()
-    private lateinit var img: Element
-    private lateinit var imgSrc: String
-    private lateinit var input: InputStream
-    private lateinit var bitmap: Bitmap
-    private lateinit var imageView: ImageView
+    //Popup information image variables
+    private lateinit var cartImg: Element
+    private lateinit var cartImgSrc: String
+    private lateinit var cartInput: InputStream
+    private lateinit var cartBitmap: Bitmap
+    private lateinit var cartImageView: ImageView
+    //Cart image variables
+    private lateinit var infoImg: Element
+    private lateinit var infoImgSrc: String
+    private lateinit var infoInput: InputStream
+    private lateinit var infoBitmap: Bitmap
+    private lateinit var infoImageView: ImageView
     @SuppressLint("ClickableViewAccessibility")
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -80,7 +75,6 @@ class ActivitiesFragment : Fragment() {
         wheelButton.setOnClickListener{
             //Temporarily have this in concert fragment to avoid code clash
             replaceChildFragment(concertsFragment)
-
             //replaceChildFragment(wheelFragment)
         }
         ///////////////////POP UP IMAGE /////////////////////////////////
@@ -91,18 +85,63 @@ class ActivitiesFragment : Fragment() {
                     //Connect to the website
                     var document =
                         Jsoup.connect("https://www.yelp.com/search?cflt=bowling&find_loc=Long+Beach%2C+CA").get()
+                    var infoDocument =
+                        Jsoup.connect("https://en.wikipedia.org/wiki/Bowling").get()
 
+                    //////////
+                    ///Cart image info gathering
                     //Get the logo source of the website
-                    img = document.getElementsByTag("img").first()!!
+                    infoImg = infoDocument.getElementsByTag("img").first()!!
                     // Locate the src attribute
-                    imgSrc = img.absUrl("src")
-                    println("\n\n" + imgSrc + "\n\n")
+                    infoImgSrc = infoImg.absUrl("src")
+                    println("\n\n" + infoImgSrc + "\n\n")
+                    //Download image from URL
+                    infoInput = java.net.URL(infoImgSrc).openStream()
+                    // Decode Bitmap
+                    infoBitmap = BitmapFactory.decodeStream(infoInput)
+                    ///
+                    val infoDescription = infoDocument.select("p")
+                    val infoButton = v.findViewById<ImageButton>(R.id.info_button)
+                    infoButton.setOnClickListener{
+                        // inflate the layout of the popup window
+                        v = inflater.inflate(com.example.dsideapp.R.layout.fragment_info_pop_up, null)
+                        // create the popup window
+                        val width = LinearLayout.LayoutParams.WRAP_CONTENT
+                        val height = LinearLayout.LayoutParams.WRAP_CONTENT
+                        val focusable = true // lets taps outside the popup also dismiss it
+                        val popupWindow = PopupWindow(v, width, height, focusable)
+
+                        //Popup window for the info
+                        infoPopUpText = v.findViewById(R.id.popUpTextInfo)
+                        if (infoDescription != null) {
+                            infoPopUpText.text = infoDescription.get(1).text().toString()
+                        }
+                        infoImageView = v.findViewById(R.id.popUpImageInfo)
+                        //textView = findViewById(R.id.title)
+                        infoImageView.setImageBitmap(infoBitmap)
+
+                        // show the popup window
+                        // which view you pass in doesn't matter, it is only used for the window token
+                        popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0)
+                        v.setOnTouchListener { v, event ->
+                            popupWindow.dismiss()
+                            true
+                        }
+                    }
+                    //////////////
+
+                    ///Cart image info gathering
+                    //Get the logo source of the website
+                    cartImg = document.getElementsByTag("img").first()!!
+                    // Locate the src attribute
+                    cartImgSrc = cartImg.absUrl("src")
+                    println("\n\n" + cartImgSrc + "\n\n")
                     //title = img.attr("alt")
                     //Download image from URL
-                    input = java.net.URL(imgSrc).openStream()
+                    cartInput = java.net.URL(cartImgSrc).openStream()
                     // Decode Bitmap
-                    bitmap = BitmapFactory.decodeStream(input)
-
+                    cartBitmap = BitmapFactory.decodeStream(cartInput)
+                    ///
                     //Get the title of the website
                     //title = document.title()
                 } catch (e: IOException) {
@@ -115,7 +154,6 @@ class ActivitiesFragment : Fragment() {
                 super.onPostExecute(aVoid)
             }
         }
-        WebScratch().execute()
         /////////////////////////////////////////////////////////////////
         //cart pop-up window on button click/
         val cartButton = v.findViewById<ImageButton>(R.id.cart_button)
@@ -134,27 +172,26 @@ class ActivitiesFragment : Fragment() {
             var userID = authorization.currentUser?.uid
             var db = FirebaseDatabase.getInstance().getReference()
             //getting the db info
-            var tempTestText = "Activity 1\nActivity 4\nActivity 10\n"
+            //var tempTestText = "Activity 1\nActivity 4\nActivity 10\n"
             var activityInfo = db.child("users").child(userID.toString()).get().addOnSuccessListener {
-            popUpText = v.findViewById(R.id.popUpText)
+            //Popup window for the cart
+            cartPopUpText = v.findViewById(R.id.popUpText)
                 if (it.exists()){
-                    popUpText.text = it.child("data").child("activities").child("1233abc").child("title").value.toString()
-                    imageView = v.findViewById(R.id.popUpImage)
+                    cartPopUpText.text = it.child("data").child("activities").child("1233abc").child("title").value.toString()
+                    cartImageView = v.findViewById(R.id.popUpImage)
                     //textView = findViewById(R.id.title)
-                    imageView.setImageBitmap(bitmap)
+                    cartImageView.setImageBitmap(cartBitmap)
                 }
             }
             // show the popup window
             // which view you pass in doesn't matter, it is only used for the window token
             popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0)
-            // dismiss the popup window when touched
-            //popUpText = v.findViewById(R.id.popUpText)
-            //popUpText.text = tempTestText
             v.setOnTouchListener { v, event ->
                 popupWindow.dismiss()
                 true
             }
         }
+        WebScratch().execute()
         return v
     }
 

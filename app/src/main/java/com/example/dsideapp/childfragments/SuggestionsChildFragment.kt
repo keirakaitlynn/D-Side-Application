@@ -37,10 +37,9 @@ class SuggestionsChildFragment : Fragment() {
                         formattedFrontEnd =  ""
                         trailLinks = mutableListOf()
                         trailName = document.getElementsByClass("small-7 column details")
-                        //<a class="xlate-none styles-module__location___hAqkh styles-module__info___jMR_5 styles-module__link___yhpft"
-                    // href="/parks/us/california/charles-h-wilson-park?ref=result-card" title="Charles H Wilson Park" style="padding-right: 0px;">Charles H Wilson Park</a>
-                        //trailName = document.getElementsByClass("xlate-none styles-module__link___EEZXn")
-                        //restaurants = document.getElementsByClass(" css-1e4fdj9")
+
+
+
                     } catch (e: IOException) {
                         e.printStackTrace()
                     }
