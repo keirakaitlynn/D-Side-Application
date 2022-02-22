@@ -60,12 +60,11 @@ class ActivityTesterFragment : Fragment() {
         price = v.findViewById<View>(R.id.activity_price) as EditText
 
         fun writeNewActivity(userId: String, id: String, title: String, phone: String, image: String, loc_address: String, loc_city: String, loc_country:String, loc_zip: String, loc_state: String, business_name: String, price: String) {
-
             val location = LocationObject(loc_address, loc_city, loc_country, loc_zip, loc_state)
-            val activity = ActivityObject(id, title, phone, image, location, business_name, price)
+            val activity = ActivityObject(if(id != "") id else "null", title, phone, image, location, business_name, price)
 
             //For true functionality, set random list of characters to "userId" to properly write to currently logged in user. As well, set name in ".child(name)" as an ID in the future to make it easier to search and read from DB.
-            database.reference.child("users").child(userId).child("data").child("activities").child(id).setValue(activity)
+            database.reference.child("users").child(userId).child("data").child("activities").child(if(id != "") id else "null").setValue(activity)
 
         }
 
