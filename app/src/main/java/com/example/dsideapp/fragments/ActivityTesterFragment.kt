@@ -1,5 +1,6 @@
 package com.example.dsideapp.fragments
 
+import android.content.ContentValues.TAG
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -14,8 +15,12 @@ import com.example.dsideapp.data.ActivityObject
 import com.example.dsideapp.data.LocationObject
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 import com.google.firebase.ktx.Firebase
+import org.json.JSONArray
 
 class ActivityTesterFragment : Fragment() {
 
@@ -89,12 +94,38 @@ class ActivityTesterFragment : Fragment() {
 
         readButton = v.findViewById<Button>(R.id.read_button)
         readButton.setOnClickListener {
+            //-----------------------------
+            //Given content in readId, print out activity found.
             val readId = id.getText().toString()
             database.reference.child("users").child(auth.uid.toString()).child("data").child("activities").child(readId).get().addOnSuccessListener {
                 Log.i("firebase", "Got value ${it.value}")
             }.addOnFailureListener {
                 Log.e("firebase", "Error getting data", it)
             }
+
+            //-----------------------------
+            //Iterate through every activity found in currrent user and print.
+            //activities is the arrayList of ActivityObject read. You can iterate through to find each activity.
+            /*
+            val activities = arrayListOf<ActivityObject>()
+            val ref = database.reference.child("users").child(auth.uid.toString()).child("data").child("activities")
+            ref.addValueEventListener(object : ValueEventListener {
+                override fun onDataChange(dataSnapshot: DataSnapshot) {
+                    for (productSnapshot in dataSnapshot.children) {
+                        val activity = productSnapshot.getValue(ActivityObject::class.java)
+                        activities.add(activity!!)
+                    }
+                    for (activityItr in activities) {
+                        System.out.println(activityItr)
+                    }
+                }
+
+                override fun onCancelled(databaseError: DatabaseError) {
+                    throw databaseError.toException()
+                }
+            })
+
+             */
         }
 
         return v
