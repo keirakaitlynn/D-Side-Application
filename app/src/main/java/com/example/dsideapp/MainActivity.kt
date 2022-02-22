@@ -34,7 +34,7 @@ class MainActivity : AppCompatActivity() {
         val database = FirebaseDatabase.getInstance()
         val myRef = database.getReference("User")
 
-        myRef.setValue("Victor is testing further")
+        //myRef.setValue("Victor is testing further")
 
         myRef.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
@@ -66,6 +66,19 @@ class MainActivity : AppCompatActivity() {
             val intent = Intent(this, LoginActivity::class.java)
             startActivity(intent)
         }
+
+        //val user = User("SuperObama1947", "barackobama42@gmail.com")
+
+        fun writeNewUser(userId: String, name: String, email: String) {
+
+            val user = User(name, email)
+
+            database.reference.child("users").child(userId).setValue(user)
+
+        }
+        //This will overwrite the data if the user already exists in the db
+        //Should probably go in createAccount and only be used if userId doesn't exist in db yet
+        //writeNewUser(auth.uid.toString(), "SuperObama1947","barackobama42@gmail.com" )
     }
     public override fun onStart() {
         super.onStart()
@@ -89,6 +102,7 @@ class MainActivity : AppCompatActivity() {
                     // Sign in success, update UI with the signed-in user's information
                     Log.d(TAG, "createUserWithEmail:                    success")
                     val user = auth.currentUser
+
 
                 } else {
                     // If sign in fails, display a message to the user.
@@ -133,5 +147,9 @@ class MainActivity : AppCompatActivity() {
 
                 }
             }
+    }
+    data class User(val username: String? = null, val email: String? = null) {
+        // Null default values create a no-argument default constructor, which is needed
+        // for deserialization from a DataSnapshot.
     }
 }
