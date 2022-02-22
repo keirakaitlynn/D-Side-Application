@@ -72,7 +72,7 @@ class ActivitiesFragment : Fragment() {
             //replaceChildFragment(wheelFragment)
         }
 
-        //cart pop-up window on button click
+        //cart pop-up window on button click/
         val cartButton = v.findViewById<ImageButton>(R.id.cart_button)
         cartButton.setOnClickListener{
             // inflate the layout of the popup window

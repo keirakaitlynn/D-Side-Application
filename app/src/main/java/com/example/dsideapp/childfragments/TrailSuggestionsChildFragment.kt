@@ -25,6 +25,7 @@ class TrailSuggestionsChildFragment : Fragment() {
         class WebScratch : AsyncTask<Void, Void, Void>() {
             private lateinit var trailName: List<Element>
             private lateinit var trailLinks: MutableList<String>
+            private lateinit var imageURL: List<Element>
             private lateinit var formattedFrontEnd: String
             private var counter = 0
             override fun doInBackground(vararg params: Void): Void? {
@@ -40,6 +41,12 @@ class TrailSuggestionsChildFragment : Fragment() {
                     // href="/parks/us/california/charles-h-wilson-park?ref=result-card" title="Charles H Wilson Park" style="padding-right: 0px;">Charles H Wilson Park</a>
                     //trailName = document.getElementsByClass("xlate-none styles-module__link___EEZXn")
                     //restaurants = document.getElementsByClass(" css-1e4fdj9")
+
+                    //Image testing
+                    var wikiConnect =Jsoup.connect("https://www.yelp.com/search?cflt=bowling&find_loc=Long+Beach%2C+CA").get()
+                    imageURL = wikiConnect.getElementsByClass(" css-xlzvdl")
+                    //
+
                 } catch (e: IOException) {
                     e.printStackTrace()
                 }
@@ -55,6 +62,17 @@ class TrailSuggestionsChildFragment : Fragment() {
                     trailLinks.add(link)
                     counter += 1
                 }
+
+                //Testing getting image info
+                println("WE AT LEAST GET HERE!")
+                var wikiString = ""
+                imageURL.forEach { image ->
+                    //tag "a" gets the trail name
+                    var t = image.absUrl("src")
+                    println(t.toString() + "\n")
+                }
+                //
+
                 textView.text = formattedFrontEnd
                 //Print testing if links are being stored
 /*                    trailLinks.forEach{
