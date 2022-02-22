@@ -34,7 +34,7 @@ class MainActivity : AppCompatActivity() {
         val database = FirebaseDatabase.getInstance()
         val myRef = database.getReference("User")
 
-        myRef.setValue("Victor is testing further")
+        //myRef.setValue("Victor is testing further")
 
         myRef.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
@@ -76,7 +76,9 @@ class MainActivity : AppCompatActivity() {
             database.reference.child("users").child(userId).setValue(user)
 
         }
-        writeNewUser(auth.uid.toString(), "SuperObama1947","barackobama42@gmail.com" )
+        //This will overwrite the data if the user already exists in the db
+        //Should probably go in createAccount and only be used if userId doesn't exist in db yet
+        //writeNewUser(auth.uid.toString(), "SuperObama1947","barackobama42@gmail.com" )
     }
     public override fun onStart() {
         super.onStart()
