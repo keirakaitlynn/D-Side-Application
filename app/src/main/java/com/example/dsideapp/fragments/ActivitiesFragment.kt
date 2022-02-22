@@ -14,6 +14,9 @@ import android.view.MotionEvent
 import android.view.Gravity
 
 import android.content.Context.LAYOUT_INFLATER_SERVICE
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.os.AsyncTask
 import android.util.Log
 import android.view.View.OnTouchListener
 import android.widget.*
@@ -28,6 +31,10 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.ktx.Firebase
+import org.jsoup.Jsoup
+import org.jsoup.nodes.Element
+import java.io.IOException
+import java.io.InputStream
 
 
 class ActivitiesFragment : Fragment() {
@@ -43,6 +50,11 @@ class ActivitiesFragment : Fragment() {
     private val wheelFragment = WheelChildFragment()
     private val concertsFragment = ConcertsFragment()
     private val trailSuggestionsFragment = TrailSuggestionsChildFragment()
+    private lateinit var img: Element
+    private lateinit var imgSrc: String
+    private lateinit var input: InputStream
+    private lateinit var bitmap: Bitmap
+    private lateinit var imageView: ImageView
     @SuppressLint("ClickableViewAccessibility")
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -71,7 +83,40 @@ class ActivitiesFragment : Fragment() {
 
             //replaceChildFragment(wheelFragment)
         }
+        ///////////////////POP UP IMAGE /////////////////////////////////
+        class WebScratch : AsyncTask<Void, Void, Void>() {
 
+            override fun doInBackground(vararg params: Void): Void? {
+                try {
+                    //Connect to the website
+                    var document =
+                        Jsoup.connect("https://www.yelp.com/search?cflt=bowling&find_loc=Long+Beach%2C+CA").get()
+
+                    //Get the logo source of the website
+                    img = document.getElementsByTag("img").first()!!
+                    // Locate the src attribute
+                    imgSrc = img.absUrl("src")
+                    println("\n\n" + imgSrc + "\n\n")
+                    //title = img.attr("alt")
+                    //Download image from URL
+                    input = java.net.URL(imgSrc).openStream()
+                    // Decode Bitmap
+                    bitmap = BitmapFactory.decodeStream(input)
+
+                    //Get the title of the website
+                    //title = document.title()
+                } catch (e: IOException) {
+                    e.printStackTrace()
+                }
+                return null
+            }
+
+            override fun onPostExecute(aVoid: Void?) {
+                super.onPostExecute(aVoid)
+            }
+        }
+        WebScratch().execute()
+        /////////////////////////////////////////////////////////////////
         //cart pop-up window on button click/
         val cartButton = v.findViewById<ImageButton>(R.id.cart_button)
         cartButton.setOnClickListener{
@@ -93,10 +138,12 @@ class ActivitiesFragment : Fragment() {
             var activityInfo = db.child("users").child(userID.toString()).get().addOnSuccessListener {
             popUpText = v.findViewById(R.id.popUpText)
                 if (it.exists()){
-                    popUpText.text = it.child("data").child("title").value.toString()
+                    popUpText.text = it.child("data").child("activities").child("1233abc").child("title").value.toString()
+                    imageView = v.findViewById(R.id.popUpImage)
+                    //textView = findViewById(R.id.title)
+                    imageView.setImageBitmap(bitmap)
                 }
             }
-            println(tempTestText)
             // show the popup window
             // which view you pass in doesn't matter, it is only used for the window token
             popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0)
