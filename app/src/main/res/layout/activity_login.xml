@@ -46,7 +46,7 @@
             android:paddingStart="25dp"
             android:drawableStart="@drawable/icon_lock_smallxxxhdpi"
             android:hint="Password"
-            android:inputType="textEmailAddress" />
+            android:inputType="textPassword" />
 
         <Button
             android:id="@+id/log_in"
