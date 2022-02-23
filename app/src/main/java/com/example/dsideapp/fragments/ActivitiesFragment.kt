@@ -12,6 +12,10 @@ import com.example.dsideapp.childfragments.CoinChildFragment
 import com.example.dsideapp.childfragments.DiceChildFragment
 import com.example.dsideapp.childfragments.SuggestionsChildFragment
 import com.example.dsideapp.childfragments.WheelChildFragment
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.auth.FirebaseAuth
 
 class ActivitiesFragment : Fragment() {
     lateinit var suggestionsButton : Button
@@ -24,6 +28,7 @@ class ActivitiesFragment : Fragment() {
     private val diceFragment = DiceChildFragment()
     private val wheelFragment = WheelChildFragment()
 
+    private lateinit var auth: FirebaseAuth
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -56,5 +61,10 @@ class ActivitiesFragment : Fragment() {
     private fun replaceChildFragment(childFragment : Fragment) {
         val transaction: FragmentTransaction = getChildFragmentManager().beginTransaction()
         transaction.replace(R.id.activities_view, childFragment).commit()
+    }
+
+    data class Activity(val username: String? = null, val location: String? = null, val date_time: String? = null) {
+        // Null default values create a no-argument default constructor, which is needed
+        // for deserialization from a DataSnapshot.
     }
 }
