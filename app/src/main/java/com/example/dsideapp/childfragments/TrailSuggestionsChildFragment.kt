@@ -20,7 +20,7 @@ class TrailSuggestionsChildFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val v = inflater.inflate(R.layout.fragment_trail_suggestions_child, container, false)
-        textView = v.findViewById(R.id.textViewScroll)
+        textView = v.findViewById(R.id.textViewScrollTrail)
         //----------
         class WebScratch : AsyncTask<Void, Void, Void>() {
             private lateinit var trailName: List<Element>

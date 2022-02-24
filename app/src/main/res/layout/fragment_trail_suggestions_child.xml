@@ -25,7 +25,7 @@
                 android:id="@+id/textViewScrollTrail"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_above="@id/textViewScroll"
+                android:layout_above="@id/textViewScrollTrail"
                 android:layout_centerHorizontal="true"
                 android:layout_marginBottom="10dp"
                 android:padding="4dp"

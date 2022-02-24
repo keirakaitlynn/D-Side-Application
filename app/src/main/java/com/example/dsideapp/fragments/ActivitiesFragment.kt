@@ -1,5 +1,6 @@
 package com.example.dsideapp.fragments
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -61,7 +62,7 @@ class ActivitiesFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val v = inflater.inflate(R.layout.fragment_activities, container, false)
+        var v = inflater.inflate(R.layout.fragment_activities, container, false)
         replaceChildFragment(suggestionsFragment) // initial child fragment
 
         suggestionsButton = v.findViewById<Button>(R.id.suggestions_button)
@@ -84,6 +85,7 @@ class ActivitiesFragment : Fragment() {
         ///////////////////POP UP IMAGE /////////////////////////////////
         class WebScratch : AsyncTask<Void, Void, Void>() {
 
+            @SuppressLint("ClickableViewAccessibility")
             override fun doInBackground(vararg params: Void): Void? {
                 try {
                     //Connect to the website
