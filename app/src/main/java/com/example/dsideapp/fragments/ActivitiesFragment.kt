@@ -38,7 +38,7 @@ class ActivitiesFragment : Fragment() {
     private val diceFragment = DiceChildFragment()
     private val wheelFragment = WheelChildFragment()
     //Main
-    private lateinit var auth: FirebaseAuth
+    //private lateinit var auth: FirebaseAuth
     //Mine
     private val concertsFragment = ConcertsFragment()
     private val trailSuggestionsFragment = TrailSuggestionsChildFragment()
@@ -81,7 +81,7 @@ class ActivitiesFragment : Fragment() {
         wheelButton.setOnClickListener{
             replaceChildFragment(wheelFragment)
         }
-        //Mine
+        //Mine//
         ///////////////////POP UP IMAGE /////////////////////////////////
         class WebScratch : AsyncTask<Void, Void, Void>() {
 
