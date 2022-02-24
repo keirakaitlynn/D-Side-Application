@@ -1,15 +1,16 @@
 package com.example.dsideapp.fragments
 
-import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import com.example.dsideapp.R
-import com.example.dsideapp.childfragments.*
-
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.auth.FirebaseAuth
 import android.view.Gravity
 
 import android.graphics.Bitmap
@@ -18,26 +19,30 @@ import android.os.AsyncTask
 import android.widget.*
 
 import com.example.dsideapp.auth
+import com.example.dsideapp.childfragments.*
 import com.google.firebase.database.FirebaseDatabase
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Element
 import java.io.IOException
 import java.io.InputStream
 
-
 class ActivitiesFragment : Fragment() {
     lateinit var suggestionsButton : Button
     lateinit var coinButton : Button
     lateinit var diceButton : Button
     lateinit var wheelButton : Button
-    private lateinit var cartPopUpText: TextView
-    private lateinit var infoPopUpText: TextView
+
     private val suggestionsFragment = SuggestionsChildFragment()
     private val coinFragment = CoinChildFragment()
     private val diceFragment = DiceChildFragment()
     private val wheelFragment = WheelChildFragment()
+    //Main
+    private lateinit var auth: FirebaseAuth
+    //Mine
     private val concertsFragment = ConcertsFragment()
     private val trailSuggestionsFragment = TrailSuggestionsChildFragment()
+    private lateinit var cartPopUpText: TextView
+    private lateinit var infoPopUpText: TextView
     //Popup information image variables
     private lateinit var cartImg: Element
     private lateinit var cartImgSrc: String
@@ -50,13 +55,13 @@ class ActivitiesFragment : Fragment() {
     private lateinit var infoInput: InputStream
     private lateinit var infoBitmap: Bitmap
     private lateinit var infoImageView: ImageView
-    @SuppressLint("ClickableViewAccessibility")
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        var v = inflater.inflate(R.layout.fragment_activities, container, false)
+        val v = inflater.inflate(R.layout.fragment_activities, container, false)
         replaceChildFragment(suggestionsFragment) // initial child fragment
 
         suggestionsButton = v.findViewById<Button>(R.id.suggestions_button)
@@ -73,10 +78,9 @@ class ActivitiesFragment : Fragment() {
         }
         wheelButton = v.findViewById<Button>(R.id.wheel_button)
         wheelButton.setOnClickListener{
-            //Temporarily have this in concert fragment to avoid code clash
-            replaceChildFragment(concertsFragment)
-            //replaceChildFragment(wheelFragment)
+            replaceChildFragment(wheelFragment)
         }
+        //Mine
         ///////////////////POP UP IMAGE /////////////////////////////////
         class WebScratch : AsyncTask<Void, Void, Void>() {
 
@@ -199,4 +203,10 @@ class ActivitiesFragment : Fragment() {
         val transaction: FragmentTransaction = getChildFragmentManager().beginTransaction()
         transaction.replace(R.id.activities_view, childFragment).commit()
     }
+//Main
+    data class Activity(val username: String? = null, val location: String? = null, val date_time: String? = null) {
+        // Null default values create a no-argument default constructor, which is needed
+        // for deserialization from a DataSnapshot.
+    }
+
 }
