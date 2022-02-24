@@ -6,6 +6,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -37,8 +38,8 @@ class SuggestionsChildFragment : Fragment() {
     ): View? {
 
         val v = inflater.inflate(R.layout.fragment_child_suggestions, container, false)
-        textView = v.findViewById(R.id.textViewScroll)
-        //----------
+/*        textView = v.findViewById(R.id.textViewScroll)
+           //----------
             class WebScratch : AsyncTask<Void, Void, Void>() {
                 private lateinit var words: String
                 private lateinit var restaurants: List<Element>
@@ -64,7 +65,7 @@ class SuggestionsChildFragment : Fragment() {
                 }
             }
             WebScratch().execute()
-        //----------
+        //----------*/
         //Main
 
         // Yelp API ---------------
