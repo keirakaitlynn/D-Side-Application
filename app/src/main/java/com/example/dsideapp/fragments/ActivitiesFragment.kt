@@ -21,11 +21,14 @@ import android.widget.*
 
 import com.example.dsideapp.auth
 import com.example.dsideapp.childfragments.*
+import com.example.dsideapp.data.ActivityObject
+import com.example.dsideapp.data.LocationObject
 import com.google.firebase.database.FirebaseDatabase
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Element
 import java.io.IOException
 import java.io.InputStream
+import kotlin.random.Random
 
 class ActivitiesFragment : Fragment() {
     lateinit var suggestionsButton : Button
@@ -177,7 +180,7 @@ class ActivitiesFragment : Fragment() {
             var user = authorization.currentUser
             var userID = authorization.currentUser?.uid
             var db = FirebaseDatabase.getInstance().getReference()
-            //getting the db info
+            //getting the db info for popup
             //var tempTestText = "Activity 1\nActivity 4\nActivity 10\n"
             var activityInfo = db.child("users").child(userID.toString()).get().addOnSuccessListener {
             //Popup window for the cart
@@ -196,6 +199,7 @@ class ActivitiesFragment : Fragment() {
                 popupWindow.dismiss()
                 true
             }
+
         }
         WebScratch().execute()
         return v

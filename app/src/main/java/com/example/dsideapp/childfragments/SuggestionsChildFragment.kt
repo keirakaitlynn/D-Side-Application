@@ -11,18 +11,19 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.dsideapp.R
+import com.example.dsideapp.auth
+import com.example.dsideapp.data.*
+import com.google.firebase.database.FirebaseDatabase
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Element
 import java.io.IOException
-import com.example.dsideapp.data.RestaurantsAdapter
-import com.example.dsideapp.data.YelpRestaurant
-import com.example.dsideapp.data.YelpSearchResult
-import com.example.dsideapp.data.YelpService
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import kotlin.random.Random
+
 //Main
 private const val TAG = "MainActivity"                              // Used to debug
 private const val BASE_URL = "https://api.yelp.com/v3/"             // The base URL from which we will use to communicate with Yelp 🙂
@@ -85,11 +86,44 @@ class SuggestionsChildFragment : Fragment() {
             override fun onResponse(call: Call<YelpSearchResult>, response: Response<YelpSearchResult>) {
                 Log.i(TAG, "onResponse $response")
                 val body = response.body()
+               // Log.w("\n\nHELP\n\n", body.toString())
                 if (body == null) {
                     Log.w(TAG, "Did not receive valid response body from Yelp API... exiting")
                     return
                 }
                 restaurants.addAll(body.restaurants)
+
+                ///Save the cart info into the db temporarily
+                //Creating db references
+                var authorization = auth
+                var user = authorization.currentUser
+                var userID = authorization.currentUser?.uid
+                var db = FirebaseDatabase.getInstance().getReference()
+                //Creating writeToDB function
+                fun writeNewActivity(userId: String, id: String, title: String = "None", phone: String = "None",
+                                     image: String = "None", loc_address: String = "None", loc_city: String = "None",
+                                     loc_country:String = "None", loc_zip: String = "None", loc_state: String = "None"
+                                     , business_name: String = "None", price: String = "None") {
+                    val location = LocationObject(loc_address, loc_city, loc_country, loc_zip, loc_state)
+                    val activity = ActivityObject(if(id != "") id else "null", title, phone, image, location, business_name, price)
+                    db.child("users").child(userId).child("data").child("activities").child(if(id != "") id else "null").setValue(activity)
+                }
+                restaurants.forEach{ rest->
+                    //Create random ID tag
+                    var i = 0
+                    var randID = ""
+                    for(i in 1..3){
+                        randID += Random.nextInt(9)
+                    }
+                    for(i in 1..3){
+                        randID += (Random.nextInt(25) + 65).toChar()
+                    }
+                    //Actually saving activity to db
+                    writeNewActivity(userId = userID.toString(), id = randID, title = rest.categories.get(0).toString(),
+                        image = rest.imageUrl, business_name = rest.name, price = rest.price)
+                }
+                ///
+
                 adapter?.notifyDataSetChanged()
                 Log.w(TAG, "Done")
             }
@@ -99,6 +133,7 @@ class SuggestionsChildFragment : Fragment() {
             }
         })
         // -------------
+
         return v
     }
 }
