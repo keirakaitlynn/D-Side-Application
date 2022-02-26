@@ -3,6 +3,15 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/estef/D-Side-Application/app/src/main/res/layout/activity_dailyview.xml" value="0.2105978260869565" />
+        <entry key="..\:/Users/estef/D-Side-Application/app/src/main/res/layout/activity_home.xml" value="0.3088768115942029" />
+        <entry key="..\:/Users/estef/D-Side-Application/app/src/main/res/layout/activity_login.xml" value="0.3088768115942029" />
+        <entry key="..\:/Users/estef/D-Side-Application/app/src/main/res/layout/activity_logout.xml" value="0.22" />
+        <entry key="..\:/Users/estef/D-Side-Application/app/src/main/res/layout/fragment_account.xml" value="0.3104166666666667" />
+        <entry key="..\:/Users/estef/D-Side-Application/app/src/main/res/layout/fragment_calendar.xml" value="0.3333333333333333" />
+        <entry key="..\:/Users/estef/D-Side-Application/app/src/main/res/layout/fragment_child_dice.xml" value="0.2151268115942029" />
+        <entry key="..\:/Users/estef/D-Side-Application/app/src/main/res/layout/fragment_concerts.xml" value="0.2151268115942029" />
+        <entry key="..\:/Users/estef/D-Side-Application/app/src/main/res/layout/fragment_home.xml" value="0.3088768115942029" />
         <entry key="..\:/Users/joshu/AndroidStudioProjects/D-Side-Application_2.0/app/src/main/res/layout/activity_home.xml" value="0.1793478260869565" />
         <entry key="..\:/Users/joshu/AndroidStudioProjects/D-Side-Application_2.0/app/src/main/res/layout/activity_main.xml" value="0.17300724637681159" />
         <entry key="..\:/Users/joshu/AndroidStudioProjects/D-Side-Application_2.0/app/src/main/res/layout/fragment_account.xml" value="0.17300724637681159" />
