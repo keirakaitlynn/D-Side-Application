@@ -131,7 +131,7 @@ class ActivitiesFragment : Fragment() {
                         //Popup window for the info
                         infoPopUpText = v.findViewById(R.id.popUpTextInfo)
                         if (infoDescription != null) {
-                            infoPopUpText.text = infoDescription.get(2).text().toString()
+                            infoPopUpText.text = infoDescription.get(1).text().toString()
                         }
                         infoImageView = v.findViewById(R.id.popUpImageInfo)
                         //textView = findViewById(R.id.title)
