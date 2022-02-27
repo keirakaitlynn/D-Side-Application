@@ -20,6 +20,7 @@ import android.view.View.OnTouchListener
 import androidx.core.content.ContextCompat
 
 import androidx.core.content.ContextCompat.getSystemService
+import com.example.dsideapp.R
 import android.content.Context.LAYOUT_INFLATER_SERVICE as LAYOUT_INFLATER_SERVICE1
 
 
@@ -41,6 +42,7 @@ class CalendarFragment : Fragment() {
         calendar =
             viewOfLayout.findViewById<View>(com.example.dsideapp.R.id.calendar) as CalendarView
         dateView = viewOfLayout.findViewById<View>(com.example.dsideapp.R.id.date_view) as TextView
+        var dayOfWeekView =  viewOfLayout.findViewById<View>(R.id.dayOfWeek) as TextView
 
         // Listener checks for a tap on a day
 
