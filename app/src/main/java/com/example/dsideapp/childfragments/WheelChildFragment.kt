@@ -42,7 +42,9 @@ class WheelChildFragment : Fragment() {
     var isSpinning : Boolean = false
     // Wheel image taken from the XML
     private var wheel: ImageView? = null
-
+    //Tempt list of activities
+    var wheelActivities = arrayOf("Bowling", "Roasting Waters Boba", "Ping Pong", "Round1 Aracade", "Seal Beach",
+        "Movie", "Park", "Swimming", "Hiking", "Volleyball")
     override fun onCreateView(
 
         inflater: LayoutInflater,
@@ -56,6 +58,28 @@ class WheelChildFragment : Fragment() {
         getDegreeForSectors()
         Log.w("Size of sectors", ""+sectors.size)
         Log.w("Size of sector degrees ", ""+sectorDegrees.size)
+        ///
+        //Dispaly activities on screen
+        var activitesOnLeftScreen = ""
+        var activitesOnRightScreen = ""
+        var counter = 0
+        //Putting activities on top left or right of the screen
+        wheelActivities.forEach { act ->
+            if (counter < 5){
+                activitesOnLeftScreen += "" + (counter+1) + ": " + act + "\n"
+            }
+            else{
+                activitesOnRightScreen += "" + (counter+1) + ": " + act + "\n"
+            }
+            //Update counter
+            counter += 1
+        }
+        //Resetting the counter
+        counter = 0
+        //Setting the text views with the activites listed
+        viewOfLayout.findViewById<TextView>(R.id.left_activities).setText(activitesOnLeftScreen)
+        viewOfLayout.findViewById<TextView>(R.id.right_activities).setText(activitesOnRightScreen)
+        ///
         spinBtn.setOnClickListener {
             // Do some work here
             if(!isSpinning){
@@ -106,7 +130,8 @@ class WheelChildFragment : Fragment() {
             override fun onAnimationEnd(animation: Animation) {
                 Log.w("DEGREE VAL ", degree.toString())
 
-                Toast.makeText(activity, "You've got " + sectors[sectors.size - (degree+1)] + " stuffs", Toast.LENGTH_SHORT).show()
+                Toast.makeText(activity, "You've got " + wheelActivities[sectors.size - (degree+1)], Toast.LENGTH_SHORT).show()
+                //Toast.makeText(activity, "You've got " + sectors[sectors.size - (degree+1)] + " stuffs", Toast.LENGTH_SHORT).show()
                 isSpinning = false
             }
 
