@@ -6,7 +6,7 @@ class EventObject (
     val start_time: Calendar? = null,
     val end_time: Calendar? = null,
     val activity: ActivityObject? = null,
-    val users: ArrayList<String>? = null) {
+    val users: MutableList<String>? = null) {
     // Null default values create a no-argument default constructor, which is needed
     // for deserialization from a DataSnapshot.
     //Date/Time | Calendar Class - This is something we already have and we definitely should keep to the end. https://developer.android.com/reference/kotlin/android/icu/util/Calendar
