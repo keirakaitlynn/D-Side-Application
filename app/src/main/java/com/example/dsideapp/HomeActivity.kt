@@ -13,7 +13,6 @@ class HomeActivity : AppCompatActivity() {
     private val concertsFragment = ConcertsFragment()
     private val calendarFragment = CalendarFragment()
     private val accountFragment = AccountFragment()
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)

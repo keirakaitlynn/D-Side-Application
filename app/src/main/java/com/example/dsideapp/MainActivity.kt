@@ -76,7 +76,7 @@ class MainActivity : AppCompatActivity() {
             database.reference.child("users").child(userId).setValue(user)
 
         }
-        writeNewUser(auth.uid.toString(), "SuperObama1947","barackobama42@gmail.com" )
+     //   writeNewUser(auth.uid.toString(), "SuperObama1947","barackobama42@gmail.com" )
     }
     public override fun onStart() {
         super.onStart()

@@ -5,29 +5,35 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:baselineAligned="false"
-    android:orientation="horizontal"
-    android:background="@color/purple_400" >
+    android:orientation="horizontal" >
 
     <Button
-        android:id="@+id/log_out"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:text="Log out"
+        android:backgroundTint="@color/white"
         android:textColor="@color/white"
         android:textSize="10sp"
         android:textStyle="bold"
+        android:background="@color/purple_400"
         app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="2dp"
-        tools:ignore="MissingConstraints" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBttom_toBottomOf="parent"
+        tools:layout_editor_absoluteY="2dp" />
 
     <fragment
+        android:id="@+id/fragment_account"
+        android:name="com.example.dsideapp.fragments.AccountFragment"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:id="@+id/fragment_account"
         android:layout_weight="1"
-        android:name="com.example.dsideapp.fragments.AccountFragment"
-        tools:ignore="MissingConstraints" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

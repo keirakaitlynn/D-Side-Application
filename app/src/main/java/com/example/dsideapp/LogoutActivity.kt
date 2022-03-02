@@ -2,6 +2,7 @@ package com.example.dsideapp
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
@@ -26,15 +27,10 @@ class LogoutActivity : AppCompatActivity() {
 
         button.setOnClickListener {
             FirebaseAuth.getInstance().signOut()
+            //Log.w("USER ID ", auth.uid.toString())
             finish()
             val intent = Intent(this, LoginActivity::class.java)
             startActivity(intent)
         }
     }
-
-//    private fun openNewActivity() {
-//        val intent = Intent(this, LoginActivity::class.java)
-//        startActivity(intent)
-//    }
-
 }
