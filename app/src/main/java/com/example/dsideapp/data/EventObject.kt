@@ -3,6 +3,7 @@ package com.example.dsideapp.data
 import java.util.*
 
 class EventObject (
+    val event_title: String? = null,
     val start_time: Calendar? = null,
     val end_time: Calendar? = null,
     val activity: ActivityObject? = null,

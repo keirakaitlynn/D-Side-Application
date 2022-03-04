@@ -36,9 +36,10 @@ class EventAddPopUpFragment : Fragment() {
 
         CODE IS COPIED FROM JOSH FOR POPUP FUNCTION. THIS CODE DOES NOT WORK AT ALL
 
-         */
+        */
         val v = inflater.inflate(R.layout.fragment_tester_activity, container, false)
 
+        /*
         auth = Firebase.auth
         val database = FirebaseDatabase.getInstance()
         eventButton.setOnClickListener
@@ -68,6 +69,7 @@ class EventAddPopUpFragment : Fragment() {
                 true
             }
         }
+        */
         return v
     }
 }
