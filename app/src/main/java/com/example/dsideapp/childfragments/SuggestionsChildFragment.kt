@@ -93,37 +93,6 @@ class SuggestionsChildFragment : Fragment() {
                 }
                 restaurants.addAll(body.restaurants)
 
-                ///Save the cart info into the db temporarily
-                //Creating db references
-                var authorization = auth
-                var user = authorization.currentUser
-                var userID = authorization.currentUser?.uid
-                var db = FirebaseDatabase.getInstance().getReference()
-                //Creating writeToDB function
-                fun writeNewActivity(userId: String, id: String, title: String = "None", phone: String = "None",
-                                     image: String = "None", loc_address: String = "None", loc_city: String = "None",
-                                     loc_country:String = "None", loc_zip: String = "None", loc_state: String = "None"
-                                     , business_name: String = "None", price: String = "None") {
-                    val location = LocationObject(loc_address, loc_city, loc_country, loc_zip, loc_state)
-                    val activity = ActivityObject(if(id != "") id else "null", title, phone, image, location, business_name, price)
-                    db.child("users").child(userId).child("data").child("activities").child(if(id != "") id else "null").setValue(activity)
-                }
-                restaurants.forEach{ rest->
-                    //Create random ID tag
-                    var i = 0
-                    var randID = ""
-                    for(i in 1..3){
-                        randID += Random.nextInt(9)
-                    }
-                    for(i in 1..3){
-                        randID += (Random.nextInt(25) + 65).toChar()
-                    }
-                    //Actually saving activity to db
-                    writeNewActivity(userId = userID.toString(), id = randID, title = rest.categories.get(0).toString(),
-                        image = rest.imageUrl, business_name = rest.name, price = rest.price)
-                }
-                ///
-
                 adapter?.notifyDataSetChanged()
                 Log.w(TAG, "Done")
             }

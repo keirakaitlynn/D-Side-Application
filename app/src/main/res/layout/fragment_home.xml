@@ -7,6 +7,17 @@
     android:background="@color/pink"
     tools:context=".fragments.HomeFragment">
 
+    <!--Temporary button placement code -->
+    <Button
+        android:id="@+id/activityTesterButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Activity Tester"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <TextView
         android:id="@+id/home_view"
         android:layout_width="wrap_content"

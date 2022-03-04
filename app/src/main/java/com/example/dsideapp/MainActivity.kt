@@ -26,13 +26,20 @@ class MainActivity : AppCompatActivity() {
     private lateinit var email: EditText
     private lateinit var password: EditText
     lateinit var textView: TextView
+    val database = FirebaseDatabase.getInstance()
+    val myRef = database.getReference("User")
 
+    fun writeNewUser(userId: String, name: String, email: String) {
+
+        val user = User(name, email)
+
+        database.reference.child("users").child(userId).setValue(user)
+
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
 
         // Write a message to the database
         auth = Firebase.auth
-        val database = FirebaseDatabase.getInstance()
-        val myRef = database.getReference("User")
 
         //myRef.setValue("Victor is testing further")
 
@@ -69,13 +76,6 @@ class MainActivity : AppCompatActivity() {
 
         //val user = User("SuperObama1947", "barackobama42@gmail.com")
 
-        fun writeNewUser(userId: String, name: String, email: String) {
-
-            val user = User(name, email)
-
-            database.reference.child("users").child(userId).setValue(user)
-
-        }
         //This will overwrite the data if the user already exists in the db
         //Should probably go in createAccount and only be used if userId doesn't exist in db yet
         //writeNewUser(auth.uid.toString(), "SuperObama1947","barackobama42@gmail.com" )
@@ -102,6 +102,7 @@ class MainActivity : AppCompatActivity() {
                     // Sign in success, update UI with the signed-in user's information
                     Log.d(TAG, "createUserWithEmail:                    success")
                     val user = auth.currentUser
+                    writeNewUser(auth.uid.toString(), email.substring(0,13), email)
 
                 } else {
                     // If sign in fails, display a message to the user.

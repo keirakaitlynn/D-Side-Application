@@ -23,8 +23,6 @@ import android.widget.*
 
 import com.example.dsideapp.auth
 import com.example.dsideapp.childfragments.*
-import com.example.dsideapp.data.ActivityObject
-import com.example.dsideapp.data.LocationObject
 import com.google.firebase.database.FirebaseDatabase
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Element
@@ -32,10 +30,15 @@ import java.io.IOException
 import java.io.InputStream
 import kotlin.random.Random
 import android.R.attr.button
+import android.content.Context
 
 import android.os.CountDownTimer
-
-
+import android.provider.ContactsContract
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.example.dsideapp.data.*
+import com.google.firebase.database.DataSnapshot
+import org.w3c.dom.Text
 
 
 class ActivitiesFragment : Fragment() {
@@ -67,6 +70,7 @@ class ActivitiesFragment : Fragment() {
     private lateinit var infoInput: InputStream
     private lateinit var infoBitmap: Bitmap
     private lateinit var infoImageView: ImageView
+    private lateinit var rvRestaurants: RecyclerView
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -131,7 +135,7 @@ class ActivitiesFragment : Fragment() {
                         //Popup window for the info
                         infoPopUpText = v.findViewById(R.id.popUpTextInfo)
                         if (infoDescription != null) {
-                            infoPopUpText.text = infoDescription.get(2).text().toString()
+                            infoPopUpText.text = infoDescription.get(1).text().toString()
                         }
                         infoImageView = v.findViewById(R.id.popUpImageInfo)
                         //textView = findViewById(R.id.title)
@@ -183,13 +187,16 @@ class ActivitiesFragment : Fragment() {
                         //var tempTestText = "Activity 1\nActivity 4\nActivity 10\n"
                         var activityInfo = db.child("users").child(userID.toString()).get().addOnSuccessListener {
                             //Popup window for the cart
-                            cartPopUpText = v.findViewById(R.id.popUpText)
+                            var tempCartActivityText = ""
+                            //cartPopUpText = v.findViewById(R.id.popUpText)
                             if (it.exists()){
-                                cartPopUpText.text = it.child("data").child("activities").child("1233abc").child("title").value.toString()
-                                cartImageView = v.findViewById(R.id.popUpImage)
-                                //textView = findViewById(R.id.title)
-                                cartImageView.setImageBitmap(cartBitmap)
+                                val allTheStuff = it.child("data").child("cart").children
+                                allTheStuff.forEach{
+                                    act ->
+                                    tempCartActivityText += act.child("title").value.toString() + "\n"
+                                }
                             }
+                            v.findViewById<TextView>(R.id.popUpText).text = tempCartActivityText
                         }
                         // show the popup window
                         // which view you pass in doesn't matter, it is only used for the window token
@@ -208,6 +215,11 @@ class ActivitiesFragment : Fragment() {
         }
         WebScratch().execute()
         return v
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
     }
 
     private fun replaceChildFragment(childFragment : Fragment) {
