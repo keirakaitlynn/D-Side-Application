@@ -11,13 +11,7 @@
         android:layout_height="wrap_content"
         android:background="@color/white"
         android:transformPivotY="108dp">
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/cartActivities"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            tools:layout_editor_absoluteX="1dp"
-            tools:layout_editor_absoluteY="1dp" />
-     <!--   <ImageView
+        <ImageView
             android:id="@+id/popUpImage"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -32,7 +26,6 @@
             android:text=""
             android:textSize="25sp"
             android:layout_toRightOf="@+id/popUpImage"/>
-            -->
 
 
     </RelativeLayout>

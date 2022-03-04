@@ -97,6 +97,7 @@ class ActivityTesterFragment : Fragment() {
             //-----------------------------
             //Given content in readId, print out activity found.
             val readId = id.getText().toString()
+            //database.reference.child("users").child(auth.uid.toString()).child("data").child("cart").child("083GCW").child(readId).get().addOnSuccessListener {
             database.reference.child("users").child(auth.uid.toString()).child("data").child("activities").child(readId).get().addOnSuccessListener {
                 Log.i("firebase", "Got value ${it.value}")
             }.addOnFailureListener {

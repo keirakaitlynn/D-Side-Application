@@ -23,8 +23,6 @@ import android.widget.*
 
 import com.example.dsideapp.auth
 import com.example.dsideapp.childfragments.*
-import com.example.dsideapp.data.ActivityObject
-import com.example.dsideapp.data.LocationObject
 import com.google.firebase.database.FirebaseDatabase
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Element
@@ -38,8 +36,7 @@ import android.os.CountDownTimer
 import android.provider.ContactsContract
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.dsideapp.data.RestaurantsAdapter
-import com.example.dsideapp.data.YelpRestaurant
+import com.example.dsideapp.data.*
 import com.google.firebase.database.DataSnapshot
 import org.w3c.dom.Text
 
@@ -73,6 +70,7 @@ class ActivitiesFragment : Fragment() {
     private lateinit var infoInput: InputStream
     private lateinit var infoBitmap: Bitmap
     private lateinit var infoImageView: ImageView
+    private lateinit var rvRestaurants: RecyclerView
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -98,41 +96,6 @@ class ActivitiesFragment : Fragment() {
         wheelButton.setOnClickListener{
             replaceChildFragment(wheelFragment)
         }
-
-        //////
-        class CartAdapter(val context: Context, val acts: List<DataSnapshot>) :
-            RecyclerView.Adapter<CartAdapter.ViewHolder>() {
-
-            override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-                return ViewHolder(LayoutInflater.from(context).inflate(R.layout.cart_adapter_layout, parent, false))
-            }
-
-            override fun getItemCount() = acts.size
-
-            override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-                val restaurant = acts[position]
-                holder.bind(restaurant)
-            }
-
-            inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-                fun bind(restaurant: DataSnapshot) {
-                    ///Cart image info gathering
-                    //Get the logo source from database
-                    cartImgSrc = restaurant.child("image_type").value.toString()
-                    //Download image from URL
-                    cartInput = java.net.URL(cartImgSrc).openStream()
-                    // Decode Bitmap
-                    cartBitmap = BitmapFactory.decodeStream(cartInput)
-                    ///
-                    itemView.findViewById<ImageButton>(R.id.cartImages).setImageBitmap(cartBitmap)
-                    itemView.findViewById<TextView>(R.id.cartTexts).text = restaurant.child("title").value.toString()
-                    itemView.findViewById<ImageButton>(R.id.cartImages).setOnClickListener{
-                    }
-                }
-            }
-        }
-        //////
-
         //Mine//
         ///////////////////POP UP IMAGE /////////////////////////////////
         class WebScratch : AsyncTask<Void, Void, Void>() {
@@ -224,16 +187,16 @@ class ActivitiesFragment : Fragment() {
                         //var tempTestText = "Activity 1\nActivity 4\nActivity 10\n"
                         var activityInfo = db.child("users").child(userID.toString()).get().addOnSuccessListener {
                             //Popup window for the cart
-
+                            var tempCartActivityText = ""
                             //cartPopUpText = v.findViewById(R.id.popUpText)
                             if (it.exists()){
-                                val allTheStuff = it.child("data").child("activities").child("cart").children
-                                val rvRestaurants = v.findViewById<RecyclerView>(R.id.cartActivities)
-                                val adapter =
-                                    activity?.let { CartAdapter(it.applicationContext, allTheStuff.toList()) }
-                                rvRestaurants.adapter = adapter
-                                rvRestaurants.layoutManager = LinearLayoutManager(activity?.applicationContext) // Vertical linear layout
+                                val allTheStuff = it.child("data").child("cart").children
+                                allTheStuff.forEach{
+                                    act ->
+                                    tempCartActivityText += act.child("title").value.toString() + "\n"
+                                }
                             }
+                            v.findViewById<TextView>(R.id.popUpText).text = tempCartActivityText
                         }
                         // show the popup window
                         // which view you pass in doesn't matter, it is only used for the window token
@@ -252,6 +215,11 @@ class ActivitiesFragment : Fragment() {
         }
         WebScratch().execute()
         return v
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
     }
 
     private fun replaceChildFragment(childFragment : Fragment) {
