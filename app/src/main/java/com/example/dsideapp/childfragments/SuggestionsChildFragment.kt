@@ -1,31 +1,15 @@
 package com.example.dsideapp.childfragments
 
-import android.os.AsyncTask
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
-import android.widget.TextView
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.example.dsideapp.R
-import com.example.dsideapp.auth
 import com.example.dsideapp.data.*
-import com.google.firebase.database.FirebaseDatabase
 import com.lorentzos.flingswipe.SwipeFlingAdapterView
-import org.jsoup.Jsoup
-import org.jsoup.nodes.Element
-import java.io.IOException
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 import java.util.ArrayList
-import kotlin.random.Random
 
 //Main
 private const val TAG = "MainActivity"                              // Used to debug
@@ -54,7 +38,7 @@ class SuggestionsChildFragment : Fragment() {
         s!!.add("SEVEN")
         val swipeFlingAdapterView = v.findViewById<View>(R.id.card) as SwipeFlingAdapterView
         // Must use requireContext() vs. "this" to get a Context because a Fragment is not a Context.
-        arrayAdapter = ArrayAdapter<String>(requireContext(), R.layout.details, R.id.textView, s!!)
+        arrayAdapter = ArrayAdapter<String>(requireContext(), R.layout.activity_card, R.id.activity_title, s!!)
         swipeFlingAdapterView.adapter = arrayAdapter
         swipeFlingAdapterView.setFlingListener(object : SwipeFlingAdapterView.onFlingListener {
             override fun removeFirstObjectInAdapter() {

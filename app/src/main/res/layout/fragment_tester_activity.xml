@@ -59,7 +59,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/activity_image" />
+        app:layout_constraintTop_toBottomOf="@+id/activity_image_upload" />
 
     <EditText
         android:id="@+id/activity_title"
@@ -131,7 +131,7 @@
         android:layout_weight="1"
         android:background="@color/pink"
         android:hint="@string/activity_phone"
-        app:layout_constraintBottom_toTopOf="@+id/activity_image"
+        app:layout_constraintBottom_toTopOf="@+id/activity_image_upload"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -151,7 +151,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/activity_image" />
+        app:layout_constraintTop_toBottomOf="@+id/activity_image_upload" />
 
     <EditText
         android:id="@+id/location_country"
@@ -181,7 +181,7 @@
         app:layout_constraintTop_toBottomOf="@+id/location_zip" />
 
     <EditText
-        android:id="@+id/activity_image"
+        android:id="@+id/activity_image_upload"
         android:layout_width="0dp"
         android:layout_height="25dp"
         android:layout_marginStart="15dp"

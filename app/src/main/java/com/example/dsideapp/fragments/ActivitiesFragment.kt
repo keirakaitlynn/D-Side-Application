@@ -1,6 +1,5 @@
 package com.example.dsideapp.fragments
 
-import android.R.attr
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -10,16 +9,13 @@ import android.widget.Button
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import com.example.dsideapp.R
-import com.google.firebase.ktx.Firebase
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.auth.FirebaseAuth
 import android.view.Gravity
 
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.AsyncTask
-import android.util.Log
 import android.widget.*
+import androidx.recyclerview.widget.LinearLayoutManager
 
 import com.example.dsideapp.auth
 import com.example.dsideapp.childfragments.*
@@ -28,17 +24,10 @@ import org.jsoup.Jsoup
 import org.jsoup.nodes.Element
 import java.io.IOException
 import java.io.InputStream
-import kotlin.random.Random
-import android.R.attr.button
-import android.content.Context
 
-import android.os.CountDownTimer
-import android.provider.ContactsContract
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.dsideapp.data.*
 import com.google.firebase.database.DataSnapshot
-import org.w3c.dom.Text
 
 
 class ActivitiesFragment : Fragment() {
@@ -71,6 +60,10 @@ class ActivitiesFragment : Fragment() {
     private lateinit var infoBitmap: Bitmap
     private lateinit var infoImageView: ImageView
     private lateinit var rvRestaurants: RecyclerView
+
+    // MMMMM: RecyclerView + CardView (ActivitiesFragment, CartPopUpFragment)
+    private var layoutManager: RecyclerView.LayoutManager? = null
+    private var adapter: RecyclerView.Adapter<RecyclerAdapter.ViewHolder>? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -184,19 +177,32 @@ class ActivitiesFragment : Fragment() {
                         var userID = authorization.currentUser?.uid
                         var db = FirebaseDatabase.getInstance().getReference()
                         //getting the db info for popup
-                        //var tempTestText = "Activity 1\nActivity 4\nActivity 10\n"
+
+                        // MMMMM: RecyclerView + CardView (ActivitiesFragment, CartPopUpFragment) -//
+                        val rv = v.findViewById<RecyclerView>(R.id.recyclerView)
+                        val activities = mutableListOf<DataSnapshot>()
+                        layoutManager = LinearLayoutManager(requireContext())
+                        rv.layoutManager = layoutManager
+                        adapter = RecyclerAdapter(requireContext(), activities)
+                        rv.adapter = adapter
+                        // MMMMM: -----------------------------------------------------------------//
                         var activityInfo = db.child("users").child(userID.toString()).get().addOnSuccessListener {
                             //Popup window for the cart
                             var tempCartActivityText = ""
-                            //cartPopUpText = v.findViewById(R.id.popUpText)
                             if (it.exists()){
+                                // NOTES: allTheStuff = array of Activities in Cart
                                 val allTheStuff = it.child("data").child("cart").children
                                 allTheStuff.forEach{
                                     act ->
                                     tempCartActivityText += act.child("title").value.toString() + "\n"
+                                    // MMMMM: Add to list to send to RecyclerAdapter class.
+                                    activities.add(act)
                                 }
                             }
-                            v.findViewById<TextView>(R.id.popUpText).text = tempCartActivityText
+                            // NOTES: v.findViewById<TextView>(R.id.cart_activity_title).text = tempCartActivityText
+                            // NOTES: var tempCartActivityText = "Activity 1\nActivity 4\nActivity 10\n"
+                            // MMMMM: Update RecyclerAdapter with changes.
+                            adapter?.notifyDataSetChanged()
                         }
                         // show the popup window
                         // which view you pass in doesn't matter, it is only used for the window token

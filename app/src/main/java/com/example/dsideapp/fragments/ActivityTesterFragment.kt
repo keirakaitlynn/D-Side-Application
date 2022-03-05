@@ -1,6 +1,5 @@
 package com.example.dsideapp.fragments
 
-import android.content.ContentValues.TAG
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -15,12 +14,8 @@ import com.example.dsideapp.data.ActivityObject
 import com.example.dsideapp.data.LocationObject
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ValueEventListener
 import com.google.firebase.ktx.Firebase
-import org.json.JSONArray
 
 class ActivityTesterFragment : Fragment() {
 
@@ -55,7 +50,7 @@ class ActivityTesterFragment : Fragment() {
         id = v.findViewById<View>(R.id.activity_id) as EditText
         title = v.findViewById<View>(R.id.activity_title) as EditText
         phone = v.findViewById<View>(R.id.activity_phone) as EditText
-        image = v.findViewById<View>(R.id.activity_image) as EditText
+        image = v.findViewById<View>(R.id.activity_image_upload) as EditText
         loc_address = v.findViewById<View>(R.id.location_address) as EditText
         loc_city = v.findViewById<View>(R.id.location_city) as EditText
         loc_country = v.findViewById<View>(R.id.location_country) as EditText
