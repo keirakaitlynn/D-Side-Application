@@ -230,7 +230,7 @@ class ActivitiesFragment : Fragment() {
 
     private fun replaceChildFragment(childFragment : Fragment) {
         val transaction: FragmentTransaction = getChildFragmentManager().beginTransaction()
-        transaction.replace(R.id.activities_view, childFragment).commit()
+        transaction.replace(R.id.activities_view, childFragment).addToBackStack(null).commit()
     }
     //Main
     data class Activity(val username: String? = null, val location: String? = null, val date_time: String? = null) {
