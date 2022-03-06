@@ -14,7 +14,9 @@ import android.view.Gravity
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.AsyncTask
+import android.util.Log
 import android.widget.*
+import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.LinearLayoutManager
 
 import com.example.dsideapp.auth
@@ -26,15 +28,18 @@ import java.io.IOException
 import java.io.InputStream
 
 import androidx.recyclerview.widget.RecyclerView
+import com.example.dsideapp.HomeActivity
 import com.example.dsideapp.data.*
 import com.google.firebase.database.DataSnapshot
 
 
-class ActivitiesFragment : Fragment() {
+class ActivitiesFragment : Fragment() , HomeActivity.IOnBackPressed {
     lateinit var suggestionsButton : Button
     lateinit var coinButton : Button
     lateinit var diceButton : Button
     lateinit var wheelButton : Button
+
+    lateinit var backButton : Button
 
     private val suggestionsFragment = SuggestionsChildFragment()
     private val coinFragment = CoinChildFragment()
@@ -144,6 +149,11 @@ class ActivitiesFragment : Fragment() {
                     }
                     //////////////
 
+                    backButton = v.findViewById<Button>(R.id.back_button)
+                    backButton.setOnClickListener{
+                        onBackPressed()
+                    }
+
                     ///Cart image info gathering
                     //Get the logo source of the website
                     cartImg = document.getElementsByTag("img").first()!!
@@ -213,6 +223,7 @@ class ActivitiesFragment : Fragment() {
                         }
 
                     }
+
                 } catch (e: IOException) {
                     e.printStackTrace()
                 }
@@ -230,7 +241,7 @@ class ActivitiesFragment : Fragment() {
 
     private fun replaceChildFragment(childFragment : Fragment) {
         val transaction: FragmentTransaction = getChildFragmentManager().beginTransaction()
-        transaction.replace(R.id.activities_view, childFragment).commit()
+        transaction.replace(R.id.activities_view, childFragment).addToBackStack(null).commit()
     }
     //Main
     data class Activity(val username: String? = null, val location: String? = null, val date_time: String? = null) {
@@ -238,4 +249,24 @@ class ActivitiesFragment : Fragment() {
         // for deserialization from a DataSnapshot.
     }
 
+
+    override fun onBackPressed(): Boolean {
+        return if (getChildFragmentManager().getBackStackEntryCount() > 1) {
+            //
+            true
+        } else {
+            println("BACK STACK <= 1")
+            false
+        }
+    }
+
+//    override fun onBackPressed() {
+//        if (activitiesFragment.getChildFragmentManager().getBackStackEntryCount() > 1) {
+//            activitiesFragment.getChildFragmentManager().popBackStackImmediate();
+//            println("HELLOOOOOO")
+//        } else {
+//            super.onBackPressed();
+//            println("HELLOOOOOO")
+//        }
+//    }
 }
