@@ -34,7 +34,7 @@ class WheelChildFragment : Fragment() {
     // Offset to make sure the result aligns with the little green triangle
     //  Index 0 will never be used since there will always be 1+ things to spin.
     //  Needed for other calculations tho
-    private val rotationOffsetForResult = arrayOf(0F,0F, 0F, 0F, 0F, -20F, -20F, -30F, -30F, -20F)
+    private val rotationOffsetForResult = arrayOf(0F,-50F, -40F, -30F, -20F, -20F, -20F, -30F, -30F, -20F)
 
     // Roughly how big each user value's is represented on the wheel.
     private val sectorDegrees = IntArray(sectors.size)
