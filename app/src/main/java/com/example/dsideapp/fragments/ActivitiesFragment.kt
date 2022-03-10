@@ -178,7 +178,7 @@ class ActivitiesFragment : Fragment() {
                         val focusable = true // lets taps outside the popup also dismiss it
                         val popupWindow = PopupWindow(v, width, height, focusable)
 
-                        //getting database info
+                        //getting database info/
                         var authorization = auth
                         var user = authorization.currentUser
                         var userID = authorization.currentUser?.uid
