@@ -1,7 +1,9 @@
 package com.example.dsideapp.childfragments
 
+import android.content.Context
 import android.os.AsyncTask
 import android.os.Bundle
+import android.os.Handler
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -17,6 +19,11 @@ import com.example.dsideapp.auth
 import com.google.firebase.database.FirebaseDatabase
 import java.util.ArrayList
 import kotlin.random.Random
+import android.view.Gravity
+import android.widget.Toast
+
+
+
 
 class WheelChildFragment : Fragment() {
 
@@ -31,19 +38,11 @@ class WheelChildFragment : Fragment() {
 //    }
 
     private lateinit var viewOfLayout: View
-    // array of the user's values. RN its just #'s but who cares
-    private var sectors = ""
-    // size of sector
-    private var sectorsSize = 0
-    // list of all the activities
-    private var activityList = mutableListOf<String>()
+
     // Roughly how big each user value's is represented on the wheel.
     private lateinit var sectorDegrees: IntArray
     var calendar: CalendarView? = null
     private var dateView: TextView? = null
-
-    var activitesOnLeftScreen = ""
-    var activitesOnRightScreen = ""
 
     //getting database info
     var authorization = auth
@@ -70,12 +69,16 @@ class WheelChildFragment : Fragment() {
         viewOfLayout = inflater.inflate(R.layout.fragment_child_wheel, container, false)
 
         class getDBInfoForWheel : AsyncTask<Void, Void, Void>() {
+            // array of the user's values. RN its just #'s but who cares
+            var sectors = ""
+            // size of sector
+            var sectorsSize = 0
+            // list of all the activities
+            var activityList = mutableListOf<String>()
+            var activitesOnLeftScreen = ""
+            var activitesOnRightScreen = ""
+
             override fun doInBackground(vararg params: Void): Void? {
-
-                activityList.clear()
-                sectors = ""
-                sectorsSize = 0
-
                 ///Grabbing all the activities from DB to populate screen
                 //Populate an array to with DB Cart activities
                 var activityInfo =
@@ -91,7 +94,7 @@ class WheelChildFragment : Fragment() {
                                         "title"
                                     ).value.toString() + "\n"
                                 }
-                                activityList.add(act.child("title").value.toString())
+                                activityList.add(0,act.child("title").value.toString())
                                 //Update counter
                                 //Log.w("", ""+sectorsSize)
                                 sectorsSize += 1
@@ -163,7 +166,7 @@ class WheelChildFragment : Fragment() {
                         // Does the animation work for the spin
                         // Alongside getting the random result
                         fun spin(){
-                            degree = Random.nextInt(sectorsSize+1)
+                            degree = Random.nextInt(sectorsSize)
 
                             // Object that allows the rotation to work
                             // toDegrees is the major bit. Defines how far the rotation goes.
@@ -185,9 +188,13 @@ class WheelChildFragment : Fragment() {
                                 // Displays results of RNG via toast
                                 override fun onAnimationEnd(animation: Animation) {
                                     Log.w("DEGREE VAL ", degree.toString())
+                                    Log.w("SectorsSize: ", ""+sectorsSize)
+                                    Log.w("Activities Size: ", ""+activityList.size)
                                     Log.w("", "You've got " + activityList[sectorsSize - (degree+1)])
-                                    Toast.makeText(activity, "You've got " + activityList[sectorsSize - (degree+1)], Toast.LENGTH_SHORT).show()
-                                    //Toast.makeText(activity, "You've got " + sectors[sectors.size - (degree+1)] + " stuffs", Toast.LENGTH_SHORT).show()
+                                    val handler = Handler(context!!.mainLooper)
+                                    handler.post(Runnable {
+                                        Toast.makeText(activity, "You've got " + activityList[sectorsSize - (degree+1)] + " stuffs", Toast.LENGTH_SHORT).show()
+                                    })
                                     isSpinning = false
                                 }
 
@@ -204,9 +211,19 @@ class WheelChildFragment : Fragment() {
                 ///
                 return null
             }
+
+            override fun onPostExecute(result: Void?) {
+                super.onPostExecute(result)
+                val toast = Toast.makeText(activity, "You've got Mail", Toast.LENGTH_SHORT)
+                toast.show()
+
+                //Toast.makeText(activity, "You've got " + activityList[sectorsSize - (degree+1)], Toast.LENGTH_SHORT).show()
+            }
         }
 
         getDBInfoForWheel().execute()
+        val toast = Toast.makeText(activity, "You've got Mail", Toast.LENGTH_SHORT)
+        toast.show()
         return viewOfLayout
     }
 }
