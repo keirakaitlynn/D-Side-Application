@@ -2,6 +2,7 @@ package com.example.dsideapp.fragments
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,6 +18,7 @@ class AccountFragment : Fragment() {
     lateinit var button: Button
     lateinit var textView: TextView
     private lateinit var viewOfLayout: View
+    private lateinit var auth: FirebaseAuth
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -36,9 +38,12 @@ class AccountFragment : Fragment() {
         button.setOnClickListener {
             FirebaseAuth.getInstance().signOut()
             //Log.w("USER ID ", auth.uid.toString())
+            val intent = Intent (activity, LoginActivity::class.java)
+            activity?.startActivity(intent)
             //finish()
-            //val intent = Intent(this, LoginActivity::class.java)
+            //viewOfLayout = inflater.inflate(R.layout.activity_login, container, false)
             //startActivity(intent)
+
         }
 
         return viewOfLayout
