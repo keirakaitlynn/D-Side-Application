@@ -13,9 +13,13 @@ import com.example.dsideapp.data.EventObject
 import com.example.dsideapp.data.LocationObject
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 import com.google.firebase.ktx.Firebase
 import java.util.*
+import kotlin.random.Random
 
 class CalendarFragment : Fragment() {
     private lateinit var auth: FirebaseAuth
@@ -36,11 +40,49 @@ class CalendarFragment : Fragment() {
         val start_time = Calendar.getInstance()
         val end_time = Calendar.getInstance()
         end_time.add(Calendar.MINUTE, 90)
-        val e_activity = ActivityObject("050FCV","Coffee MCO","None","\"https://s3-media2.fl.yelpcdn.com/bphoto/w_MuU2gYysZXSoFb14mtJA/o.jpg\"", LocationObject(), "None", "$")
+        //Create random ID tag
+        var i = 0
+        var randID = ""
+        for(i in 1..3){
+            randID += Random.nextInt(9)
+        }
+        for(i in 1..3){
+            randID += (Random.nextInt(25) + 65).toChar()
+        }
         val user_list = MutableList(3) { index -> "A" + index }
+        //This will add to database w/ a unique event ID with a hard coded activity.
+        /*
+        val e_activity = ActivityObject("050FCV","Coffee MCO","None","\"https://s3-media2.fl.yelpcdn.com/bphoto/w_MuU2gYysZXSoFb14mtJA/o.jpg\"", LocationObject(), "None", "$")
         val e_event = EventObject("Coffee with frens",start_time, end_time, e_activity, user_list, )
-        database.reference.child("users").child(auth.uid.toString()).child("data").child("calendar").child(if(e_activity.id!! != "") e_activity.id!! else "null").setValue(e_event)
+        database.reference.child("users").child(auth.uid.toString()).child("data").child("calendar").child(i.toString()).setValue(e_event)
+        */
+        //Read all activites
+        val activities = arrayListOf<ActivityObject>()
+        val ref = database.reference.child("users").child(auth.uid.toString()).child("data").child("activities")
+        ref.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                for (productSnapshot in dataSnapshot.children) {
+                    val activity = productSnapshot.getValue(ActivityObject::class.java)
+                    activities.add(activity!!)
+                }
+            }
 
+            override fun onCancelled(databaseError: DatabaseError) {
+                throw databaseError.toException()
+            }
+        })
+        //Write to database using
+        i = 0
+        randID = ""
+        for(i in 1..3){
+            randID += Random.nextInt(9)
+        }
+        for(i in 1..3){
+            randID += (Random.nextInt(25) + 65).toChar()
+        }
+        var index = activities.size
+
+        database.reference.child("users").child(auth.uid.toString()).child("data").child("calendar").child(i.toString()).setValue(activities.first())
         // Variables for easy manipulation of objects in the activity_main.xml file   🙂
         calendar = viewOfLayout.findViewById<View>(R.id.calendar) as CalendarView
         dateView = viewOfLayout.findViewById<View>(R.id.date_view) as TextView
