@@ -7,13 +7,13 @@
     android:background="@color/pink"
     tools:context=".childfragments.DiceChildFragment">
 
-<!--    <TextView-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:textSize="50dp"-->
-<!--        android:layout_height="55dp"-->
-<!--        android:gravity="center"-->
-<!--        android:text="Roll and win!"-->
-<!--        android:textColor="#FFFFFF" />-->
+    <TextView
+        android:layout_width="match_parent"
+        android:textSize="50dp"
+        android:layout_height="55dp"
+        android:gravity="center"
+        android:text="Roll and win!"
+        android:textColor="#FFFFFF" />
 
     <ImageView
         android:id="@+id/image_view_dice"
@@ -26,24 +26,7 @@
         android:layout_marginEnd="50dp"
         android:adjustViewBounds="true"
         android:src="@drawable/dice1" />
-    <TextView
-        android:id="@+id/left_activities_dice"
-        android:layout_width="205dp"
-        android:layout_height="wrap_content"
-        android:translationY="20dp"
-        android:gravity="left"
-        android:textColor="#FFFFFF"
-        android:textSize="15sp" />
 
-    <TextView
-        android:id="@+id/right_activities_dice"
-        android:layout_width="205dp"
-        android:layout_height="wrap_content"
-        android:translationY="20dp"
-        android:gravity="left"
-        android:textColor="#FFFFFF"
-        android:textSize="15sp"
-        android:translationX="205dp" />
     <Button
         android:id="@+id/Button"
         android:layout_width="wrap_content"
