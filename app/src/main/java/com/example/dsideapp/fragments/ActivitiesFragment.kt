@@ -251,7 +251,7 @@ class ActivitiesFragment : Fragment() , HomeActivity.IOnBackPressed {
 
     override fun onBackPressed(): Boolean {
         //Log.d(ContentValues.TAG, "onBackPressed:success")
-        return if (getChildFragmentManager().getBackStackEntryCount() >= 1) {
+        return if (getChildFragmentManager().getBackStackEntryCount() >= 2) {
             getChildFragmentManager().popBackStackImmediate()
             true
         } else {
