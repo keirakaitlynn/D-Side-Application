@@ -3,6 +3,8 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/estef/OneDrive/Documents/GitHub/D-Side-Application/app/src/main/res/layout/fragment_account.xml" value="0.536" />
+        <entry key="..\:/Users/estef/OneDrive/Documents/GitHub/D-Side-Application/app/src/main/res/layout/fragment_calendar.xml" value="0.1" />
         <entry key="..\:/Users/joshu/AndroidStudioProjects/D-Side-Application_2.0/app/src/main/res/drawable/concerts_icon.xml" value="0.12708333333333333" />
         <entry key="..\:/Users/joshu/AndroidStudioProjects/D-Side-Application_2.0/app/src/main/res/layout/activity_home.xml" value="0.1793478260869565" />
         <entry key="..\:/Users/joshu/AndroidStudioProjects/D-Side-Application_2.0/app/src/main/res/layout/activity_login.xml" value="0.1109375" />
