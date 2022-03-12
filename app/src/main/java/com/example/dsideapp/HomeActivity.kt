@@ -45,16 +45,6 @@ class HomeActivity : AppCompatActivity() {
         return false
     }
 
-//    override fun onBackPressed() {
-//        if (activitiesFragment.getChildFragmentManager().getBackStackEntryCount() > 1) {
-//            activitiesFragment.getChildFragmentManager().popBackStackImmediate();
-//            println("HELLOOOOOO")
-//        } else {
-//            super.onBackPressed();
-//            println("HELLOOOOOO")
-//        }
-//    }
-
     override fun onBackPressed() {
         val fragment =
             this.supportFragmentManager.findFragmentById(R.id.fragment_view)

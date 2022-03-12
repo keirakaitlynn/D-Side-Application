@@ -1,6 +1,7 @@
 package com.example.dsideapp.fragments
 
 import android.annotation.SuppressLint
+import android.content.ContentValues
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -38,8 +39,6 @@ class ActivitiesFragment : Fragment() , HomeActivity.IOnBackPressed {
     lateinit var coinButton : Button
     lateinit var diceButton : Button
     lateinit var wheelButton : Button
-
-    lateinit var backButton : Button
 
     private val suggestionsFragment = SuggestionsChildFragment()
     private val coinFragment = CoinChildFragment()
@@ -149,7 +148,7 @@ class ActivitiesFragment : Fragment() , HomeActivity.IOnBackPressed {
                     }
                     //////////////
 
-                    backButton = v.findViewById<Button>(R.id.back_button)
+                    val backButton = v.findViewById<ImageButton>(R.id.back_button)
                     backButton.setOnClickListener{
                         onBackPressed()
                     }
@@ -251,22 +250,12 @@ class ActivitiesFragment : Fragment() , HomeActivity.IOnBackPressed {
 
 
     override fun onBackPressed(): Boolean {
-        return if (getChildFragmentManager().getBackStackEntryCount() > 1) {
-            //
+        //Log.d(ContentValues.TAG, "onBackPressed:success")
+        return if (getChildFragmentManager().getBackStackEntryCount() >= 1) {
+            getChildFragmentManager().popBackStackImmediate()
             true
         } else {
-            println("BACK STACK <= 1")
             false
         }
     }
-
-//    override fun onBackPressed() {
-//        if (activitiesFragment.getChildFragmentManager().getBackStackEntryCount() > 1) {
-//            activitiesFragment.getChildFragmentManager().popBackStackImmediate();
-//            println("HELLOOOOOO")
-//        } else {
-//            super.onBackPressed();
-//            println("HELLOOOOOO")
-//        }
-//    }
 }
