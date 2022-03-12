@@ -14,7 +14,6 @@ import android.view.animation.*
 import android.view.animation.Transformation
 import android.graphics.Camera
 import android.view.animation.LinearInterpolator
-import android.widget.Toast
 
 
 class CoinChildFragment : Fragment() {
