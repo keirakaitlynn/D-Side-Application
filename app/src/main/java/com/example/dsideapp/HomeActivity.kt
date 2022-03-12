@@ -46,10 +46,14 @@ class HomeActivity : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
-        if (activitiesFragment.getChildFragmentManager().getBackStackEntryCount() > 1) {
-            activitiesFragment.getChildFragmentManager().popBackStackImmediate();
-        } else {
-            super.onBackPressed();
+        val fragment =
+            this.supportFragmentManager.findFragmentById(R.id.fragment_view)
+        (fragment as? IOnBackPressed)?.onBackPressed()?.not()?.let {
+            super.onBackPressed()
         }
+    }
+
+    interface IOnBackPressed {
+        fun onBackPressed(): Boolean
     }
 }
