@@ -94,7 +94,7 @@ class WheelChildFragment : Fragment() {
                                         "title"
                                     ).value.toString() + "\n"
                                 }
-                                activityList.add(0,act.child("title").value.toString())
+                                activityList.add(act.child("title").value.toString())
                                 //Update counter
                                 //Log.w("", ""+sectorsSize)
                                 sectorsSize += 1
@@ -140,18 +140,17 @@ class WheelChildFragment : Fragment() {
                         ///
 
                         // Mathematically divides up the wheel based on # of actions
+                        sectorDegrees = IntArray(sectorsSize)
+
                         fun getDegreeForSectors(){
                             var sectorDegree : Int = 360/sectorsSize
 
-                            for (i in sectors.indices) {
+                            for (i in activityList.indices) {
                                 sectorDegrees[i] = (i + 1) * sectorDegree
                             }
 
                         }
                         getDegreeForSectors()
-
-
-                        sectorDegrees = IntArray(sectorsSize)
                     }
                 // Variables for easy manipulation of objects in the activity_main.xml file   🙂
                 var spinBtn: Button = viewOfLayout.findViewById<View>(R.id.Button) as Button
@@ -187,10 +186,10 @@ class WheelChildFragment : Fragment() {
                                 }
                                 // Displays results of RNG via toast
                                 override fun onAnimationEnd(animation: Animation) {
-                                    Log.w("DEGREE VAL ", degree.toString())
-                                    Log.w("SectorsSize: ", ""+sectorsSize)
-                                    Log.w("Activities Size: ", ""+activityList.size)
-                                    Log.w("", "You've got " + activityList[sectorsSize - (degree+1)])
+                                    //Log.w("DEGREE VAL ", degree.toString())
+                                    //Log.w("SectorsSize: ", ""+sectorsSize)
+                                    //Log.w("Activities Size: ", ""+activityList.size)
+                                    //Log.w("", "You've got " + activityList[sectorsSize - (degree+1)])
                                     val handler = Handler(context!!.mainLooper)
                                     handler.post(Runnable {
                                         Toast.makeText(activity, "You've got " + activityList[sectorsSize - (degree+1)] + " stuffs", Toast.LENGTH_SHORT).show()
@@ -211,19 +210,9 @@ class WheelChildFragment : Fragment() {
                 ///
                 return null
             }
-
-            override fun onPostExecute(result: Void?) {
-                super.onPostExecute(result)
-                val toast = Toast.makeText(activity, "You've got Mail", Toast.LENGTH_SHORT)
-                toast.show()
-
-                //Toast.makeText(activity, "You've got " + activityList[sectorsSize - (degree+1)], Toast.LENGTH_SHORT).show()
-            }
         }
 
         getDBInfoForWheel().execute()
-        val toast = Toast.makeText(activity, "You've got Mail", Toast.LENGTH_SHORT)
-        toast.show()
         return viewOfLayout
     }
 }
