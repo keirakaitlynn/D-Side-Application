@@ -17,7 +17,7 @@ class AccountFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        //DB info
+        //DB info//
         var authorization = auth
         var user = authorization.currentUser
         var userID = authorization.currentUser?.uid
