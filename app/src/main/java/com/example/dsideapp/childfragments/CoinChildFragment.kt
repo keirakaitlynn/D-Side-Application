@@ -26,6 +26,7 @@ class CoinChildFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         var curSide = R.drawable.heads
+        var isheads = true
         val v = inflater.inflate(R.layout.fragment_child_coin, container, false)
         coin = v.findViewById<View>(R.id.coin) as ImageView
         btn = v.findViewById<View>(R.id.btn) as Button
@@ -34,15 +35,33 @@ class CoinChildFragment : Fragment() {
             val animation: Rotate3dAnimation
             if (curSide == R.drawable.heads) {
                 animation = Rotate3dAnimation(coin!!, R.drawable.heads, R.drawable.tails, 0f, 180f, 0f, 0f, 0f, 0f)
-                curSide = R.drawable.tails
             } else {
                 animation = Rotate3dAnimation(coin!!, R.drawable.tails, R.drawable.heads, 0f, 180f, 0f, 0f, 0f, 0f)
-                curSide = R.drawable.heads
             }
             if (stayTheSame) {
                 animation.repeatCount = 5 // must be odd (5+1 = 6 flips so the side will stay the same)
+                if (isheads) {
+                    System.out.println("heads to heads")
+                    isheads = true
+                    curSide = R.drawable.heads
+                }
+                else {
+                    System.out.println("tails to Tails")
+                    isheads = false
+                    curSide = R.drawable.tails
+                }
             } else {
                 animation.repeatCount = 6 // must be even (6+1 = 7 flips so the side will not stay the same)
+                if (isheads) {
+                    System.out.println("heads to tails")
+                    isheads = false
+                    curSide = R.drawable.tails
+                }
+                else {
+                    System.out.println("tails to heads")
+                    isheads = true
+                    curSide = R.drawable.heads
+                }
             }
             animation.duration = 110
             animation.interpolator = LinearInterpolator()
@@ -51,6 +70,7 @@ class CoinChildFragment : Fragment() {
         return v
         }
 
+    // IGNORE EVERYTHING BELOW THIS. CLASS ROTATE3DANIMATION IS SIMPLY TO FLIP THE COIN. IF YOU NEED TO **CHANGE** HOW COIN FLIPS, THEN LOOK BELOW AND PROCEED WITH CAUTION.
     class Rotate3dAnimation(
         private val imageView: ImageView,
         private var curDrawable: Int,
@@ -98,7 +118,6 @@ class CoinChildFragment : Fragment() {
 
 
             // ----------------- ROTATE ----------------- //
-            System.err.println(interpolatedTime)
             if (interpolatedTime >= 0.5f) {
                 if (interpolatedTime == 1f) {
                     val temp = curDrawable
