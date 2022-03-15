@@ -32,6 +32,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.dsideapp.HomeActivity
 import com.example.dsideapp.data.*
 import com.google.firebase.database.DataSnapshot
+import java.util.ArrayList
 
 
 class ActivitiesFragment : Fragment() , HomeActivity.IOnBackPressed {
@@ -157,29 +158,30 @@ class ActivitiesFragment : Fragment() , HomeActivity.IOnBackPressed {
 
                     val searchButton = v.findViewById<Button>(R.id.search_button)
                     searchButton.setOnClickListener{
-//                        // inflate the layout of the popup window
-//                        v = inflater.inflate(R.layout.fragment_info_pop_up, null)
-//                        // create the popup window
-//                        val width = LinearLayout.LayoutParams.WRAP_CONTENT
-//                        val height = LinearLayout.LayoutParams.WRAP_CONTENT
-//                        val focusable = true // lets taps outside the popup also dismiss it
-//                        val popupWindow = PopupWindow(v, width, height, focusable)
-
                         //// NNNNN: ====================================================================
                         val searchView = v.findViewById<SearchView>(R.id.serachView)
-                        val listView = v.findViewById<ListView>(R.id.listView)
+                        //val listView = v.findViewById<ListView>(R.id.listView)
+                        //val names = arrayOf("Android", "Java", "Php", "Python", "C", "C++", "Kotlin")
 
-                        val names = arrayOf("Android", "Java", "Php", "Python", "C", "C++", "Kotlin")
-                        Log.d(ContentValues.TAG, "searchView.setOnClick:success")
-                        val listAdapter: ArrayAdapter<String> = ArrayAdapter(
-                            requireContext(), android.R.layout.simple_list_item_1,
-                            names
-                        )
-                        listView.adapter = listAdapter
+                        var categories = ArrayList<String>()
+                        categories.add("Coffee & Tea")
+                        categories.add("Juice Bars & Smoothies")
+                        categories.add("Dance Clubs")
+                        categories.add("Dive Bars")
+                        categories.add("Dining")
+                        categories.add("Bowling")
+                        categories.add("Lounges")
+                        categories.add("Pizza")
+                        categories.add("Seafood")
+
+                        val categoryRecyclerView = v.findViewById<RecyclerView>(R.id.categoryRecyclerView)
+                        val categoryAdapter = CategoryAdapter(categories)
+                        categoryRecyclerView.setLayoutManager(LinearLayoutManager(requireContext()))
+                        categoryRecyclerView.setAdapter(categoryAdapter)
 
                         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
                             override fun onQueryTextChange(newText: String?): Boolean {
-                                listAdapter.filter.filter(newText)
+                                categoryAdapter.filter.filter(newText)
                                 return false
                             }
 
