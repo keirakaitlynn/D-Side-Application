@@ -153,6 +153,45 @@ class ActivitiesFragment : Fragment() , HomeActivity.IOnBackPressed {
                         onBackPressed()
                     }
 
+                    //// MMMMM: ====================================================================
+
+                    val searchButton = v.findViewById<Button>(R.id.search_button)
+                    searchButton.setOnClickListener{
+//                        // inflate the layout of the popup window
+//                        v = inflater.inflate(R.layout.fragment_info_pop_up, null)
+//                        // create the popup window
+//                        val width = LinearLayout.LayoutParams.WRAP_CONTENT
+//                        val height = LinearLayout.LayoutParams.WRAP_CONTENT
+//                        val focusable = true // lets taps outside the popup also dismiss it
+//                        val popupWindow = PopupWindow(v, width, height, focusable)
+
+                        //// NNNNN: ====================================================================
+                        val searchView = v.findViewById<SearchView>(R.id.serachView)
+                        val listView = v.findViewById<ListView>(R.id.listView)
+
+                        val names = arrayOf("Android", "Java", "Php", "Python", "C", "C++", "Kotlin")
+                        Log.d(ContentValues.TAG, "searchView.setOnClick:success")
+                        val listAdapter: ArrayAdapter<String> = ArrayAdapter(
+                            requireContext(), android.R.layout.simple_list_item_1,
+                            names
+                        )
+                        listView.adapter = listAdapter
+
+                        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+                            override fun onQueryTextChange(newText: String?): Boolean {
+                                listAdapter.filter.filter(newText)
+                                return false
+                            }
+
+                            override fun onQueryTextSubmit(s: String?): Boolean {
+                                return false
+                            }
+                        })
+                        //// NNNNN: ====================================================================
+                    }
+
+                    //// MMMMM: ====================================================================
+
                     ///Cart image info gathering
                     //Get the logo source of the website
                     cartImg = document.getElementsByTag("img").first()!!
