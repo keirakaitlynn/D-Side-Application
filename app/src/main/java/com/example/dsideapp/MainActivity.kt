@@ -102,7 +102,7 @@ class MainActivity : AppCompatActivity() {
                     // Sign in success, update UI with the signed-in user's information
                     Log.d(TAG, "createUserWithEmail:                    success")
                     val user = auth.currentUser
-                    writeNewUser(auth.uid.toString(), email.substring(0,13), email)
+                    writeNewUser(auth.uid.toString(), auth.currentUser!!.email.toString(), email)
 
                 } else {
                     // If sign in fails, display a message to the user.
