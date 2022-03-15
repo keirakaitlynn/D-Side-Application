@@ -119,6 +119,12 @@
                     android:textDirection="ltr"
                     android:background="@color/black_overlay" />
             </ScrollView>
+            <Button
+                android:id="@+id/changesSaveButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/blueVioletColor"
+                android:text="Save"/>
         </LinearLayout>
 
     </ScrollView>
