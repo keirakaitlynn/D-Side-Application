@@ -1,10 +1,13 @@
 package com.example.dsideapp.fragments
 
 import android.os.Bundle
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.CalendarView
+import android.widget.LinearLayout
+import android.widget.PopupWindow
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import com.example.dsideapp.R
@@ -33,8 +36,12 @@ class CalendarFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        viewOfLayout = inflater.inflate(R.layout.fragment_calendar, container, false)
-        //
+        var v  = inflater.inflate(R.layout.fragment_calendar, container, false)
+        /*
+        Below is all test code to add item to event when calendar is opened. Refer off of this code when using "Add Event to Calendar"
+        */
+        /*
+
         auth = Firebase.auth
         val database = FirebaseDatabase.getInstance()
         val start_time = Calendar.getInstance()
@@ -83,9 +90,30 @@ class CalendarFragment : Fragment() {
         var index = activities.size
 
         database.reference.child("users").child(auth.uid.toString()).child("data").child("calendar").child(i.toString()).setValue(activities.first())
+         */
+
+        //Popup Code
+
+
+        // inflate the layout of the popup window
+        // create the popup window
+        val width = LinearLayout.LayoutParams.WRAP_CONTENT
+        val height = LinearLayout.LayoutParams.WRAP_CONTENT
+        val focusable = true // lets taps outside the popup also dismiss it
+        val popupWindow = PopupWindow(v, width, height, focusable)
+
+
+        // show the popup window
+        // which view you pass in doesn't matter, it is only used for the window token
+        popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0)
+        v.setOnTouchListener { v, event ->
+            popupWindow.dismiss()
+            true
+        }
+
         // Variables for easy manipulation of objects in the activity_main.xml file   🙂
-        calendar = viewOfLayout.findViewById<View>(R.id.calendar) as CalendarView
-        dateView = viewOfLayout.findViewById<View>(R.id.date_view) as TextView
+        calendar = v.findViewById<View>(R.id.calendar) as CalendarView
+        dateView = v.findViewById<View>(R.id.date_view) as TextView
 
         // Listener checks for a tap on a day
         calendar!!
@@ -102,6 +130,6 @@ class CalendarFragment : Fragment() {
                 dateView!!.text = Date
             }
 
-        return viewOfLayout
+        return v
     }
 }
