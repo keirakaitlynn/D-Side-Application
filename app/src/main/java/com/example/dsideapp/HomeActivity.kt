@@ -2,7 +2,9 @@ package com.example.dsideapp
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Button
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
 import com.example.dsideapp.fragments.*
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
@@ -13,7 +15,6 @@ class HomeActivity : AppCompatActivity() {
     private val concertsFragment = ConcertsFragment()
     private val calendarFragment = CalendarFragment()
     private val accountFragment = AccountFragment()
-    private val activityTesterFragment = ActivityTesterFragment()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,7 +31,7 @@ class HomeActivity : AppCompatActivity() {
                 R.id.navbar_concerts -> replaceFragment(concertsFragment)
                 R.id.navbar_calendar -> replaceFragment(calendarFragment)
                 //REPLACE NAVBAR_ACCOUNT WITH THIS WHEN WE GET TO ACCOUNT PAGE WORK -> accountFragment
-                R.id.navbar_account -> replaceFragment(activityTesterFragment)
+                R.id.navbar_account -> replaceFragment(accountFragment)
             }
             true
         }
@@ -42,5 +43,17 @@ class HomeActivity : AppCompatActivity() {
             return true
         }
         return false
+    }
+
+    override fun onBackPressed() {
+        val fragment =
+            this.supportFragmentManager.findFragmentById(R.id.fragment_view)
+        (fragment as? IOnBackPressed)?.onBackPressed()?.not()?.let {
+            super.onBackPressed()
+        }
+    }
+
+    interface IOnBackPressed {
+        fun onBackPressed(): Boolean
     }
 }

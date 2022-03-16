@@ -6,15 +6,34 @@
     android:background="@color/purple_100"
     tools:context=".childfragments.WheelChildFragment">
 
-    <TextView
+  <!--  <TextView
         android:layout_width="match_parent"
         android:textSize="50sp"
         android:layout_height="55dp"
         android:gravity="center"
         android:text="Spin and win!"
-        android:textColor="#FFFFFF" />
+        android:textColor="#FFFFFF" />-->
 
-    <Button
+    <TextView
+        android:id="@+id/left_activities"
+        android:layout_width="205dp"
+        android:layout_height="wrap_content"
+        android:translationY="20dp"
+        android:gravity="left"
+        android:textColor="#FFFFFF"
+        android:textSize="15sp" />
+
+  <TextView
+      android:id="@+id/right_activities"
+      android:layout_width="205dp"
+      android:layout_height="wrap_content"
+      android:translationY="20dp"
+      android:gravity="left"
+      android:textColor="#FFFFFF"
+      android:textSize="15sp"
+      android:translationX="205dp" />
+
+  <Button
         android:id="@+id/Button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
