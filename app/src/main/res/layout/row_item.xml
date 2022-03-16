@@ -4,11 +4,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="@color/purple_400"
-    android:orientation="vertical">
+    android:layout_height="wrap_content">
 
-    <TextView
+    <Button
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

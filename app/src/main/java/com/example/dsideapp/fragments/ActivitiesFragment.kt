@@ -176,7 +176,7 @@ class ActivitiesFragment : Fragment() , HomeActivity.IOnBackPressed {
 
                         val categoryRecyclerView = v.findViewById<RecyclerView>(R.id.categoryRecyclerView)
                         val categoryAdapter = CategoryAdapter(categories)
-                        categoryRecyclerView.setLayoutManager(LinearLayoutManager(requireContext()))
+                        categoryRecyclerView.setLayoutManager(LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false))
                         categoryRecyclerView.setAdapter(categoryAdapter)
 
                         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
