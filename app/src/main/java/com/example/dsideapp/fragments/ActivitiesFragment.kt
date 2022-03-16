@@ -1,7 +1,6 @@
 package com.example.dsideapp.fragments
 
 import android.annotation.SuppressLint
-import android.content.ContentValues
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -15,9 +14,7 @@ import android.view.Gravity
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.AsyncTask
-import android.util.Log
 import android.widget.*
-import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.LinearLayoutManager
 
 import com.example.dsideapp.auth
@@ -48,7 +45,7 @@ class ActivitiesFragment : Fragment() , HomeActivity.IOnBackPressed {
     //Main
     //private lateinit var auth: FirebaseAuth
     //Mine
-    private val concertsFragment = ConcertsFragment()
+    private val pollsFragment = PollsFragment()
     private val trailSuggestionsFragment = TrailSuggestionsChildFragment()
     private lateinit var cartPopUpText: TextView
     private lateinit var infoPopUpText: TextView
