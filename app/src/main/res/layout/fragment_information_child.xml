@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/informationFragment_View"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".childfragments.InformationChildFragment"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/purple_100">
+
+  <Button
+      android:id="@+id/ToTeamPage"
+      android:layout_width="200dp"
+      android:layout_height="200dp"
+      android:text="Get To Know The Team"
+      android:translationY="110dp"
+      android:translationX="90dp"
+      android:backgroundTint="@color/white"
+      android:textColor="@color/black_overlay"/>
+
+    <Button
+        android:id="@+id/ToFAQPage"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:text="FAQ"
+        android:translationY="320dp"
+        android:translationX="90dp"
+        android:backgroundTint="@color/white"
+        android:textColor="@color/black_overlay"/>
+
+</FrameLayout>

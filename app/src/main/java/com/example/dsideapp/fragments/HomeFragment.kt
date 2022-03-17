@@ -9,10 +9,11 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import com.example.dsideapp.fragments.*
 import com.example.dsideapp.R
+import com.example.dsideapp.childfragments.InformationChildFragment
 
 class HomeFragment : Fragment() {
     private val activityTesterFragment = ActivityTesterFragment()
-
+    private val infromationTesterFragment = InformationChildFragment()
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -25,7 +26,8 @@ class HomeFragment : Fragment() {
         activityTesterButton.setOnClickListener{
             val fragmentManager = getActivity()?.getSupportFragmentManager()
             if (fragmentManager != null) {
-                fragmentManager.beginTransaction().replace(com.example.dsideapp.R.id.fragment_view, activityTesterFragment).commit()
+                fragmentManager.beginTransaction().replace(com.example.dsideapp.R.id.fragment_view, infromationTesterFragment).commit()
+//                fragmentManager.beginTransaction().replace(com.example.dsideapp.R.id.fragment_view, activityTesterFragment).commit()
             }
         }
         return v
