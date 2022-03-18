@@ -179,6 +179,8 @@ class ActivitiesFragment : Fragment() , HomeActivity.IOnBackPressed {
                         categoryRecyclerView.setLayoutManager(LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false))
                         categoryRecyclerView.setAdapter(categoryAdapter)
 
+                        categoryRecyclerView.setNestedScrollingEnabled(false);
+
                         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
                             override fun onQueryTextChange(newText: String?): Boolean {
                                 categoryAdapter.filter.filter(newText)
