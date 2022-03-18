@@ -156,12 +156,15 @@ class ActivitiesFragment : Fragment() , HomeActivity.IOnBackPressed {
                     val searchButton = v.findViewById<Button>(R.id.search_button)
                     searchButton.setOnClickListener{
                         //// NNNNN: ====================================================================
-                        val searchView = v.findViewById<SearchView>(R.id.serachView)
+                        val searchView = v.findViewById<SearchView>(R.id.searchView)
                         //val listView = v.findViewById<ListView>(R.id.listView)
                         //val names = arrayOf("Android", "Java", "Php", "Python", "C", "C++", "Kotlin")
 
                         var categories = ArrayList<String>()
+                        categories.add("Cake")
+                        categories.add("Cars")
                         categories.add("Coffee & Tea")
+                        categories.add("Cookies")
                         categories.add("Juice Bars & Smoothies")
                         categories.add("Dance Clubs")
                         categories.add("Dive Bars")
