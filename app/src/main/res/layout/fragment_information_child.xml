@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".childfragments.InformationChildFragment"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@color/purple_100">
+    android:background="@color/purple_400">
 
   <Button
       android:id="@+id/ToTeamPage"
@@ -15,8 +15,8 @@
       android:text="Get To Know The Team"
       android:translationY="110dp"
       android:translationX="90dp"
-      android:backgroundTint="@color/white"
-      android:textColor="@color/black_overlay"/>
+      android:background="@drawable/custom_background"
+      />
 
     <Button
         android:id="@+id/ToFAQPage"
@@ -25,7 +25,7 @@
         android:text="FAQ"
         android:translationY="320dp"
         android:translationX="90dp"
-        android:backgroundTint="@color/white"
-        android:textColor="@color/black_overlay"/>
+        android:background="@drawable/custom_background"
+        />
 
 </FrameLayout>

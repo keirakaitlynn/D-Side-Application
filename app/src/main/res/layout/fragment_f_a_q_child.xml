@@ -9,6 +9,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="FAQ Fragment" />
+        android:layout_margin="20dp"
+        android:text="Q: Will my friends have to sign up to be added and notified about group events?&#10;A: All users will have to sign up to use any functionality in the app to tailor the experience to each individual user.&#10; &#10;Q: Will I be able to add my own activities for the app to be used?&#10;A: Yes! Navigate to the cart to add dummy activities for any activity not found in the system.&#10; &#10;h" />
 
 </FrameLayout>
