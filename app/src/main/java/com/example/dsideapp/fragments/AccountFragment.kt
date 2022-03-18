@@ -28,6 +28,8 @@ class AccountFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+
+        //TRY RUNNING AND SEE WHAT HAPPEND <------
         //DB info//
         var authorization = com.example.dsideapp.auth
         var user = authorization.currentUser
