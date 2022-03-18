@@ -6,7 +6,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:background="@color/pink"
     tools:context=".fragments.AccountFragment">
-
+<!-- -->
     <ScrollView
         android:id="@+id/scrollView2"
         android:layout_width="298dp"
