@@ -10,10 +10,13 @@ import androidx.fragment.app.FragmentManager
 import com.example.dsideapp.fragments.*
 import com.example.dsideapp.R
 import com.example.dsideapp.childfragments.InformationChildFragment
+import com.example.dsideapp.childfragments.eventSharingTesterFragment
 
 class HomeFragment : Fragment() {
     private val activityTesterFragment = ActivityTesterFragment()
-    private val infromationTesterFragment = InformationChildFragment()
+    private val informationTesterFragment = InformationChildFragment()
+    private val eventSharingFragment = eventSharingTesterFragment()
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -26,7 +29,7 @@ class HomeFragment : Fragment() {
         activityTesterButton.setOnClickListener{
             val fragmentManager = getActivity()?.getSupportFragmentManager()
             if (fragmentManager != null) {
-                fragmentManager.beginTransaction().replace(com.example.dsideapp.R.id.fragment_view, infromationTesterFragment).commit()
+                fragmentManager.beginTransaction().replace(com.example.dsideapp.R.id.fragment_view, informationTesterFragment).commit()
 //                fragmentManager.beginTransaction().replace(com.example.dsideapp.R.id.fragment_view, activityTesterFragment).commit()
             }
         }
