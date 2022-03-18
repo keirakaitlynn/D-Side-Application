@@ -24,15 +24,56 @@
 <!--        <item name="android:background">@color/purple_400</item>-->
 
         <!-- KEIRA: Button styles. -->
-        <item name="materialButtonStyle">@style/button_pink</item>
+        <item name="materialButtonStyle">@style/button_large</item>
     </style>
 
-    <!-- KEIRA: A pink button. -->
-    <style name="button_pink" parent="Widget.MaterialComponents.Button">
+    <!-- KEIRA: Large action button. -->
+    <style name="button_large" parent="Widget.MaterialComponents.Button">
         <item name="cornerRadius">80dp</item>
         <item name="android:textSize">18sp</item>
         <item name="android:textStyle">bold</item>
         <item name="android:letterSpacing">.01</item>
+        <!-- To add...
+            android:minHeight="68dp"
+        -->
+    </style>
+
+    <!-- KEIRA: Small button. -->
+    <style name="button_small" parent="Widget.MaterialComponents.Button">
+        <item name="cornerRadius">80dp</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:textStyle">bold</item>
+        <!-- To add...
+            android:minHeight="68dp"
+        -->
+    </style>
+
+    <!-- KEIRA: Page selected button. -->
+    <style name="button_page_selected" parent="Widget.MaterialComponents.Button">
+        <item name="background">@id/none</item>
+        <item name="android:textSize">32sp</item>
+        <item name="android:fontFamily">@font/secondary</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:letterSpacing">.01</item>
+        <item name="android:background">@android:color/transparent</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:gravity">left|center_vertical</item>
+        <!-- To add...
+            android:minHeight="68dp"
+        -->
+    </style>
+
+    <!-- KEIRA: Page button. -->
+    <style name="button_page" parent="Widget.MaterialComponents.Button">
+        <item name="background">@id/none</item>
+        <item name="android:textSize">22sp</item>
+        <item name="android:fontFamily">@font/secondary</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:letterSpacing">.01</item>
+        <item name="color">@color/purple_300</item>
+        <item name="android:background">@android:color/transparent</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:gravity">left|center_vertical</item>
         <!-- To add...
             android:minHeight="68dp"
         -->
