@@ -14,7 +14,7 @@ import com.example.dsideapp.R
 
 class HomeFragment : Fragment() {
     private val activityTesterFragment = ActivityTesterFragment()
-    private val concertsFragment = ConcertsFragment()
+    private val concertsFragment = PollsFragment()
     private val calendarFragment = CalendarFragment()
     private val accountFragment =AccountFragment()
     private val  activitiesFragment= ActivitiesFragment()
@@ -65,7 +65,7 @@ class HomeFragment : Fragment() {
         concertsButton.setOnClickListener {
             val fragmentManager = getActivity()?.getSupportFragmentManager()
             if (fragmentManager != null) {
-                fragmentManager.beginTransaction().replace(com.example.dsideapp.R.id.fragment_view,  ConcertsFragment()).commit()
+                fragmentManager.beginTransaction().replace(com.example.dsideapp.R.id.fragment_view,  PollsFragment()).commit()
             }
         }
 
