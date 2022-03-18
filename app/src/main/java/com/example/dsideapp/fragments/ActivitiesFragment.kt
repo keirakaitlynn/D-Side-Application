@@ -1,7 +1,6 @@
 package com.example.dsideapp.fragments
 
 import android.annotation.SuppressLint
-import android.content.ContentValues
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -15,9 +14,7 @@ import android.view.Gravity
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.AsyncTask
-import android.util.Log
 import android.widget.*
-import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.LinearLayoutManager
 
 import com.example.dsideapp.auth
@@ -32,6 +29,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.dsideapp.HomeActivity
 import com.example.dsideapp.data.*
 import com.google.firebase.database.DataSnapshot
+import java.util.ArrayList
 
 
 class ActivitiesFragment : Fragment() , HomeActivity.IOnBackPressed {
@@ -47,7 +45,7 @@ class ActivitiesFragment : Fragment() , HomeActivity.IOnBackPressed {
     //Main
     //private lateinit var auth: FirebaseAuth
     //Mine
-    private val concertsFragment = ConcertsFragment()
+    private val pollsFragment = PollsFragment()
     private val trailSuggestionsFragment = TrailSuggestionsChildFragment()
     private lateinit var cartPopUpText: TextView
     private lateinit var infoPopUpText: TextView
@@ -152,6 +150,46 @@ class ActivitiesFragment : Fragment() , HomeActivity.IOnBackPressed {
                     backButton.setOnClickListener{
                         onBackPressed()
                     }
+
+                    //// MMMMM: ====================================================================
+
+                    val searchButton = v.findViewById<Button>(R.id.search_button)
+                    searchButton.setOnClickListener{
+                        //// NNNNN: ====================================================================
+                        val searchView = v.findViewById<SearchView>(R.id.serachView)
+                        //val listView = v.findViewById<ListView>(R.id.listView)
+                        //val names = arrayOf("Android", "Java", "Php", "Python", "C", "C++", "Kotlin")
+
+                        var categories = ArrayList<String>()
+                        categories.add("Coffee & Tea")
+                        categories.add("Juice Bars & Smoothies")
+                        categories.add("Dance Clubs")
+                        categories.add("Dive Bars")
+                        categories.add("Dining")
+                        categories.add("Bowling")
+                        categories.add("Lounges")
+                        categories.add("Pizza")
+                        categories.add("Seafood")
+
+                        val categoryRecyclerView = v.findViewById<RecyclerView>(R.id.categoryRecyclerView)
+                        val categoryAdapter = CategoryAdapter(categories)
+                        categoryRecyclerView.setLayoutManager(LinearLayoutManager(requireContext()))
+                        categoryRecyclerView.setAdapter(categoryAdapter)
+
+                        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+                            override fun onQueryTextChange(newText: String?): Boolean {
+                                categoryAdapter.filter.filter(newText)
+                                return false
+                            }
+
+                            override fun onQueryTextSubmit(s: String?): Boolean {
+                                return false
+                            }
+                        })
+                        //// NNNNN: ====================================================================
+                    }
+
+                    //// MMMMM: ====================================================================
 
                     ///Cart image info gathering
                     //Get the logo source of the website

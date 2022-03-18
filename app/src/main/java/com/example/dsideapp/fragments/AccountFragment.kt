@@ -9,10 +9,13 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageButton
 import android.widget.TextView
+import android.widget.EditText
 import androidx.fragment.app.Fragment
 import com.example.dsideapp.LoginActivity
 import com.example.dsideapp.R
 import com.google.firebase.auth.FirebaseAuth
+import com.example.dsideapp.auth
+import com.google.firebase.database.FirebaseDatabase
 
 class AccountFragment : Fragment() {
     lateinit var imageButton: ImageButton
@@ -25,6 +28,12 @@ class AccountFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        //DB info//
+        var authorization = com.example.dsideapp.auth
+        var user = authorization.currentUser
+        var userID = authorization.currentUser?.uid
+        var db = FirebaseDatabase.getInstance().getReference()
+
         viewOfLayout =
             inflater.inflate(R.layout.fragment_account, container, false)
 
@@ -46,7 +55,12 @@ class AccountFragment : Fragment() {
 
         }
 
+        var saveChangesButton = viewOfLayout.findViewById<Button>(R.id.changesSaveButton)
+        saveChangesButton.setOnClickListener{
+            db.child("users").child(userID.toString()).child("username")
+                    .setValue(viewOfLayout.findViewById<EditText>(R.id.user_name).text.toString())
+        }
+
         return viewOfLayout
     }
-
 }

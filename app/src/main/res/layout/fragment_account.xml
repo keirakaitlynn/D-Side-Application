@@ -7,7 +7,6 @@
     android:background="@color/pink"
     tools:context=".fragments.AccountFragment">
 
-
     <ScrollView
         android:id="@+id/scrollView2"
         android:layout_width="298dp"
@@ -36,12 +35,13 @@
                 android:orientation="vertical"
                 android:text="Account Information"
                 android:textSize="25sp" />
-            <ImageButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/default_profile_pic"
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="250dp"
                 android:layout_gravity="center"
-                android:scaleType="fitXY"/>
+                android:scaleType="fitXY"
+                android:src="@drawable/profile_pic" />
             <TextView
                 android:id="@+id/user_email_label"
                 android:layout_width="wrap_content"
@@ -120,7 +120,19 @@
                     android:textDirection="ltr"
                     android:background="@color/black_overlay" />
             </ScrollView>
-
+            <ImageButton
+                android:id="@+id/log_out"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/logout"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+            <Button
+                android:id="@+id/changesSaveButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/blueVioletColor"
+                android:text="Save"/>
         </LinearLayout>
 
     </ScrollView>
