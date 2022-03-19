@@ -100,9 +100,10 @@
                 android:layout_height="36dp"
                 android:layout_marginLeft="16dp"
                 android:background="@drawable/custom_background">
+
                 <SearchView
                     android:id="@+id/searchView"
-                    android:layout_width="100dp"
+                    android:layout_width="160dp"
                     android:layout_height="36dp"
                     android:layout_gravity="center_vertical"/>
                 <Button
@@ -111,7 +112,7 @@
                     android:layout_width="45dp"
                     android:layout_height="45dp"
                     android:layout_gravity="center_vertical"
-                    android:textSize="16dp"
+                    android:textSize="16sp"
                     android:text="+" />
             </LinearLayout>
             

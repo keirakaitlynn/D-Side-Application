@@ -30,6 +30,12 @@ import com.example.dsideapp.HomeActivity
 import com.example.dsideapp.data.*
 import com.google.firebase.database.DataSnapshot
 import java.util.ArrayList
+import android.graphics.Typeface
+import android.util.Log
+
+import android.widget.TextView
+import com.ernestoyaquello.dragdropswiperecyclerview.DragDropSwipeRecyclerView
+import com.ernestoyaquello.dragdropswiperecyclerview.listener.OnItemSwipeListener
 
 
 class ActivitiesFragment : Fragment() , HomeActivity.IOnBackPressed {
@@ -64,8 +70,7 @@ class ActivitiesFragment : Fragment() , HomeActivity.IOnBackPressed {
     private lateinit var rvRestaurants: RecyclerView
 
     // MMMMM: RecyclerView + CardView (ActivitiesFragment, CartPopUpFragment)
-    private var layoutManager: RecyclerView.LayoutManager? = null
-    private var adapter: RecyclerView.Adapter<RecyclerAdapter.ViewHolder>? = null
+    private lateinit var cartActivityAdapter: CartActivityAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -157,6 +162,15 @@ class ActivitiesFragment : Fragment() , HomeActivity.IOnBackPressed {
                     searchButton.setOnClickListener{
                         //// NNNNN: ====================================================================
                         val searchView = v.findViewById<SearchView>(R.id.searchView)
+                        val id = searchView.context.resources.getIdentifier(
+                            "android:id/search_src_text",
+                            null,
+                            null
+                        )
+                        val searchText = searchView.findViewById<View>(id) as TextView
+                        searchText.typeface = Typeface.DEFAULT_BOLD
+                        searchText.textSize = 18F
+
                         //val listView = v.findViewById<ListView>(R.id.listView)
                         //val names = arrayOf("Android", "Java", "Php", "Python", "C", "C++", "Kotlin")
 
@@ -231,12 +245,42 @@ class ActivitiesFragment : Fragment() , HomeActivity.IOnBackPressed {
                         //getting the db info for popup
 
                         // MMMMM: RecyclerView + CardView (ActivitiesFragment, CartPopUpFragment) -//
-                        val rv = v.findViewById<RecyclerView>(R.id.recyclerView)
+                        // MMMMM: createItems()
                         val activities = mutableListOf<DataSnapshot>()
-                        layoutManager = LinearLayoutManager(requireContext())
-                        rv.layoutManager = layoutManager
-                        adapter = RecyclerAdapter(requireContext(), activities)
-                        rv.adapter = adapter
+                        // MMMMM: setUpRecyclerView()
+                        cartActivityAdapter = CartActivityAdapter(requireContext(), activities)
+                        val cartActivityRecyclerView = v.findViewById<DragDropSwipeRecyclerView>(R.id.cartActivityRecyclerView)
+                        cartActivityRecyclerView.layoutManager = LinearLayoutManager(requireContext())
+                        cartActivityRecyclerView.adapter = cartActivityAdapter
+                        cartActivityRecyclerView.orientation = DragDropSwipeRecyclerView.ListOrientation.VERTICAL_LIST_WITH_VERTICAL_DRAGGING
+                        cartActivityRecyclerView.reduceItemAlphaOnSwiping = true // onSwipe: fades out item
+
+                        val onItemSwipeListener = object: OnItemSwipeListener<DataSnapshot> {
+                            override fun onItemSwiped(
+                                position: Int,
+                                direction: OnItemSwipeListener.SwipeDirection,
+                                item: DataSnapshot
+                            ): Boolean {
+                                // Testing
+                                Log.d("Activities", "Position = $position, Direction = $direction, Item = $item")
+
+                                when (direction) {
+                                    OnItemSwipeListener.SwipeDirection.RIGHT_TO_LEFT -> {
+                                        Toast.makeText(requireContext(), "$item deleted", Toast.LENGTH_SHORT).show()
+                                        // TODO: Add deleted code
+                                    }
+
+                                    OnItemSwipeListener.SwipeDirection.LEFT_TO_RIGHT -> {
+                                        Toast.makeText(requireContext(), "$item added to calendar", Toast.LENGTH_SHORT).show()
+                                        // TODO: Add added to calendar code
+                                    }
+                                    else -> return false
+                                }
+                                return false
+                            }
+                        }
+                        cartActivityRecyclerView.swipeListener = onItemSwipeListener
+
                         // MMMMM: -----------------------------------------------------------------//
                         var activityInfo = db.child("users").child(userID.toString()).get().addOnSuccessListener {
                             //Popup window for the cart
@@ -247,15 +291,16 @@ class ActivitiesFragment : Fragment() , HomeActivity.IOnBackPressed {
                                 allTheStuff.forEach{
                                     act ->
                                     tempCartActivityText += act.child("title").value.toString() + "\n"
-                                    // MMMMM: Add to list to send to RecyclerAdapter class.
+                                    // MMMMM: Add each activity in user's cart in database to list to send to RecyclerAdapter class.
                                     activities.add(act)
                                 }
                             }
                             // NOTES: v.findViewById<TextView>(R.id.cart_activity_title).text = tempCartActivityText
                             // NOTES: var tempCartActivityText = "Activity 1\nActivity 4\nActivity 10\n"
                             // MMMMM: Update RecyclerAdapter with changes.
-                            adapter?.notifyDataSetChanged()
+                            cartActivityAdapter.notifyDataSetChanged()
                         }
+
                         // show the popup window
                         // which view you pass in doesn't matter, it is only used for the window token
                         popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0)

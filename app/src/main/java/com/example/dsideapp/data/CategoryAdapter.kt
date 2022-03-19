@@ -16,7 +16,7 @@ class CategoryAdapter(var categoriesList: MutableList<String>) :
         viewType: Int
     ): ViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
-        val view: View = layoutInflater.inflate(R.layout.row_item, parent, false)
+        val view: View = layoutInflater.inflate(R.layout.item_category, parent, false)
         return ViewHolder(view)
     }
 
