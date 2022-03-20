@@ -5,13 +5,17 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ArrayAdapter
 import androidx.fragment.app.Fragment
 import com.example.dsideapp.R
 import com.example.dsideapp.auth
 import com.example.dsideapp.data.*
 import com.google.firebase.database.FirebaseDatabase
 import com.lorentzos.flingswipe.SwipeFlingAdapterView
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 import java.util.ArrayList
 import kotlin.random.Random
 
@@ -22,7 +26,7 @@ private const val API_KEY = "aw6IUY4GfgjgDLrCrYzQQTYLmopzS5y-_G8u3KbuI3ksuVNdRsQ
 
 class SuggestionsChildFragment : Fragment() {
     var s: ArrayList<String>? = null
-    var arrayAdapter: ArrayAdapter<String>? = null
+    lateinit var suggestionAdapter: SuggestionAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -38,6 +42,31 @@ class SuggestionsChildFragment : Fragment() {
         var userID = authorization.currentUser?.uid
         var db = FirebaseDatabase.getInstance().getReference()
 
+        // MMMMM: Get a list of YelpRestaurants  ----------------------------------------------------//
+        val restaurants = mutableListOf<YelpRestaurant>()
+        val retrofit = Retrofit.Builder().baseUrl(BASE_URL).addConverterFactory(GsonConverterFactory.create()).build()
+        val yelpService = retrofit.create(YelpService::class.java)                  // A filter just reduces # of results due to specificity
+        yelpService.searchRestaurants("Bearer $API_KEY", null, null,"bars",null,"1",null,null,null,"Los Angeles", ).enqueue(object :
+            Callback<YelpSearchResult> {
+            override fun onResponse(call: Call<YelpSearchResult>, response: Response<YelpSearchResult>) {
+                Log.i(TAG, "onResponse $response")
+                val body = response.body()
+               // Log.w("\n\nHELP\n\n", body.toString())
+                if (body == null) {
+                    Log.w(TAG, "Did not receive valid response body from Yelp API... exiting")
+                    return
+                }
+                restaurants.addAll(body.restaurants)
+
+//                adapter?.notifyDataSetChanged()
+//                Log.w(TAG, "Done")
+            }
+            override fun onFailure(call: Call<YelpSearchResult>, t: Throwable) {
+                Log.i(TAG, "onFailure $t")
+            }
+        })
+        // MMMMM: -----------------------------------------------------------------------------------//
+
         s = ArrayList()
         s!!.add("ONE")
         s!!.add("TWO")
@@ -46,15 +75,16 @@ class SuggestionsChildFragment : Fragment() {
         s!!.add("FIVE")
         s!!.add("SIX")
         s!!.add("SEVEN")
-        val swipeFlingAdapterView = v.findViewById<View>(R.id.card) as SwipeFlingAdapterView
+        val swipeFlingAdapterView = v.findViewById<View>(R.id.cardSwipeView) as SwipeFlingAdapterView
         // Must use requireContext() vs. "this" to get a Context because a Fragment is not a Context.
-        arrayAdapter = ArrayAdapter<String>(requireContext(), R.layout.activity_card, R.id.activity_title, s!!)
-        swipeFlingAdapterView.adapter = arrayAdapter
-        swipeFlingAdapterView.setFlingListener(object : SwipeFlingAdapterView.onFlingListener {
+        // XXXXX: Replace ArrayAdapter w/ SuggestionsAdapter to bind s, then to list of YelpRestaurants.
+        suggestionAdapter = SuggestionAdapter(requireContext(), R.layout.activity_card, R.id.activity_title, s!!)
+        swipeFlingAdapterView.adapter = suggestionAdapter
 
+        swipeFlingAdapterView.setFlingListener(object : SwipeFlingAdapterView.onFlingListener {
             override fun removeFirstObjectInAdapter() {
                 s!!.removeAt(0)
-                (arrayAdapter as ArrayAdapter<String>).notifyDataSetChanged()
+                (suggestionAdapter).notifyDataSetChanged()
             }
             override fun onLeftCardExit(o: Any) {}
             override fun onRightCardExit(o: Any) {
@@ -82,7 +112,7 @@ class SuggestionsChildFragment : Fragment() {
                     writeNewActivity(userId = userID.toString(), id = randID, title = o.toString(),
                         image = "", business_name = "", price = "")
                 }
-                // MMMMM: addToCart() -------------------------------------------------------------//
+                // MMMMM: -------------------------------------------------------------------------//
 
             }
             override fun onAdapterAboutToEmpty(i: Int) {}
