@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"            android:background="@color/purple_400"
+    tools:context=".fragments.CreatePollFragment">
+
+    <FrameLayout
+        android:id="@+id/pollTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/pink"
+        android:backgroundTint="@color/purple_400"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Create Poll"
+            android:backgroundTint="@color/purple_400"
+            android:textColor="@color/white"
+            android:textSize="34sp"
+            android:textStyle="bold" />
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/frameLayout"
+        android:layout_width="410dp"
+        android:layout_height="670dp"
+
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/pollTitle">
+        <Button
+            android:id="@+id/exitPollCreateButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Exit"
+            android:translationX="300dp"
+            android:translationY="50dp" />
+
+        <EditText
+            android:id="@+id/pollUserTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/purple_400"
+            android:translationX="160dp"
+            android:translationY="200dp"
+            android:text="Title"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <EditText
+            android:id="@+id/pollOption1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/purple_400"
+            android:translationX="160dp"
+            android:translationY="250dp"
+            android:text="Option 1"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <EditText
+            android:id="@+id/pollOption2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Option 2"
+            android:translationX="160dp"
+            android:translationY="300dp"
+            app:layout_constraintBottom_toBottomOf="@+id/pollOption1" />
+
+        <EditText
+            android:id="@+id/pollOption3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Option 3"
+            android:translationX="160dp"
+            android:translationY="350dp" />
+
+        <EditText
+            android:id="@+id/pollOption4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Option 4"
+            android:translationX="160dp"
+            android:translationY="400dp" />
+
+        <EditText
+            android:id="@+id/pollOption5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Option 5"
+            android:translationX="160dp"
+            android:translationY="450dp" />
+
+        <EditText
+            android:id="@+id/pollOption6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Option 6"
+            android:translationX="160dp"
+            android:translationY="500dp" />
+
+        <EditText
+            android:id="@+id/pollTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Time"
+            android:translationX="160dp"
+            android:translationY="550dp" />
+
+        <Button
+            android:id="@+id/pollCreateButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Create"
+            android:translationX="160dp"
+            android:translationY="600dp" />
+    </FrameLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
