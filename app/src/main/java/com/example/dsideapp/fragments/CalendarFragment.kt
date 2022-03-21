@@ -54,8 +54,8 @@ class CalendarFragment : Fragment() {
                     inflater?.inflate(com.example.dsideapp.R.layout.activity_dailyview, null)
 
                 // create the popup window
-                val width = LinearLayout.LayoutParams.WRAP_CONTENT
-                val height = LinearLayout.LayoutParams.WRAP_CONTENT
+                val width = LinearLayout.LayoutParams.FILL_PARENT
+                val height = LinearLayout.LayoutParams.FILL_PARENT
                 val focusable = true // lets taps outside the popup also dismiss it
                 val popupWindow = PopupWindow(popupView, width, height, focusable)
 
@@ -63,7 +63,7 @@ class CalendarFragment : Fragment() {
                 // which view you pass in doesn't matter, it is only used for the window tolken
                 popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0)
 
-//                var windowButton: Button = viewOfLayout.findViewById(R.id.window) as Button
+                var windowButton: Button = viewOfLayout.findViewById(R.id.closewindow) as Button
 //
 //                windowButton.setOnClickListener(View.OnClickListener {
 //                    popupWindow.dismiss()
