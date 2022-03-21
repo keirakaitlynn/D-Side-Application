@@ -3,11 +3,6 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/Users/estef/OneDrive/Documents/GitHub/D-Side-Application/app/src/main/res/layout/activity_dailyview.xml" value="0.6" />
-        <entry key="..\:/Users/estef/OneDrive/Documents/GitHub/D-Side-Application/app/src/main/res/layout/fragment_account.xml" value="0.15715579710144928" />
-        <entry key="..\:/Users/estef/OneDrive/Documents/GitHub/D-Side-Application/app/src/main/res/layout/fragment_calendar.xml" value="0.1" />
-        <entry key="..\:/Users/estef/OneDrive/Documents/GitHub/D-Side-Application/app/src/main/res/layout/hour_cell.xml" value="0.264" />
-        <entry key="..\:/Users/estef/OneDrive/Documents/GitHub/D-Side-Application/app/src/main/res/layout/popup.xml" value="0.1" />
         <entry key="..\:/Users/joshu/AndroidStudioProjects/D-Side-Application_2.0/app/src/main/res/drawable/concerts_icon.xml" value="0.12708333333333333" />
         <entry key="..\:/Users/joshu/AndroidStudioProjects/D-Side-Application_2.0/app/src/main/res/layout/activity_home.xml" value="0.1793478260869565" />
         <entry key="..\:/Users/joshu/AndroidStudioProjects/D-Side-Application_2.0/app/src/main/res/layout/activity_login.xml" value="0.1109375" />
@@ -53,9 +48,12 @@
         <entry key="..\:/Users/keira/AndroidStudioProjects/D-Side-Application/app/src/main/res/layout/old_activity_main.xml" value="0.11481481481481481" />
         <entry key="..\:/Users/keira/AndroidStudioProjects/D-Side-Application/app/src/main/res/menu/bottom_navigation.xml" value="0.1" />
         <entry key="..\:/Users/keira/AndroidStudioProjects/D-Side-Application/app/src/main/res/menu/navbar.xml" value="0.1" />
+        <entry key="..\:/Users/keira/AppData/Local/Android/Sdk/platforms/android-31/data/res/layout/simple_list_item_1.xml" value="0.2463768115942029" />
         <entry key="..\:/Users/keira/StudioProjects/D-Side-Application/app/src/main/res/drawable/activities_icon.xml" value="0.1" />
         <entry key="..\:/Users/keira/StudioProjects/D-Side-Application/app/src/main/res/drawable/btn_bg.xml" value="0.3140625" />
         <entry key="..\:/Users/keira/StudioProjects/D-Side-Application/app/src/main/res/drawable/card_2.xml" value="0.225" />
+        <entry key="..\:/Users/keira/StudioProjects/D-Side-Application/app/src/main/res/drawable/concerts_icon_navbar.xml" value="0.15925925925925927" />
+        <entry key="..\:/Users/keira/StudioProjects/D-Side-Application/app/src/main/res/drawable/custom_background.xml" value="0.3164102564102564" />
         <entry key="..\:/Users/keira/StudioProjects/D-Side-Application/app/src/main/res/drawable/ic_account_selected.xml" value="0.1595" />
         <entry key="..\:/Users/keira/StudioProjects/D-Side-Application/app/src/main/res/drawable/ic_location.xml" value="0.26614583333333336" />
         <entry key="..\:/Users/keira/StudioProjects/D-Side-Application/app/src/main/res/drawable/rectangle_round.xml" value="0.1235" />
@@ -67,9 +65,10 @@
         <entry key="..\:/Users/keira/StudioProjects/D-Side-Application/app/src/main/res/layout/activity_login.xml" value="0.2269021739130435" />
         <entry key="..\:/Users/keira/StudioProjects/D-Side-Application/app/src/main/res/layout/activity_main.xml" value="0.22" />
         <entry key="..\:/Users/keira/StudioProjects/D-Side-Application/app/src/main/res/layout/cart_activity_card.xml" value="0.25271739130434784" />
+        <entry key="..\:/Users/keira/StudioProjects/D-Side-Application/app/src/main/res/layout/custom_background.xml" value="0.24909420289855072" />
         <entry key="..\:/Users/keira/StudioProjects/D-Side-Application/app/src/main/res/layout/details.xml" value="0.2563405797101449" />
         <entry key="..\:/Users/keira/StudioProjects/D-Side-Application/app/src/main/res/layout/fragment_account.xml" value="0.2269021739130435" />
-        <entry key="..\:/Users/keira/StudioProjects/D-Side-Application/app/src/main/res/layout/fragment_activities.xml" value="0.22" />
+        <entry key="..\:/Users/keira/StudioProjects/D-Side-Application/app/src/main/res/layout/fragment_activities.xml" value="0.16666666666666666" />
         <entry key="..\:/Users/keira/StudioProjects/D-Side-Application/app/src/main/res/layout/fragment_cart_pop_up.xml" value="0.5" />
         <entry key="..\:/Users/keira/StudioProjects/D-Side-Application/app/src/main/res/layout/fragment_child_dice.xml" value="0.29739583333333336" />
         <entry key="..\:/Users/keira/StudioProjects/D-Side-Application/app/src/main/res/layout/fragment_child_suggestions.xml" value="0.16666666666666666" />
@@ -78,11 +77,15 @@
         <entry key="..\:/Users/keira/StudioProjects/D-Side-Application/app/src/main/res/layout/fragment_concerts.xml" value="0.2269021739130435" />
         <entry key="..\:/Users/keira/StudioProjects/D-Side-Application/app/src/main/res/layout/fragment_dice.xml" value="0.2477355072463768" />
         <entry key="..\:/Users/keira/StudioProjects/D-Side-Application/app/src/main/res/layout/fragment_home.xml" value="0.19927536231884058" />
+        <entry key="..\:/Users/keira/StudioProjects/D-Side-Application/app/src/main/res/layout/fragment_info_pop_up.xml" value="0.14361702127659576" />
+        <entry key="..\:/Users/keira/StudioProjects/D-Side-Application/app/src/main/res/layout/fragment_search_pop_up.xml" value="0.24909420289855072" />
         <entry key="..\:/Users/keira/StudioProjects/D-Side-Application/app/src/main/res/layout/fragment_suggestions.xml" value="0.21920289855072464" />
         <entry key="..\:/Users/keira/StudioProjects/D-Side-Application/app/src/main/res/layout/fragment_tester_activity.xml" value="0.17864583333333334" />
         <entry key="..\:/Users/keira/StudioProjects/D-Side-Application/app/src/main/res/layout/fragment_wheel.xml" value="0.7950581395348837" />
         <entry key="..\:/Users/keira/StudioProjects/D-Side-Application/app/src/main/res/layout/item_restaurant.xml" value="0.20833333333333334" />
+        <entry key="..\:/Users/keira/StudioProjects/D-Side-Application/app/src/main/res/layout/row_item.xml" value="0.5" />
         <entry key="..\:/Users/keira/StudioProjects/D-Side-Application/app/src/main/res/layout/view_contents.xml" value="0.3333333333333333" />
+        <entry key="..\:/Users/keira/StudioProjects/D-Side-Application/app/src/main/res/menu/main_menu.xml" value="0.1" />
         <entry key="..\:/Users/thevi/StudioProjects/D-Side-Application/app/src/main/res/layout/activity_home.xml" value="0.22" />
         <entry key="..\:/Users/thevi/StudioProjects/D-Side-Application/app/src/main/res/layout/fragment_calendar.xml" value="0.1" />
       </map>

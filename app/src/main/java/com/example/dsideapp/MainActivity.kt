@@ -78,7 +78,7 @@ class MainActivity : AppCompatActivity() {
 
         //This will overwrite the data if the user already exists in the db
         //Should probably go in createAccount and only be used if userId doesn't exist in db yet
-        //writeNewUser(auth.uid.toString(), "SuperObama1947","barackobama42@gmail.com" )
+        //writeNewUser(auth.uid.toString(), "goldfish","goldfish@gmail.com" )
     }
     public override fun onStart() {
         super.onStart()

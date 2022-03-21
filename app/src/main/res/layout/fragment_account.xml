@@ -6,7 +6,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:background="@color/pink"
     tools:context=".fragments.AccountFragment">
-
+<!-- -->
     <ScrollView
         android:id="@+id/scrollView2"
         android:layout_width="298dp"
@@ -119,6 +119,13 @@
                     android:textDirection="ltr"
                     android:background="@color/black_overlay" />
             </ScrollView>
+            <ImageButton
+                android:id="@+id/log_out"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/logout"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
             <Button
                 android:id="@+id/changesSaveButton"
                 android:layout_width="match_parent"
@@ -128,4 +135,13 @@
         </LinearLayout>
 
     </ScrollView>
+<!--
+    <ImageButton
+        android:id="@+id/log_out"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@mipmap/logout"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />-->
+
 </androidx.constraintlayout.widget.ConstraintLayout>
