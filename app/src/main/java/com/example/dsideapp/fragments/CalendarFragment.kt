@@ -37,6 +37,8 @@ class CalendarFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         var v  = inflater.inflate(R.layout.fragment_calendar, container, false)
+        auth = Firebase.auth
+        val database = FirebaseDatabase.getInstance()
         /*
         Below is all test code to add item to event when calendar is opened. Refer off of this code when using "Add Event to Calendar"
         */
@@ -94,9 +96,28 @@ class CalendarFragment : Fragment() {
 
         //Popup Code
 
+        val activities = arrayListOf<ActivityObject>()
+        val ref = database.reference.child("users").child(auth.uid.toString()).child("data").child("activities")
+        ref.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                for (productSnapshot in dataSnapshot.children) {
+                    val activity = productSnapshot.getValue(ActivityObject::class.java)
+                    activities.add(activity!!)
+                }
+                for (activityItr in activities) {
+                    System.out.println(activityItr)
+                }
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {
+                throw databaseError.toException()
+            }
+        })
 
         // inflate the layout of the popup window
         // create the popup window
+
+        /*
         val width = LinearLayout.LayoutParams.WRAP_CONTENT
         val height = LinearLayout.LayoutParams.WRAP_CONTENT
         val focusable = true // lets taps outside the popup also dismiss it
@@ -110,6 +131,8 @@ class CalendarFragment : Fragment() {
             popupWindow.dismiss()
             true
         }
+         */
+
 
         // Variables for easy manipulation of objects in the activity_main.xml file   🙂
         calendar = v.findViewById<View>(R.id.calendar) as CalendarView
