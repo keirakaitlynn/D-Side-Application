@@ -96,7 +96,7 @@ class CalendarFragment : Fragment() {
         }
         var index = activities.size
 
-        database.reference.child("users").child(auth.uid.toString()).child("data").child("calendar").child(i.toString()).setValue(activities.first())
+        database.reference.child("users").child(auth.uid.toString()).child("data").child("events").child(i.toString()).setValue(activities.first())
          */
 
         //Popup Code
@@ -144,11 +144,14 @@ class CalendarFragment : Fragment() {
                             // show the popup window
                             // which view you pass in doesn't matter, it is only used for the window token
                             popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0)
+                            v.setOnTouchListener { v, event ->
+                                popupWindow.dismiss()
+                                true
+                            }
                         }
                     }
                 }
             }
-
             override fun onCancelled(databaseError: DatabaseError) {
                 throw databaseError.toException()
             }
