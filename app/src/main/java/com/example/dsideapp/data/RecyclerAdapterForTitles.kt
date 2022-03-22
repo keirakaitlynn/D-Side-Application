@@ -236,7 +236,7 @@ lateinit var temp2: ViewGroup
                     //
                 }
 
-
+//
                 var popupView = LayoutInflater.from(getActivity(context)).inflate(layoutThingy, null);
                 var popupWindow = PopupWindow(v, WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT);
                 popupWindow.showAtLocation(popupView, Gravity.CENTER, 0, 0);
