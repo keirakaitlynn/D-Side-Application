@@ -62,13 +62,16 @@ class CalendarFragment : Fragment() {
                 // show the popup window
                 // which view you pass in doesn't matter, it is only used for the window tolken
                 popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0)
+                var windowButton: Button
+                lateinit var tempView: View
+                tempView = inflater.inflate(R.layout.activity_dailyview, container, false)
 
-//                var windowButton: Button = viewOfLayout.findViewById(R.id.closewindow) as Button
-//
-//                windowButton.setOnClickListener(View.OnClickListener {
-//                    popupWindow.dismiss()
-//                })
-                 //dismiss the popup window when touched
+                windowButton= tempView.findViewById(R.id.closewindow)
+
+                windowButton.setOnClickListener(View.OnClickListener {
+                    popupWindow.dismiss()
+                })
+                //dismiss the popup window when touched
                 popupView?.setOnTouchListener { v, event ->
                     popupWindow.dismiss()
                     true
