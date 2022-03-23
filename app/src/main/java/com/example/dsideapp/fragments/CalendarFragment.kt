@@ -2,6 +2,7 @@ package com.example.dsideapp.fragments
 
 import android.content.Context.LAYOUT_INFLATER_SERVICE
 import android.os.Bundle
+import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
@@ -50,29 +51,31 @@ class CalendarFragment : Fragment() {
 
                 // inflate the layout of the popup window
                 //val inflater = getSystemService(LAYOUT_INFLATER_SERVICE) as LayoutInflater?
-                val popupView: View? =
-                    inflater?.inflate(com.example.dsideapp.R.layout.activity_dailyview, null)
-
+//                val popupView: View? =
+//                    inflater?.inflate(com.example.dsideapp.R.layout.activity_dailyview, null)
+                viewOfLayout = inflater.inflate(R.layout.activity_dailyview, null)
                 // create the popup window
                 val width = LinearLayout.LayoutParams.FILL_PARENT
                 val height = LinearLayout.LayoutParams.FILL_PARENT
                 val focusable = true // lets taps outside the popup also dismiss it
-                val popupWindow = PopupWindow(popupView, width, height, focusable)
+                val popupWindow = PopupWindow(viewOfLayout, width, height, focusable)
 
                 // show the popup window
                 // which view you pass in doesn't matter, it is only used for the window tolken
-                popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0)
+                popupWindow.showAtLocation(view, Gravity.CENTER, 0, 1)
                 var windowButton: Button
                 lateinit var tempView: View
-                tempView = inflater.inflate(R.layout.activity_dailyview, container, false)
 
-                windowButton= tempView.findViewById(R.id.closewindow)
+                //var exitButton = v.findViewById<Button>(R.id.exitPollCreateButton)
+                windowButton= viewOfLayout.findViewById<Button>(R.id.lol)
 
-                windowButton.setOnClickListener(View.OnClickListener {
+                windowButton.setOnClickListener{
+                    Log.w("", "PLEASE WOOOOORK PopUp Window button")
                     popupWindow.dismiss()
-                })
+                    true
+                }
                 //dismiss the popup window when touched
-                popupView?.setOnTouchListener { v, event ->
+                viewOfLayout?.setOnTouchListener { v, event ->
                     popupWindow.dismiss()
                     true
                 }
