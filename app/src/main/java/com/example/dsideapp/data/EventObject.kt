@@ -2,7 +2,7 @@ package com.example.dsideapp.data
 
 import java.util.*
 
-class EventObject (
+data class EventObject (
     var event_title: String? = null,
     var start_time: Calendar? = null,
     var end_time: Calendar? = null,
