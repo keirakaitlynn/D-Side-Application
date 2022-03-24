@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".fragments.CalendarFragment">
+
+    <RelativeLayout
+        android:id="@+id/infoPopUpViewInfo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:transformPivotY="108dp">
+        <TextView
+            android:id="@+id/popUpTextFeedback"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            android:textColor="@color/black_overlay"
+            android:text="How was the event?"
+            android:textSize="10sp"/>
+        <TextView
+            android:id="@+id/popUpEventName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:textColor="@color/black_overlay"
+            android:text=""
+            android:textSize="10sp"/>
+
+        <ImageButton
+            android:id="@+id/like_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/thumbsdown"
+            android:background="@color/purple_400"
+            />
+
+        <ImageButton
+            android:id="@+id/dislike_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/thumbsup"
+            android:background="@color/purple_400"
+            />
+        />
+    </RelativeLayout>
+</FrameLayout>
