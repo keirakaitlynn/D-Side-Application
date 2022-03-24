@@ -161,10 +161,7 @@ class ActivitiesFragment : Fragment() , HomeActivity.IOnBackPressed {
                         //val names = arrayOf("Android", "Java", "Php", "Python", "C", "C++", "Kotlin")
 
                         var categories = ArrayList<String>()
-                        categories.add("Cake")
-                        categories.add("Cars")
                         categories.add("Coffee & Tea")
-                        categories.add("Cookies")
                         categories.add("Juice Bars & Smoothies")
                         categories.add("Dance Clubs")
                         categories.add("Dive Bars")
@@ -176,10 +173,8 @@ class ActivitiesFragment : Fragment() , HomeActivity.IOnBackPressed {
 
                         val categoryRecyclerView = v.findViewById<RecyclerView>(R.id.categoryRecyclerView)
                         val categoryAdapter = CategoryAdapter(categories)
-                        categoryRecyclerView.setLayoutManager(LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false))
+                        categoryRecyclerView.setLayoutManager(LinearLayoutManager(requireContext()))
                         categoryRecyclerView.setAdapter(categoryAdapter)
-
-                        categoryRecyclerView.setNestedScrollingEnabled(false);
 
                         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
                             override fun onQueryTextChange(newText: String?): Boolean {
