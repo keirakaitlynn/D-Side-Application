@@ -156,7 +156,7 @@ class ActivitiesFragment : Fragment() , HomeActivity.IOnBackPressed {
                     val searchButton = v.findViewById<Button>(R.id.search_button)
                     searchButton.setOnClickListener{
                         //// NNNNN: ====================================================================
-                        val searchView = v.findViewById<SearchView>(R.id.serachView)
+                        val searchView = v.findViewById<SearchView>(R.id.searchView)
                         //val listView = v.findViewById<ListView>(R.id.listView)
                         //val names = arrayOf("Android", "Java", "Php", "Python", "C", "C++", "Kotlin")
 
