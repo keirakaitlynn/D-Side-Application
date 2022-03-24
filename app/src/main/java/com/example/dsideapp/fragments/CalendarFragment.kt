@@ -67,7 +67,7 @@ class CalendarFragment : Fragment() {
                 var windowButton: Button
                 lateinit var tempView: View
 
-                //var exitButton = v.findViewById<Button>(R.id.exitPollCreateButton)
+                //var exitButton = v.findViewById<Button>(R.id.exitPollCreateButton)//
                 windowButton= viewOfLayout.findViewById<Button>(R.id.lol)
 
                 windowButton.setOnClickListener{
