@@ -33,7 +33,7 @@ class CalendarFragment : Fragment() {
         calendar!!
             .setOnDateChangeListener {
                 // In here we can probably just make a popup / change page with a view of the day and stuff
-                // and query the DB to actually get the event info 🙂
+                // and query the DB to actually get the event info
 
                     _, year, month, dayOfMonth->
 
