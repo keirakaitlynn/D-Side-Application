@@ -22,7 +22,7 @@ import com.google.firebase.database.ValueEventListener
 import java.util.*
 import kotlin.random.Random
 private val createThePollFragment = CreatePollFragment()
-
+//
 class PollsFragment : Fragment() {
     private var adapter: RecyclerView.Adapter<RecyclerAdapterForTitles.ViewHolder>? = null
     private var layoutManager: RecyclerView.LayoutManager? = null
