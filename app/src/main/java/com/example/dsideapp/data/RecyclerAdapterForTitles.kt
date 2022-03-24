@@ -80,44 +80,65 @@ lateinit var temp2: ViewGroup
                     layoutThingy = R.layout.fragment_vote6_poll
                     val b6 = v.findViewById<Button>(R.id.button6)
                     b6.text = p.poll_options[5]
+                    val b1 = v.findViewById<Button>(R.id.button)
+                    b1.text = p.poll_options[0]
+                    val b2 = v.findViewById<Button>(R.id.button2)
+                    b2.text = p.poll_options[1]
+                    val b3 = v.findViewById<Button>(R.id.button3)
+                    b3.text = p.poll_options[2]
+                    val b4 = v.findViewById<Button>(R.id.button4)
+                    b4.text = p.poll_options[3]
+                    val b5 = v.findViewById<Button>(R.id.button5)
+                    b5.text = p.poll_options[4]
+                    var popupView = LayoutInflater.from(getActivity(context)).inflate(layoutThingy, null);
+                    var popupWindow = PopupWindow(v, WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT);
+                    popupWindow.showAtLocation(popupView, Gravity.CENTER, 0, 0);
+
                     b6.setOnClickListener{
                         db.child("Public Polls").child(p.id.toString()).child("opt6Vote")
                             .setValue(""+(p.poll_vote_count!![5]+1))
+                        popupWindow.dismiss()
+                        true
                     }
                     //
-                    val b5 = v.findViewById<Button>(R.id.button5)
-                    b5.text = p.poll_options[4]
+
                     b5.setOnClickListener{
                         db.child("Public Polls").child(p.id.toString()).child("opt5Vote")
                             .setValue(""+(p.poll_vote_count!![4]+1))
+                        popupWindow.dismiss()
+                        true
                     }
                     //
-                    val b4 = v.findViewById<Button>(R.id.button4)
-                    b4.text = p.poll_options[3]
+
                     b4.setOnClickListener{
                         db.child("Public Polls").child(p.id.toString()).child("opt4Vote")
                             .setValue(""+(p.poll_vote_count!![3]+1))
+                        popupWindow.dismiss()
+                        true
                     }
                     //
-                    val b3 = v.findViewById<Button>(R.id.button3)
-                    b3.text = p.poll_options[2]
+
                     b3.setOnClickListener{
                         db.child("Public Polls").child(p.id.toString()).child("opt3Vote")
                             .setValue(""+(p.poll_vote_count!![2]+1))
+                        popupWindow.dismiss()
+                        true
                     }
                     //
-                    val b2 = v.findViewById<Button>(R.id.button2)
-                    b2.text = p.poll_options[1]
+
                     b2.setOnClickListener{
                         db.child("Public Polls").child(p.id.toString()).child("opt2Vote")
                             .setValue(""+(p.poll_vote_count!![1]+1))
+                        popupWindow.dismiss()
+                        true
                     }
                     //
-                    val b1 = v.findViewById<Button>(R.id.button)
-                    b1.text = p.poll_options[0]
+
                     b1.setOnClickListener{
                         db.child("Public Polls").child(p.id.toString()).child("opt1Vote")
                             .setValue(""+(p.poll_vote_count!![0]+1))
+                        popupWindow.dismiss()
+                        true
                     }
                     //
                 }
@@ -126,37 +147,55 @@ lateinit var temp2: ViewGroup
                     layoutThingy = R.layout.fragment_vote5_poll
                     val b5 = v.findViewById<Button>(R.id.button5)
                     b5.text = p.poll_options[4]
+                    val b1 = v.findViewById<Button>(R.id.button)
+                    b1.text = p.poll_options[0]
+                    val b2 = v.findViewById<Button>(R.id.button2)
+                    b2.text = p.poll_options[1]
+                    val b3 = v.findViewById<Button>(R.id.button3)
+                    b3.text = p.poll_options[2]
+                    val b4 = v.findViewById<Button>(R.id.button4)
+                    b4.text = p.poll_options[3]
+                    var popupView = LayoutInflater.from(getActivity(context)).inflate(layoutThingy, null);
+                    var popupWindow = PopupWindow(v, WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT);
+                    popupWindow.showAtLocation(popupView, Gravity.CENTER, 0, 0);
+
                     b5.setOnClickListener{
                         db.child("Public Polls").child(p.id.toString()).child("opt5Vote")
                             .setValue(""+(p.poll_vote_count!![4]+1))
+                        popupWindow.dismiss()
+                        true
                     }
                     //
-                    val b4 = v.findViewById<Button>(R.id.button4)
-                    b4.text = p.poll_options[3]
+
                     b4.setOnClickListener{
                         db.child("Public Polls").child(p.id.toString()).child("opt4Vote")
                             .setValue(""+(p.poll_vote_count!![3]+1))
+                        popupWindow.dismiss()
+                        true
                     }
                     //
-                    val b3 = v.findViewById<Button>(R.id.button3)
-                    b3.text = p.poll_options[2]
+
                     b3.setOnClickListener{
                         db.child("Public Polls").child(p.id.toString()).child("opt3Vote")
                             .setValue(""+(p.poll_vote_count!![2]+1))
+                        popupWindow.dismiss()
+                        true
                     }
                     //
-                    val b2 = v.findViewById<Button>(R.id.button2)
-                    b2.text = p.poll_options[1]
+
                     b2.setOnClickListener{
                         db.child("Public Polls").child(p.id.toString()).child("opt2Vote")
                             .setValue(""+(p.poll_vote_count!![1]+1))
+                        popupWindow.dismiss()
+                        true
                     }
                     //
-                    val b1 = v.findViewById<Button>(R.id.button)
-                    b1.text = p.poll_options[0]
+
                     b1.setOnClickListener{
                         db.child("Public Polls").child(p.id.toString()).child("opt1Vote")
                             .setValue(""+(p.poll_vote_count!![0]+1))
+                        popupWindow.dismiss()
+                        true
                     }
                     //
                 }
@@ -165,30 +204,45 @@ lateinit var temp2: ViewGroup
                     layoutThingy = R.layout.fragment_vote4_poll
                     val b4 = v.findViewById<Button>(R.id.button4)
                     b4.text = p.poll_options[3]
+                    val b1 = v.findViewById<Button>(R.id.button)
+                    b1.text = p.poll_options[0]
+                    val b2 = v.findViewById<Button>(R.id.button2)
+                    b2.text = p.poll_options[1]
+                    val b3 = v.findViewById<Button>(R.id.button3)
+                    b3.text = p.poll_options[2]
+                    var popupView = LayoutInflater.from(getActivity(context)).inflate(layoutThingy, null);
+                    var popupWindow = PopupWindow(v, WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT);
+                    popupWindow.showAtLocation(popupView, Gravity.CENTER, 0, 0);
+
                     b4.setOnClickListener{
                         db.child("Public Polls").child(p.id.toString()).child("opt4Vote")
                             .setValue(""+(p.poll_vote_count!![3]+1))
+                        popupWindow.dismiss()
+                        true
                     }
                     //
-                    val b3 = v.findViewById<Button>(R.id.button3)
-                    b3.text = p.poll_options[2]
+
                     b3.setOnClickListener{
                         db.child("Public Polls").child(p.id.toString()).child("opt3Vote")
                             .setValue(""+(p.poll_vote_count!![2]+1))
+                        popupWindow.dismiss()
+                        true
                     }
                     //
-                    val b2 = v.findViewById<Button>(R.id.button2)
-                    b2.text = p.poll_options[1]
+
                     b2.setOnClickListener{
                         db.child("Public Polls").child(p.id.toString()).child("opt2Vote")
                             .setValue(""+(p.poll_vote_count!![1]+1))
+                        popupWindow.dismiss()
+                        true
                     }
                     //
-                    val b1 = v.findViewById<Button>(R.id.button)
-                    b1.text = p.poll_options[0]
+
                     b1.setOnClickListener{
                         db.child("Public Polls").child(p.id.toString()).child("opt1Vote")
                             .setValue(""+(p.poll_vote_count!![0]+1))
+                        popupWindow.dismiss()
+                        true
                     }
                     //
                 }
@@ -197,23 +251,35 @@ lateinit var temp2: ViewGroup
                     layoutThingy = R.layout.fragment_vote3_poll
                     val b3 = v.findViewById<Button>(R.id.button3)
                     b3.text = p.poll_options[2]
+                    val b1 = v.findViewById<Button>(R.id.button)
+                    b1.text = p.poll_options[0]
+                    val b2 = v.findViewById<Button>(R.id.button2)
+                    b2.text = p.poll_options[1]
+                    var popupView = LayoutInflater.from(getActivity(context)).inflate(layoutThingy, null);
+                    var popupWindow = PopupWindow(v, WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT);
+                    popupWindow.showAtLocation(popupView, Gravity.CENTER, 0, 0);
+
                     b3.setOnClickListener{
                         db.child("Public Polls").child(p.id.toString()).child("opt3Vote")
                             .setValue(""+(p.poll_vote_count!![2]+1))
+                        popupWindow.dismiss()
+                        true
                     }
                     //
-                    val b2 = v.findViewById<Button>(R.id.button2)
-                    b2.text = p.poll_options[1]
+
                     b2.setOnClickListener{
                         db.child("Public Polls").child(p.id.toString()).child("opt2Vote")
                             .setValue(""+(p.poll_vote_count!![1]+1))
+                        popupWindow.dismiss()
+                        true
                     }
                     //
-                    val b1 = v.findViewById<Button>(R.id.button)
-                    b1.text = p.poll_options[0]
+
                     b1.setOnClickListener{
                         db.child("Public Polls").child(p.id.toString()).child("opt1Vote")
                             .setValue(""+(p.poll_vote_count!![0]+1))
+                        popupWindow.dismiss()
+                        true
                     }
                     //
                 }
@@ -222,24 +288,32 @@ lateinit var temp2: ViewGroup
                     layoutThingy = R.layout.fragment_vote2_poll
                     val b2 = v.findViewById<Button>(R.id.button2)
                     b2.text = p.poll_options!![1]
+                    val b1 = v.findViewById<Button>(R.id.button)
+                    b1.text = p.poll_options[0]
+                    var popupView = LayoutInflater.from(getActivity(context)).inflate(layoutThingy, null);
+                    var popupWindow = PopupWindow(v, WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT);
+                    popupWindow.showAtLocation(popupView, Gravity.CENTER, 0, 0);
                     b2.setOnClickListener{
                         db.child("Public Polls").child(p.id.toString()).child("opt2Vote")
                             .setValue(""+(p.poll_vote_count!![1]+1))
+                        popupWindow.dismiss()
+                        true
                     }
                     //
-                    val b1 = v.findViewById<Button>(R.id.button)
-                    b1.text = p.poll_options[0]
+
                     b1.setOnClickListener{
                         db.child("Public Polls").child(p.id.toString()).child("opt1Vote")
                             .setValue(""+(p.poll_vote_count!![0]+1))
+                        popupWindow.dismiss()
+                        true
                     }
                     //
                 }
 
 //
-                var popupView = LayoutInflater.from(getActivity(context)).inflate(layoutThingy, null);
-                var popupWindow = PopupWindow(v, WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT);
-                popupWindow.showAtLocation(popupView, Gravity.CENTER, 0, 0);
+                //var popupView = LayoutInflater.from(getActivity(context)).inflate(layoutThingy, null);
+                //var popupWindow = PopupWindow(v, WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT);
+                //popupWindow.showAtLocation(popupView, Gravity.CENTER, 0, 0);
 
 //                val popupWindow = PopupWindow(itemView, width, height, focusable)
                 // show the popup window
