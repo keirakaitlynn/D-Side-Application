@@ -61,7 +61,8 @@ class CalendarFragment : Fragment() {
                 val popupWindow = PopupWindow(viewOfLayout, width, height, focusable)
 
                 // show the popup window
-                // which view you pass in doesn't matter, it is only used for the window tolken
+                // which view you pass in doesn't matter, it is only used for the window tolken or token idk :)
+
                 popupWindow.showAtLocation(view, Gravity.CENTER, 0, 1)
                 var windowButton: Button
                 lateinit var tempView: View
