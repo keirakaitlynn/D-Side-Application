@@ -3,10 +3,11 @@ package com.example.dsideapp.data
 import java.util.*
 
 class EventObject (
-    val id: Calendar? = null,
-    val title: Calendar? = null,
-    val phone_contact: ActivityObject? = null,
-    val users: ArrayList<String>? = null) {
+    val event_title: String? = null,
+    val start_time: Calendar? = null,
+    val end_time: Calendar? = null,
+    val activity: ActivityObject? = null,
+    val users: MutableList<String>? = null) {
     // Null default values create a no-argument default constructor, which is needed
     // for deserialization from a DataSnapshot.
     //Date/Time | Calendar Class - This is something we already have and we definitely should keep to the end. https://developer.android.com/reference/kotlin/android/icu/util/Calendar

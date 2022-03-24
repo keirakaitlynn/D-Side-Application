@@ -1,15 +1,19 @@
 package com.example.dsideapp.childfragments
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import androidx.fragment.app.Fragment
 import com.example.dsideapp.R
+import com.example.dsideapp.auth
 import com.example.dsideapp.data.*
+import com.google.firebase.database.FirebaseDatabase
 import com.lorentzos.flingswipe.SwipeFlingAdapterView
 import java.util.ArrayList
+import kotlin.random.Random
 
 //Main
 private const val TAG = "MainActivity"                              // Used to debug
@@ -28,6 +32,12 @@ class SuggestionsChildFragment : Fragment() {
 
         val v = inflater.inflate(R.layout.fragment_child_suggestions, container, false)
 
+        //Creating db references
+        var authorization = auth
+        var user = authorization.currentUser
+        var userID = authorization.currentUser?.uid
+        var db = FirebaseDatabase.getInstance().getReference()
+
         s = ArrayList()
         s!!.add("ONE")
         s!!.add("TWO")
@@ -41,12 +51,40 @@ class SuggestionsChildFragment : Fragment() {
         arrayAdapter = ArrayAdapter<String>(requireContext(), R.layout.activity_card, R.id.activity_title, s!!)
         swipeFlingAdapterView.adapter = arrayAdapter
         swipeFlingAdapterView.setFlingListener(object : SwipeFlingAdapterView.onFlingListener {
+
             override fun removeFirstObjectInAdapter() {
                 s!!.removeAt(0)
                 (arrayAdapter as ArrayAdapter<String>).notifyDataSetChanged()
             }
             override fun onLeftCardExit(o: Any) {}
-            override fun onRightCardExit(o: Any) {}
+            override fun onRightCardExit(o: Any) {
+                // MMMMM: addToCart() -------------------------------------------------------------//
+                if (userID != null) {
+                    //Creating writeToDB function
+                    fun writeNewActivity(userId: String, id: String, title: String = "None", phone: String = "None",
+                                         image: String = "None", loc_address: String = "None", loc_city: String = "None",
+                                         loc_country:String = "None", loc_zip: String = "None", loc_state: String = "None"
+                                         , business_name: String = "None", price: String = "None") {
+                        val location = LocationObject(loc_address, loc_city, loc_country, loc_zip, loc_state)
+                        val activity = ActivityObject(if(id != "") id else "null", title, phone, image, location, business_name, price)
+                        db.child("users").child(userId).child("data").child("cart").child(if(id != "") id else "null").setValue(activity)
+                    }
+                    //Create random ID tag
+                    var i = 0
+                    var randID = ""
+                    for(i in 1..3){
+                        randID += Random.nextInt(9)
+                    }
+                    for(i in 1..3){
+                        randID += (Random.nextInt(25) + 65).toChar()
+                    }
+                    //Actually saving activity to db
+                    writeNewActivity(userId = userID.toString(), id = randID, title = o.toString(),
+                        image = "", business_name = "", price = "")
+                }
+                // MMMMM: addToCart() -------------------------------------------------------------//
+
+            }
             override fun onAdapterAboutToEmpty(i: Int) {}
             override fun onScroll(v: Float) {}
         })
