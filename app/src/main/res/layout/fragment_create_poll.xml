@@ -30,7 +30,6 @@
         android:id="@+id/frameLayout"
         android:layout_width="410dp"
         android:layout_height="670dp"
-
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/pollTitle">
@@ -49,8 +48,10 @@
             android:backgroundTint="@color/purple_400"
             android:translationX="160dp"
             android:translationY="200dp"
+            android:nextFocusDown="@+id/option1"
             android:text="Title"
-            android:inputType="textEmailAddress"
+            android:inputType="text"
+            android:imeOptions="actionNext"
             app:layout_constraintStart_toStartOf="parent" />
 
         <EditText
@@ -60,8 +61,9 @@
             android:backgroundTint="@color/purple_400"
             android:translationX="160dp"
             android:translationY="250dp"
-            android:inputType="textEmailAddress"
-
+            android:nextFocusDown="@+id/option2"
+            android:inputType="text"
+            android:imeOptions="actionNext"
             android:text="Option 1"
             app:layout_constraintStart_toStartOf="parent" />
 
@@ -70,8 +72,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Option 2"
+            android:nextFocusDown="@+id/option3"
             android:translationX="160dp"
-            android:inputType="textEmailAddress"
+            android:inputType="text"
+            android:imeOptions="actionNext"
 
             android:translationY="300dp"
             app:layout_constraintBottom_toBottomOf="@+id/pollOption1" />
@@ -80,8 +84,9 @@
             android:id="@+id/pollOption3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:inputType="textEmailAddress"
-
+            android:inputType="text"
+            android:imeOptions="actionNext"
+            android:nextFocusDown="@+id/option4"
             android:text="Option 3"
             android:translationX="160dp"
             android:translationY="350dp" />
@@ -89,8 +94,9 @@
         <EditText
             android:id="@+id/pollOption4"
             android:layout_width="wrap_content"
-            android:inputType="textEmailAddress"
-
+            android:inputType="text"
+            android:imeOptions="actionNext"
+            android:nextFocusDown="@+id/option5"
             android:layout_height="wrap_content"
             android:text="Option 4"
             android:translationX="160dp"
@@ -100,8 +106,9 @@
             android:id="@+id/pollOption5"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:inputType="textEmailAddress"
-
+            android:inputType="text"
+            android:imeOptions="actionNext"
+            android:nextFocusDown="@+id/option6"
             android:text="Option 5"
             android:translationX="160dp"
             android:translationY="450dp" />
@@ -111,16 +118,18 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Option 6"
-            android:inputType="textEmailAddress"
-
+            android:inputType="text"
+            android:imeOptions="actionNext"
+            android:nextFocusDown="@+id/pollTime"
             android:translationX="160dp"
             android:translationY="500dp" />
 
         <EditText
             android:id="@+id/pollTime"
             android:layout_width="wrap_content"
-            android:inputType="textEmailAddress"
-
+            android:inputType="text"
+            android:imeOptions="actionNext"
+            android:nextFocusDown="@+id/pollCreateButton"
             android:layout_height="wrap_content"
             android:text="Time"
             android:translationX="160dp"

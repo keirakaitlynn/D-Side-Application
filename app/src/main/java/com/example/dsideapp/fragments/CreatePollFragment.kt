@@ -60,16 +60,36 @@ class CreatePollFragment : Fragment() {
 
         createButton.setOnClickListener {
             //Getting the options for the poll
-            pollOptions.add(option1.text.toString())
-            pollOptions.add(option2.text.toString())
-            pollOptions.add(option3.text.toString())
-            pollOptions.add(option4.text.toString())
-            pollOptions.add(option5.text.toString())
-            pollOptions.add(option6.text.toString())
-            //Making sure poll options, guaranteed, has 6 elements
-            while (pollOptions.size < 6) {
-                pollOptions.add("None")
+            //Getting the options for the poll
+            //If nothing is entered, we don't add it to list
+            if (option1.text.toString()!="option1"){
+                pollOptions.add(option1.text.toString())
             }
+            if (option2.text.toString()!="option2"){
+                pollOptions.add(option2.text.toString())
+            }
+            if (option3.text.toString()!="option3"){
+                pollOptions.add(option3.text.toString())
+            }
+            if (option4.text.toString()!="option4"){
+                pollOptions.add(option4.text.toString())
+            }
+            if (option5.text.toString()!="option5"){
+                pollOptions.add(option5.text.toString())
+            }
+            if (option6.text.toString()!="option6"){
+                pollOptions.add(option6.text.toString())
+            }
+            //pollOptions.add(option1.text.toString())
+            //pollOptions.add(option2.text.toString())
+            //pollOptions.add(option3.text.toString())
+            //pollOptions.add(option4.text.toString())
+            //pollOptions.add(option5.text.toString())
+            //pollOptions.add(option6.text.toString())
+            //Making sure poll options, guaranteed, has 6 elements
+            //while (pollOptions.size < 6) {
+            //    pollOptions.add("None")
+            //}
             //Getting the poll time in minutes
             if (pollTime.text.toString() == "Time") {
                 pollEndTime = 5
@@ -77,7 +97,7 @@ class CreatePollFragment : Fragment() {
                 pollEndTime = pollTime.text.toString().toInt()
             }
             //Filling oll vote count list with 6 elements
-            while (pollVoteCount.size < 6) {
+            while (pollVoteCount.size < pollOptions.size) {
                 pollVoteCount.add(0)
             }
             //Creating a poll
