@@ -260,7 +260,7 @@ class CalendarFragment : Fragment() {
 
                 // inflate the layout of the popup window
                 //val inflater = getSystemService(LAYOUT_INFLATER_SERVICE) as LayoutInflater?
-//                val popupView: View? =
+////                val popupView: View? =
 //                    inflater?.inflate(com.example.dsideapp.R.layout.activity_dailyview, null)
                 viewOfLayout = inflater.inflate(R.layout.activity_dailyview, null)
                 // create the popup window
