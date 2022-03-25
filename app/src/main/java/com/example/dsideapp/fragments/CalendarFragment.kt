@@ -1,6 +1,9 @@
 package com.example.dsideapp.fragments
 
+import android.annotation.SuppressLint
+import android.os.AsyncTask
 import android.os.Bundle
+import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
@@ -22,6 +25,7 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.ktx.Firebase
+import java.io.IOException
 import java.util.*
 import kotlin.random.Random
 
@@ -35,6 +39,7 @@ class CalendarFragment : Fragment() {
     private lateinit var popUpEventLike: ImageButton
     private lateinit var popUpEventDislike: ImageButton
 
+
     override fun onCreateView(
 
         inflater: LayoutInflater,
@@ -42,24 +47,74 @@ class CalendarFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         var v  = inflater.inflate(R.layout.fragment_calendar, container, false)
+
         auth = Firebase.auth
         val database = FirebaseDatabase.getInstance()
-        /*
-        //Read all activites
-        val activities = arrayListOf<ActivityObject>()
-        var ref = database.reference.child("users").child(auth.uid.toString()).child("data").child("activities")
-        ref.addValueEventListener(object : ValueEventListener {
-            override fun onDataChange(dataSnapshot: DataSnapshot) {
-                for (productSnapshot in dataSnapshot.children) {
-                    val activity = productSnapshot.getValue(ActivityObject::class.java)
-                    activities.add(activity!!)
-                }
-            }
 
-            override fun onCancelled(databaseError: DatabaseError) {
-                throw databaseError.toException()
+        class ActivityDBReader : AsyncTask<Void , Void, ArrayList<ActivityObject>>() {
+
+            @SuppressLint("ClickableViewAccessibility")
+            override fun doInBackground(vararg params: Void): ArrayList<ActivityObject>? {
+                try {
+                    //Read all activites
+                    val readables = arrayListOf<ActivityObject>()
+                    var ref = database.reference.child("users").child(auth.uid.toString()).child("data").child("cart")
+                    ref.addValueEventListener(object : ValueEventListener {
+                        override fun onDataChange(dataSnapshot: DataSnapshot) {
+
+                            for (productSnapshot in dataSnapshot.getChildren()) {
+                                val readItem = productSnapshot.getValue(ActivityObject::class.java)
+                                Log.w("data", readItem!!.id!!)
+                                readables.add(readItem)
+                            }
+                            for (readerItr in readables) {
+                                System.out.println(readerItr)
+                            }
+                        }
+
+                        override fun onCancelled(databaseError: DatabaseError) {
+                            throw databaseError.toException()
+                        }
+                    })
+                    return readables
+                } catch (e: IOException) {
+                    e.printStackTrace()
+                }
+                return null
             }
-        })
+        }
+        class EventDBReader : AsyncTask<Void , Void, ArrayList<EventObject>>() {
+
+            @SuppressLint("ClickableViewAccessibility")
+            override fun doInBackground(vararg params: Void): ArrayList<EventObject>? {
+                try {
+                    //Read all activites
+                    val readables = arrayListOf<EventObject>()
+                    var ref = database.reference.child("users").child(auth.uid.toString()).child("data").child("events")
+                    ref.addValueEventListener(object : ValueEventListener {
+                        override fun onDataChange(dataSnapshot: DataSnapshot) {
+
+                            for (productSnapshot in dataSnapshot.getChildren()) {
+                                val readItem = productSnapshot.getValue(EventObject::class.java)
+                                Log.w("data", readItem!!.id!!)
+                                readables.add(readItem)
+                            }
+                            for (readerItr in readables) {
+                                System.out.println(readerItr)
+                            }
+                        }
+
+                        override fun onCancelled(databaseError: DatabaseError) {
+                            throw databaseError.toException()
+                        }
+                    })
+                    return readables
+                } catch (e: IOException) {
+                    e.printStackTrace()
+                }
+                return null
+            }
+        }
         //Write to database using
         var i = 0
         var randID = ""
@@ -69,24 +124,18 @@ class CalendarFragment : Fragment() {
         for(i in 1..3){
             randID += (Random.nextInt(25) + 65).toChar()
         }
-        var index = activities.size
-        println(activities.toString())
-        database.reference.child("users").child(auth.uid.toString()).child("data").child("events").child(i.toString()).setValue(activities.first())
+        var activities = arrayListOf<ActivityObject>()
+        activities.addAll(ActivityDBReader().execute().get())
+        val events = arrayListOf<EventObject>()
+        events.addAll(EventDBReader().execute().get())
+        val eventtowrite = EventObject(randID,"TestEvent", Calendar.getInstance(), Calendar.getInstance(), activities.first(), null, false)
 
+        database.reference.child("users").child(auth.uid.toString()).child("data").child("events").child(i.toString()).setValue(eventtowrite)
 
         //Popup Code
 
         //GET ALL EVENTS IN USER DB AND PUTS IT IN EVENTS ARRAYLIST
-        val events = arrayListOf<EventObject>()
-        //val
-        ref = database.reference.child("users").child(auth.uid.toString()).child("data").child("events")
-        ref.addValueEventListener(object : ValueEventListener {
-            override fun onDataChange(dataSnapshot: DataSnapshot) {
-                for (productSnapshot in dataSnapshot.children) {
-                    val event = productSnapshot.getValue(EventObject::class.java)
-                    events.add(event!!)
-                }
-                //ITERATE THROUGH EVENTS IF SIZE != 0
+               //ITERATE THROUGH EVENTS IF SIZE != 0
                 if(events.size != 0) {
                     for (eventItr in events) {
                         //IF EVENT PASSED AND HASN'T BEEN CHECKED
@@ -127,13 +176,8 @@ class CalendarFragment : Fragment() {
                         }
                     }
                 }
-            }
-            override fun onCancelled(databaseError: DatabaseError) {
-                throw databaseError.toException()
-            }
-        })
 
-         */
+
 
         // Variables for easy manipulation of objects in the activity_main.xml file   🙂
         calendar = v.findViewById<View>(R.id.calendar) as CalendarView
