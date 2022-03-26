@@ -83,6 +83,7 @@
         <entry key="..\:/Users/keira/StudioProjects/D-Side-Application/app/src/main/res/drawable/activities_icon.xml" value="0.1" />
         <entry key="..\:/Users/keira/StudioProjects/D-Side-Application/app/src/main/res/drawable/btn_bg.xml" value="0.3140625" />
         <entry key="..\:/Users/keira/StudioProjects/D-Side-Application/app/src/main/res/drawable/card_2.xml" value="0.225" />
+        <entry key="..\:/Users/keira/StudioProjects/D-Side-Application/app/src/main/res/drawable/custom_background.xml" value="0.34102564102564104" />
         <entry key="..\:/Users/keira/StudioProjects/D-Side-Application/app/src/main/res/drawable/ic_account_selected.xml" value="0.1595" />
         <entry key="..\:/Users/keira/StudioProjects/D-Side-Application/app/src/main/res/drawable/ic_location.xml" value="0.26614583333333336" />
         <entry key="..\:/Users/keira/StudioProjects/D-Side-Application/app/src/main/res/drawable/rectangle_round.xml" value="0.1235" />
@@ -96,7 +97,8 @@
         <entry key="..\:/Users/keira/StudioProjects/D-Side-Application/app/src/main/res/layout/cart_activity_card.xml" value="0.25271739130434784" />
         <entry key="..\:/Users/keira/StudioProjects/D-Side-Application/app/src/main/res/layout/details.xml" value="0.2563405797101449" />
         <entry key="..\:/Users/keira/StudioProjects/D-Side-Application/app/src/main/res/layout/fragment_account.xml" value="0.2269021739130435" />
-        <entry key="..\:/Users/keira/StudioProjects/D-Side-Application/app/src/main/res/layout/fragment_activities.xml" value="0.43983402489626555" />
+        <entry key="..\:/Users/keira/StudioProjects/D-Side-Application/app/src/main/res/layout/fragment_activities.xml" value="0.43157894736842106" />
+        <entry key="..\:/Users/keira/StudioProjects/D-Side-Application/app/src/main/res/layout/fragment_add_to_calendar.xml" value="0.22" />
         <entry key="..\:/Users/keira/StudioProjects/D-Side-Application/app/src/main/res/layout/fragment_cart_pop_up.xml" value="0.5" />
         <entry key="..\:/Users/keira/StudioProjects/D-Side-Application/app/src/main/res/layout/fragment_child_dice.xml" value="0.29739583333333336" />
         <entry key="..\:/Users/keira/StudioProjects/D-Side-Application/app/src/main/res/layout/fragment_child_suggestions.xml" value="0.16666666666666666" />
@@ -105,6 +107,7 @@
         <entry key="..\:/Users/keira/StudioProjects/D-Side-Application/app/src/main/res/layout/fragment_concerts.xml" value="0.2269021739130435" />
         <entry key="..\:/Users/keira/StudioProjects/D-Side-Application/app/src/main/res/layout/fragment_dice.xml" value="0.2477355072463768" />
         <entry key="..\:/Users/keira/StudioProjects/D-Side-Application/app/src/main/res/layout/fragment_home.xml" value="0.19927536231884058" />
+        <entry key="..\:/Users/keira/StudioProjects/D-Side-Application/app/src/main/res/layout/fragment_info_pop_up.xml" value="0.1" />
         <entry key="..\:/Users/keira/StudioProjects/D-Side-Application/app/src/main/res/layout/fragment_suggestions.xml" value="0.21920289855072464" />
         <entry key="..\:/Users/keira/StudioProjects/D-Side-Application/app/src/main/res/layout/fragment_tester_activity.xml" value="0.17864583333333334" />
         <entry key="..\:/Users/keira/StudioProjects/D-Side-Application/app/src/main/res/layout/fragment_wheel.xml" value="0.7950581395348837" />
