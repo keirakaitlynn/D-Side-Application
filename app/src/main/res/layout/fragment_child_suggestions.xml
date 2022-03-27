@@ -8,12 +8,6 @@
     android:background="@color/purple_400"
     tools:context=".childfragments.SuggestionsChildFragment">
 
-<!--    <androidx.recyclerview.widget.RecyclerView-->
-<!--        android:id="@+id/rvRestaurants"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="match_parent"-->
-<!--        tools:layout_editor_absoluteX="1dp"-->
-<!--        tools:layout_editor_absoluteY="1dp" />-->
     <com.lorentzos.flingswipe.SwipeFlingAdapterView
         android:id="@+id/card"
         android:layout_width="match_parent"
@@ -25,16 +19,5 @@
         app:max_visible="7"
         app:min_adapter_stack="8"
         app:rotation_degrees="20" />
-<!--    <ListView-->
-<!--        android:id="@+id/lvUsers"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="match_parent"-->
-<!--        android:layout_alignParentBottom="true"-->
-<!--        android:layout_alignParentLeft="true"-->
-<!--        android:layout_alignParentRight="true"-->
-<!--        android:layout_alignParentTop="true"-->
-<!--        app:layout_constraintTop_toTopOf="parent"-->
-<!--        app:layout_constraintLeft_toLeftOf="parent">-->
-<!--    </ListView>-->
 
 </androidx.constraintlayout.widget.ConstraintLayout>
