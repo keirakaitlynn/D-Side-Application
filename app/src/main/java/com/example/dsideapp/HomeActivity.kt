@@ -2,7 +2,9 @@ package com.example.dsideapp
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Button
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
 import com.example.dsideapp.fragments.*
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
@@ -10,7 +12,7 @@ class HomeActivity : AppCompatActivity() {
 
     private val homeFragment = HomeFragment()
     private val activitiesFragment = ActivitiesFragment()
-    private val pollsFragment = PollsFragment()
+    private val concertsFragment = ConcertsFragment()
     private val calendarFragment = CalendarFragment()
     private val accountFragment = AccountFragment()
 
@@ -26,7 +28,7 @@ class HomeActivity : AppCompatActivity() {
             when(it.itemId) {
                 R.id.navbar_home -> replaceFragment(homeFragment)
                 R.id.navbar_activities -> replaceFragment(activitiesFragment)
-                R.id.navbar_polls -> replaceFragment(pollsFragment)
+                R.id.navbar_concerts -> replaceFragment(concertsFragment)
                 R.id.navbar_calendar -> replaceFragment(calendarFragment)
                 //REPLACE NAVBAR_ACCOUNT WITH THIS WHEN WE GET TO ACCOUNT PAGE WORK -> accountFragment
                 R.id.navbar_account -> replaceFragment(accountFragment)

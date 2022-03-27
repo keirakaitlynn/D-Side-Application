@@ -57,7 +57,7 @@
             <Button
                 android:id="@+id/coin_button"
                 style="@style/button_page"
-                android:textColor="@color/purple_100"
+                android:textColor="@color/purple_200"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -65,7 +65,7 @@
             <Button
                 android:id="@+id/dice_button"
                 style="@style/button_page"
-                android:textColor="@color/purple_100"
+                android:textColor="@color/purple_200"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -73,7 +73,7 @@
             <Button
                 android:id="@+id/wheel_button"
                 style="@style/button_page"
-                android:textColor="@color/purple_100"
+                android:textColor="@color/purple_200"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -99,12 +99,15 @@
                 android:layout_width="wrap_content"
                 android:layout_height="36dp"
                 android:layout_marginLeft="16dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
                 android:background="@drawable/custom_background">
                 <SearchView
                     android:id="@+id/searchView"
                     android:layout_width="100dp"
                     android:layout_height="36dp"
                     android:layout_gravity="center_vertical"/>
+
                 <Button
                     android:id="@+id/search_button"
                     android:background="@android:color/transparent"
@@ -114,7 +117,6 @@
                     android:textSize="16dp"
                     android:text="+" />
             </LinearLayout>
-            
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/categoryRecyclerView"
                 android:layout_width="wrap_content"
