@@ -6,16 +6,17 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.ImageButton
-import android.widget.TextView
-import android.widget.EditText
+import android.widget.*
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.dsideapp.LoginActivity
 import com.example.dsideapp.R
 import com.google.firebase.auth.FirebaseAuth
 import com.example.dsideapp.auth
+import com.example.dsideapp.data.CategoryAdapter
 import com.google.firebase.database.FirebaseDatabase
+import java.util.ArrayList
 
 class AccountFragment : Fragment() {
     lateinit var imageButton: ImageButton
@@ -56,6 +57,51 @@ class AccountFragment : Fragment() {
             //startActivity(intent)
 
         }
+
+        //// MMMMM: ====================================================================
+
+        val searchButton = viewOfLayout.findViewById<Button>(R.id.favorite_search_button)
+        searchButton.setOnClickListener{
+            //// NNNNN: ====================================================================
+            val searchView = viewOfLayout.findViewById<SearchView>(R.id.favorite_searchView)
+            //val listView = v.findViewById<ListView>(R.id.listView)
+            //val names = arrayOf("Android", "Java", "Php", "Python", "C", "C++", "Kotlin")
+
+            var categories = ArrayList<String>()
+            categories.add("Cake")
+            categories.add("Cars")
+            categories.add("Coffee & Tea")
+            categories.add("Cookies")
+            categories.add("Juice Bars & Smoothies")
+            categories.add("Dance Clubs")
+            categories.add("Dive Bars")
+            categories.add("Dining")
+            categories.add("Bowling")
+            categories.add("Lounges")
+            categories.add("Pizza")
+            categories.add("Seafood")
+
+            val categoryRecyclerView = viewOfLayout.findViewById<RecyclerView>(R.id.favorite_categoryRecyclerView)
+            val categoryAdapter = CategoryAdapter(categories)
+            categoryRecyclerView.setLayoutManager(LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false))
+            categoryRecyclerView.setAdapter(categoryAdapter)
+
+            categoryRecyclerView.setNestedScrollingEnabled(false);
+
+            searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+                override fun onQueryTextChange(newText: String?): Boolean {
+                    categoryAdapter.filter.filter(newText)
+                    return false
+                }
+
+                override fun onQueryTextSubmit(s: String?): Boolean {
+                    return false
+                }
+            })
+            //// NNNNN: ====================================================================
+        }
+
+        //// MMMMM: ====================================================================
 
         var saveChangesButton = viewOfLayout.findViewById<Button>(R.id.changesSaveButton)
         saveChangesButton.setOnClickListener{
