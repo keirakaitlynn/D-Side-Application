@@ -11,13 +11,14 @@
         android:layout_height="wrap_content"
         android:background="@color/white"
         android:transformPivotY="108dp">
+
         <TextView
             android:id="@+id/popUpTextFeedback"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/black_overlay"
             android:text="How was the event?"
-            android:textSize="10sp"/>
+            android:textColor="@color/black_overlay"
+            android:textSize="10sp" />
         <TextView
             android:id="@+id/popUpEventName"
             android:layout_width="wrap_content"

@@ -71,11 +71,17 @@ class CalendarFragment : Fragment() {
         for(j in 1..3){
             ErandID += (Random.nextInt(25) + 65).toChar()
         }
-        val eventtowrite = EventObject(ErandID,"TestEvent", Date(Date().getTime()) , Date(Date().getTime()), ActivityObject(ArandID,"","","",LocationObject(),"",""), null, false)
+        val eventtowrite = EventObject(ErandID,"TestEvent", Date(Date().getTime()) , Date(Date().getTime()), ActivityObject(ArandID,"","","",LocationObject(),"",""), null)
 
-        //database.reference.child("users").child(auth.uid.toString()).child("data").child("events").child(ErandID).setValue(eventtowrite)
+        database.reference.child("users").child(auth.uid.toString()).child("data").child("events").child(ErandID).setValue(eventtowrite)
 
-
+        var last_checked = Long.MIN_VALUE
+        database.reference.child("users").child(auth.uid.toString()).child("last_checked").get().addOnSuccessListener {
+            Log.i("firebase", "Got value ${it.value}")
+            last_checked = it.value as Long
+        }.addOnFailureListener{
+            Log.e("firebase", "Error getting data", it)
+        }
         val events = arrayListOf<EventObject>()
         try {
             var ref = database.reference.child("users").child(auth.uid.toString()).child("data")
@@ -85,13 +91,12 @@ class CalendarFragment : Fragment() {
 
                     for (productSnapshot in dataSnapshot.getChildren()) {
                         val readItem = productSnapshot.getValue(EventObject::class.java)
-                        Log.w("data", readItem!!.id!!)
-                        events.add(readItem)
+                        events.add(readItem!!)
                     }
                     if(events.size != 0) {
                         for (eventItr in events) {
                             //IF EVENT PASSED AND HASN'T BEEN CHECKED
-                            if (Date().getTime() > (eventItr.end_time!!).time && !eventItr.checked) {
+                            if (Date().getTime() > (eventItr.end_time!!).time && (eventItr.end_time!!).time  > last_checked) {
                                 var waiting = true
                                 Log.w("data", "Event has passed")
                                 //SHOW POPUP
@@ -108,26 +113,22 @@ class CalendarFragment : Fragment() {
                                 popUpEventLike = v.findViewById(R.id.like_button)
                                 popUpEventDislike = v.findViewById(R.id.dislike_button)
 
+                                popUpEventText.text = eventItr.event_title
+
                                 popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0)
                                 Log.w("data", "Popup Shown")
                                 //Set up text and setOnClickListeners
                                 popUpEventText.text = eventItr.event_title
                                 popUpEventLike.setOnClickListener {
                                     //Add eventItr's activity category to user favorites.
-                                    eventItr.checked = true
                                     popupWindow.dismiss()
                                 }
                                 popUpEventDislike.setOnClickListener {
                                     //Do nothing probably?
-                                    eventItr.checked = true
                                     popupWindow.dismiss()
                                 }
                                 // show the popup window
                                 // which view you pass in doesn't matter, it is only used for the window token
-                                v.setOnTouchListener { v, event ->
-                                    popupWindow.dismiss()
-                                    true
-                                }
                             }
                         }
                     }
@@ -144,7 +145,7 @@ class CalendarFragment : Fragment() {
             e.printStackTrace()
         }
 
-        Log.w("data", "Now posting all events read: " + events.toString())
+        database.reference.child("users").child(auth.uid.toString()).child("last_checked").setValue(Date().getTime())
 
         //Popup Code
 
