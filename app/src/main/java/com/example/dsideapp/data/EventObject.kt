@@ -1,12 +1,13 @@
 package com.example.dsideapp.data
 
+
 import java.util.*
 
 data class EventObject (
     var id: String? = null,
     var event_title: String? = null,
-    var start_time: Calendar? = null,
-    var end_time: Calendar? = null,
+    var start_time: Date? = null,
+    var end_time: Date? = null,
     var activity: ActivityObject? = null,
     var users: MutableList<String>? = null,
     var checked: Boolean = false) {

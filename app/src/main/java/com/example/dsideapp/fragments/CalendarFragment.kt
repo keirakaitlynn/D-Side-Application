@@ -1,6 +1,7 @@
 package com.example.dsideapp.fragments
 
 import android.annotation.SuppressLint
+import android.location.Location
 import android.os.AsyncTask
 import android.os.Bundle
 import android.util.Log
@@ -26,7 +27,9 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.ktx.Firebase
 import java.io.IOException
+import java.security.Timestamp
 import java.util.*
+import kotlin.collections.ArrayList
 import kotlin.random.Random
 
 class CalendarFragment : Fragment() {
@@ -38,8 +41,6 @@ class CalendarFragment : Fragment() {
     private lateinit var popUpEventText: TextView
     private lateinit var popUpEventLike: ImageButton
     private lateinit var popUpEventDislike: ImageButton
-
-
     override fun onCreateView(
 
         inflater: LayoutInflater,
@@ -47,135 +48,109 @@ class CalendarFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         var v  = inflater.inflate(R.layout.fragment_calendar, container, false)
-
         auth = Firebase.auth
         val database = FirebaseDatabase.getInstance()
 
-        class ActivityDBReader : AsyncTask<Void , Void, ArrayList<ActivityObject>>() {
-
-            @SuppressLint("ClickableViewAccessibility")
-            override fun doInBackground(vararg params: Void): ArrayList<ActivityObject>? {
-                try {
-                    //Read all activites
-                    val readables = arrayListOf<ActivityObject>()
-                    var ref = database.reference.child("users").child(auth.uid.toString()).child("data").child("cart")
-                    ref.addValueEventListener(object : ValueEventListener {
-                        override fun onDataChange(dataSnapshot: DataSnapshot) {
-
-                            for (productSnapshot in dataSnapshot.getChildren()) {
-                                val readItem = productSnapshot.getValue(ActivityObject::class.java)
-                                Log.w("data", readItem!!.id!!)
-                                readables.add(readItem)
-                            }
-                            for (readerItr in readables) {
-                                System.out.println(readerItr)
-                            }
-                        }
-
-                        override fun onCancelled(databaseError: DatabaseError) {
-                            throw databaseError.toException()
-                        }
-                    })
-                    return readables
-                } catch (e: IOException) {
-                    e.printStackTrace()
-                }
-                return null
-            }
-        }
-        class EventDBReader : AsyncTask<Void , Void, ArrayList<EventObject>>() {
-
-            @SuppressLint("ClickableViewAccessibility")
-            override fun doInBackground(vararg params: Void): ArrayList<EventObject>? {
-                try {
-                    //Read all activites
-                    val readables = arrayListOf<EventObject>()
-                    var ref = database.reference.child("users").child(auth.uid.toString()).child("data").child("events")
-                    ref.addValueEventListener(object : ValueEventListener {
-                        override fun onDataChange(dataSnapshot: DataSnapshot) {
-
-                            for (productSnapshot in dataSnapshot.getChildren()) {
-                                val readItem = productSnapshot.getValue(EventObject::class.java)
-                                Log.w("data", readItem!!.id!!)
-                                readables.add(readItem)
-                            }
-                            for (readerItr in readables) {
-                                System.out.println(readerItr)
-                            }
-                        }
-
-                        override fun onCancelled(databaseError: DatabaseError) {
-                            throw databaseError.toException()
-                        }
-                    })
-                    return readables
-                } catch (e: IOException) {
-                    e.printStackTrace()
-                }
-                return null
-            }
-        }
+        /*
+        WRITE EVENTS WITH EMPTY ACTIVITIES
+         */
         //Write to database using
         var i = 0
-        var randID = ""
+        var ArandID = ""
         for(i in 1..3){
-            randID += Random.nextInt(9)
+            ArandID += Random.nextInt(9)
         }
         for(i in 1..3){
-            randID += (Random.nextInt(25) + 65).toChar()
+            ArandID += (Random.nextInt(25) + 65).toChar()
         }
-        var activities = arrayListOf<ActivityObject>()
-        activities.addAll(ActivityDBReader().execute().get())
-        val events = arrayListOf<EventObject>()
-        events.addAll(EventDBReader().execute().get())
-        val eventtowrite = EventObject(randID,"TestEvent", Calendar.getInstance(), Calendar.getInstance(), activities.first(), null, false)
+        var j = 0
+        var ErandID = ""
+        for(j in 1..3){
+            ErandID += Random.nextInt(9)
+        }
+        for(j in 1..3){
+            ErandID += (Random.nextInt(25) + 65).toChar()
+        }
+        val eventtowrite = EventObject(ErandID,"TestEvent", Date(Date().getTime()) , Date(Date().getTime()), ActivityObject(ArandID,"","","",LocationObject(),"",""), null, false)
 
-        database.reference.child("users").child(auth.uid.toString()).child("data").child("events").child(i.toString()).setValue(eventtowrite)
+        //database.reference.child("users").child(auth.uid.toString()).child("data").child("events").child(ErandID).setValue(eventtowrite)
+
+
+        val events = arrayListOf<EventObject>()
+        try {
+            var ref = database.reference.child("users").child(auth.uid.toString()).child("data")
+                .child("events")
+            ref.addValueEventListener(object : ValueEventListener {
+                override fun onDataChange(dataSnapshot: DataSnapshot) {
+
+                    for (productSnapshot in dataSnapshot.getChildren()) {
+                        val readItem = productSnapshot.getValue(EventObject::class.java)
+                        Log.w("data", readItem!!.id!!)
+                        events.add(readItem)
+                    }
+                    if(events.size != 0) {
+                        for (eventItr in events) {
+                            //IF EVENT PASSED AND HASN'T BEEN CHECKED
+                            if (Date().getTime() > (eventItr.end_time!!).time && !eventItr.checked) {
+                                var waiting = true
+                                Log.w("data", "Event has passed")
+                                //SHOW POPUP
+                                // inflate the layout of the popup window
+                                v = inflater.inflate(com.example.dsideapp.R.layout.fragment_feedback_pop_up, null)
+                                // create the popup window
+                                val width = LinearLayout.LayoutParams.WRAP_CONTENT
+                                val height = LinearLayout.LayoutParams.WRAP_CONTENT
+                                val focusable = false // lets taps outside the popup also dismiss it
+                                val popupWindow = PopupWindow(v, width, height, focusable)
+
+                                //Popup window for the event name and buttons
+                                popUpEventText = v.findViewById(R.id.popUpEventName)
+                                popUpEventLike = v.findViewById(R.id.like_button)
+                                popUpEventDislike = v.findViewById(R.id.dislike_button)
+
+                                popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0)
+                                Log.w("data", "Popup Shown")
+                                //Set up text and setOnClickListeners
+                                popUpEventText.text = eventItr.event_title
+                                popUpEventLike.setOnClickListener {
+                                    //Add eventItr's activity category to user favorites.
+                                    eventItr.checked = true
+                                    popupWindow.dismiss()
+                                }
+                                popUpEventDislike.setOnClickListener {
+                                    //Do nothing probably?
+                                    eventItr.checked = true
+                                    popupWindow.dismiss()
+                                }
+                                // show the popup window
+                                // which view you pass in doesn't matter, it is only used for the window token
+                                v.setOnTouchListener { v, event ->
+                                    popupWindow.dismiss()
+                                    true
+                                }
+                            }
+                        }
+                    }
+                    else {
+                        Log.w("data", "Events are empty")
+                    }
+                }
+
+                override fun onCancelled(databaseError: DatabaseError) {
+                    throw databaseError.toException()
+                }
+            })
+        } catch (e: IOException) {
+            e.printStackTrace()
+        }
+
+        Log.w("data", "Now posting all events read: " + events.toString())
 
         //Popup Code
 
         //GET ALL EVENTS IN USER DB AND PUTS IT IN EVENTS ARRAYLIST
-               //ITERATE THROUGH EVENTS IF SIZE != 0
-                if(events.size != 0) {
-                    for (eventItr in events) {
-                        //IF EVENT PASSED AND HASN'T BEEN CHECKED
-                        if (Calendar.getInstance() > eventItr.end_time!! && !eventItr.checked) {
-                            //SHOW POPUP
-                            // inflate the layout of the popup window
-                            v = inflater.inflate(com.example.dsideapp.R.layout.fragment_feedback_pop_up, null)
-                            // create the popup window
-                            val width = LinearLayout.LayoutParams.WRAP_CONTENT
-                            val height = LinearLayout.LayoutParams.WRAP_CONTENT
-                            val focusable = false // lets taps outside the popup also dismiss it
-                            val popupWindow = PopupWindow(v, width, height, focusable)
+       //ITERATE THROUGH EVENTS IF SIZE != 0
 
-                            //Popup window for the event name and buttons
-                            popUpEventText = v.findViewById(R.id.popUpImageInfo)
-                            popUpEventLike = v.findViewById(R.id.like_button)
-                            popUpEventDislike = v.findViewById(R.id.dislike_button)
-
-                            //Set up text and setOnClickListeners
-                            popUpEventText.text = eventItr.event_title
-                            popUpEventLike.setOnClickListener {
-                                //Add eventItr's activity category to user favorites.
-                                eventItr.checked = true
-                                popupWindow.dismiss()
-                            }
-                            popUpEventDislike.setOnClickListener {
-                                //Do nothing probably?
-                                eventItr.checked = true
-                                popupWindow.dismiss()
-                            }
-                            // show the popup window
-                            // which view you pass in doesn't matter, it is only used for the window token
-                            popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0)
-                            v.setOnTouchListener { v, event ->
-                                popupWindow.dismiss()
-                                true
-                            }
-                        }
-                    }
-                }
 
 
 
