@@ -9,8 +9,7 @@ data class EventObject (
     var start_time: Date? = null,
     var end_time: Date? = null,
     var activity: ActivityObject? = null,
-    var users: MutableList<String>? = null,
-    var checked: Boolean = false) {
+    var users: MutableList<String>? = null) {
     // Null default values create a no-argument default constructor, which is needed
     // for deserialization from a DataSnapshot.
     //Date/Time | Calendar Class - This is something we already have and we definitely should keep to the end. https://developer.android.com/reference/kotlin/android/icu/util/Calendar
