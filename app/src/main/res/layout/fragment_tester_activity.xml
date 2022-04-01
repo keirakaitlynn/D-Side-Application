@@ -46,7 +46,7 @@
         app:layout_constraintTop_toBottomOf="@+id/activity_business_name" />
 
     <TextView
-        android:id="@+id/activity_location"
+        android:id="@+id/activity_category"
         android:layout_width="0dp"
         android:layout_height="25dp"
         android:layout_marginStart="15dp"
@@ -86,10 +86,10 @@
         android:background="@color/pink"
         android:hint="@string/location_address"
         app:layout_constraintBottom_toTopOf="@+id/location_city"
-        app:layout_constraintEnd_toEndOf="@+id/activity_location"
+        app:layout_constraintEnd_toEndOf="@+id/activity_category"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="@+id/location_city"
-        app:layout_constraintTop_toBottomOf="@+id/activity_location" />
+        app:layout_constraintTop_toBottomOf="@+id/activity_category" />
 
     <EditText
         android:id="@+id/location_zip"
@@ -190,7 +190,7 @@
         android:layout_weight="1"
         android:background="@color/pink"
         android:hint="@string/activity_image"
-        app:layout_constraintBottom_toTopOf="@+id/activity_location"
+        app:layout_constraintBottom_toTopOf="@+id/activity_category"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
