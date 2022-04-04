@@ -145,9 +145,33 @@ class ActivitiesFragment : Fragment() , HomeActivity.IOnBackPressed {
                         }
                     }
                     //////////////
+                    //Setting the text for previous page, shown next to back button
 
                     val backButton = v.findViewById<ImageButton>(R.id.back_button)
                     backButton.setOnClickListener{
+                        //---- BackStack Name ----
+
+                        // create the popup window
+                        v = inflater.inflate(com.example.dsideapp.R.layout.back_stack_name, null)
+                        var previousPageTextView = v.findViewById<TextView>(R.id.previous_page)
+                        //getting name of previous page
+                        var previousPageCount = getChildFragmentManager().backStackEntryCount
+                        if (previousPageCount != 0){
+                            var previousPageName = getChildFragmentManager().getBackStackEntryAt(previousPageCount-1).name
+                            previousPageTextView.text = previousPageName
+                        }
+                        val width = LinearLayout.LayoutParams.WRAP_CONTENT
+                        val height = LinearLayout.LayoutParams.WRAP_CONTENT
+                        val focusable = true // lets taps outside the popup also dismiss it
+                        val popupWindow = PopupWindow(v, width, height, focusable)
+                        // show the popup window
+                        // which view you pass in doesn't matter, it is only used for the window token
+                        popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0)
+                        v.setOnTouchListener { v, event ->
+                            popupWindow.dismiss()
+                            true
+                        }
+                        //---- BackStack Name ----
                         onBackPressed()
                     }
 
@@ -273,7 +297,6 @@ class ActivitiesFragment : Fragment() , HomeActivity.IOnBackPressed {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
     }
 
     private fun replaceChildFragment(childFragment : Fragment) {

@@ -11,6 +11,7 @@ import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
 import com.example.dsideapp.fragments.*
 import com.example.dsideapp.R
+import com.example.dsideapp.childfragments.InformationChildFragment
 
 class HomeFragment : Fragment() {
     private val activityTesterFragment = ActivityTesterFragment()
@@ -18,6 +19,7 @@ class HomeFragment : Fragment() {
     private val calendarFragment = CalendarFragment()
     private val accountFragment =AccountFragment()
     private val  activitiesFragment= ActivitiesFragment()
+    private val  appInfoFragment= InformationChildFragment()
     lateinit var activitiesButton: ImageButton
     lateinit var calendarButton: ImageButton
     //change to polls in the future
@@ -56,7 +58,7 @@ class HomeFragment : Fragment() {
         infoButton.setOnClickListener {
             val fragmentManager = getActivity()?.getSupportFragmentManager()
             if (fragmentManager != null) {
-                fragmentManager.beginTransaction().replace(com.example.dsideapp.R.id.fragment_view, activityTesterFragment).commit()
+                fragmentManager.beginTransaction().replace(com.example.dsideapp.R.id.fragment_view, appInfoFragment).commit()
             }
         }
 
