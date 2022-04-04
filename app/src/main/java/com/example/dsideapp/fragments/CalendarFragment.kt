@@ -1,3 +1,4 @@
+/*
 package com.example.dsideapp.fragments
 
 import android.annotation.SuppressLint
@@ -201,8 +202,8 @@ class CalendarFragment : Fragment() {
         return v
     }
 }
+*/
 
-/*
 //Josh's Version to do add event to db and send event info to other users
 package com.example.dsideapp.fragments
 
@@ -368,4 +369,3 @@ class CalendarFragment : Fragment() {
         return viewOfLayout
     }
 }
- */
