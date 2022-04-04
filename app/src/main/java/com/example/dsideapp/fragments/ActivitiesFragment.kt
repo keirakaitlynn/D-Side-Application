@@ -14,6 +14,7 @@ import android.view.Gravity
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.AsyncTask
+import android.util.Log
 import android.widget.*
 import androidx.recyclerview.widget.LinearLayoutManager
 
@@ -75,21 +76,87 @@ class ActivitiesFragment : Fragment() , HomeActivity.IOnBackPressed {
         var v = inflater.inflate(R.layout.fragment_activities, container, false)
         replaceChildFragment(suggestionsFragment) // initial child fragment
 
+        //function for loading backstack page name
+        fun getPreviousPageName(vararg params: Void): Void?{
+            //---- BackStack Name ----
+            // create the popup window
+            v = inflater.inflate(com.example.dsideapp.R.layout.back_stack_name, null)
+            var previousPageTextView = v.findViewById<TextView>(R.id.previous_page)
+            //getting name of previous page
+            var previousPageCount = getChildFragmentManager().backStackEntryCount
+            if (previousPageCount >1){
+                var previousPageName = getChildFragmentManager().getBackStackEntryAt(previousPageCount-1).name.toString()
+                //Checks if page count updates
+                //Log.w("Page: ",
+                //    getChildFragmentManager().getBackStackEntryAt(previousPageCount-1).name.toString())
+                previousPageTextView.text = previousPageName
+            }
+
+            val width = LinearLayout.LayoutParams.WRAP_CONTENT
+            val height = LinearLayout.LayoutParams.WRAP_CONTENT
+            val focusable = false // lets taps outside the popup also dismiss it
+            var ppw = PopupWindow(v, width, height, focusable)
+            // show the popup window
+            // which view you pass in doesn't matter, it is only used for the window token
+            ppw.showAtLocation(view, Gravity.NO_GRAVITY, 140, 0)
+            v.setOnTouchListener { v, event ->
+                ppw.dismiss()
+                true
+            }
+            //---- BackStack Name ----
+            return null
+        }
+
+        //function for loading backstack page name
+        fun getPreviousPageNameBackButton(vararg params: Void): Void?{
+            //---- BackStack Name ----
+            // create the popup window
+            v = inflater.inflate(com.example.dsideapp.R.layout.back_stack_name, null)
+            var previousPageTextView = v.findViewById<TextView>(R.id.previous_page)
+            //getting name of previous page
+            var previousPageCount = getChildFragmentManager().backStackEntryCount
+            if (previousPageCount >2){
+                var previousPageName = getChildFragmentManager().getBackStackEntryAt(previousPageCount-3).name.toString()
+                //Checks if page count updates
+                //Log.w("Page: ",
+                //    getChildFragmentManager().getBackStackEntryAt(previousPageCount-1).name.toString())
+                previousPageTextView.text = previousPageName
+            }
+
+            val width = LinearLayout.LayoutParams.WRAP_CONTENT
+            val height = LinearLayout.LayoutParams.WRAP_CONTENT
+            val focusable = false // lets taps outside the popup also dismiss it
+            var ppw = PopupWindow(v, width, height, focusable)
+            // show the popup window
+            // which view you pass in doesn't matter, it is only used for the window token
+            ppw.showAtLocation(view, Gravity.NO_GRAVITY, 140, 0)
+            v.setOnTouchListener { v, event ->
+                ppw.dismiss()
+                true
+            }
+            //---- BackStack Name ----
+            return null
+        }
+
         suggestionsButton = v.findViewById<Button>(R.id.suggestions_button)
         suggestionsButton.setOnClickListener{
             replaceChildFragment(suggestionsFragment)
+            getPreviousPageName()
         }
         coinButton = v.findViewById<Button>(R.id.coin_button)
         coinButton.setOnClickListener{
             replaceChildFragment(coinFragment)
+            getPreviousPageName()
         }
         diceButton = v.findViewById<Button>(R.id.dice_button)
         diceButton.setOnClickListener{
             replaceChildFragment(diceFragment)
+            getPreviousPageName()
         }
         wheelButton = v.findViewById<Button>(R.id.wheel_button)
         wheelButton.setOnClickListener{
             replaceChildFragment(wheelFragment)
+            getPreviousPageName()
         }
         //Mine//
         ///////////////////POP UP IMAGE /////////////////////////////////
@@ -149,29 +216,7 @@ class ActivitiesFragment : Fragment() , HomeActivity.IOnBackPressed {
 
                     val backButton = v.findViewById<ImageButton>(R.id.back_button)
                     backButton.setOnClickListener{
-                        //---- BackStack Name ----
-
-                        // create the popup window
-                        v = inflater.inflate(com.example.dsideapp.R.layout.back_stack_name, null)
-                        var previousPageTextView = v.findViewById<TextView>(R.id.previous_page)
-                        //getting name of previous page
-                        var previousPageCount = getChildFragmentManager().backStackEntryCount
-                        if (previousPageCount != 0){
-                            var previousPageName = getChildFragmentManager().getBackStackEntryAt(previousPageCount-1).name
-                            previousPageTextView.text = previousPageName
-                        }
-                        val width = LinearLayout.LayoutParams.WRAP_CONTENT
-                        val height = LinearLayout.LayoutParams.WRAP_CONTENT
-                        val focusable = true // lets taps outside the popup also dismiss it
-                        val popupWindow = PopupWindow(v, width, height, focusable)
-                        // show the popup window
-                        // which view you pass in doesn't matter, it is only used for the window token
-                        popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0)
-                        v.setOnTouchListener { v, event ->
-                            popupWindow.dismiss()
-                            true
-                        }
-                        //---- BackStack Name ----
+                        getPreviousPageNameBackButton()
                         onBackPressed()
                     }
 
@@ -301,7 +346,21 @@ class ActivitiesFragment : Fragment() , HomeActivity.IOnBackPressed {
 
     private fun replaceChildFragment(childFragment : Fragment) {
         val transaction: FragmentTransaction = getChildFragmentManager().beginTransaction()
-        transaction.replace(R.id.activities_view, childFragment).addToBackStack(null).commit()
+        //Naming the fragment
+        var fragName = ""
+        if (childFragment == coinFragment){
+            fragName = "Coin"
+        }
+        else if (childFragment == diceFragment){
+            fragName = "Dice"
+        }
+        else if (childFragment == wheelFragment){
+            fragName = "Wheel"
+        }
+        else{
+            fragName = "Suggestion"
+        }
+        transaction.replace(R.id.activities_view, childFragment).addToBackStack(fragName).commit()
     }
     //Main
     data class Activity(val username: String? = null, val location: String? = null, val date_time: String? = null) {
