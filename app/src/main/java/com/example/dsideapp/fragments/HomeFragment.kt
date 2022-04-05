@@ -25,7 +25,7 @@ class HomeFragment : Fragment() {
     //change to polls in the future
     lateinit var concertsButton: ImageButton
     lateinit var infoButton: ImageButton
-
+    lateinit var overallView : View
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -33,8 +33,9 @@ class HomeFragment : Fragment() {
     ): View? {
        // val v = inflater.inflate(com.example.dsideapp.R.layout.fragment_home, container, false)
 
-        var viewOfLayout = inflater.inflate(R.layout.fragment_home, container, false)
 
+        var viewOfLayout = inflater.inflate(R.layout.fragment_home, container, false)
+        overallView = viewOfLayout
         //FragamentTransaction fragmentTrans = getSupport
 
         //add activity button and transaction

@@ -63,7 +63,7 @@ class ActivitiesFragment : Fragment() , HomeActivity.IOnBackPressed {
     private lateinit var infoBitmap: Bitmap
     private lateinit var infoImageView: ImageView
     private lateinit var rvRestaurants: RecyclerView
-
+    private lateinit var ppw: PopupWindow
     // MMMMM: RecyclerView + CardView (ActivitiesFragment, CartPopUpFragment)
     private var layoutManager: RecyclerView.LayoutManager? = null
     private var adapter: RecyclerView.Adapter<RecyclerAdapter.ViewHolder>? = null
@@ -78,6 +78,9 @@ class ActivitiesFragment : Fragment() , HomeActivity.IOnBackPressed {
 
         //function for loading backstack page name
         fun getPreviousPageName(vararg params: Void): Void?{
+            if (getChildFragmentManager().backStackEntryCount > 1){
+                ppw.dismiss()
+            }
             //---- BackStack Name ----
             // create the popup window
             v = inflater.inflate(com.example.dsideapp.R.layout.back_stack_name, null)
@@ -95,10 +98,11 @@ class ActivitiesFragment : Fragment() , HomeActivity.IOnBackPressed {
             val width = LinearLayout.LayoutParams.WRAP_CONTENT
             val height = LinearLayout.LayoutParams.WRAP_CONTENT
             val focusable = false // lets taps outside the popup also dismiss it
-            var ppw = PopupWindow(v, width, height, focusable)
+            ppw = PopupWindow(v, width, height, focusable)
             // show the popup window
             // which view you pass in doesn't matter, it is only used for the window token
             ppw.showAtLocation(view, Gravity.NO_GRAVITY, 140, 0)
+
             v.setOnTouchListener { v, event ->
                 ppw.dismiss()
                 true
@@ -109,6 +113,9 @@ class ActivitiesFragment : Fragment() , HomeActivity.IOnBackPressed {
 
         //function for loading backstack page name
         fun getPreviousPageNameBackButton(vararg params: Void): Void?{
+            if (getChildFragmentManager().backStackEntryCount > 1){
+                ppw.dismiss()
+            }
             //---- BackStack Name ----
             // create the popup window
             v = inflater.inflate(com.example.dsideapp.R.layout.back_stack_name, null)
@@ -118,18 +125,19 @@ class ActivitiesFragment : Fragment() , HomeActivity.IOnBackPressed {
             if (previousPageCount >2){
                 var previousPageName = getChildFragmentManager().getBackStackEntryAt(previousPageCount-3).name.toString()
                 //Checks if page count updates
-                //Log.w("Page: ",
-                //    getChildFragmentManager().getBackStackEntryAt(previousPageCount-1).name.toString())
+                Log.w("Page: ",
+                    getChildFragmentManager().getBackStackEntryAt(previousPageCount-3).name.toString())
                 previousPageTextView.text = previousPageName
             }
 
             val width = LinearLayout.LayoutParams.WRAP_CONTENT
             val height = LinearLayout.LayoutParams.WRAP_CONTENT
             val focusable = false // lets taps outside the popup also dismiss it
-            var ppw = PopupWindow(v, width, height, focusable)
+            ppw = PopupWindow(v, width, height, focusable)
             // show the popup window
             // which view you pass in doesn't matter, it is only used for the window token
             ppw.showAtLocation(view, Gravity.NO_GRAVITY, 140, 0)
+
             v.setOnTouchListener { v, event ->
                 ppw.dismiss()
                 true
@@ -217,6 +225,10 @@ class ActivitiesFragment : Fragment() , HomeActivity.IOnBackPressed {
                     val backButton = v.findViewById<ImageButton>(R.id.back_button)
                     backButton.setOnClickListener{
                         getPreviousPageNameBackButton()
+                        Log.w("Num: ", getChildFragmentManager().backStackEntryCount.toString())
+                        if (getChildFragmentManager().backStackEntryCount == 2){
+                            ppw.dismiss()
+                        }
                         onBackPressed()
                     }
 
