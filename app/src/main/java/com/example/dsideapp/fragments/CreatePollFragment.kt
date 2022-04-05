@@ -11,6 +11,9 @@ import android.widget.EditText
 import com.example.dsideapp.R
 import com.example.dsideapp.auth
 import com.example.dsideapp.data.PollObject
+import com.google.firebase.database.ChildEventListener
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import kotlin.random.Random
 
@@ -154,5 +157,15 @@ class CreatePollFragment : Fragment() {
             db.child(pollId).setValue(dbReadablePoll)
         }
         return v
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        var authorization = auth
+        var user = authorization.currentUser
+        var userID = authorization.currentUser?.uid
+        var db = FirebaseDatabase.getInstance().getReference("Public Polls")
+
+
     }
 }

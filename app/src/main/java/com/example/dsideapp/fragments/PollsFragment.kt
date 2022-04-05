@@ -15,10 +15,7 @@ import com.example.dsideapp.R
 import com.example.dsideapp.auth
 import com.example.dsideapp.childfragments.SuggestionsChildFragment
 import com.example.dsideapp.data.*
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ValueEventListener
+import com.google.firebase.database.*
 import java.util.*
 import kotlin.random.Random
 private val createThePollFragment = CreatePollFragment()
@@ -38,7 +35,8 @@ class PollsFragment : Fragment() {
         var user = authorization.currentUser
         var userID = authorization.currentUser?.uid
         var db = FirebaseDatabase.getInstance().getReference("Public Polls")
-
+        var pollWatcher = pollAddEventListener()
+        db.addChildEventListener(pollWatcher)
         //Creating the vars for the create popup
         lateinit var createPollPopUpTitle: TextView
         lateinit var createPollPopUpOpt1: TextView
@@ -178,6 +176,13 @@ class PollsFragment : Fragment() {
                     db.child(pollId).setValue(dbReadablePoll)
                 popupWindow.dismiss()
                 true
+                val fragmentManager = activity?.getSupportFragmentManager()
+                Log.w("Polls: ",fragmentManager.toString())
+                if (fragmentManager != null) {
+                    fragmentManager.beginTransaction().replace(com.example.dsideapp.R.id.fragment_view,  PollsFragment()).commit()
+                    Log.w("Made it here","!")
+                }
+                Log.w("Twas null","!")
             }
             ////////
 
@@ -266,5 +271,31 @@ class PollsFragment : Fragment() {
     private fun replaceChildFragment(childFragment : Fragment) {
         val transaction: FragmentTransaction = getChildFragmentManager().beginTransaction()
         transaction.replace(R.id.activities_view, childFragment).addToBackStack(null).commit()
+    }
+    private class pollAddEventListener : ChildEventListener, Fragment() {
+        override fun onChildAdded(snapshot: DataSnapshot, previousChildName: String?) {
+            Log.w("Addition was detected","!")
+        }
+
+        override fun onChildChanged(snapshot: DataSnapshot, previousChildName: String?) {
+            Log.w("Change was detected","!")
+            val fragmentManager = getActivity()?.getSupportFragmentManager()
+            if (fragmentManager != null) {
+                fragmentManager.beginTransaction().replace(com.example.dsideapp.R.id.fragment_view,  PollsFragment()).commit()
+            }
+        }
+
+        override fun onChildRemoved(snapshot: DataSnapshot) {
+            Log.w("Removal was detected","!")
+        }
+
+        override fun onChildMoved(snapshot: DataSnapshot, previousChildName: String?) {
+            Log.w("Movement was detected","!")
+        }
+
+        override fun onCancelled(error: DatabaseError) {
+            Log.w("Cancellation detected","!")
+        }
+
     }
 }
