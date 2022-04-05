@@ -110,6 +110,8 @@ lateinit var temp2: ViewGroup
                 val height = LinearLayout.LayoutParams.WRAP_CONTENT
                 val focusable = true // lets taps outside the popup also dismiss it
                 //
+                var dbVoters = p.voters
+
                 //Log.w("", p.poll_options.toString())
                 if (numOfOptions == 6){
                     v = LayoutInflater.from(context).inflate(R.layout.fragment_vote6_poll, null )
@@ -129,12 +131,13 @@ lateinit var temp2: ViewGroup
                     var popupView = LayoutInflater.from(getActivity(context)).inflate(layoutThingy, null);
                     var popupWindow = PopupWindow(v, WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT);
                     popupWindow.showAtLocation(popupView, Gravity.CENTER, 0, 0);
-
                     b6.setOnClickListener{
                         db.child("Public Polls").child(p.id.toString()).child("opt6Vote")
                             .setValue(""+(p.poll_vote_count!![5]+1))
                         popupWindow.dismiss()
                         true
+                        db.child("Public Polls").child(p.id.toString()).child("voters").setValue(
+                            dbVoters + user.toString() + ",")
                     }
                     //
 
@@ -143,6 +146,8 @@ lateinit var temp2: ViewGroup
                             .setValue(""+(p.poll_vote_count!![4]+1))
                         popupWindow.dismiss()
                         true
+                        db.child("Public Polls").child(p.id.toString()).child("voters").setValue(
+                            dbVoters + user.toString() + ",")
                     }
                     //
 
@@ -151,6 +156,8 @@ lateinit var temp2: ViewGroup
                             .setValue(""+(p.poll_vote_count!![3]+1))
                         popupWindow.dismiss()
                         true
+                        db.child("Public Polls").child(p.id.toString()).child("voters").setValue(
+                            dbVoters + user.toString() + ",")
                     }
                     //
 
@@ -159,6 +166,8 @@ lateinit var temp2: ViewGroup
                             .setValue(""+(p.poll_vote_count!![2]+1))
                         popupWindow.dismiss()
                         true
+                        db.child("Public Polls").child(p.id.toString()).child("voters").setValue(
+                            dbVoters + user.toString() + ",")
                     }
                     //
 
@@ -167,6 +176,8 @@ lateinit var temp2: ViewGroup
                             .setValue(""+(p.poll_vote_count!![1]+1))
                         popupWindow.dismiss()
                         true
+                        db.child("Public Polls").child(p.id.toString()).child("voters").setValue(
+                            dbVoters + user.toString() + ",")
                     }
                     //
 
@@ -175,6 +186,8 @@ lateinit var temp2: ViewGroup
                             .setValue(""+(p.poll_vote_count!![0]+1))
                         popupWindow.dismiss()
                         true
+                        db.child("Public Polls").child(p.id.toString()).child("voters").setValue(
+                            dbVoters + user.toString() + ",")
                     }
                     //
                 }
@@ -200,6 +213,8 @@ lateinit var temp2: ViewGroup
                             .setValue(""+(p.poll_vote_count!![4]+1))
                         popupWindow.dismiss()
                         true
+                        db.child("Public Polls").child(p.id.toString()).child("voters").setValue(
+                            dbVoters + user.toString() + ",")
                     }
                     //
 
@@ -208,6 +223,8 @@ lateinit var temp2: ViewGroup
                             .setValue(""+(p.poll_vote_count!![3]+1))
                         popupWindow.dismiss()
                         true
+                        db.child("Public Polls").child(p.id.toString()).child("voters").setValue(
+                            dbVoters + user.toString() + ",")
                     }
                     //
 
@@ -216,6 +233,8 @@ lateinit var temp2: ViewGroup
                             .setValue(""+(p.poll_vote_count!![2]+1))
                         popupWindow.dismiss()
                         true
+                        db.child("Public Polls").child(p.id.toString()).child("voters").setValue(
+                            dbVoters + user.toString() + ",")
                     }
                     //
 
@@ -224,6 +243,8 @@ lateinit var temp2: ViewGroup
                             .setValue(""+(p.poll_vote_count!![1]+1))
                         popupWindow.dismiss()
                         true
+                        db.child("Public Polls").child(p.id.toString()).child("voters").setValue(
+                            dbVoters + user.toString() + ",")
                     }
                     //
 
@@ -232,6 +253,8 @@ lateinit var temp2: ViewGroup
                             .setValue(""+(p.poll_vote_count!![0]+1))
                         popupWindow.dismiss()
                         true
+                        db.child("Public Polls").child(p.id.toString()).child("voters").setValue(
+                            dbVoters + user.toString() + ",")
                     }
                     //
                 }
@@ -255,6 +278,8 @@ lateinit var temp2: ViewGroup
                             .setValue(""+(p.poll_vote_count!![3]+1))
                         popupWindow.dismiss()
                         true
+                        db.child("Public Polls").child(p.id.toString()).child("voters").setValue(
+                            dbVoters + user.toString() + ",")
                     }
                     //
 
@@ -263,6 +288,8 @@ lateinit var temp2: ViewGroup
                             .setValue(""+(p.poll_vote_count!![2]+1))
                         popupWindow.dismiss()
                         true
+                        db.child("Public Polls").child(p.id.toString()).child("voters").setValue(
+                            dbVoters + user.toString() + ",")
                     }
                     //
 
@@ -271,6 +298,8 @@ lateinit var temp2: ViewGroup
                             .setValue(""+(p.poll_vote_count!![1]+1))
                         popupWindow.dismiss()
                         true
+                        db.child("Public Polls").child(p.id.toString()).child("voters").setValue(
+                            dbVoters + user.toString() + ",")
                     }
                     //
 
@@ -279,6 +308,8 @@ lateinit var temp2: ViewGroup
                             .setValue(""+(p.poll_vote_count!![0]+1))
                         popupWindow.dismiss()
                         true
+                        db.child("Public Polls").child(p.id.toString()).child("voters").setValue(
+                            dbVoters + user.toString() + ",")
                     }
                     //
                 }
@@ -300,6 +331,8 @@ lateinit var temp2: ViewGroup
                             .setValue(""+(p.poll_vote_count!![2]+1))
                         popupWindow.dismiss()
                         true
+                        db.child("Public Polls").child(p.id.toString()).child("voters").setValue(
+                            dbVoters + user.toString() + ",")
                     }
                     //
 
@@ -308,6 +341,8 @@ lateinit var temp2: ViewGroup
                             .setValue(""+(p.poll_vote_count!![1]+1))
                         popupWindow.dismiss()
                         true
+                        db.child("Public Polls").child(p.id.toString()).child("voters").setValue(
+                            dbVoters + user.toString() + ",")
                     }
                     //
 
@@ -316,6 +351,8 @@ lateinit var temp2: ViewGroup
                             .setValue(""+(p.poll_vote_count!![0]+1))
                         popupWindow.dismiss()
                         true
+                        db.child("Public Polls").child(p.id.toString()).child("voters").setValue(
+                            dbVoters + user.toString() + ",")
                     }
                     //
                 }
@@ -334,6 +371,8 @@ lateinit var temp2: ViewGroup
                             .setValue(""+(p.poll_vote_count!![1]+1))
                         popupWindow.dismiss()
                         true
+                        db.child("Public Polls").child(p.id.toString()).child("voters").setValue(
+                            dbVoters + user.toString() + ",")
                     }
                     //
 
@@ -342,6 +381,8 @@ lateinit var temp2: ViewGroup
                             .setValue(""+(p.poll_vote_count!![0]+1))
                         popupWindow.dismiss()
                         true
+                        db.child("Public Polls").child(p.id.toString()).child("voters").setValue(
+                            dbVoters + user.toString() + ",")
                     }
                     //
                 }
