@@ -1,11 +1,13 @@
 package com.example.dsideapp.data
 
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.example.dsideapp.R
 import com.google.firebase.database.DataSnapshot
@@ -48,6 +50,9 @@ class RecyclerAdapter(val context: Context, val cart: MutableList<DataSnapshot>)
         // NOTES: size of arrays of info to bind w/ ViewHolder must be equal
         // NOTES: Line below will crash because images[].size != cart.size (or "getItemCount()")
         //holder.itemImage.setImageResource(images[position])
+        holder.itemView.setOnClickListener {
+            Log.d("Clicked", "${holder.itemTitle.text} Selected")
+        }
     }
 
     inner class ViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
