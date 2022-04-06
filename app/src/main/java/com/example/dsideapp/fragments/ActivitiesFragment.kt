@@ -99,10 +99,23 @@ class ActivitiesFragment : Fragment() , HomeActivity.IOnBackPressed {
             override fun doInBackground(vararg params: Void): Void? {
                 try {
                     //Connect to the website
+                    var categoriesToWebscrape = ArrayList<String>()
+                    categoriesToWebscrape.add("Cake")
+                    categoriesToWebscrape.add("Cars")
+                    categoriesToWebscrape.add("Coffee & Tea")
+                    categoriesToWebscrape.add("Cookies")
+                    categoriesToWebscrape.add("Juice Bars & Smoothies")
+                    categoriesToWebscrape.add("Dance Clubs")
+                    categoriesToWebscrape.add("Dive Bars")
+                    categoriesToWebscrape.add("Dining")
+                    categoriesToWebscrape.add("Bowling")
+                    categoriesToWebscrape.add("Lounges")
+                    categoriesToWebscrape.add("Pizza")
+                    categoriesToWebscrape.add("Seafood")
                     var document =
-                        Jsoup.connect("https://www.yelp.com/search?cflt=bowling&find_loc=Long+Beach%2C+CA").get()
+                        Jsoup.connect("https://www.yelp.com/search?cflt="+ categoriesToWebscrape.get(0) +"&find_loc=Long+Beach%2C+CA").get()
                     var infoDocument =
-                        Jsoup.connect("https://en.wikipedia.org/wiki/Bowling").get()
+                        Jsoup.connect("https://en.wikipedia.org/wiki/" + categoriesToWebscrape.get(0)).get()
 
                     //////////
                     ///Info image info gathering
