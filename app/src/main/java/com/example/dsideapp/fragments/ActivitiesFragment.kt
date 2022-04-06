@@ -65,7 +65,7 @@ class ActivitiesFragment : Fragment() , HomeActivity.IOnBackPressed {
 
     // MMMMM: RecyclerView + CardView (ActivitiesFragment, CartPopUpFragment)
     private var layoutManager: RecyclerView.LayoutManager? = null
-    private var adapter: RecyclerView.Adapter<RecyclerAdapter.ViewHolder>? = null
+    private var adapter: RecyclerView.Adapter<CartActivityAdapter.ViewHolder>? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -230,7 +230,7 @@ class ActivitiesFragment : Fragment() , HomeActivity.IOnBackPressed {
                         val activities = mutableListOf<DataSnapshot>()
                         layoutManager = LinearLayoutManager(requireContext())
                         rv.layoutManager = layoutManager
-                        adapter = RecyclerAdapter(requireContext(), activities)
+                        adapter = CartActivityAdapter(requireContext(), activities)
                         rv.adapter = adapter
                         // MMMMM: -----------------------------------------------------------------//
                         var activityInfo = db.child("users").child(userID.toString()).get().addOnSuccessListener {

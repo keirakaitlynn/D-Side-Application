@@ -7,13 +7,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.example.dsideapp.R
 import com.google.firebase.database.DataSnapshot
 
 // MMMMM: RecyclerView + CardView (ActivitiesFragment, CartPopUpFragment)
-class RecyclerAdapter(val context: Context, val cart: MutableList<DataSnapshot>): RecyclerView.Adapter<RecyclerAdapter.ViewHolder>() {
+class CartActivityAdapter(val context: Context, val cart: MutableList<DataSnapshot>): RecyclerView.Adapter<CartActivityAdapter.ViewHolder>() {
 
     // NOTES: size of arrays of info to bind w/ ViewHolder must be equal
 //    private var titles = arrayOf("Chapter One", "Chapter Two", "Chapter Three", "Chapter Five", "Chapter Six", "Chapter Seven", "Chapter Eight")
@@ -23,7 +22,7 @@ class RecyclerAdapter(val context: Context, val cart: MutableList<DataSnapshot>)
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
-    ): RecyclerAdapter.ViewHolder {
+    ): CartActivityAdapter.ViewHolder {
         // ViewHolder: the layout of the item to be duplicated/"recycled"
         val v = LayoutInflater.from(parent.context).inflate(R.layout.cart_activity_card, parent, false)
         return ViewHolder(v)
@@ -34,7 +33,7 @@ class RecyclerAdapter(val context: Context, val cart: MutableList<DataSnapshot>)
         return cart.size
     }
 
-    override fun onBindViewHolder(holder: RecyclerAdapter.ViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: CartActivityAdapter.ViewHolder, position: Int) {
         // Iterates through an array (cart, images, etc).
         // Binds ViewHolder's vars to RecyclerAdapter's vars (cart_activity_card.xml w/ RecyclerAdapter.kt).
         val activity = cart[position]
