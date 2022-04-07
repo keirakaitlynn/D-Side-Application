@@ -9,13 +9,17 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageButton
-import android.widget.ImageView
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentTransaction
 import com.example.dsideapp.R
 import com.example.dsideapp.auth
+import com.example.dsideapp.childfragments.CoinChildFragment
+import com.example.dsideapp.childfragments.InformationChildFragment
 import com.google.firebase.database.FirebaseDatabase
 
 class AccountFragment : Fragment() {
+    lateinit var infoButton : ImageButton
+    private val infoFragment = InformationChildFragment()
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -54,5 +58,9 @@ class AccountFragment : Fragment() {
             }
         }
         return v
+    }
+    private fun replaceChildFragment(childFragment : Fragment) {
+        val transaction: FragmentTransaction = getChildFragmentManager().beginTransaction()
+        transaction.replace(R.id.activities_view, childFragment).addToBackStack(null).commit()
     }
 }
