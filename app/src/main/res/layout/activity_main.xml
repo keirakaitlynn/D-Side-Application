@@ -94,7 +94,7 @@
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:scaleType="fitXY"
-            android:src="@drawable/default_profile_pic"></ImageButton>
+            android:src="@drawable/pikachupfp"></ImageButton>
             </LinearLayout>
         </HorizontalScrollView>
         <!-- -->
