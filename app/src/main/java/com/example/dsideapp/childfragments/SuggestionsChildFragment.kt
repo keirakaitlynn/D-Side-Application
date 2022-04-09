@@ -102,9 +102,9 @@ class SuggestionsChildFragment : Fragment() {
                     fun writeNewActivity(userId: String, id: String, title: String = "None", phone: String = "None",
                                          image: String = "None", loc_address: String = "None", loc_city: String = "None",
                                          loc_country:String = "None", loc_zip: String = "None", loc_state: String = "None"
-                                         , business_name: String = "None", price: String = "None") {
+                                         , business_name: String = "None", price: String = "None", category: String = "None") {
                         val location = LocationObject(loc_address, loc_city, loc_country, loc_zip, loc_state)
-                        val activity = ActivityObject(if(id != "") id else "null", title, phone, image, location, business_name, price)
+                        val activity = ActivityObject(if(id != "") id else "null", title, phone, image, location, business_name, price, category)
                         db.child("users").child(userId).child("data").child("cart").child(if(id != "") id else "null").setValue(activity)
                     }
                     //Create random ID tag
@@ -117,8 +117,9 @@ class SuggestionsChildFragment : Fragment() {
                         randID += (Random.nextInt(25) + 65).toChar()
                     }
                     //Actually saving activity to db
-                    writeNewActivity(userId = userID.toString(), id = randID, title = o.toString(),
-                        image = "", business_name = "", price = "")
+                    writeNewActivity(userId = userID.toString(), id = randID,
+                        title = restaurants.get(0).name, phone = restaurants.get(0).phoneNum, image = restaurants.get(0).imageUrl,
+                        business_name = "", price = restaurants.get(0).price, category = restaurants.get(0).categories.get(0).title)
                 }
                 // MMMMM: addToCart() -------------------------------------------------------------//
 
