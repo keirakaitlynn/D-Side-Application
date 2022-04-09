@@ -49,9 +49,11 @@ class PollsFragment : Fragment() {
 //        lateinit var createPollPopUpOpt6: TextView
 //        lateinit var createPollPopUpTime: TextView
 //
-//        //Transition to create
-//        val createThePollButton = v.findViewById<Button>(R.id.pollCreateButton)
-//        createThePollButton.setOnClickListener{
+        //Transition to create
+        val createThePollButton = v.findViewById<Button>(R.id.pollCreateButton)
+        createThePollButton.setOnClickListener{
+            replaceChildFragment(createThePollFragment)
+        }
 //            // inflate the layout of the popup window
 //            v = inflater.inflate(com.example.dsideapp.R.layout.fragment_create_poll, null)
 //            // create the popup window
@@ -69,12 +71,10 @@ class PollsFragment : Fragment() {
 ////                true
 ////            }
 ////
-            var createButton = v.findViewById<Button>(R.id.pollCreateButton)
-
-            ////CREATE POLL////
-            createButton.setOnClickListener {
-                replaceChildFragment(createThePollFragment) // initial child fragment
-            }
+////            var createButton = v.findViewById<Button>(R.id.pollCreateButton)
+////
+////            ////CREATE POLL////
+////            createButton.setOnClickListener {
 ////                var pollId: String
 ////                val pollPosterId: String
 ////                val pollOptions: MutableList<String>
