@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/polls_view"
+    android:id="@+id/poll_view"
     app:cardBackgroundColor="@color/purple_300"
     app:cardCornerRadius="18dp"
     app:cardElevation="3dp"

@@ -10,69 +10,84 @@
     tools:context=".fragments.PollsFragment">
 
     <FrameLayout
-        android:layout_marginTop="50dp"
-        android:id="@+id/pollTitle"
+        android:id="@+id/polls_view"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/pink"
-        android:backgroundTint="@color/purple_400"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:paddingStart="30dp"
-        >
+        android:layout_height="match_parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="left"
-            android:text="Polls"
-            android:backgroundTint="@color/purple_400"
-            android:textColor="@color/white"
-            android:textSize="32sp"
-            android:textStyle="bold"
-            android:fontFamily="@font/secondary"
-            android:letterSpacing="0.01"/>
-
-    </FrameLayout>
-
-    <FrameLayout
-        android:id="@+id/frameLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="@+id/pollTitle"
-        app:layout_constraintTop_toBottomOf="@+id/pollTitle"
-        android:paddingStart="30dp"
-        android:paddingTop="2dp"
-        android:paddingBottom="10dp" >
-
-        <Button
-            android:id="@+id/pollCreateButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Create"
-            android:gravity="left"
-             />
-    </FrameLayout>
-
-    <androidx.core.widget.NestedScrollView
-        android:id="@+id/activities_categories"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@+id/frameLayout"
-        android:fillViewport="true"
-        tools:ignore="UnknownIdInLayout">
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/pollsRecyclerView"
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/pollCreateButton" />
+            android:layout_height="wrap_content">
 
-    </androidx.core.widget.NestedScrollView>
+            <FrameLayout
+                android:layout_marginTop="50dp"
+                android:id="@+id/pollTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/pink"
+                android:backgroundTint="@color/purple_400"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:paddingStart="30dp"
+                >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:text="Polls"
+                    android:backgroundTint="@color/purple_400"
+                    android:textColor="@color/white"
+                    android:textSize="32sp"
+                    android:textStyle="bold"
+                    android:fontFamily="@font/secondary"
+                    android:letterSpacing="0.01"/>
+
+            </FrameLayout>
+
+            <FrameLayout
+                android:id="@+id/frameLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="@+id/pollTitle"
+                app:layout_constraintTop_toBottomOf="@+id/pollTitle"
+                android:paddingStart="30dp"
+                android:paddingTop="2dp"
+                android:paddingBottom="10dp" >
+
+                <Button
+                    android:id="@+id/pollCreateButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Create"
+                    android:gravity="left"
+                    />
+            </FrameLayout>
+
+            <androidx.core.widget.NestedScrollView
+                android:id="@+id/activities_categories"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@+id/frameLayout"
+                android:fillViewport="true"
+                tools:ignore="UnknownIdInLayout">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/pollsRecyclerView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/pollCreateButton" />
+
+            </androidx.core.widget.NestedScrollView>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </FrameLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
