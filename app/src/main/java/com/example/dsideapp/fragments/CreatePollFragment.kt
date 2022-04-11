@@ -15,6 +15,7 @@ import com.google.firebase.database.ChildEventListener
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
+import java.util.*
 import kotlin.random.Random
 
 class CreatePollFragment : Fragment() {
@@ -28,7 +29,7 @@ class CreatePollFragment : Fragment() {
         val pollPosterId: String
         val pollOptions: MutableList<String>
         val pollVoteCount: MutableList<Int>
-        var pollEndTime: Int
+        var pollEndTime: Long
         val businessName: String
         var winnerIndex: Int
 
@@ -95,9 +96,11 @@ class CreatePollFragment : Fragment() {
             //}
             //Getting the poll time in minutes
             if (pollTime.text.toString() == "Time") {
-                pollEndTime = 5
+                //5 min base. 5 min * 60sec/min * 1000 millisec/sec + current time.
+                pollEndTime = Date(5 * 60 * 1000 + Date().getTime()).time
             } else {
-                pollEndTime = pollTime.text.toString().toInt()
+                //Input (GIVEN THAT IT IS IN MINUTES) * 60sec/min * 1000 millisec/sec + current time.
+                pollEndTime = Date(pollTime.text.toString().toLong() * 60 * 1000 + Date().getTime()).time
             }
             //Filling oll vote count list with 6 elements
             while (pollVoteCount.size < pollOptions.size) {

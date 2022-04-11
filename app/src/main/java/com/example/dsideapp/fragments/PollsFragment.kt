@@ -15,9 +15,14 @@ import com.example.dsideapp.R
 import com.example.dsideapp.auth
 import com.example.dsideapp.childfragments.SuggestionsChildFragment
 import com.example.dsideapp.data.*
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.*
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 import java.util.*
 import kotlin.random.Random
+import java.security.Timestamp
 private val createThePollFragment = CreatePollFragment()
 //
 class PollsFragment : Fragment() {
@@ -75,7 +80,7 @@ class PollsFragment : Fragment() {
                 val pollPosterId: String
                 val pollOptions: MutableList<String>
                 val pollVoteCount: MutableList<Int>
-                var pollEndTime: Int
+                var pollEndTime: Long
                 val businessName: String
                 var winnerIndex: Int
 
@@ -123,9 +128,11 @@ class PollsFragment : Fragment() {
                     }
                     //Getting the poll time in minutes
                     if (pollTime.text.toString() == "Time") {
-                        pollEndTime = 5
+                        //5 min base. 5 min * 60sec/min * 1000 millisec/sec + current time.
+                        pollEndTime = Date(5 * 60 * 1000 + Date().getTime()).time
                     } else {
-                        pollEndTime = pollTime.text.toString().toInt()
+                        //Input (GIVEN THAT IT IS IN MINUTES) * 60sec/min * 1000 millisec/sec + current time.
+                        pollEndTime = Date(pollTime.text.toString().toLong() * 60 * 1000 + Date().getTime()).time
                     }
                     //Filling oll vote count list with 6 elements
                     while (pollVoteCount.size < 6) {
@@ -152,6 +159,7 @@ class PollsFragment : Fragment() {
                         val voters: String? = null
                     ) {}
 
+
                     var dbReadablePoll = stringPoll(
                         pollTitleInPopUp.text.toString(),
                         pollId,
@@ -176,6 +184,7 @@ class PollsFragment : Fragment() {
                     db.child(pollId).setValue(dbReadablePoll)
                 popupWindow.dismiss()
                 true
+                ////MIGHT NOT NEED
                 val fragmentManager = activity?.getSupportFragmentManager()
                 Log.w("Polls: ",fragmentManager.toString())
                 if (fragmentManager != null) {
@@ -183,6 +192,7 @@ class PollsFragment : Fragment() {
                     Log.w("Made it here","!")
                 }
                 Log.w("Twas null","!")
+                ////MIGHT NOT NEED
             }
             ////////
 
@@ -201,21 +211,23 @@ class PollsFragment : Fragment() {
                 adapter = RecyclerAdapterForTitles(requireContext(), pollViews)
                 rv.adapter = adapter
                 allPolls.forEach { poll ->
-                    //Getting poll options from db
-                    val pollOpt1 = poll.child("opt1").value.toString()
-                    val pollOpt2 = poll.child("opt2").value.toString()
-                    val pollOpt3 = poll.child("opt3").value.toString()
-                    val pollOpt4 = poll.child("opt4").value.toString()
-                    val pollOpt5 = poll.child("opt5").value.toString()
-                    val pollOpt6 = poll.child("opt6").value.toString()
-                    //Creating a String List of Options to put in poll object
-                    var tempOptionsHolder = mutableListOf<String>()
-                    tempOptionsHolder.add(pollOpt1)
-                    tempOptionsHolder.add(pollOpt2)
-                    tempOptionsHolder.add(pollOpt3)
-                    tempOptionsHolder.add(pollOpt4)
-                    tempOptionsHolder.add(pollOpt5)
-                    tempOptionsHolder.add(pollOpt6)
+                    //if poll hasn't ended.
+                    if(poll.child("poll_Time").value.toString().toLong() > Date().getTime()) {
+                        //Getting poll options from db
+                        val pollOpt1 = poll.child("opt1").value.toString()
+                        val pollOpt2 = poll.child("opt2").value.toString()
+                        val pollOpt3 = poll.child("opt3").value.toString()
+                        val pollOpt4 = poll.child("opt4").value.toString()
+                        val pollOpt5 = poll.child("opt5").value.toString()
+                        val pollOpt6 = poll.child("opt6").value.toString()
+                        //Creating a String List of Options to put in poll object
+                        var tempOptionsHolder = mutableListOf<String>()
+                        tempOptionsHolder.add(pollOpt1)
+                        tempOptionsHolder.add(pollOpt2)
+                        tempOptionsHolder.add(pollOpt3)
+                        tempOptionsHolder.add(pollOpt4)
+                        tempOptionsHolder.add(pollOpt5)
+                        tempOptionsHolder.add(pollOpt6)
 
                     //Getting option votes from db
                     val pollVoteOpt1 = poll.child("opt1Vote").value.toString().toInt()
@@ -261,6 +273,13 @@ class PollsFragment : Fragment() {
                     //put in the poll object instead of only the title
                     pollViews.add(newPoll)
                     //Log.w("NOT SURE: ", pollId.toString())
+                }
+                else {
+                    //Add to user's "poll_results"
+                    var userdb = FirebaseDatabase.getInstance().getReference("users")
+                    userdb.child(poll.child("poster_ID").value.toString()).child("data").child("poll_results").child(poll.child("poll_ID").value.toString()).setValue(poll.value)
+                    //Delete poll
+                    db.child(poll.child("poll_ID").value.toString()).setValue(null)
                 }
             }
         }
