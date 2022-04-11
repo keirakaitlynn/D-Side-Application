@@ -212,7 +212,7 @@ class PollsFragment : Fragment() {
                 rv.adapter = adapter
                 allPolls.forEach { poll ->
                     //if poll hasn't ended.
-                    if(poll.child("poll_Time").value.toString().toLong() > Date().getTime()) {
+                    if (poll.child("poll_Time").value.toString().toLong() > Date().getTime()) {
                         //Getting poll options from db
                         val pollOpt1 = poll.child("opt1").value.toString()
                         val pollOpt2 = poll.child("opt2").value.toString()
@@ -229,62 +229,66 @@ class PollsFragment : Fragment() {
                         tempOptionsHolder.add(pollOpt5)
                         tempOptionsHolder.add(pollOpt6)
 
-                    //Getting option votes from db
-                    val pollVoteOpt1 = poll.child("opt1Vote").value.toString().toInt()
-                    val pollVoteOpt2 = poll.child("opt2Vote").value.toString().toInt()
-                    val pollVoteOpt3 = poll.child("opt3Vote").value.toString().toInt()
-                    val pollVoteOpt4 = poll.child("opt4Vote").value.toString().toInt()
-                    val pollVoteOpt5 = poll.child("opt5Vote").value.toString().toInt()
-                    val pollVoteOpt6 = poll.child("opt6Vote").value.toString().toInt()
-                    //Creating a Int List of Votes to put in poll object
-                    var tempVoteHolder = mutableListOf<Int>()
-                    tempVoteHolder.add(pollVoteOpt1)
-                    tempVoteHolder.add(pollVoteOpt2)
-                    tempVoteHolder.add(pollVoteOpt3)
-                    tempVoteHolder.add(pollVoteOpt4)
-                    tempVoteHolder.add(pollVoteOpt5)
-                    tempVoteHolder.add(pollVoteOpt6)
+                        //Getting option votes from db
+                        val pollVoteOpt1 = poll.child("opt1Vote").value.toString().toInt()
+                        val pollVoteOpt2 = poll.child("opt2Vote").value.toString().toInt()
+                        val pollVoteOpt3 = poll.child("opt3Vote").value.toString().toInt()
+                        val pollVoteOpt4 = poll.child("opt4Vote").value.toString().toInt()
+                        val pollVoteOpt5 = poll.child("opt5Vote").value.toString().toInt()
+                        val pollVoteOpt6 = poll.child("opt6Vote").value.toString().toInt()
+                        //Creating a Int List of Votes to put in poll object
+                        var tempVoteHolder = mutableListOf<Int>()
+                        tempVoteHolder.add(pollVoteOpt1)
+                        tempVoteHolder.add(pollVoteOpt2)
+                        tempVoteHolder.add(pollVoteOpt3)
+                        tempVoteHolder.add(pollVoteOpt4)
+                        tempVoteHolder.add(pollVoteOpt5)
+                        tempVoteHolder.add(pollVoteOpt6)
 
 
-                    val pollT = poll.child("poll_TITLE").value.toString()
-                    //Getting poll ID from db
-                    var pollId = poll.child("poll_ID").value.toString()
-                    //Getting poster ID from db
-                    val pollPosterId = poll.child("poster_ID").value.toString()
-                    //Getting poll end time from db
-                    var pollEndTime = poll.child("poll_Time").value.toString().toInt()
-                    //Getting poll name
-                    var pollName = poll.child("poll_TITLE").value.toString()
-                    //getting voters
-                    var allVoters = poll.child("voters").value.toString()
+                        val pollT = poll.child("poll_TITLE").value.toString()
+                        //Getting poll ID from db
+                        var pollId = poll.child("poll_ID").value.toString()
+                        //Getting poster ID from db
+                        val pollPosterId = poll.child("poster_ID").value.toString()
+                        //Getting poll end time from db
+                        var pollEndTime = poll.child("poll_Time").value.toString().toLong()
+                        //Getting poll name
+                        var pollName = poll.child("poll_TITLE").value.toString()
+                        //getting voters
+                        var allVoters = poll.child("voters").value.toString()
 
-                    //Creating the poll object
-                    var newPoll = PollObject(
-                        pollId,
-                        pollPosterId,
-                        tempOptionsHolder,
-                        tempVoteHolder,
-                        pollEndTime,
-                        pollName,
-                        winner_index = 0,
-                        allVoters
-                    )
-                    //Adding poll to recycler view
-                    //put in the poll object instead of only the title
-                    pollViews.add(newPoll)
-                    //Log.w("NOT SURE: ", pollId.toString())
-                }
-                else {
-                    //Add to user's "poll_results"
-                    var userdb = FirebaseDatabase.getInstance().getReference("users")
-                    userdb.child(poll.child("poster_ID").value.toString()).child("data").child("poll_results").child(poll.child("poll_ID").value.toString()).setValue(poll.value)
-                    //Delete poll
-                    db.child(poll.child("poll_ID").value.toString()).setValue(null)
+                        //Creating the poll object
+                        var newPoll = PollObject(
+                            pollId,
+                            pollPosterId,
+                            tempOptionsHolder,
+                            tempVoteHolder,
+                            pollEndTime,
+                            pollName,
+                            winner_index = 0,
+                            allVoters
+                        )
+                        Log.w("VOTES: ", newPoll.poll_vote_count.toString())
+                        Log.w("VOTES: ", newPoll.calc_perc_n_lock().toString())
+
+                        //Adding poll to recycler view
+                        //put in the poll object instead of only the title
+                        pollViews.add(newPoll)
+                        //Log.w("NOT SURE: ", pollId.toString())
+                    } else {
+                        //Add to user's "poll_results"
+                        var userdb = FirebaseDatabase.getInstance().getReference("users")
+                        userdb.child(poll.child("poster_ID").value.toString()).child("data")
+                            .child("poll_results").child(poll.child("poll_ID").value.toString())
+                            .setValue(poll.value)
+                        //Delete poll
+                        db.child(poll.child("poll_ID").value.toString()).setValue(null)
+                    }
                 }
             }
+            adapter?.notifyDataSetChanged()
         }
-        adapter?.notifyDataSetChanged()
-
         return v
     }
     private fun replaceChildFragment(childFragment : Fragment) {
@@ -293,19 +297,35 @@ class PollsFragment : Fragment() {
     }
     private class pollAddEventListener : ChildEventListener, Fragment() {
         override fun onChildAdded(snapshot: DataSnapshot, previousChildName: String?) {
-            Log.w("Addition was detected","!")
-        }
-
-        override fun onChildChanged(snapshot: DataSnapshot, previousChildName: String?) {
-            Log.w("Change was detected","!")
-            val fragmentManager = getActivity()?.getSupportFragmentManager()
+            val fragmentManager = activity?.getSupportFragmentManager()
             if (fragmentManager != null) {
-                fragmentManager.beginTransaction().replace(com.example.dsideapp.R.id.fragment_view,  PollsFragment()).commit()
+                Log.w("Addition was detected","!")
+                fragmentManager.beginTransaction().detach(this).attach(this).commit()
+                //fragmentManager.beginTransaction().replace(com.example.dsideapp.R.id.fragment_view,  PollsFragment()).commit()
             }
         }
 
+        override fun onChildChanged(snapshot: DataSnapshot, previousChildName: String?) {
+            val fragmentManager = getActivity()?.getSupportFragmentManager()
+            Log.w("Home: ",fragmentManager.toString())
+            if (fragmentManager != null) {
+                Log.w("---FRAG---", activity.toString())
+                fragmentManager.beginTransaction().replace(com.example.dsideapp.R.id.fragment_view,  PollsFragment()).commit()
+            }
+            //val fragmentManager = activity?.getSupportFragmentManager()
+            //if (fragmentManager != null) {
+           //     Log.w("Change was detected","!")
+           //     fragmentManager.beginTransaction().detach(this).attach(this).commit()
+           //     //fragmentManager.beginTransaction().replace(com.example.dsideapp.R.id.fragment_view,  PollsFragment()).commit()
+           // }
+        }
+
         override fun onChildRemoved(snapshot: DataSnapshot) {
-            Log.w("Removal was detected","!")
+            val fragmentManager = activity?.getSupportFragmentManager()
+            if (fragmentManager != null) {
+                Log.w("Removal was detected","!")
+                fragmentManager.beginTransaction().detach(this).attach(this).commit()
+            }
         }
 
         override fun onChildMoved(snapshot: DataSnapshot, previousChildName: String?) {
