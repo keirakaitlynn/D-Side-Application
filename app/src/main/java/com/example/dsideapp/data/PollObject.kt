@@ -8,7 +8,7 @@ data class PollObject (
     val poll_poster_id: String? = null,
     val poll_options: MutableList<String>? = null,
     val poll_vote_count: MutableList<Int>? = null,
-    val poll_end_time: Int? = null,
+    val poll_end_time: Long? = null,
     val business_name: String? = null,
     var winner_index: Int? = null) {
     /**
