@@ -8,11 +8,16 @@ import android.widget.*
 import androidx.recyclerview.widget.RecyclerView
 import com.example.dsideapp.R
 import com.example.dsideapp.auth
+import com.example.dsideapp.fragments.PollsFragment
 import com.google.android.material.internal.ContextUtils.getActivity
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import androidx.appcompat.app.AppCompatActivity
+
+
+
 
 class RecyclerAdapterForTitles(val context: Context, val objectPoll: MutableList<PollObject>): RecyclerView.Adapter<RecyclerAdapterForTitles.ViewHolder>() {
 
@@ -111,7 +116,14 @@ lateinit var temp2: ViewGroup
                 val focusable = true // lets taps outside the popup also dismiss it
                 //
                 var dbVoters = p.voters
-
+                fun refreshTheFragment(){
+                    val manager = (context as AppCompatActivity).supportFragmentManager
+                    Log.w("HERE BE I: ", manager.toString())
+                    if (manager != null) {
+                        manager.beginTransaction().replace(com.example.dsideapp.R.id.fragment_view,  PollsFragment()).commit()
+                        Log.w("Made it here","!")
+                    }
+                }
                 //Log.w("", p.poll_options.toString())
                 if (dbVoters?.split(',')?.contains(user?.email.toString()) == false) {
 
@@ -141,6 +153,7 @@ lateinit var temp2: ViewGroup
                         b6.setOnClickListener {
                             db.child("Public Polls").child(p.id.toString()).child("opt6Vote")
                                 .setValue("" + (p.poll_vote_count!![5] + 1))
+                            refreshTheFragment()
                             popupWindow.dismiss()
                             true
                             db.child("Public Polls").child(p.id.toString()).child("voters")
@@ -153,6 +166,7 @@ lateinit var temp2: ViewGroup
                         b5.setOnClickListener {
                             db.child("Public Polls").child(p.id.toString()).child("opt5Vote")
                                 .setValue("" + (p.poll_vote_count!![4] + 1))
+                            refreshTheFragment()
                             popupWindow.dismiss()
                             true
                             db.child("Public Polls").child(p.id.toString()).child("voters")
@@ -165,6 +179,7 @@ lateinit var temp2: ViewGroup
                         b4.setOnClickListener {
                             db.child("Public Polls").child(p.id.toString()).child("opt4Vote")
                                 .setValue("" + (p.poll_vote_count!![3] + 1))
+                            refreshTheFragment()
                             popupWindow.dismiss()
                             true
                             db.child("Public Polls").child(p.id.toString()).child("voters")
@@ -177,6 +192,7 @@ lateinit var temp2: ViewGroup
                         b3.setOnClickListener {
                             db.child("Public Polls").child(p.id.toString()).child("opt3Vote")
                                 .setValue("" + (p.poll_vote_count!![2] + 1))
+                            refreshTheFragment()
                             popupWindow.dismiss()
                             true
                             db.child("Public Polls").child(p.id.toString()).child("voters")
@@ -189,6 +205,7 @@ lateinit var temp2: ViewGroup
                         b2.setOnClickListener {
                             db.child("Public Polls").child(p.id.toString()).child("opt2Vote")
                                 .setValue("" + (p.poll_vote_count!![1] + 1))
+                            refreshTheFragment()
                             popupWindow.dismiss()
                             true
                             db.child("Public Polls").child(p.id.toString()).child("voters")
@@ -201,6 +218,7 @@ lateinit var temp2: ViewGroup
                         b1.setOnClickListener {
                             db.child("Public Polls").child(p.id.toString()).child("opt1Vote")
                                 .setValue("" + (p.poll_vote_count!![0] + 1))
+                            refreshTheFragment()
                             popupWindow.dismiss()
                             true
                             db.child("Public Polls").child(p.id.toString()).child("voters")
@@ -234,6 +252,7 @@ lateinit var temp2: ViewGroup
                         b5.setOnClickListener {
                             db.child("Public Polls").child(p.id.toString()).child("opt5Vote")
                                 .setValue("" + (p.poll_vote_count!![4] + 1))
+                            refreshTheFragment()
                             popupWindow.dismiss()
                             true
                             db.child("Public Polls").child(p.id.toString()).child("voters")
@@ -246,6 +265,7 @@ lateinit var temp2: ViewGroup
                         b4.setOnClickListener {
                             db.child("Public Polls").child(p.id.toString()).child("opt4Vote")
                                 .setValue("" + (p.poll_vote_count!![3] + 1))
+                            refreshTheFragment()
                             popupWindow.dismiss()
                             true
                             db.child("Public Polls").child(p.id.toString()).child("voters")
@@ -258,6 +278,7 @@ lateinit var temp2: ViewGroup
                         b3.setOnClickListener {
                             db.child("Public Polls").child(p.id.toString()).child("opt3Vote")
                                 .setValue("" + (p.poll_vote_count!![2] + 1))
+                            refreshTheFragment()
                             popupWindow.dismiss()
                             true
                             db.child("Public Polls").child(p.id.toString()).child("voters")
@@ -270,6 +291,7 @@ lateinit var temp2: ViewGroup
                         b2.setOnClickListener {
                             db.child("Public Polls").child(p.id.toString()).child("opt2Vote")
                                 .setValue("" + (p.poll_vote_count!![1] + 1))
+                            refreshTheFragment()
                             popupWindow.dismiss()
                             true
                             db.child("Public Polls").child(p.id.toString()).child("voters")
@@ -282,6 +304,7 @@ lateinit var temp2: ViewGroup
                         b1.setOnClickListener {
                             db.child("Public Polls").child(p.id.toString()).child("opt1Vote")
                                 .setValue("" + (p.poll_vote_count!![0] + 1))
+                            refreshTheFragment()
                             popupWindow.dismiss()
                             true
                             db.child("Public Polls").child(p.id.toString()).child("voters")
@@ -313,6 +336,7 @@ lateinit var temp2: ViewGroup
                         b4.setOnClickListener {
                             db.child("Public Polls").child(p.id.toString()).child("opt4Vote")
                                 .setValue("" + (p.poll_vote_count!![3] + 1))
+                            refreshTheFragment()
                             popupWindow.dismiss()
                             true
                             db.child("Public Polls").child(p.id.toString()).child("voters")
@@ -325,6 +349,7 @@ lateinit var temp2: ViewGroup
                         b3.setOnClickListener {
                             db.child("Public Polls").child(p.id.toString()).child("opt3Vote")
                                 .setValue("" + (p.poll_vote_count!![2] + 1))
+                            refreshTheFragment()
                             popupWindow.dismiss()
                             true
                             db.child("Public Polls").child(p.id.toString()).child("voters")
@@ -337,6 +362,7 @@ lateinit var temp2: ViewGroup
                         b2.setOnClickListener {
                             db.child("Public Polls").child(p.id.toString()).child("opt2Vote")
                                 .setValue("" + (p.poll_vote_count!![1] + 1))
+                            refreshTheFragment()
                             popupWindow.dismiss()
                             true
                             db.child("Public Polls").child(p.id.toString()).child("voters")
@@ -349,6 +375,7 @@ lateinit var temp2: ViewGroup
                         b1.setOnClickListener {
                             db.child("Public Polls").child(p.id.toString()).child("opt1Vote")
                                 .setValue("" + (p.poll_vote_count!![0] + 1))
+                            refreshTheFragment()
                             popupWindow.dismiss()
                             true
                             db.child("Public Polls").child(p.id.toString()).child("voters")
@@ -378,6 +405,7 @@ lateinit var temp2: ViewGroup
                         b3.setOnClickListener {
                             db.child("Public Polls").child(p.id.toString()).child("opt3Vote")
                                 .setValue("" + (p.poll_vote_count!![2] + 1))
+                            refreshTheFragment()
                             popupWindow.dismiss()
                             true
                             db.child("Public Polls").child(p.id.toString()).child("voters")
@@ -390,6 +418,7 @@ lateinit var temp2: ViewGroup
                         b2.setOnClickListener {
                             db.child("Public Polls").child(p.id.toString()).child("opt2Vote")
                                 .setValue("" + (p.poll_vote_count!![1] + 1))
+                            refreshTheFragment()
                             popupWindow.dismiss()
                             true
                             db.child("Public Polls").child(p.id.toString()).child("voters")
@@ -402,6 +431,7 @@ lateinit var temp2: ViewGroup
                         b1.setOnClickListener {
                             db.child("Public Polls").child(p.id.toString()).child("opt1Vote")
                                 .setValue("" + (p.poll_vote_count!![0] + 1))
+                            refreshTheFragment()
                             popupWindow.dismiss()
                             true
                             db.child("Public Polls").child(p.id.toString()).child("voters")
@@ -428,6 +458,7 @@ lateinit var temp2: ViewGroup
                         b2.setOnClickListener {
                             db.child("Public Polls").child(p.id.toString()).child("opt2Vote")
                                 .setValue("" + (p.poll_vote_count!![1] + 1))
+                            refreshTheFragment()
                             popupWindow.dismiss()
                             true
                             db.child("Public Polls").child(p.id.toString()).child("voters")
@@ -440,6 +471,7 @@ lateinit var temp2: ViewGroup
                         b1.setOnClickListener {
                             db.child("Public Polls").child(p.id.toString()).child("opt1Vote")
                                 .setValue("" + (p.poll_vote_count!![0] + 1))
+                            refreshTheFragment()
                             popupWindow.dismiss()
                             true
                             db.child("Public Polls").child(p.id.toString()).child("voters")

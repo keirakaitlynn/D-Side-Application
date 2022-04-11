@@ -1,5 +1,6 @@
 package com.example.dsideapp.fragments
 
+import android.app.Activity
 import android.os.Bundle
 import android.util.Log
 import android.view.Gravity
@@ -8,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -28,7 +30,7 @@ private val createThePollFragment = CreatePollFragment()
 class PollsFragment : Fragment() {
     private var adapter: RecyclerView.Adapter<RecyclerAdapterForTitles.ViewHolder>? = null
     private var layoutManager: RecyclerView.LayoutManager? = null
-
+    private var pleaseWorkManager : FragmentManager? = null
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -186,12 +188,13 @@ class PollsFragment : Fragment() {
                 true
                 ////MIGHT NOT NEED
                 val fragmentManager = activity?.getSupportFragmentManager()
-                Log.w("Polls: ",fragmentManager.toString())
+                Log.w("IDK WHY YOU ARE HERE: ",fragmentManager.toString())
                 if (fragmentManager != null) {
                     fragmentManager.beginTransaction().replace(com.example.dsideapp.R.id.fragment_view,  PollsFragment()).commit()
                     Log.w("Made it here","!")
+                    pleaseWorkManager = fragmentManager
                 }
-                Log.w("Twas null","!")
+                //Log.w("Twas null","!")
                 ////MIGHT NOT NEED
             }
             ////////
@@ -288,30 +291,36 @@ class PollsFragment : Fragment() {
                 }
             }
             adapter?.notifyDataSetChanged()
+
         }
         return v
     }
     private fun replaceChildFragment(childFragment : Fragment) {
+        requireActivity().supportFragmentManager
         val transaction: FragmentTransaction = getChildFragmentManager().beginTransaction()
-        transaction.replace(R.id.activities_view, childFragment).addToBackStack(null).commit()
+        transaction.replace(R.id.fragment_view, childFragment).addToBackStack(null).commit()
     }
-    private class pollAddEventListener : ChildEventListener, Fragment() {
+    private inner class pollAddEventListener: ChildEventListener, Fragment() {
         override fun onChildAdded(snapshot: DataSnapshot, previousChildName: String?) {
-            val fragmentManager = activity?.getSupportFragmentManager()
-            if (fragmentManager != null) {
-                Log.w("Addition was detected","!")
-                fragmentManager.beginTransaction().detach(this).attach(this).commit()
+            Log.w("Addition was detected","!")
+            //val fragmentManager = activity?.supportFragmentManager
+            /*Log.w("OnChildAdded: ",pleaseWorkManager.toString())
+            if (pleaseWorkManager != null) {
+                //fragmentManager.beginTransaction().detach(this).attach(this).commit()
                 //fragmentManager.beginTransaction().replace(com.example.dsideapp.R.id.fragment_view,  PollsFragment()).commit()
-            }
+                pleaseWorkManager?.beginTransaction()?.replace(com.example.dsideapp.R.id.fragment_view,  PollsFragment())?.commit()
+            }*/
         }
 
         override fun onChildChanged(snapshot: DataSnapshot, previousChildName: String?) {
-            val fragmentManager = getActivity()?.getSupportFragmentManager()
-            Log.w("Home: ",fragmentManager.toString())
-            if (fragmentManager != null) {
-                Log.w("---FRAG---", activity.toString())
-                fragmentManager.beginTransaction().replace(com.example.dsideapp.R.id.fragment_view,  PollsFragment()).commit()
-            }
+                Log.w("Change was detected","!")
+            //replaceChildFragment(this)
+        //val fragmentManager = getActivity()?.getSupportFragmentManager()
+            //Log.w("OnChildChanged: ",pleaseWorkManager.toString())
+            /*if (pleaseWorkManager != null) {
+                //og.w("---FRAG---", activity.toString())
+                pleaseWorkManager?.beginTransaction()?.replace(com.example.dsideapp.R.id.fragment_view,  PollsFragment())?.commit()
+            }*/
             //val fragmentManager = activity?.getSupportFragmentManager()
             //if (fragmentManager != null) {
            //     Log.w("Change was detected","!")
@@ -321,11 +330,13 @@ class PollsFragment : Fragment() {
         }
 
         override fun onChildRemoved(snapshot: DataSnapshot) {
-            val fragmentManager = activity?.getSupportFragmentManager()
-            if (fragmentManager != null) {
-                Log.w("Removal was detected","!")
-                fragmentManager.beginTransaction().detach(this).attach(this).commit()
-            }
+        //replaceChildFragment(PollsFragment())
+            Log.w("Removal was detected","!")
+
+            /*val fragmentManager = getActivity()?.getSupportFragmentManager()
+                if (fragmentManager != null) {
+                    fragmentManager.beginTransaction().detach(this).attach(this).commit()
+                }*/
         }
 
         override fun onChildMoved(snapshot: DataSnapshot, previousChildName: String?) {
