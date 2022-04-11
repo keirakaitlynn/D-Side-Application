@@ -116,31 +116,36 @@ class ActivitiesFragment : Fragment() , HomeActivity.IOnBackPressed {
             if (getChildFragmentManager().backStackEntryCount > 1){
                 ppw.dismiss()
             }
-            //---- BackStack Name ----
-            // create the popup window
-            v = inflater.inflate(com.example.dsideapp.R.layout.back_stack_name, null)
-            var previousPageTextView = v.findViewById<TextView>(R.id.previous_page)
-            //getting name of previous page
-            var previousPageCount = getChildFragmentManager().backStackEntryCount
-            if (previousPageCount >2){
-                var previousPageName = getChildFragmentManager().getBackStackEntryAt(previousPageCount-3).name.toString()
-                //Checks if page count updates
-                Log.w("Page: ",
-                    getChildFragmentManager().getBackStackEntryAt(previousPageCount-3).name.toString())
-                previousPageTextView.text = previousPageName
-            }
+            if (getChildFragmentManager().backStackEntryCount>2) {
+                //---- BackStack Name ----
+                // create the popup window
+                v = inflater.inflate(com.example.dsideapp.R.layout.back_stack_name, null)
+                var previousPageTextView = v.findViewById<TextView>(R.id.previous_page)
+                //getting name of previous page
+                var previousPageCount = getChildFragmentManager().backStackEntryCount
+                if (previousPageCount > 2) {
+                    var previousPageName =
+                        getChildFragmentManager().getBackStackEntryAt(previousPageCount - 3).name.toString()
+                    //Checks if page count updates
+                    Log.w(
+                        "Page: ",
+                        getChildFragmentManager().getBackStackEntryAt(previousPageCount - 3).name.toString()
+                    )
+                    previousPageTextView.text = previousPageName
+                }
 
-            val width = LinearLayout.LayoutParams.WRAP_CONTENT
-            val height = LinearLayout.LayoutParams.WRAP_CONTENT
-            val focusable = false // lets taps outside the popup also dismiss it
-            ppw = PopupWindow(v, width, height, focusable)
-            // show the popup window
-            // which view you pass in doesn't matter, it is only used for the window token
-            ppw.showAtLocation(view, Gravity.NO_GRAVITY, 140, 0)
+                val width = LinearLayout.LayoutParams.WRAP_CONTENT
+                val height = LinearLayout.LayoutParams.WRAP_CONTENT
+                val focusable = false // lets taps outside the popup also dismiss it
+                ppw = PopupWindow(v, width, height, focusable)
+                // show the popup window
+                // which view you pass in doesn't matter, it is only used for the window token
+                ppw.showAtLocation(view, Gravity.NO_GRAVITY, 140, 0)
 
-            v.setOnTouchListener { v, event ->
-                ppw.dismiss()
-                true
+                v.setOnTouchListener { v, event ->
+                    ppw.dismiss()
+                    true
+                }
             }
             //---- BackStack Name ----
             return null

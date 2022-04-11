@@ -1,6 +1,7 @@
 package com.example.dsideapp.fragments
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -67,6 +68,7 @@ class HomeFragment : Fragment() {
         concertsButton = viewOfLayout.findViewById<View>(R.id.concerts_button) as ImageButton
         concertsButton.setOnClickListener {
             val fragmentManager = getActivity()?.getSupportFragmentManager()
+            Log.w("Home: ",fragmentManager.toString())
             if (fragmentManager != null) {
                 fragmentManager.beginTransaction().replace(com.example.dsideapp.R.id.fragment_view,  PollsFragment()).commit()
             }

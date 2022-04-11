@@ -11,6 +11,9 @@ import android.widget.EditText
 import com.example.dsideapp.R
 import com.example.dsideapp.auth
 import com.example.dsideapp.data.PollObject
+import com.google.firebase.database.ChildEventListener
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import kotlin.random.Random
 
@@ -116,9 +119,10 @@ class CreatePollFragment : Fragment() {
                 val opt4Vote: String? = null,
                 val opt5Vote: String? = null,
                 val opt6Vote: String? = null,
-                val poll_Time: String? = null
-            ) {}
-
+                val poll_Time: String? = null,
+                val voters: String? = null
+                ) {}
+            var votersList = ""
             var newPoll = PollObject(
                 pollId,
                 pollPosterId,
@@ -126,7 +130,8 @@ class CreatePollFragment : Fragment() {
                 pollVoteCount,
                 pollEndTime,
                 business_name = "None",
-                winner_index = 0
+                winner_index = 0,
+                votersList
             )
 
             var dbReadablePoll = stringPoll(
@@ -144,12 +149,23 @@ class CreatePollFragment : Fragment() {
                 pollVoteCount.get(3).toString(),
                 pollVoteCount.get(4).toString(),
                 pollVoteCount.get(5).toString(),
-                pollEndTime.toString()
+                pollEndTime.toString(),
+                votersList
             )
 
             //For true functionality, set random list of characters to "userId" to properly write to currently logged in user. As well, set name in ".child(name)" as an ID in the future to make it easier to search and read from DB.
             db.child(pollId).setValue(dbReadablePoll)
         }
         return v
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        var authorization = auth
+        var user = authorization.currentUser
+        var userID = authorization.currentUser?.uid
+        var db = FirebaseDatabase.getInstance().getReference("Public Polls")
+
+
     }
 }
