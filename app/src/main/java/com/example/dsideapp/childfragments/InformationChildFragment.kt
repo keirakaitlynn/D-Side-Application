@@ -37,7 +37,7 @@ class InformationChildFragment : Fragment() {
 
         return v
     }
-
+//
     private fun replaceChildFragment(childFragment : Fragment) {
         val fragmentManager = getActivity()?.getSupportFragmentManager()
         if (fragmentManager != null) {
