@@ -39,7 +39,11 @@ class InformationChildFragment : Fragment() {
     }
 
     private fun replaceChildFragment(childFragment : Fragment) {
-        val transaction: FragmentTransaction = getChildFragmentManager().beginTransaction()
-        transaction.replace(R.id.informationFragment_View, childFragment).addToBackStack(null).commit()
+        val fragmentManager = getActivity()?.getSupportFragmentManager()
+        if (fragmentManager != null) {
+            fragmentManager.beginTransaction().replace(com.example.dsideapp.R.id.fragment_view, childFragment).commit()
+        }
+        /*val transaction: FragmentTransaction = getChildFragmentManager().beginTransaction()
+        transaction.replace(R.id.informationFragment_View, childFragment).addToBackStack(null).commit()*/
     }
 }
