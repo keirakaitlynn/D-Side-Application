@@ -8,7 +8,7 @@ data class ActivityObject (
     val location: LocationObject? = null,
     var business_name: String? = null,
     val price: String? = null,
-    //val categories: YelpCategoryClass? = null
+    val category: String? = null
     ) {
     // Null default values create a no-argument default constructor, which is needed
     // for deserialization from a DataSnapshot.

@@ -11,12 +11,14 @@ import com.google.firebase.database.ValueEventListener
 import com.google.firebase.ktx.Firebase
 import android.content.ContentValues.TAG
 import android.content.Intent
-import android.widget.Button
-import android.widget.EditText
-import android.widget.TextView
-import android.widget.Toast
+import android.media.Image
+import android.widget.*
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
+import androidx.core.app.ActivityCompat.startActivityForResult
+
+
+
 
 
 class MainActivity : AppCompatActivity() {
@@ -28,10 +30,11 @@ class MainActivity : AppCompatActivity() {
     lateinit var textView: TextView
     val database = FirebaseDatabase.getInstance()
     val myRef = database.getReference("User")
+    var pfp = ""
 
-    fun writeNewUser(userId: String, name: String, email: String) {
+    fun writeNewUser(userId: String, name: String, email: String, pfp: String) {
 
-        val user = User(name, email)
+        val user = User(name, email, pfp)
 
         database.reference.child("users").child(userId).setValue(user)
 
@@ -66,7 +69,31 @@ class MainActivity : AppCompatActivity() {
             password = findViewById(R.id.passInput)
             createAccount(email.getText().toString().trim(), password.getText().toString().trim())
         }
-
+        //Sending pfp up to db
+        var pfpSelectorPonyo = findViewById<ImageButton>(R.id.Ponyo)
+        pfpSelectorPonyo.setOnClickListener {
+            pfp = R.id.Ponyo.toString()
+        }
+        var pfpSelectorAvatar = findViewById<ImageButton>(R.id.Avatar)
+        pfpSelectorAvatar.setOnClickListener{
+            pfp = R.id.Avatar.toString()
+        }
+        var pfpSelectorRaze = findViewById<ImageButton>(R.id.Raze)
+        pfpSelectorRaze.setOnClickListener{
+            pfp = R.id.Raze.toString()
+        }
+        var pfpSelectorPikachu = findViewById<ImageButton>(R.id.Pikachu)
+        pfpSelectorPikachu.setOnClickListener{
+            pfp = R.id.Pikachu.toString()
+        }
+        var pfpSelectorStitch = findViewById<ImageButton>(R.id.Stitch)
+        pfpSelectorStitch.setOnClickListener{
+            pfp = R.id.Stitch.toString()
+        }
+        var pfpSelectorTurtle = findViewById<ImageButton>(R.id.Turtle)
+        pfpSelectorTurtle.setOnClickListener{
+            pfp = R.id.Turtle.toString()
+        }
         textView = findViewById(R.id.log_in)
         textView.setOnClickListener{
             // KEIRA: Change View from this activity to Log In Activity
@@ -102,7 +129,7 @@ class MainActivity : AppCompatActivity() {
                     // Sign in success, update UI with the signed-in user's information
                     Log.d(TAG, "createUserWithEmail:                    success")
                     val user = auth.currentUser
-                    writeNewUser(auth.uid.toString(), email.substring(0,13), email)
+                    writeNewUser(auth.uid.toString(), email.substring(0,13), email, pfp)
 
                 } else {
                     // If sign in fails, display a message to the user.
@@ -148,7 +175,7 @@ class MainActivity : AppCompatActivity() {
                 }
             }
     }
-    data class User(val username: String? = null, val email: String? = null) {
+    data class User(val username: String? = null, val email: String? = null, val pfp: String? = null) {
         // Null default values create a no-argument default constructor, which is needed
         // for deserialization from a DataSnapshot.
     }
