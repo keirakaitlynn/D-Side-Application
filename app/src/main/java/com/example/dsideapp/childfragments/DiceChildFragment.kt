@@ -63,7 +63,7 @@ class DiceChildFragment : Fragment() {
                                 activityList.add(act.child("title").value.toString())
                             }
                         }
-                        ///
+                        /////
                         //Display activities on screen
                         //Setting the text views with the activites listed
                         viewOfLayout.findViewById<TextView>(R.id.left_activities_dice).setText(activitesOnLeftScreen)
