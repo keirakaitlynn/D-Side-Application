@@ -15,8 +15,7 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import androidx.appcompat.app.AppCompatActivity
-
-
+import java.util.*
 
 
 class RecyclerAdapterForTitles(val context: Context, val objectPoll: MutableList<PollObject>): RecyclerView.Adapter<RecyclerAdapterForTitles.ViewHolder>() {
@@ -125,7 +124,8 @@ lateinit var temp2: ViewGroup
                     }
                 }
                 //Log.w("", p.poll_options.toString())
-                if (dbVoters?.split(',')?.contains(user?.email.toString()) == false) {
+                if (dbVoters?.split(',')?.contains(user?.email.toString()) == false &&
+                    p.poll_end_time.toString().toLong() < Date().getTime()) {
 
                     if (numOfOptions == 6) {
                         v = LayoutInflater.from(context).inflate(R.layout.fragment_vote6_poll, null)
