@@ -1,23 +1,31 @@
 package com.example.dsideapp.fragments
 
 import android.os.Bundle
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.EditText
-import android.widget.ImageButton
+import android.widget.*
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import com.example.dsideapp.R
 import com.example.dsideapp.auth
 import com.example.dsideapp.childfragments.CoinChildFragment
+import com.example.dsideapp.childfragments.FAQChildFragment
 import com.example.dsideapp.childfragments.InformationChildFragment
+import com.example.dsideapp.childfragments.TeamChildFragment
 import com.google.firebase.database.FirebaseDatabase
 
 class AccountFragment : Fragment() {
     lateinit var infoButton : ImageButton
     private val infoFragment = InformationChildFragment()
+
+    lateinit var teamButton : Button
+    lateinit var FAQButton : Button
+    lateinit var BackButton : ImageButton
+
+    private val teamFragment = TeamChildFragment()
+    private val FAQFragment = FAQChildFragment()
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -38,12 +46,44 @@ class AccountFragment : Fragment() {
         infoButton = v.findViewById<ImageButton>(R.id.info_button)
         infoButton.setOnClickListener{
             replaceChildFragment(infoFragment)
+            //SHOW POPUP
+            // inflate the layout of the popup window
+            v = inflater.inflate(com.example.dsideapp.R.layout.fragment_feedback_pop_up, null)
+            // create the popup window
+            val width = LinearLayout.LayoutParams.WRAP_CONTENT
+            val height = LinearLayout.LayoutParams.WRAP_CONTENT
+            val focusable = true // lets taps outside the popup also dismiss it
+            val popupWindow = PopupWindow(v, width, height, focusable)
+
+            //Popup window for the event name and buttons
+
+            teamButton = v.findViewById<Button>(R.id.ToTeamPage)
+            teamButton.setOnClickListener{
+                replaceChildFragment(teamFragment)
+            }
+
+            FAQButton = v.findViewById<Button>(R.id.ToFAQPage)
+            FAQButton.setOnClickListener{
+                replaceChildFragment(FAQFragment)
+            }
+
+            BackButton = v.findViewById<ImageButton>(R.id.ToAccountPage)
+            BackButton.setOnClickListener{
+                popupWindow.dismiss()
+            }
+            // show the popup window
+            // which view you pass in doesn't matter, it is only used for the window token
+            popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0)
+            v.setOnTouchListener { v, event ->
+                popupWindow.dismiss()
+                true
+            }
         }
 
         return v
     }
     private fun replaceChildFragment(childFragment : Fragment) {
         val transaction: FragmentTransaction = getChildFragmentManager().beginTransaction()
-        transaction.replace(R.id.activities_view, childFragment).addToBackStack(null).commit()
+        transaction.replace(R.id.info_view, childFragment).addToBackStack(null).commit()
     }
 }
