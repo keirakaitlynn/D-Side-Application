@@ -14,5 +14,6 @@
         android:textColor="@color/white"
         android:layout_marginLeft="10dp"
         android:text="TextView" />
-<!-- -->
+    <!-- -->
+    <!-- -->
 </LinearLayout>
