@@ -122,6 +122,13 @@ class CalendarFragment : Fragment() {
                                 popUpEventText.text = eventItr.event_title
                                 popUpEventLike.setOnClickListener {
                                     //Add eventItr's activity category to user favorites.
+                                    var userdb = FirebaseDatabase.getInstance().getReference("users")
+                                    //THIS CODE LINE IS NOT TESTED. IT WAS ADDED WHILE THE ENTIRE FUNCTION WAS COMMENTED OUT :(
+                                    val curr_favorites = userdb.child(userID).child("favorite_Activities").get().toString()
+                                    if(curr_favorites == null){
+
+                                    }
+                                    userdb.child(userID).child("favorite_Activities").setValue( + "," + eventItr.activity.category)
                                     popupWindow.dismiss()
                                 }
                                 popUpEventDislike.setOnClickListener {

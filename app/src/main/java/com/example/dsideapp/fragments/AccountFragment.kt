@@ -2,6 +2,7 @@ package com.example.dsideapp.fragments
 
 import android.media.Image
 import android.os.Bundle
+import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
@@ -46,18 +47,16 @@ class AccountFragment : Fragment() {
         }
         infoButton = v.findViewById<ImageButton>(R.id.info_button)
         infoButton.setOnClickListener{
-            replaceChildFragment(infoFragment)
             //SHOW POPUP
             // inflate the layout of the popup window
-            v = inflater.inflate(com.example.dsideapp.R.layout.fragment_feedback_pop_up, null)
+            v = inflater.inflate(com.example.dsideapp.R.layout.fragment_information_child, null)
             // create the popup window
-            val width = LinearLayout.LayoutParams.WRAP_CONTENT
-            val height = LinearLayout.LayoutParams.WRAP_CONTENT
-            val focusable = true // lets taps outside the popup also dismiss it
+            val width = LinearLayout.LayoutParams.MATCH_PARENT
+            val height = LinearLayout.LayoutParams.MATCH_PARENT
+            val focusable = false // lets taps outside the popup also dismiss it
             val popupWindow = PopupWindow(v, width, height, focusable)
 
             //Popup window for the event name and buttons
-
             teamButton = v.findViewById<Button>(R.id.ToTeamPage)
             teamButton.setOnClickListener{
                 replaceChildFragment(teamFragment)
@@ -75,10 +74,7 @@ class AccountFragment : Fragment() {
             // show the popup window
             // which view you pass in doesn't matter, it is only used for the window token
             popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0)
-            v.setOnTouchListener { v, event ->
-                popupWindow.dismiss()
-                true
-            }
+        }
         var image = 0
         db.child("users").child(userID.toString()).child("pfp").get().addOnSuccessListener {
             image = it.value.toString().toInt()
@@ -104,6 +100,6 @@ class AccountFragment : Fragment() {
     }
     private fun replaceChildFragment(childFragment : Fragment) {
         val transaction: FragmentTransaction = getChildFragmentManager().beginTransaction()
-        transaction.replace(R.id.activities_view, childFragment).addToBackStack(null).commit()
+        transaction.replace(R.id.TextInfoFragment_View, childFragment).addToBackStack(null).commit()
     }
 }
