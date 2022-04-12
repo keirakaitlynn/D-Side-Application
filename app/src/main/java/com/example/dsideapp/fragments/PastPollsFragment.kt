@@ -29,13 +29,14 @@ class PastPollsFragment : Fragment() {
         var authorization = auth
         var user = authorization.currentUser
         var userID = authorization.currentUser?.uid
-        var db = FirebaseDatabase.getInstance().getReference("Public Polls")
+        var db = FirebaseDatabase.getInstance().getReference("users").child(userID.toString())
+            .child("data").child("poll_results")
 
         var pollInfo = db.get().addOnSuccessListener {
             if (it.exists()) {
                 // for loop going through all the active polls
                 val allPolls = it.children
-                val rv = v.findViewById<RecyclerView>(R.id.pollsRecyclerView)
+                val rv = v.findViewById<RecyclerView>(R.id.pastpollsRecyclerView)
                 val pollViews = mutableListOf<PollObject>()
                 layoutManager = LinearLayoutManager(requireContext())
                 rv.layoutManager = layoutManager
