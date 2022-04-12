@@ -36,9 +36,10 @@
       android:scaleType="fitCenter"
       android:src="@drawable/left_arrow">
   </ImageButton>
+
   <FrameLayout
       android:id="@+id/TextInfoFragment_View"
       android:layout_width="match_parent"
       android:layout_height="595dp"
-      android:translationY="-70dp" ></FrameLayout>
+      android:translationY="-70dp" />
 </LinearLayout>
