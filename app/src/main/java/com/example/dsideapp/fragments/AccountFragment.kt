@@ -1,5 +1,6 @@
 package com.example.dsideapp.fragments
 
+import android.media.Image
 import android.os.Bundle
 import android.view.Gravity
 import android.view.LayoutInflater
@@ -78,12 +79,31 @@ class AccountFragment : Fragment() {
                 popupWindow.dismiss()
                 true
             }
+        var image = 0
+        db.child("users").child(userID.toString()).child("pfp").get().addOnSuccessListener {
+            image = it.value.toString().toInt()
+            Log.w("HERE : ", it.value.toString())
+
+            var pfpImage = v.findViewById<ImageButton>(R.id.accountPFPInAccount)
+            if (image == R.id.Turtle) {
+                pfpImage.setImageResource(R.drawable.turtlepfp)
+            } else if (image == R.id.Pikachu) {
+                pfpImage.setImageResource(R.drawable.pikachupfp)
+            } else if (image == R.id.Avatar) {
+                pfpImage.setImageResource(R.drawable.avatarpfp)
+            } else if (image == R.id.Stitch) {
+                pfpImage.setImageResource(R.drawable.stitchpfp)
+            } else if (image == R.id.Raze) {
+                pfpImage.setImageResource(R.drawable.razepfp)
+            } else if (image == R.id.Ponyo) {
+                pfpImage.setImageResource(R.drawable.ponyopfp)
+            }
         }
 
         return v
     }
     private fun replaceChildFragment(childFragment : Fragment) {
         val transaction: FragmentTransaction = getChildFragmentManager().beginTransaction()
-        transaction.replace(R.id.info_view, childFragment).addToBackStack(null).commit()
+        transaction.replace(R.id.activities_view, childFragment).addToBackStack(null).commit()
     }
 }

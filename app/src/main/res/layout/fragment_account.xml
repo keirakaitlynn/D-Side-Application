@@ -35,12 +35,15 @@
                 android:orientation="vertical"
                 android:text="Account Information"
                 android:textSize="25sp" />
+
             <ImageButton
+                android:id="@+id/accountPFPInAccount"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/default_profile_pic"
                 android:layout_gravity="center"
-                android:scaleType="fitXY"/>
+                android:scaleType="fitXY"
+                android:src="@drawable/default_profile_pic" />
+
             <TextView
                 android:id="@+id/user_email_label"
                 android:layout_width="wrap_content"
