@@ -25,6 +25,7 @@ import android.widget.PopupWindow
 import com.example.dsideapp.R
 import com.example.dsideapp.auth
 import com.google.firebase.database.FirebaseDatabase
+import org.w3c.dom.Text
 
 class EventAddPopUpFragment : Fragment() {
     override fun onCreateView(
@@ -32,34 +33,36 @@ class EventAddPopUpFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        /*
 
-        CODE IS COPIED FROM JOSH FOR POPUP FUNCTION. THIS CODE DOES NOT WORK AT ALL
+        //val v = inflater.inflate(R.layout.fragment_tester_activity, container, false)
 
-        */
-        val v = inflater.inflate(R.layout.fragment_tester_activity, container, false)
+        var v = inflater.inflate(R.layout.activity_dailyview, container, false)
 
-        /*
+
         auth = Firebase.auth
         val database = FirebaseDatabase.getInstance()
-        eventButton.setOnClickListener
-        {
+        var eventButton: Button = v.findViewById<Button>(R.id.newEvent)
+
+        eventButton.setOnClickListener{
             // inflate the layout of the popup window
-            v = inflater.inflate(com.example.dsideapp.R.layout.fragment_eventadd_pop_up, null)
+            v = inflater.inflate(R.layout.fragment_tester_activity, null)
+            Log.w("", "New Event Button is clicked")
             // create the popup window
             val width = LinearLayout.LayoutParams.WRAP_CONTENT
             val height = LinearLayout.LayoutParams.WRAP_CONTENT
             val focusable = true // lets taps outside the popup also dismiss it
             val popupWindow = PopupWindow(v, width, height, focusable)
 
-            //Popup window for the info
-            infoPopUpText = v.findViewById(R.id.popUpTextInfo)
-            if (infoDescription != null) {
-                infoPopUpText.text = infoDescription.get(2).text().toString()
-            }
-            infoImageView = v.findViewById(R.id.popUpImageInfo)
-            //textView = findViewById(R.id.title)
-            infoImageView.setImageBitmap(infoBitmap)
+//            //Popup window for the info
+//            var infoPopUpText = v.findViewById<TextView>(R.id.popUpTextInfo)
+//            val infoDescription = v.findViewById<TextView>(R.id.popUpTextInfo)
+//            if (infoDescription != null) {
+//                infoPopUpText.text = infoDescription.get(2).text().toString()
+//            }
+//            var infoImageView = v.findViewById<TextView>(R.id.popUpImageInfo)
+//            //textView = findViewById(R.id.title)
+//            val infoBitmap
+//            infoImageView.setImageBitmap(infoBitmap)
 
             // show the popup window
             // which view you pass in doesn't matter, it is only used for the window token
@@ -69,7 +72,7 @@ class EventAddPopUpFragment : Fragment() {
                 true
             }
         }
-        */
+
         return v
     }
 }

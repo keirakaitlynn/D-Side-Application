@@ -83,6 +83,7 @@ class LoginActivity : AppCompatActivity() {
 
     /// THE IMPORTANT BITS
     private fun createAccount(email: String, password: String) {
+        val database = FirebaseDatabase.getInstance()
         // [START create_user_with_email]
         auth.createUserWithEmailAndPassword(email, password)
             .addOnCompleteListener(this) { task ->
@@ -99,6 +100,27 @@ class LoginActivity : AppCompatActivity() {
                 }
             }
         // [END create_user_with_email]
+
+        //creating data class for firebase
+        data class stringUserStandardize(
+            val userData: String? = null,
+            val accountInfo: String? = null
+        ) {}
+
+        data class stringData(
+            val cart: String? = null,
+            val events: String? = null,
+            val friends: String? = null
+//            val opt2: String? = null,
+//            val opt3: String? = null,
+//            val opt4: String? = null,
+//            val opt5: String? = null,
+//            val opt6: String? = null,
+        ) {}
+
+        database.reference.child("users").child(userId).child("data").child("activities").child(if(id != "") id else "null").setValue(activity)
+
+
     }
 
     /// THE IMPORTANT BITS
