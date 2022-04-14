@@ -34,7 +34,7 @@ class EventAddPopUpFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
 
-        //val v = inflater.inflate(R.layout.fragment_tester_activity, container, false)
+        //val v = inflater.inflate(R.layout.fragment_tester_activity, container, false).
 
         var v = inflater.inflate(R.layout.activity_dailyview, container, false)
 
