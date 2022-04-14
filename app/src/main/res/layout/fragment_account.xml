@@ -9,8 +9,8 @@
 <!-- -->
     <ScrollView
         android:id="@+id/scrollView2"
-        android:layout_width="298dp"
-        android:layout_height="450dp"
+        android:layout_width="314dp"
+        android:layout_height="622dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -22,18 +22,19 @@
             android:id="@+id/layout_1.0"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:orientation="vertical"
             android:paddingLeft="16dp"
-            android:paddingRight="16dp"
-            android:orientation="vertical" >
+            android:paddingRight="16dp">
 
             <TextView
                 android:id="@+id/account_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:background="@color/black_overlay"
+                android:textColor="@color/white"
                 android:orientation="vertical"
                 android:text="Account Information"
+                android:gravity="center"
                 android:textSize="25sp" />
 
             <ImageButton
@@ -45,11 +46,29 @@
                 android:src="@drawable/default_profile_pic" />
 
             <TextView
+                android:id="@+id/username_label"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:text="Username"
+                android:textStyle="bold"
+                android:textSize="18sp" />
+
+            <EditText
+                android:id="@+id/user_name"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:background="@color/black_overlay"
+                android:text="obamaUWU"
+                android:textSize="18sp" />
+            <TextView
                 android:id="@+id/user_email_label"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
                 android:text="User Email"
+                android:textStyle="bold"
                 android:textSize="18sp" />
 
             <TextView
@@ -61,28 +80,16 @@
                 android:text="barackobama42@mgail.com"
                 android:textSize="18sp" />
 
-            <TextView
-                android:id="@+id/username_label"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_gravity="center"
-                android:text="Username"
-                android:textSize="18sp" />
-            <EditText
-                android:id="@+id/user_name"
-                android:layout_width="263dp"
-                android:layout_height="match_parent"
-                android:layout_gravity="center"
-                android:background="@color/black_overlay"
-                android:text="obamaUWU"
-                android:textSize="18sp" />
+
             <TextView
                 android:id="@+id/friends_list_label"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
                 android:text="Friends List"
+                android:textStyle="bold"
                 android:textSize="18sp" />
+
             <ScrollView
                 android:id="@+id/friends_list_scroll"
                 android:layout_width="match_parent"
@@ -93,20 +100,24 @@
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.498">
+
                 <ListView
                     android:id="@+id/friends_list"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textDirection="ltr"
-                    android:background="@color/black_overlay"/>
+                    android:background="@color/black_overlay"
+                    android:textDirection="ltr" />
             </ScrollView>
+
             <TextView
                 android:id="@+id/past_activities_label"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
                 android:text="Past Activities"
+                android:textStyle="bold"
                 android:textSize="18sp" />
+
             <ScrollView
                 android:id="@+id/past_activities_list_scroll"
                 android:layout_width="match_parent"
@@ -117,41 +128,50 @@
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.498">
+
                 <ListView
                     android:id="@+id/past_activities_list"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textDirection="ltr"
-                    android:background="@color/black_overlay" />
+                    android:background="@color/black_overlay"
+                    android:textDirection="ltr" />
             </ScrollView>
-            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:paddingLeft="16dp"
-                android:paddingRight="16dp"
-                android:orientation="horizontal" >
-                <ImageButton
-                    android:id="@+id/log_out"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@mipmap/logout"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    android:layout_gravity="left"/>
-                <ImageButton
-                    android:id="@+id/info_button"
-                    android:layout_width="75dp"
-                    android:layout_height="75dp"
-                    android:scaleType="fitXY"
-                    android:src="@drawable/info_icon"
-                    android:layout_gravity="right"/>
-            </LinearLayout>
+
+
             <Button
                 android:id="@+id/changesSaveButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:backgroundTint="@color/blueVioletColor"
-                android:text="Save"/>
+                android:text="Save" />
+
+
+            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp">
+
+                <ImageButton
+                    android:id="@+id/log_out"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:src="@mipmap/logout"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:background="@android:color/transparent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageButton
+                    android:id="@+id/info_button"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_gravity="right"
+                    android:scaleType="fitXY"
+                    android:background="@android:color/transparent"
+                    android:src="@drawable/info_icon" />
+            </LinearLayout>
         </LinearLayout>
 
     </ScrollView>
