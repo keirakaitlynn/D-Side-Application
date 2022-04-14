@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.core.text.isDigitsOnly
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
@@ -128,7 +129,7 @@ class PollsFragment : Fragment() {
                         pollOptions.add("None")
                     }
                     //Getting the poll time in minutes
-                    if (pollTime.text.toString() == "Time") {
+                    if (pollTime.text.toString() == "Time" || !pollTime.text.isDigitsOnly() || pollTime.text.isNullOrEmpty()) {
                         //5 min base. 5 min * 60sec/min * 1000 millisec/sec + current time.
                         pollEndTime = Date(5 * 60 * 1000 + Date().getTime()).time
                     } else {
