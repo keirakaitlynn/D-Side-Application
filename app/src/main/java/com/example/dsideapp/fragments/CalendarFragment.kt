@@ -109,7 +109,7 @@ class CalendarFragment : Fragment() {
 //            val infoBitmap
 //            infoImageView.setImageBitmap(infoBitmap)
 
-                    // show the popup window
+                    // show the popup window .
                     // which view you pass in doesn't matter, it is only used for the window token
                     popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0)
                     viewOfLayout.setOnTouchListener { v, event ->
