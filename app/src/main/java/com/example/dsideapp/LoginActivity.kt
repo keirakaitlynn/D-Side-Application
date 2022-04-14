@@ -1,5 +1,3 @@
-
-
 package com.example.dsideapp
 
 import androidx.appcompat.app.AppCompatActivity
@@ -58,9 +56,9 @@ class LoginActivity : AppCompatActivity() {
         button.setOnClickListener{
             email = findViewById(R.id.emailInput)
             password = findViewById(R.id.passInput)
-            logIn(email.getText().toString().trim(), password.getText().toString().trim())
         }
 
+        logIn(email.getText().toString().trim(), password.getText().toString().trim())
         textView = findViewById(R.id.sign_up)
         textView.setOnClickListener {
             // KEIRA: Change View from this activity to Main Activity
