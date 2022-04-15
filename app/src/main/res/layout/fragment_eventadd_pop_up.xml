@@ -1,39 +1,118 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--
-
-CODE IS COPIED FROM JOSH FOR POPUP FUNCTION. THIS CODE DOES NOT WORK AT ALL
-
--->
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".childfragments.EventAddPopUpFragment">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/purple_400">
 
-    <RelativeLayout
-        android:id="@+id/cartPopUpView"
-        android:layout_width="wrap_content"
+    <TextView
+        android:id="@+id/account_view"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/white"
-        android:transformPivotY="108dp">
-        <ImageView
-            android:id="@+id/popUpImage"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:scaleType="fitXY" />
-        <TextView
-            android:id="@+id/popUpText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:layout_margin="30dp"
-            android:textColor="@color/black_overlay"
-            android:text=""
-            android:textSize="25sp"
-            android:layout_toRightOf="@+id/popUpImage"/>
+        android:orientation="vertical"
+        android:text="Add to Calendar"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="70dp"
+        android:gravity="center"
+        android:textSize="30sp"
+        android:fontFamily="@font/secondary"
+        android:textStyle="bold"/>
+
+    <ScrollView
+        android:id="@+id/scrollView2"
+        android:layout_width="298dp"
+        android:layout_height="450dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_bias="0.495"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.498">
+
+        <LinearLayout
+            android:id="@+id/layout_1.0"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:orientation="vertical">
+            <TextView
+                android:id="@+id/user_email_label"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:text="Diamond Head Hiking Trail"
+                android:textSize="19sp"
+                android:textStyle="bold"/>
+            <TextView
+                android:id="@+id/month_label"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:text="Month"
+                android:textSize="18sp" />
+            <Button
+                android:id="@+id/month_selected"
+                android:layout_width="263dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:background="@drawable/rectangle_round"
+                android:text="November"
+                android:textSize="18sp"
+                android:drawableEnd="@drawable/tick"/>
+            <TextView
+                android:id="@+id/day_label"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:text="Day"
+                android:textSize="18sp" />
+            <Button
+                android:id="@+id/day_selected"
+                android:layout_width="263dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:background="@drawable/rectangle_round"
+                android:text="21"
+                android:textSize="18sp"
+                android:drawableEnd="@drawable/tick"/>
+            <TextView
+                android:id="@+id/year_label"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:text="Year"
+                android:textSize="18sp" />
+            <Button
+                android:id="@+id/year_selected"
+                android:layout_width="263dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:background="@drawable/rectangle_round"
+                android:text="2021"
+                android:textSize="18sp"
+                android:drawableEnd="@drawable/tick"/>
+            <!--            <ImageButton-->
+            <!--                android:id="@+id/log_out"-->
+            <!--                android:layout_width="wrap_content"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:src="@drawable/calendar_icon_dark"-->
+            <!--                android:backgroundTint="@color/purple_100"-->
+            <!--                app:layout_constraintStart_toStartOf="parent"-->
+            <!--                app:layout_constraintTop_toTopOf="parent"-->
+            <!--                app:tint="@color/white" />-->
+            <Button
+                android:id="@+id/changesSaveButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/purple_100"
+                android:text="Add +" />
+        </LinearLayout>
+
+    </ScrollView>
 
 
-    </RelativeLayout>
 
-</FrameLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
