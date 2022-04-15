@@ -141,6 +141,14 @@ class CoinChildFragment : Fragment() {
         return v
     }
 
+    fun clearTheCart(){
+        var authorization = auth
+        var user = authorization.currentUser
+        var userID = authorization.currentUser?.uid
+        var db = FirebaseDatabase.getInstance().getReference()
+       // db.child("users").child(userID.toString()).child("data").child("cart").
+    }
+
     class Rotate3dAnimation(
         private val imageView: ImageView,
         private var curDrawable: Int,

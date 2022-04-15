@@ -1,5 +1,6 @@
 package com.example.dsideapp.data
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,6 +19,11 @@ class CategoryAdapter(var categoriesList: MutableList<String>) :
     ): ViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
         val view: View = layoutInflater.inflate(R.layout.row_item, parent, false)
+        var tv: Button = view.findViewById(R.id.textView)
+        tv.setOnClickListener{
+            Log.w("","GOT IT WORKING")
+            //Toast.makeText(view.context, categoriesList[adapterPosition], Toast.LENGTH_SHORT).show()
+        }
         return ViewHolder(view)
     }
 
