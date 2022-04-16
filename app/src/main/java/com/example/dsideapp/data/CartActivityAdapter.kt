@@ -22,6 +22,9 @@ class CartActivityAdapter(val context: Context, val cart: MutableList<DataSnapsh
 //    private var details = arrayOf("Item one details", "Item two details", "Item three details", "Item four details", "Item five details", "Item six details", "Item seven details", "Item eight details")
 //    private var images = intArrayOf(R.drawable.card_1, R.drawable.card_1, R.drawable.card_1, R.drawable.card_1, R.drawable.card_1, R.drawable.card_1, R.drawable.card_1, R.drawable.card_1)
 
+    private val selectedItemsForDecisionTools = arrayListOf<DataSnapshot>() // XXXXX: Change ArrayList -> Map? (DataSnapshot + #)
+    var maxTiles = cart.size // max # of tiles user can place is = to the initial size of cart
+
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
@@ -40,6 +43,7 @@ class CartActivityAdapter(val context: Context, val cart: MutableList<DataSnapsh
         // Iterates through an array (cart, images, etc).
         // Binds ViewHolder's vars to RecyclerAdapter's vars (cart_activity_card.xml w/ RecyclerAdapter.kt).
 
+        maxTiles = cart.size
         // for each DataSnapshot (activity) in list of DataSnapshots (cart)
         val activity = cart[position]
 
@@ -56,6 +60,21 @@ class CartActivityAdapter(val context: Context, val cart: MutableList<DataSnapsh
         //holder.itemImage.setImageResource(images[position])
         holder.itemView.setOnClickListener {
             Log.d("Clicked", "${holder.itemsId} Selected")
+            Log.d("selectedItems", "${selectedItemsForDecisionTools} BEFORE")
+            Log.d("maxTiles", "${maxTiles} BEFORE")
+
+            // MMMMM: onClick & onSecondClick functionality
+            // XXXXX: Based on maxTiles, add a # icon to selected cartActivity
+            if (!selectedItemsForDecisionTools.contains(activity)) {
+                selectedItemsForDecisionTools.add(activity)
+                maxTiles -= 1
+            }
+            else {
+                selectedItemsForDecisionTools.remove(activity)
+                maxTiles += 1
+            }
+            Log.d("selectedItems", "${selectedItemsForDecisionTools} AFTER")
+            Log.d("maxTiles", "${maxTiles} AFTER")
         }
 
         holder.itemsId = cart[position].child("id").value.toString()
@@ -80,8 +99,10 @@ class CartActivityAdapter(val context: Context, val cart: MutableList<DataSnapsh
         return activityID
     }
 
-    fun deleteItem(i : Int) {
-        cart.removeAt(i)
+    fun deleteItem(cartActivity: DataSnapshot) {
+        cart.remove(cartActivity)
+        maxTiles -= 1 // decrease max # of tiles user can place by 1 each time user deletes a cartActivity
+        selectedItemsForDecisionTools.remove(cartActivity) // if cartActivity is removed from database, remove from selectedItemsForDecisionTools too
         notifyDataSetChanged()
     }
 
