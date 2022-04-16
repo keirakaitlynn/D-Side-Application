@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.dsideapp.R
 import java.util.ArrayList
 
+/// -----------
 class CategoryAdapter(var categoriesList: MutableList<String>) :
     RecyclerView.Adapter<CategoryAdapter.ViewHolder>(), Filterable {
     var categoriesListAll: List<String> = ArrayList(categoriesList)

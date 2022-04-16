@@ -8,9 +8,10 @@ data class PollObject (
     val poll_poster_id: String? = null,
     val poll_options: MutableList<String>? = null,
     val poll_vote_count: MutableList<Int>? = null,
-    val poll_end_time: Int? = null,
+    val poll_end_time: Long? = null,
     val business_name: String? = null,
-    var winner_index: Int? = null) {
+    var winner_index: Int? = null,
+    var voters: String? = null) {
     /**
      * Uses the current poll vote counts to make a list of percents for their votes.
      * If end time is passed, then set winner_index.
@@ -26,7 +27,7 @@ data class PollObject (
         if (winner_index != null) {
             if (curr_votes != 0) {
                 this.poll_vote_count.forEach {
-                    to_return.add(((it / curr_votes) * 100).toDouble())
+                    to_return.add(((it * 100/ curr_votes) ).toDouble())
                 }
             } else {
                 System.err.println("There are no votes in this poll. " +

@@ -1,5 +1,6 @@
 package com.example.dsideapp.fragments
 
+import android.app.Activity
 import android.os.Bundle
 import android.util.Log
 import android.view.Gravity
@@ -7,7 +8,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.core.text.isDigitsOnly
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -17,16 +20,18 @@ import com.example.dsideapp.childfragments.SuggestionsChildFragment
 import com.example.dsideapp.data.*
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.*
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import java.util.*
 import kotlin.random.Random
+import java.security.Timestamp
 private val createThePollFragment = CreatePollFragment()
-
+//
 class PollsFragment : Fragment() {
     private var adapter: RecyclerView.Adapter<RecyclerAdapterForTitles.ViewHolder>? = null
     private var layoutManager: RecyclerView.LayoutManager? = null
-
+    private var pleaseWorkManager : FragmentManager? = null
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -38,7 +43,8 @@ class PollsFragment : Fragment() {
         var user = authorization.currentUser
         var userID = authorization.currentUser?.uid
         var db = FirebaseDatabase.getInstance().getReference("Public Polls")
-
+        var pollWatcher = pollAddEventListener()
+        db.addChildEventListener(pollWatcher)
         //Creating the vars for the create popup
         lateinit var createPollPopUpTitle: TextView
         lateinit var createPollPopUpOpt1: TextView
@@ -55,7 +61,7 @@ class PollsFragment : Fragment() {
             // inflate the layout of the popup window
             v = inflater.inflate(com.example.dsideapp.R.layout.fragment_create_poll, null)
             // create the popup window
-            val width = LinearLayout.LayoutParams.WRAP_CONTENT
+            val width = LinearLayout.LayoutParams.MATCH_PARENT
             val height = LinearLayout.LayoutParams.WRAP_CONTENT
             val focusable = true // lets taps outside the popup also dismiss it
             val popupWindow = PopupWindow(v, width, height, focusable)
@@ -77,7 +83,7 @@ class PollsFragment : Fragment() {
                 val pollPosterId: String
                 val pollOptions: MutableList<String>
                 val pollVoteCount: MutableList<Int>
-                var pollEndTime: Int
+                var pollEndTime: Long
                 val businessName: String
                 var winnerIndex: Int
 
@@ -110,7 +116,7 @@ class PollsFragment : Fragment() {
                 var pollTime = v.findViewById<EditText>(R.id.pollTime)
                 pollOptions = mutableListOf()
                 pollVoteCount = mutableListOf()
-
+                var votersList = ""
 
                     //Getting the options for the poll
                     pollOptions.add(option1.text.toString())
@@ -124,10 +130,12 @@ class PollsFragment : Fragment() {
                         pollOptions.add("None")
                     }
                     //Getting the poll time in minutes
-                    if (pollTime.text.toString() == "Time") {
-                        pollEndTime = 5
+                    if (pollTime.text.toString() == "Time" || !pollTime.text.isDigitsOnly() || pollTime.text.isNullOrEmpty()) {
+                        //5 min base. 5 min * 60sec/min * 1000 millisec/sec + current time.
+                        pollEndTime = Date(5 * 60 * 1000 + Date().getTime()).time
                     } else {
-                        pollEndTime = pollTime.text.toString().toInt()
+                        //Input (GIVEN THAT IT IS IN MINUTES) * 60sec/min * 1000 millisec/sec + current time.
+                        pollEndTime = Date(pollTime.text.toString().toLong() * 60 * 1000 + Date().getTime()).time
                     }
                     //Filling oll vote count list with 6 elements
                     while (pollVoteCount.size < 6) {
@@ -150,18 +158,10 @@ class PollsFragment : Fragment() {
                         val opt4Vote: String? = null,
                         val opt5Vote: String? = null,
                         val opt6Vote: String? = null,
-                        val poll_Time: String? = null
+                        val poll_Time: String? = null,
+                        val voters: String? = null
                     ) {}
 
-                    var newPoll = PollObject(
-                        pollId,
-                        pollPosterId,
-                        pollOptions,
-                        pollVoteCount,
-                        pollEndTime,
-                        pollTitleInPopUp.text.toString(),
-                        winner_index = 0
-                    )
 
                     var dbReadablePoll = stringPoll(
                         pollTitleInPopUp.text.toString(),
@@ -179,13 +179,24 @@ class PollsFragment : Fragment() {
                         pollVoteCount.get(3).toString(),
                         pollVoteCount.get(4).toString(),
                         pollVoteCount.get(5).toString(),
-                        pollEndTime.toString()
+                        pollEndTime.toString(),
+                        votersList
                     )
 
                     //For true functionality, set random list of characters to "userId" to properly write to currently logged in user. As well, set name in ".child(name)" as an ID in the future to make it easier to search and read from DB.
                     db.child(pollId).setValue(dbReadablePoll)
                 popupWindow.dismiss()
                 true
+                ////MIGHT NOT NEED
+                val fragmentManager = activity?.getSupportFragmentManager()
+                Log.w("IDK WHY YOU ARE HERE: ",fragmentManager.toString())
+                if (fragmentManager != null) {
+                    fragmentManager.beginTransaction().replace(com.example.dsideapp.R.id.fragment_view,  PollsFragment()).commit()
+                    Log.w("Made it here","!")
+                    pleaseWorkManager = fragmentManager
+                }
+                //Log.w("Twas null","!")
+                ////MIGHT NOT NEED
             }
             ////////
 
@@ -198,46 +209,144 @@ class PollsFragment : Fragment() {
                 // for loop going through all the active polls
                 val allPolls = it.children
                 val rv = v.findViewById<RecyclerView>(R.id.pollsRecyclerView)
-                val pollViews = mutableListOf<String>()
+                val pollViews = mutableListOf<PollObject>()
                 layoutManager = LinearLayoutManager(requireContext())
                 rv.layoutManager = layoutManager
                 adapter = RecyclerAdapterForTitles(requireContext(), pollViews)
                 rv.adapter = adapter
                 allPolls.forEach { poll ->
-                    //Getting poll options from db
-                    val pollOpt1 = poll.child("opt1").value
-                    val pollOpt2 = poll.child("opt2").value
-                    val pollOpt3 = poll.child("opt3").value
-                    val pollOpt4 = poll.child("opt4").value
-                    val pollOpt5 = poll.child("opt5").value
-                    val pollOpt6 = poll.child("opt6").value
+                    //if poll hasn't ended.
+                    if (poll.child("poll_Time").value.toString().toLong() > Date().getTime()) {
+                        //Getting poll options from db
+                        val pollOpt1 = poll.child("opt1").value.toString()
+                        val pollOpt2 = poll.child("opt2").value.toString()
+                        val pollOpt3 = poll.child("opt3").value.toString()
+                        val pollOpt4 = poll.child("opt4").value.toString()
+                        val pollOpt5 = poll.child("opt5").value.toString()
+                        val pollOpt6 = poll.child("opt6").value.toString()
+                        //Creating a String List of Options to put in poll object
+                        var tempOptionsHolder = mutableListOf<String>()
+                        tempOptionsHolder.add(pollOpt1)
+                        tempOptionsHolder.add(pollOpt2)
+                        tempOptionsHolder.add(pollOpt3)
+                        tempOptionsHolder.add(pollOpt4)
+                        tempOptionsHolder.add(pollOpt5)
+                        tempOptionsHolder.add(pollOpt6)
 
-                    //Getting option votes from db
-                    val pollVoteOpt1 = poll.child("opt1Vote").value
-                    val pollVoteOpt2 = poll.child("opt2Vote").value
-                    val pollVoteOpt3 = poll.child("opt3Vote").value
-                    val pollVoteOpt4 = poll.child("opt4Vote").value
-                    val pollVoteOpt5 = poll.child("opt5Vote").value
-                    val pollVoteOpt6 = poll.child("opt6Vote").value
-                    val pollT = poll.child("poll_TITLE").value
-                    //Getting poll ID from db
-                    var pollId = poll.child("poll_ID").value
-                    //Getting poster ID from db
-                    val pollPosterId = poll.child("poster_ID").value
-                    //Getting poll end time from db
-                    var pollEndTime = poll.child("poll_Time").value
+                        //Getting option votes from db
+                        val pollVoteOpt1 = poll.child("opt1Vote").value.toString().toInt()
+                        val pollVoteOpt2 = poll.child("opt2Vote").value.toString().toInt()
+                        val pollVoteOpt3 = poll.child("opt3Vote").value.toString().toInt()
+                        val pollVoteOpt4 = poll.child("opt4Vote").value.toString().toInt()
+                        val pollVoteOpt5 = poll.child("opt5Vote").value.toString().toInt()
+                        val pollVoteOpt6 = poll.child("opt6Vote").value.toString().toInt()
+                        //Creating a Int List of Votes to put in poll object
+                        var tempVoteHolder = mutableListOf<Int>()
+                        tempVoteHolder.add(pollVoteOpt1)
+                        tempVoteHolder.add(pollVoteOpt2)
+                        tempVoteHolder.add(pollVoteOpt3)
+                        tempVoteHolder.add(pollVoteOpt4)
+                        tempVoteHolder.add(pollVoteOpt5)
+                        tempVoteHolder.add(pollVoteOpt6)
 
-                    //Adding poll to recycler view
-                    pollViews.add(pollT.toString())
-                    //Log.w("NOT SURE: ", pollId.toString())
+
+                        val pollT = poll.child("poll_TITLE").value.toString()
+                        //Getting poll ID from db
+                        var pollId = poll.child("poll_ID").value.toString()
+                        //Getting poster ID from db
+                        val pollPosterId = poll.child("poster_ID").value.toString()
+                        //Getting poll end time from db
+                        var pollEndTime = poll.child("poll_Time").value.toString().toLong()
+                        //Getting poll name
+                        var pollName = poll.child("poll_TITLE").value.toString()
+                        //getting voters
+                        var allVoters = poll.child("voters").value.toString()
+
+                        //Creating the poll object
+                        var newPoll = PollObject(
+                            pollId,
+                            pollPosterId,
+                            tempOptionsHolder,
+                            tempVoteHolder,
+                            pollEndTime,
+                            pollName,
+                            winner_index = 0,
+                            allVoters
+                        )
+                        Log.w("VOTES: ", newPoll.poll_vote_count.toString())
+                        Log.w("VOTES: ", newPoll.calc_perc_n_lock().toString())
+
+                        //Adding poll to recycler view
+                        //put in the poll object instead of only the title
+                        pollViews.add(newPoll)
+                        //Log.w("NOT SURE: ", pollId.toString())
+                    } else {
+                        //Add to user's "poll_results"
+                        var userdb = FirebaseDatabase.getInstance().getReference("users")
+                        userdb.child(poll.child("poster_ID").value.toString()).child("data")
+                            .child("poll_results").child(poll.child("poll_ID").value.toString())
+                            .setValue(poll.value)
+                        //Delete poll
+                        db.child(poll.child("poll_ID").value.toString()).setValue(null)
+                    }
                 }
             }
+            adapter?.notifyDataSetChanged()
+
         }
-        adapter?.notifyDataSetChanged()
         return v
     }
     private fun replaceChildFragment(childFragment : Fragment) {
+        requireActivity().supportFragmentManager
         val transaction: FragmentTransaction = getChildFragmentManager().beginTransaction()
-        transaction.replace(R.id.activities_view, childFragment).addToBackStack(null).commit()
+        transaction.replace(R.id.fragment_view, childFragment).addToBackStack(null).commit()
+    }
+    private inner class pollAddEventListener: ChildEventListener, Fragment() {
+        override fun onChildAdded(snapshot: DataSnapshot, previousChildName: String?) {
+            Log.w("Addition was detected","!")
+            //val fragmentManager = activity?.supportFragmentManager
+            /*Log.w("OnChildAdded: ",pleaseWorkManager.toString())
+            if (pleaseWorkManager != null) {
+                //fragmentManager.beginTransaction().detach(this).attach(this).commit()
+                //fragmentManager.beginTransaction().replace(com.example.dsideapp.R.id.fragment_view,  PollsFragment()).commit()
+                pleaseWorkManager?.beginTransaction()?.replace(com.example.dsideapp.R.id.fragment_view,  PollsFragment())?.commit()
+            }*/
+        }
+
+        override fun onChildChanged(snapshot: DataSnapshot, previousChildName: String?) {
+                Log.w("Change was detected","!")
+            //replaceChildFragment(this)
+        //val fragmentManager = getActivity()?.getSupportFragmentManager()
+            //Log.w("OnChildChanged: ",pleaseWorkManager.toString())
+            /*if (pleaseWorkManager != null) {
+                //og.w("---FRAG---", activity.toString())
+                pleaseWorkManager?.beginTransaction()?.replace(com.example.dsideapp.R.id.fragment_view,  PollsFragment())?.commit()
+            }*/
+            //val fragmentManager = activity?.getSupportFragmentManager()
+            //if (fragmentManager != null) {
+           //     Log.w("Change was detected","!")
+           //     fragmentManager.beginTransaction().detach(this).attach(this).commit()
+           //     //fragmentManager.beginTransaction().replace(com.example.dsideapp.R.id.fragment_view,  PollsFragment()).commit()
+           // }
+        }
+
+        override fun onChildRemoved(snapshot: DataSnapshot) {
+        //replaceChildFragment(PollsFragment())
+            Log.w("Removal was detected","!")
+
+            /*val fragmentManager = getActivity()?.getSupportFragmentManager()
+                if (fragmentManager != null) {
+                    fragmentManager.beginTransaction().detach(this).attach(this).commit()
+                }*/
+        }
+
+        override fun onChildMoved(snapshot: DataSnapshot, previousChildName: String?) {
+            Log.w("Movement was detected","!")
+        }
+
+        override fun onCancelled(error: DatabaseError) {
+            Log.w("Cancellation detected","!")
+        }
+
     }
 }

@@ -146,6 +146,7 @@ class WheelChildFragment : Fragment() {
             RotateAnimation.RELATIVE_TO_SELF,
             0.5f
         )
+        //
         rotate.duration =  (2500) // time till the rotation animation stops
         rotate.interpolator = LinearInterpolator()      // Used to make the animation smoother
         rotate.fillAfter = true                         // If there is any mistake in degrees it'll fix it

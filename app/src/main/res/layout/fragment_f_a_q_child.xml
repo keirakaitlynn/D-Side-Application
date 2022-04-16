@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/purple_400"
     tools:context=".childfragments.FAQChildFragment">
 
     <!-- TODO: Update blank fragment layout -->
@@ -10,6 +11,34 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_margin="20dp"
-        android:text="Q: Will my friends have to sign up to be added and notified about group events?&#10;A: All users will have to sign up to use any functionality in the app to tailor the experience to each individual user.&#10; &#10;Q: Will I be able to add my own activities for the app to be used?&#10;A: Yes! Navigate to the cart to add dummy activities for any activity not found in the system.&#10; &#10;h" />
+        android:textSize="16dp"
+        android:text=
+    "Q: Will my friends have to sign up to be added and notified about group events?
+&#10;A: All users will have to sign up to use any functionality in the app to tailor the experience to each individual user.
+&#10;Q: Will I be able to add my own activities for the app to be used?
+&#10;A: Yes! Navigate to the cart to add dummy activities for any activity not found in the system.
+&#10;Q: What difference does this have to a random option picker online?
+&#10;A: Our app provides functionalities top of a random option picker, like a calendar and friends list, to ensure that the whole experience is as intuitive as possible.
+&#10;Q: How can I add my friends to an event?
+&#10;A: You will need the email your friend used to invite them to any events.
+&#10;Q:
+&#10;A:
+&#10;Q:
+&#10;A:
+&#10;Q:
+&#10;A:
+&#10;Q:
+&#10;A:
+&#10;Q:
+&#10;A:
+&#10;Q:
+&#10;A:
+&#10;Q:
+&#10;A:
+&#10;Q:
+&#10;A:
+&#10;Q:
+&#10;A: "
+        tools:ignore="HardcodedText" />
 
 </FrameLayout>

@@ -35,12 +35,15 @@
                 android:orientation="vertical"
                 android:text="Account Information"
                 android:textSize="25sp" />
+
             <ImageButton
+                android:id="@+id/accountPFPInAccount"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/default_profile_pic"
                 android:layout_gravity="center"
-                android:scaleType="fitXY"/>
+                android:scaleType="fitXY"
+                android:src="@drawable/default_profile_pic" />
+
             <TextView
                 android:id="@+id/user_email_label"
                 android:layout_width="wrap_content"
@@ -48,6 +51,7 @@
                 android:layout_gravity="center"
                 android:text="User Email"
                 android:textSize="18sp" />
+
             <TextView
                 android:id="@+id/user_email"
                 android:layout_width="wrap_content"
@@ -56,6 +60,7 @@
                 android:background="@color/black_overlay"
                 android:text="barackobama42@mgail.com"
                 android:textSize="18sp" />
+
             <TextView
                 android:id="@+id/username_label"
                 android:layout_width="wrap_content"
@@ -119,13 +124,28 @@
                     android:textDirection="ltr"
                     android:background="@color/black_overlay" />
             </ScrollView>
-            <ImageButton
-                android:id="@+id/log_out"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@mipmap/logout"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:orientation="horizontal" >
+                <ImageButton
+                    android:id="@+id/log_out"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@mipmap/logout"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:layout_gravity="left"/>
+                <ImageButton
+                    android:id="@+id/info_button"
+                    android:layout_width="75dp"
+                    android:layout_height="75dp"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/info_icon"
+                    android:layout_gravity="right"/>
+            </LinearLayout>
             <Button
                 android:id="@+id/changesSaveButton"
                 android:layout_width="match_parent"

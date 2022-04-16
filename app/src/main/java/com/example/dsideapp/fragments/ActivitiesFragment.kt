@@ -14,6 +14,7 @@ import android.view.Gravity
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.AsyncTask
+import android.util.Log
 import android.widget.*
 import androidx.recyclerview.widget.LinearLayoutManager
 
@@ -62,7 +63,7 @@ class ActivitiesFragment : Fragment() , HomeActivity.IOnBackPressed {
     private lateinit var infoBitmap: Bitmap
     private lateinit var infoImageView: ImageView
     private lateinit var rvRestaurants: RecyclerView
-
+    private lateinit var ppw: PopupWindow
     // MMMMM: RecyclerView + CardView (ActivitiesFragment, CartPopUpFragment)
     private var layoutManager: RecyclerView.LayoutManager? = null
     private var adapter: RecyclerView.Adapter<CartActivityAdapter.ViewHolder>? = null
@@ -75,21 +76,100 @@ class ActivitiesFragment : Fragment() , HomeActivity.IOnBackPressed {
         var v = inflater.inflate(R.layout.fragment_activities, container, false)
         replaceChildFragment(suggestionsFragment) // initial child fragment
 
+        //function for loading backstack page name
+        fun getPreviousPageName(vararg params: Void): Void?{
+            if (getChildFragmentManager().backStackEntryCount > 1){
+                ppw.dismiss()
+            }
+            //---- BackStack Name ----
+            // create the popup window
+            v = inflater.inflate(com.example.dsideapp.R.layout.back_stack_name, null)
+            var previousPageTextView = v.findViewById<TextView>(R.id.previous_page)
+            //getting name of previous page
+            var previousPageCount = getChildFragmentManager().backStackEntryCount
+            if (previousPageCount >1){
+                var previousPageName = getChildFragmentManager().getBackStackEntryAt(previousPageCount-1).name.toString()
+                //Checks if page count updates
+                //Log.w("Page: ",
+                //    getChildFragmentManager().getBackStackEntryAt(previousPageCount-1).name.toString())
+                previousPageTextView.text = previousPageName
+            }
+
+            val width = LinearLayout.LayoutParams.WRAP_CONTENT
+            val height = LinearLayout.LayoutParams.WRAP_CONTENT
+            val focusable = false // lets taps outside the popup also dismiss it
+            ppw = PopupWindow(v, width, height, focusable)
+            // show the popup window
+            // which view you pass in doesn't matter, it is only used for the window token
+            ppw.showAtLocation(view, Gravity.NO_GRAVITY, 140, 0)
+
+            v.setOnTouchListener { v, event ->
+                ppw.dismiss()
+                true
+            }
+            //---- BackStack Name ----
+            return null
+        }
+
+        //function for loading backstack page name
+        fun getPreviousPageNameBackButton(vararg params: Void): Void?{
+            if (getChildFragmentManager().backStackEntryCount > 1){
+                ppw.dismiss()
+            }
+            if (getChildFragmentManager().backStackEntryCount>2) {
+                //---- BackStack Name ----
+                // create the popup window
+                v = inflater.inflate(com.example.dsideapp.R.layout.back_stack_name, null)
+                var previousPageTextView = v.findViewById<TextView>(R.id.previous_page)
+                //getting name of previous page
+                var previousPageCount = getChildFragmentManager().backStackEntryCount
+                if (previousPageCount > 2) {
+                    var previousPageName =
+                        getChildFragmentManager().getBackStackEntryAt(previousPageCount - 3).name.toString()
+                    //Checks if page count updates
+                    Log.w(
+                        "Page: ",
+                        getChildFragmentManager().getBackStackEntryAt(previousPageCount - 3).name.toString()
+                    )
+                    previousPageTextView.text = previousPageName
+                }
+
+                val width = LinearLayout.LayoutParams.WRAP_CONTENT
+                val height = LinearLayout.LayoutParams.WRAP_CONTENT
+                val focusable = false // lets taps outside the popup also dismiss it
+                ppw = PopupWindow(v, width, height, focusable)
+                // show the popup window
+                // which view you pass in doesn't matter, it is only used for the window token
+                ppw.showAtLocation(view, Gravity.NO_GRAVITY, 140, 0)
+
+                v.setOnTouchListener { v, event ->
+                    ppw.dismiss()
+                    true
+                }
+            }
+            //---- BackStack Name ----
+            return null
+        }
+
         suggestionsButton = v.findViewById<Button>(R.id.suggestions_button)
         suggestionsButton.setOnClickListener{
             replaceChildFragment(suggestionsFragment)
+            getPreviousPageName()
         }
         coinButton = v.findViewById<Button>(R.id.coin_button)
         coinButton.setOnClickListener{
             replaceChildFragment(coinFragment)
+            getPreviousPageName()
         }
         diceButton = v.findViewById<Button>(R.id.dice_button)
         diceButton.setOnClickListener{
             replaceChildFragment(diceFragment)
+            getPreviousPageName()
         }
         wheelButton = v.findViewById<Button>(R.id.wheel_button)
         wheelButton.setOnClickListener{
             replaceChildFragment(wheelFragment)
+            getPreviousPageName()
         }
         //Mine//
         ///////////////////POP UP IMAGE /////////////////////////////////
@@ -99,10 +179,23 @@ class ActivitiesFragment : Fragment() , HomeActivity.IOnBackPressed {
             override fun doInBackground(vararg params: Void): Void? {
                 try {
                     //Connect to the website
+                    var categoriesToWebscrape = ArrayList<String>()
+                    categoriesToWebscrape.add("Cake")
+                    categoriesToWebscrape.add("Cars")
+                    categoriesToWebscrape.add("Coffee & Tea")
+                    categoriesToWebscrape.add("Cookies")
+                    categoriesToWebscrape.add("Juice Bars & Smoothies")
+                    categoriesToWebscrape.add("Dance Clubs")
+                    categoriesToWebscrape.add("Dive Bars")
+                    categoriesToWebscrape.add("Dining")
+                    categoriesToWebscrape.add("Bowling")
+                    categoriesToWebscrape.add("Lounges")
+                    categoriesToWebscrape.add("Pizza")
+                    categoriesToWebscrape.add("Seafood")
                     var document =
-                        Jsoup.connect("https://www.yelp.com/search?cflt=bowling&find_loc=Long+Beach%2C+CA").get()
+                        Jsoup.connect("https://www.yelp.com/search?cflt="+ categoriesToWebscrape.get(0) +"&find_loc=Long+Beach%2C+CA").get()
                     var infoDocument =
-                        Jsoup.connect("https://en.wikipedia.org/wiki/Bowling").get()
+                        Jsoup.connect("https://en.wikipedia.org/wiki/" + categoriesToWebscrape.get(0)).get()
 
                     //////////
                     ///Info image info gathering
@@ -145,14 +238,20 @@ class ActivitiesFragment : Fragment() , HomeActivity.IOnBackPressed {
                         }
                     }
                     //////////////
+                    //Setting the text for previous page, shown next to back button
 
                     val backButton = v.findViewById<ImageButton>(R.id.back_button)
                     backButton.setOnClickListener{
+                        getPreviousPageNameBackButton()
+                        Log.w("Num: ", getChildFragmentManager().backStackEntryCount.toString())
+                        if (getChildFragmentManager().backStackEntryCount == 2){
+                            ppw.dismiss()
+                        }
                         onBackPressed()
                     }
 
                     //// MMMMM: ====================================================================
-
+                    /// -----------
                     val searchButton = v.findViewById<Button>(R.id.search_button)
                     searchButton.setOnClickListener{
                         //// NNNNN: ====================================================================
@@ -161,7 +260,10 @@ class ActivitiesFragment : Fragment() , HomeActivity.IOnBackPressed {
                         //val names = arrayOf("Android", "Java", "Php", "Python", "C", "C++", "Kotlin")
 
                         var categories = ArrayList<String>()
+                        categories.add("Cake")
+                        categories.add("Cars")
                         categories.add("Coffee & Tea")
+                        categories.add("Cookies")
                         categories.add("Juice Bars & Smoothies")
                         categories.add("Dance Clubs")
                         categories.add("Dive Bars")
@@ -173,8 +275,10 @@ class ActivitiesFragment : Fragment() , HomeActivity.IOnBackPressed {
 
                         val categoryRecyclerView = v.findViewById<RecyclerView>(R.id.categoryRecyclerView)
                         val categoryAdapter = CategoryAdapter(categories)
-                        categoryRecyclerView.setLayoutManager(LinearLayoutManager(requireContext()))
+                        categoryRecyclerView.setLayoutManager(LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false))
                         categoryRecyclerView.setAdapter(categoryAdapter)
+
+                        categoryRecyclerView.setNestedScrollingEnabled(false);
 
                         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
                             override fun onQueryTextChange(newText: String?): Boolean {
@@ -273,12 +377,25 @@ class ActivitiesFragment : Fragment() , HomeActivity.IOnBackPressed {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
     }
 
     private fun replaceChildFragment(childFragment : Fragment) {
         val transaction: FragmentTransaction = getChildFragmentManager().beginTransaction()
-        transaction.replace(R.id.activities_view, childFragment).addToBackStack(null).commit()
+        //Naming the fragment
+        var fragName = ""
+        if (childFragment == coinFragment){
+            fragName = "Coin"
+        }
+        else if (childFragment == diceFragment){
+            fragName = "Dice"
+        }
+        else if (childFragment == wheelFragment){
+            fragName = "Wheel"
+        }
+        else{
+            fragName = "Suggestion"
+        }
+        transaction.replace(R.id.activities_view, childFragment).addToBackStack(fragName).commit()
     }
     //Main
     data class Activity(val username: String? = null, val location: String? = null, val date_time: String? = null) {
