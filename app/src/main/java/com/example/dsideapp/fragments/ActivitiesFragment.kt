@@ -16,6 +16,7 @@ import android.graphics.BitmapFactory
 import android.os.AsyncTask
 import android.util.Log
 import android.widget.*
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 
 import com.example.dsideapp.auth
@@ -336,6 +337,31 @@ class ActivitiesFragment : Fragment() , HomeActivity.IOnBackPressed {
                         rv.layoutManager = layoutManager
                         adapter = CartActivityAdapter(requireContext(), activities)
                         rv.adapter = adapter
+                        /// MMMMM: Cart Interactability (Swipe) ----------------------------------------------------------------//
+                        val swipeGesture = object : SwipeGesture(requireContext()) {
+                            override fun onSwiped(
+                                viewHolder: RecyclerView.ViewHolder,
+                                direction: Int
+                            ) {
+                                when(direction){
+                                    ItemTouchHelper.LEFT -> {
+                                        // 1. delete cartActivity in view
+                                        (adapter as CartActivityAdapter).deleteItem(viewHolder.adapterPosition)
+                                        // XXXXX: 2. delete cartActivity from database
+                                    }
+                                    ItemTouchHelper.RIGHT -> {
+                                        // 1. delete cartActivity in view
+                                        (adapter as CartActivityAdapter).deleteItem(viewHolder.adapterPosition)
+                                        // XXXXX: 2. delete cartActivity from database
+                                        // XXXXX: 3. Add to Calendar functionality
+                                    }
+                                }
+                            }
+                        }
+
+                        val touchHelper = ItemTouchHelper(swipeGesture)
+                        touchHelper.attachToRecyclerView(rv)
+                        /// MMMMM: -------------------------------------------------------------------------------------------//
                         // MMMMM: -----------------------------------------------------------------//
                         var activityInfo = db.child("users").child(userID.toString()).get().addOnSuccessListener {
                             //Popup window for the cart

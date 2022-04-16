@@ -1,6 +1,7 @@
 package com.example.dsideapp.data
 
 import android.content.Context
+import android.provider.ContactsContract
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -64,5 +65,15 @@ class CartActivityAdapter(val context: Context, val cart: MutableList<DataSnapsh
             itemTitle = itemView.findViewById(R.id.item_title)
             itemDetail = itemView.findViewById(R.id.item_detail)
         }
+    }
+
+    fun deleteItem(i : Int) {
+        cart.removeAt(i)
+        notifyDataSetChanged()
+    }
+
+    fun addItem(i : Int, cartActivity : DataSnapshot) {
+        cart.add(i, cartActivity) // add cartActivity to position i in cart list
+        notifyDataSetChanged()
     }
 }
