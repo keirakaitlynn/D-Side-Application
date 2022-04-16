@@ -64,4 +64,9 @@ abstract class SwipeGesture(context : Context) : ItemTouchHelper.SimpleCallback(
         super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive)
     }
 
+    override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+
+
+    }
+
 }

@@ -10,7 +10,9 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.dsideapp.R
+import com.example.dsideapp.auth
 import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.FirebaseDatabase
 
 // MMMMM: RecyclerView + CardView (ActivitiesFragment, CartPopUpFragment)
 class CartActivityAdapter(val context: Context, val cart: MutableList<DataSnapshot>): RecyclerView.Adapter<CartActivityAdapter.ViewHolder>() {
@@ -37,6 +39,8 @@ class CartActivityAdapter(val context: Context, val cart: MutableList<DataSnapsh
     override fun onBindViewHolder(holder: CartActivityAdapter.ViewHolder, position: Int) {
         // Iterates through an array (cart, images, etc).
         // Binds ViewHolder's vars to RecyclerAdapter's vars (cart_activity_card.xml w/ RecyclerAdapter.kt).
+
+        // for each DataSnapshot (activity) in list of DataSnapshots (cart)
         val activity = cart[position]
 
         holder.itemTitle.text = activity.child("title").value.toString()
@@ -51,20 +55,29 @@ class CartActivityAdapter(val context: Context, val cart: MutableList<DataSnapsh
         // NOTES: Line below will crash because images[].size != cart.size (or "getItemCount()")
         //holder.itemImage.setImageResource(images[position])
         holder.itemView.setOnClickListener {
-            Log.d("Clicked", "${holder.itemTitle.text} Selected")
+            Log.d("Clicked", "${holder.itemsId} Selected")
         }
+
+        holder.itemsId = cart[position].child("id").value.toString()
     }
 
     inner class ViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
         var itemImage: ImageView
         var itemTitle: TextView
         var itemDetail: TextView
+        var itemsId : String = ""
 
         init {
             itemImage = itemView.findViewById(R.id.item_image)
             itemTitle = itemView.findViewById(R.id.item_title)
             itemDetail = itemView.findViewById(R.id.item_detail)
         }
+    }
+
+    // get ID of DataSnapshot located at cart[position]
+    fun getItemsId(position: Int): String {
+        val activityID = cart[position].child("id").value.toString()
+        return activityID
     }
 
     fun deleteItem(i : Int) {
