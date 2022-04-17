@@ -20,7 +20,7 @@ class CartActivityAdapter(val context: Context, val cart: MutableList<DataSnapsh
     // NOTES: size of arrays of info to bind w/ ViewHolder must be equal
     private val selectedItemsForDecisionTools = mutableMapOf<DataSnapshot, Int>()
     private var maxTiles = cart.size // max # of tiles user can place is = to the initial size of cart
-    val numImages = intArrayOf(R.drawable.ic_baseline_filter_1_24, R.drawable.ic_baseline_filter_2_24, R.drawable.ic_baseline_filter_3_24)
+    val numImages = intArrayOf(R.drawable.ic_baseline_filter_1_24, R.drawable.ic_baseline_filter_2_24, R.drawable.ic_baseline_filter_3_24, R.drawable.ic_baseline_filter_4_24, R.drawable.ic_baseline_filter_5_24, R.drawable.ic_baseline_filter_6_24, R.drawable.ic_baseline_filter_7_24, R.drawable.ic_baseline_filter_8_24, R.drawable.ic_baseline_filter_9_24, R.drawable.ic_baseline_10k_24)
     var possibleNumsToAssign = mutableListOf<Int>(10, 9, 8, 7, 6, 5, 4, 3, 2, 1)
 
     override fun onCreateViewHolder(
@@ -57,33 +57,35 @@ class CartActivityAdapter(val context: Context, val cart: MutableList<DataSnapsh
         // NOTES: Line below will crash because images[].size != cart.size (or "getItemCount()")
         //holder.itemImage.setImageResource(images[position])
         holder.itemView.setOnClickListener {
-            Log.d("Clicked", "${holder.itemsId} Selected")
-            Log.d("selectedItems", "${selectedItemsForDecisionTools} BEFORE")
-            Log.d("maxTiles", "${maxTiles} BEFORE")
-            // MMMMM: onClick & onSecondClick functionality
-            // XXXXX: Based on maxTiles, add a # icon to selected cartActivity
-            // NNNNN: As long as the user still has tiles remaining to be assigned...
-            // NNNNN: If selected cartActivity has not already been selected...
-            if (maxTiles != 0 && !selectedItemsForDecisionTools.contains(activity)) {
+            if (!possibleNumsToAssign.isNullOrEmpty()) {
+                Log.d("Clicked", "${holder.itemsId} Selected")
+                Log.d("selectedItems", "${selectedItemsForDecisionTools} BEFORE")
+                Log.d("maxTiles", "${maxTiles} BEFORE")
+                // MMMMM: onClick & onSecondClick functionality
+                // XXXXX: Based on maxTiles, add a # icon to selected cartActivity
+                // NNNNN: As long as the user still has tiles remaining to be assigned...
+                // NNNNN: If selected cartActivity has not already been selected...
+                if (maxTiles != 0 && !selectedItemsForDecisionTools.contains(activity)) {
+                    Log.d("Nums", "${possibleNumsToAssign}")
+                    val numToAssign = possibleNumsToAssign[possibleNumsToAssign.size-1] // NNNNN: get the last # in nums
+                    selectedItemsForDecisionTools.put(activity, numToAssign) // NNNNN: assign that # to selected cartActivity
+                    holder.itemImage.setImageResource(numImages[numToAssign-1]) // NNNNN: assign itemImage to corresponding icon (ie. if numToAssign=1, get numImages[0])
+                    possibleNumsToAssign.remove(numToAssign) // NNNNN: "pop" off the # from nums
+                    maxTiles -= 1
+                }
+                else { // NNNNN: If selected cartActivity has already been selected...
+                    // NNNNN: put back DataSnapshot's assigned # in nums
+                    possibleNumsToAssign.add(selectedItemsForDecisionTools.get(activity)!!)
+                    possibleNumsToAssign.sortDescending()
+                    holder.itemImage.setImageResource(R.color.purple_100)
+                    Log.d("Nums AFTER PUT BACK", "${possibleNumsToAssign}")
+                    selectedItemsForDecisionTools.remove(activity)
+                    maxTiles += 1
+                }
+                Log.d("selectedItems", "${selectedItemsForDecisionTools} AFTER")
+                Log.d("maxTiles", "${maxTiles} AFTER")
                 Log.d("Nums", "${possibleNumsToAssign}")
-                val numToAssign = possibleNumsToAssign[possibleNumsToAssign.size-1] // NNNNN: get the last # in nums
-                selectedItemsForDecisionTools.put(activity, numToAssign) // NNNNN: assign that # to selected cartActivity
-                holder.itemImage.setImageResource(numImages[numToAssign-1]) // NNNNN: assign itemImage to corresponding icon (ie. if numToAssign=1, get numImages[0])
-                possibleNumsToAssign.remove(numToAssign) // NNNNN: "pop" off the # from nums
-                maxTiles -= 1
             }
-            else { // NNNNN: If selected cartActivity has already been selected...
-                // NNNNN: put back DataSnapshot's assigned # in nums
-                possibleNumsToAssign.add(selectedItemsForDecisionTools.get(activity)!!)
-                possibleNumsToAssign.sortDescending()
-                holder.itemImage.setImageResource(R.color.purple_100)
-                Log.d("Nums AFTER PUT BACK", "${possibleNumsToAssign}")
-                selectedItemsForDecisionTools.remove(activity)
-                maxTiles += 1
-            }
-            Log.d("selectedItems", "${selectedItemsForDecisionTools} AFTER")
-            Log.d("maxTiles", "${maxTiles} AFTER")
-            Log.d("Nums", "${possibleNumsToAssign}")
         }
 
         holder.itemsId = cart[position].child("id").value.toString()
