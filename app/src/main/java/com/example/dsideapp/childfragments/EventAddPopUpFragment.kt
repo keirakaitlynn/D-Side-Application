@@ -41,17 +41,29 @@ class EventAddPopUpFragment : Fragment() {
 
         auth = Firebase.auth
         val database = FirebaseDatabase.getInstance()
-        var eventButton: Button = v.findViewById<Button>(R.id.newEvent)
+        var newEventButton: Button = v.findViewById<Button>(R.id.newEvent)
 
-        eventButton.setOnClickListener{
+        //creating pop up window to enter new event
+        //will show the event add pop window fragment
+        newEventButton.setOnClickListener{
             // inflate the layout of the popup window
-            v = inflater.inflate(R.layout.fragment_tester_activity, null)
+            v = inflater.inflate(R.layout.fragment_eventadd_pop_up, null)
             Log.w("", "New Event Button is clicked")
             // create the popup window
             val width = LinearLayout.LayoutParams.WRAP_CONTENT
             val height = LinearLayout.LayoutParams.WRAP_CONTENT
             val focusable = true // lets taps outside the popup also dismiss it
             val popupWindow = PopupWindow(v, width, height, focusable)
+
+            // show the popup window
+            // which view you pass in doesn't matter, it is only used for the window token
+            popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0)
+            v.setOnTouchListener { v, event ->
+                popupWindow.dismiss()
+                true
+            }
+        }
+
 
 //            //Popup window for the info
 //            var infoPopUpText = v.findViewById<TextView>(R.id.popUpTextInfo)
@@ -63,15 +75,6 @@ class EventAddPopUpFragment : Fragment() {
 //            //textView = findViewById(R.id.title)
 //            val infoBitmap
 //            infoImageView.setImageBitmap(infoBitmap)
-
-            // show the popup window
-            // which view you pass in doesn't matter, it is only used for the window token
-            popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0)
-            v.setOnTouchListener { v, event ->
-                popupWindow.dismiss()
-                true
-            }
-        }
 
         return v
     }

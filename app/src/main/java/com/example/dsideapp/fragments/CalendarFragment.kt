@@ -262,6 +262,24 @@ class CalendarFragment : Fragment() {
                     true
                 }
 
+                viewOfLayout = inflater.inflate(R.layout.fragment_tester_activity, null)
+                // create the popup window
+                width = LinearLayout.LayoutParams.FILL_PARENT
+                height = LinearLayout.LayoutParams.FILL_PARENT
+                focusable = true // lets taps outside the popup also dismiss it
+                popupWindow = PopupWindow(viewOfLayout, width, height, focusable)
+
+                // show the popup window
+                // which view you pass in doesn't matter, it is only used for the window tolken or token idk :)
+
+                popupWindow.showAtLocation(view, Gravity.CENTER, 0, 1)
+                var newEventButton: Button
+                //lateinit var tempView: View
+
+                //var exitButton = v.findViewById<Button>(R.id.exitPollCreateButton)//
+                newEventButton= viewOfLayout.findViewById<Button>(R.id.newEvent)
+
+
                 //Creating the actual event from the button
                 var createEventButton = viewOfLayout.findViewById<Button>(R.id.newEvent)
                 createEventButton.setOnClickListener(){
