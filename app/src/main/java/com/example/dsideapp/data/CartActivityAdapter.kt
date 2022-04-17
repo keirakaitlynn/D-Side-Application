@@ -57,7 +57,6 @@ class CartActivityAdapter(val context: Context, val cart: MutableList<DataSnapsh
         // NOTES: Line below will crash because images[].size != cart.size (or "getItemCount()")
         //holder.itemImage.setImageResource(images[position])
         holder.itemView.setOnClickListener {
-            if (!possibleNumsToAssign.isNullOrEmpty()) {
                 Log.d("Clicked", "${holder.itemsId} Selected")
                 Log.d("selectedItems", "${selectedItemsForDecisionTools} BEFORE")
                 Log.d("maxTiles", "${maxTiles} BEFORE")
@@ -65,7 +64,7 @@ class CartActivityAdapter(val context: Context, val cart: MutableList<DataSnapsh
                 // XXXXX: Based on maxTiles, add a # icon to selected cartActivity
                 // NNNNN: As long as the user still has tiles remaining to be assigned...
                 // NNNNN: If selected cartActivity has not already been selected...
-                if (maxTiles != 0 && !selectedItemsForDecisionTools.contains(activity)) {
+                if (maxTiles != 0 && !possibleNumsToAssign.isNullOrEmpty() && !selectedItemsForDecisionTools.contains(activity)) {
                     Log.d("Nums", "${possibleNumsToAssign}")
                     val numToAssign = possibleNumsToAssign[possibleNumsToAssign.size-1] // NNNNN: get the last # in nums
                     selectedItemsForDecisionTools.put(activity, numToAssign) // NNNNN: assign that # to selected cartActivity
@@ -85,7 +84,7 @@ class CartActivityAdapter(val context: Context, val cart: MutableList<DataSnapsh
                 Log.d("selectedItems", "${selectedItemsForDecisionTools} AFTER")
                 Log.d("maxTiles", "${maxTiles} AFTER")
                 Log.d("Nums", "${possibleNumsToAssign}")
-            }
+
         }
 
         holder.itemsId = cart[position].child("id").value.toString()
