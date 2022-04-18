@@ -16,6 +16,7 @@ import android.graphics.BitmapFactory
 import android.os.AsyncTask
 import android.util.Log
 import android.widget.*
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 
 import com.example.dsideapp.auth
@@ -66,7 +67,7 @@ class ActivitiesFragment : Fragment() , HomeActivity.IOnBackPressed {
     private lateinit var ppw: PopupWindow
     // MMMMM: RecyclerView + CardView (ActivitiesFragment, CartPopUpFragment)
     private var layoutManager: RecyclerView.LayoutManager? = null
-    private var adapter: RecyclerView.Adapter<RecyclerAdapter.ViewHolder>? = null
+    private var adapter: RecyclerView.Adapter<CartActivityAdapter.ViewHolder>? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -334,7 +335,7 @@ class ActivitiesFragment : Fragment() , HomeActivity.IOnBackPressed {
                         val activities = mutableListOf<DataSnapshot>()
                         layoutManager = LinearLayoutManager(requireContext())
                         rv.layoutManager = layoutManager
-                        adapter = RecyclerAdapter(requireContext(), activities)
+                        adapter = CartActivityAdapter(requireContext(), activities)
                         rv.adapter = adapter
                         // MMMMM: -----------------------------------------------------------------//
                         var activityInfo = db.child("users").child(userID.toString()).get().addOnSuccessListener {
@@ -346,15 +347,73 @@ class ActivitiesFragment : Fragment() , HomeActivity.IOnBackPressed {
                                 allTheStuff.forEach{
                                     act ->
                                     tempCartActivityText += act.child("title").value.toString() + "\n"
-                                    // MMMMM: Add to list to send to RecyclerAdapter class.
+                                    // NNNNN: Add to list to send to RecyclerAdapter class.
                                     activities.add(act)
                                 }
                             }
                             // NOTES: v.findViewById<TextView>(R.id.cart_activity_title).text = tempCartActivityText
                             // NOTES: var tempCartActivityText = "Activity 1\nActivity 4\nActivity 10\n"
-                            // MMMMM: Update RecyclerAdapter with changes.
+                            // NNNNN: Update RecyclerAdapter with changes.
                             adapter?.notifyDataSetChanged()
                         }
+                        /// MMMMM: Cart Interactability (Swipe) ----------------------------------------------------------------//
+                        val swipeGesture = object : SwipeGesture(requireContext()) {
+                            override fun onSwiped(
+                                viewHolder: RecyclerView.ViewHolder,
+                                direction: Int
+                            ) {
+                                when(direction){
+                                    ItemTouchHelper.LEFT -> {
+                                        // MMMMM: 1. LEFT Swipe functionality
+                                        Log.d("Item Swiped", "${viewHolder.position} Activity")
+                                        // NNNNN: 1. delete cartActivity from DATABASE
+                                        //Log.d("Item Swiped", "${(adapter as CartActivityAdapter).getItemsId(viewHolder.position)} Activity")
+                                        val cartActivityToDeleteID = (adapter as CartActivityAdapter).getItemsId(viewHolder.position)
+                                        var cartActivityToDeleteTEMP = activities[0] // initialize if !it.exists()
+                                        var cartActivityInfo = db.child("users").child(userID.toString()).get().addOnSuccessListener {
+                                            if (it.exists()){
+                                                // NOTES: allTheStuff = array of Activities in Cart
+                                                val cartActivityToDelete = it.child("data").child("cart").child(cartActivityToDeleteID)
+                                                cartActivityToDeleteTEMP = cartActivityToDelete
+                                                //Log.d("Deleting", "${cartActivityToDelete} Activity")
+                                                cartActivityToDelete.getRef().removeValue()
+                                            }
+                                            // NOTES: Update RecyclerAdapter with changes.
+                                            adapter?.notifyDataSetChanged()
+                                        }
+                                        // NNNNN: 2. delete cartActivity from VIEW AFTER deleting cartActivity from DATABASE (bc of viewHolder.position)
+                                        (adapter as CartActivityAdapter).deleteItem(cartActivityToDeleteTEMP)
+                                    }
+                                    ItemTouchHelper.RIGHT -> {
+                                        // MMMMM: 1. LEFT Swipe functionality
+                                        Log.d("Item Swiped", "${viewHolder.position} Activity")
+                                        // NNNNN: 1. delete cartActivity from DATABASE
+                                        //Log.d("Item Swiped", "${(adapter as CartActivityAdapter).getItemsId(viewHolder.position)} Activity")
+                                        val cartActivityToDeleteID = (adapter as CartActivityAdapter).getItemsId(viewHolder.position)
+                                        var cartActivityToDeleteTEMP = activities[0] // initialize if !it.exists()
+                                        var cartActivityInfo = db.child("users").child(userID.toString()).get().addOnSuccessListener {
+                                            if (it.exists()){
+                                                // NOTES: allTheStuff = array of Activities in Cart
+                                                val cartActivityToDelete = it.child("data").child("cart").child(cartActivityToDeleteID)
+                                                cartActivityToDeleteTEMP = cartActivityToDelete
+                                                //Log.d("Deleting", "${cartActivityToDelete} Activity")
+                                                cartActivityToDelete.getRef().removeValue()
+                                            }
+                                            // NOTES: Update RecyclerAdapter with changes.
+                                            adapter?.notifyDataSetChanged()
+                                        }
+                                        // NNNNN: 2. delete cartActivity from VIEW AFTER deleting cartActivity from DATABASE (bc of viewHolder.position)
+                                        (adapter as CartActivityAdapter).deleteItem(cartActivityToDeleteTEMP)
+
+                                        // XXXXX: 2. Add to Calendar functionality
+                                    }
+                                }
+                            }
+                        }
+                        val touchHelper = ItemTouchHelper(swipeGesture)
+                        touchHelper.attachToRecyclerView(rv)
+                        /// MMMMM: -------------------------------------------------------------------------------------------//
+
                         // show the popup window
                         // which view you pass in doesn't matter, it is only used for the window token
                         popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0)

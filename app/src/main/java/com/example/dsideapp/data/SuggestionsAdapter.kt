@@ -17,11 +17,15 @@ class SuggestionsAdapter(context: Context?, strings: MutableList<YelpRestaurant>
             convertView = LayoutInflater.from(getContext()).inflate(com.example.dsideapp.R.layout.activity_card, parent, false);
         }
 
+        // for each restaurant ...
         val restaurant = getItem(position)
 
+        // get views
         val activityTitle = convertView?.findViewById(com.example.dsideapp.R.id.activity_title) as TextView
         val activityCategory = convertView.findViewById(com.example.dsideapp.R.id.activity_category) as TextView
         val activityRadius = convertView.findViewById(com.example.dsideapp.R.id.activity_radius) as TextView
+
+        // set views to hold restaurant's info
         val firstCategory = restaurant?.categories?.get(0)
         activityTitle.setText(restaurant?.name)
         activityCategory.setText(firstCategory?.title)
