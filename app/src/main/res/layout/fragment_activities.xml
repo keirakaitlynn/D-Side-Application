@@ -54,26 +54,32 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="Suggestions"/>
+            <!-- Removed for the sake of style changing, since it gets removed anyways.
+                    android:textColor="@color/purple_100"
+                Replace if you want the dimmed out text. -->
             <Button
                 android:id="@+id/coin_button"
                 style="@style/button_page"
-                android:textColor="@color/purple_100"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="Coin" />
+            <!-- Removed for the sake of style changing, since it gets removed anyways.
+                    android:textColor="@color/purple_100"
+                Replace if you want the dimmed out text. -->
             <Button
                 android:id="@+id/dice_button"
                 style="@style/button_page"
-                android:textColor="@color/purple_100"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="Dice" />
+            <!-- Removed for the sake of style changing, since it gets removed anyways.
+                    android:textColor="@color/purple_100"
+                Replace if you want the dimmed out text. -->
             <Button
                 android:id="@+id/wheel_button"
                 style="@style/button_page"
-                android:textColor="@color/purple_100"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"

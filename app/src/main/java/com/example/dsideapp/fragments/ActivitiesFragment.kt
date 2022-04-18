@@ -16,6 +16,7 @@ import android.graphics.BitmapFactory
 import android.os.AsyncTask
 import android.util.Log
 import android.widget.*
+import androidx.core.widget.TextViewCompat.setTextAppearance
 import androidx.recyclerview.widget.LinearLayoutManager
 
 import com.example.dsideapp.auth
@@ -29,7 +30,9 @@ import java.io.InputStream
 import androidx.recyclerview.widget.RecyclerView
 import com.example.dsideapp.HomeActivity
 import com.example.dsideapp.data.*
+import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.DataSnapshot
+import com.google.firebase.ktx.Firebase
 import java.util.ArrayList
 
 
@@ -77,7 +80,8 @@ class ActivitiesFragment : Fragment() , HomeActivity.IOnBackPressed {
         replaceChildFragment(suggestionsFragment) // initial child fragment
 
         //function for loading backstack page name
-        fun getPreviousPageName(vararg params: Void): Void?{
+        fun getPreviousPageName(vararg params: Void): String{
+            var previousPageName = ""
             if (getChildFragmentManager().backStackEntryCount > 1){
                 ppw.dismiss()
             }
@@ -88,7 +92,7 @@ class ActivitiesFragment : Fragment() , HomeActivity.IOnBackPressed {
             //getting name of previous page
             var previousPageCount = getChildFragmentManager().backStackEntryCount
             if (previousPageCount >1){
-                var previousPageName = getChildFragmentManager().getBackStackEntryAt(previousPageCount-1).name.toString()
+                previousPageName = getChildFragmentManager().getBackStackEntryAt(previousPageCount-1).name.toString()
                 //Checks if page count updates
                 //Log.w("Page: ",
                 //    getChildFragmentManager().getBackStackEntryAt(previousPageCount-1).name.toString())
@@ -108,7 +112,7 @@ class ActivitiesFragment : Fragment() , HomeActivity.IOnBackPressed {
                 true
             }
             //---- BackStack Name ----
-            return null
+            return previousPageName
         }
 
         //function for loading backstack page name
@@ -153,23 +157,39 @@ class ActivitiesFragment : Fragment() , HomeActivity.IOnBackPressed {
 
         suggestionsButton = v.findViewById<Button>(R.id.suggestions_button)
         suggestionsButton.setOnClickListener{
+            setTextAppearance(suggestionsButton, R.style.button_page_selected)
+            //Unga bunga way of doing this, but it works lol
+            setTextAppearance(coinButton, R.style.button_page)
+            setTextAppearance(diceButton, R.style.button_page)
+            setTextAppearance(wheelButton, R.style.button_page)
             replaceChildFragment(suggestionsFragment)
-            getPreviousPageName()
         }
         coinButton = v.findViewById<Button>(R.id.coin_button)
         coinButton.setOnClickListener{
+            setTextAppearance(coinButton, R.style.button_page_selected)
+            //Unga bunga way of doing this, but it works lol
+            setTextAppearance(suggestionsButton, R.style.button_page)
+            setTextAppearance(diceButton, R.style.button_page)
+            setTextAppearance(wheelButton, R.style.button_page)
             replaceChildFragment(coinFragment)
-            getPreviousPageName()
         }
         diceButton = v.findViewById<Button>(R.id.dice_button)
         diceButton.setOnClickListener{
+            setTextAppearance(diceButton, R.style.button_page_selected)
+            //Unga bunga way of doing this, but it works lol
+            setTextAppearance(suggestionsButton, R.style.button_page)
+            setTextAppearance(coinButton, R.style.button_page)
+            setTextAppearance(wheelButton, R.style.button_page)
             replaceChildFragment(diceFragment)
-            getPreviousPageName()
         }
         wheelButton = v.findViewById<Button>(R.id.wheel_button)
         wheelButton.setOnClickListener{
+            setTextAppearance(wheelButton, R.style.button_page_selected)
+            //Unga bunga way of doing this, but it works lol
+            setTextAppearance(suggestionsButton, R.style.button_page)
+            setTextAppearance(coinButton, R.style.button_page)
+            setTextAppearance(diceButton, R.style.button_page)
             replaceChildFragment(wheelFragment)
-            getPreviousPageName()
         }
         //Mine//
         ///////////////////POP UP IMAGE /////////////////////////////////
@@ -178,40 +198,35 @@ class ActivitiesFragment : Fragment() , HomeActivity.IOnBackPressed {
             @SuppressLint("ClickableViewAccessibility")
             override fun doInBackground(vararg params: Void): Void? {
                 try {
+                    val auth = Firebase.auth
+                    val database = FirebaseDatabase.getInstance()
                     //Connect to the website
-                    var categoriesToWebscrape = ArrayList<String>()
-                    categoriesToWebscrape.add("Cake")
-                    categoriesToWebscrape.add("Cars")
-                    categoriesToWebscrape.add("Coffee & Tea")
-                    categoriesToWebscrape.add("Cookies")
-                    categoriesToWebscrape.add("Juice Bars & Smoothies")
-                    categoriesToWebscrape.add("Dance Clubs")
-                    categoriesToWebscrape.add("Dive Bars")
-                    categoriesToWebscrape.add("Dining")
-                    categoriesToWebscrape.add("Bowling")
-                    categoriesToWebscrape.add("Lounges")
-                    categoriesToWebscrape.add("Pizza")
-                    categoriesToWebscrape.add("Seafood")
+                    var categoryToWebscrape = "Recreation"
                     var document =
-                        Jsoup.connect("https://www.yelp.com/search?cflt="+ categoriesToWebscrape.get(0) +"&find_loc=Long+Beach%2C+CA").get()
+                        Jsoup.connect("https://www.yelp.com/search?cflt="+ "Cake" +"&find_loc=Long+Beach%2C+CA").get()
                     var infoDocument =
-                        Jsoup.connect("https://en.wikipedia.org/wiki/" + categoriesToWebscrape.get(0)).get()
+                        Jsoup.connect("https://en.wikipedia.org/wiki/" + categoryToWebscrape).get()
 
-                    //////////
-                    ///Info image info gathering
-                    //Get the logo source of the website
-                    infoImg = infoDocument.getElementsByTag("img").first()!!
-                    // Locate the src attribute
-                    infoImgSrc = infoImg.absUrl("src")
-                    println("\n\n" + infoImgSrc + "\n\n")
-                    //Download image from URL
-                    infoInput = java.net.URL(infoImgSrc).openStream()
-                    // Decode Bitmap
-                    infoBitmap = BitmapFactory.decodeStream(infoInput)
                     ///
                     val infoDescription = infoDocument.select("p")
                     val infoButton = v.findViewById<ImageButton>(R.id.info_button)
                     infoButton.setOnClickListener{
+                        database.reference.child("users").child(auth.uid.toString()).child("data").child("curr_category").get().addOnSuccessListener {
+                            categoryToWebscrape = it.value.toString()
+                            Log.w("Help me", categoryToWebscrape)//document = Jsoup.connect("https://www.yelp.com/search?cflt="+ categoryToWebscrape +"&find_loc=Long+Beach%2C+CA").get()
+                            infoDocument =
+                                Jsoup.connect("https://en.wikipedia.org/wiki/" + categoryToWebscrape).get()
+                            //////////
+                            ///Info image info gathering
+                            //Get the logo source of the website
+                            infoImg = infoDocument.getElementsByTag("img").first()!!
+                            // Locate the src attribute
+                            infoImgSrc = infoImg.absUrl("src")
+                            println("\n\n" + infoImgSrc + "\n\n")
+                            //Download image from URL
+                            infoInput = java.net.URL(infoImgSrc).openStream()
+                            // Decode Bitmap
+                            infoBitmap = BitmapFactory.decodeStream(infoInput)
                         // inflate the layout of the popup window
                         v = inflater.inflate(com.example.dsideapp.R.layout.fragment_info_pop_up, null)
                         // create the popup window
@@ -235,6 +250,10 @@ class ActivitiesFragment : Fragment() , HomeActivity.IOnBackPressed {
                         v.setOnTouchListener { v, event ->
                             popupWindow.dismiss()
                             true
+                        }
+                        }.addOnFailureListener{
+                            Log.e("firebase", "Error getting data", it)
+                            categoryToWebscrape = "Cake"
                         }
                     }
                     //////////////
