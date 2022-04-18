@@ -76,7 +76,6 @@ class PollsFragment : Fragment() {
             }
 
             var createButton = v.findViewById<Button>(R.id.pollCreateButton)
-
             ////CREATE POLL////
             createButton.setOnClickListener {
                 var pollId: String
@@ -198,10 +197,21 @@ class PollsFragment : Fragment() {
                 //Log.w("Twas null","!")
                 ////MIGHT NOT NEED
             }
-            ////////
-
-
         }
+        ////////
+        //Viewing your past polls
+        var viewPast = v.findViewById<Button>(R.id.viewYourPollsButton)
+        viewPast.setOnClickListener{
+            val fragmentManager = activity?.getSupportFragmentManager()
+            Log.w("IDK WHY YOU ARE HERE: ",fragmentManager.toString())
+            if (fragmentManager != null) {
+                fragmentManager.beginTransaction().replace(com.example.dsideapp.R.id.fragment_view,  PastPollsFragment()).commit()
+                Log.w("Made it here","!")
+                pleaseWorkManager = fragmentManager
+            }
+        }
+        ////////
+
         //-----------------------------
         //Iterate through every currently active poll
         var pollInfo = db.get().addOnSuccessListener {

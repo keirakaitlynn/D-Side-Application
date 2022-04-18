@@ -125,7 +125,7 @@ lateinit var temp2: ViewGroup
                 }
                 //Log.w("", p.poll_options.toString())
                 if (dbVoters?.split(',')?.contains(user?.email.toString()) == false &&
-                    p.poll_end_time.toString().toLong() < Date().getTime()) {
+                    p.poll_end_time.toString().toLong() > Date().getTime()) {
 
                     if (numOfOptions == 6) {
                         v = LayoutInflater.from(context).inflate(R.layout.fragment_vote6_poll, null)
