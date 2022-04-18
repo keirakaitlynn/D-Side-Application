@@ -89,15 +89,17 @@ class WheelChildFragment : Fragment() {
                                 //Putting activities on top left or right of the screen
                                 if (sectorsSize < 5) {
                                     activitesOnLeftScreen += "" + (sectorsSize + 1) + ": " + act.child("title").value.toString() + "\n"
-                                } else {
+                                } else if (sectorsSize < 10) {
                                     activitesOnRightScreen += "" + (sectorsSize + 1) + ": " + act.child(
                                         "title"
                                     ).value.toString() + "\n"
                                 }
-                                activityList.add(act.child("title").value.toString())
-                                //Update counter
-                                //Log.w("", ""+sectorsSize)
-                                sectorsSize += 1
+                                if (sectorsSize < 10) {
+                                    activityList.add(act.child("title").value.toString())
+                                    //Update counter
+                                    //Log.w("", ""+sectorsSize)
+                                    sectorsSize += 1
+                                }
                             }
                         }
                         //Setting the correct wheel image

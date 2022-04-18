@@ -55,12 +55,15 @@ class DiceChildFragment : Fragment() {
                                 //Putting activities on top left or right of the screen
                                 if (activityList.size < 3) {
                                     activitesOnLeftScreen += "" + (activityList.size + 1) + ": " + act.child("title").value.toString() + "\n"
-                                } else {
+                                } else if (activityList.size < 6) {
                                     activitesOnRightScreen += "" + (activityList.size + 1) + ": " + act.child(
                                         "title"
                                     ).value.toString() + "\n"
                                 }
-                                activityList.add(act.child("title").value.toString())
+                                //Prevent more than 6 activities fomr being added
+                                if (activityList.size < 6){
+                                    activityList.add(act.child("title").value.toString())
+                                }
                             }
                         }
                         ///
