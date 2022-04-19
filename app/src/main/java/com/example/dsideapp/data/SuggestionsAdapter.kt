@@ -1,6 +1,7 @@
 package com.example.dsideapp.data
 
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -22,10 +23,13 @@ class SuggestionsAdapter(context: Context?, strings: MutableList<YelpRestaurant>
         val activityTitle = convertView?.findViewById(com.example.dsideapp.R.id.activity_title) as TextView
         val activityCategory = convertView.findViewById(com.example.dsideapp.R.id.activity_category) as TextView
         val activityRadius = convertView.findViewById(com.example.dsideapp.R.id.activity_radius) as TextView
+        val activityRating = convertView.findViewById(com.example.dsideapp.R.id.activity_rating) as TextView
         val firstCategory = restaurant?.categories?.get(0)
         activityTitle.setText(restaurant?.name)
         activityCategory.setText(firstCategory?.title)
         activityRadius.setText(restaurant?.displayDistance())
+        Log.w("bruh",restaurant?.rating.toString())
+        activityRating.setText(restaurant?.rating.toString() + "⭐")
 
         return convertView
     }
