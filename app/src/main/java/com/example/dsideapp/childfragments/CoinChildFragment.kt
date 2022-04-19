@@ -134,9 +134,6 @@ class CoinChildFragment : Fragment() {
                     var solution = if (isHeads.toString() == "true")  "heads: " + sol[0] else "tails: " + sol[1]
                     Log.w("RAWR ", solution )
 
-
-
-
                     v.findViewById<TextView>(R.id.Result).text = solution
                     v.findViewById<TextView>(R.id.Result).visibility = View.VISIBLE
                     explode()
