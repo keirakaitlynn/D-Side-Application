@@ -130,8 +130,8 @@ class CoinChildFragment : Fragment() {
                 override fun onAnimationRepeat(arg0: Animation) {}
                 override fun onAnimationEnd(arg0: Animation) {
 
-                    val sol = activitesOnLeftScreen.split("\n")
-                    var solution = if (isHeads.toString() == "true")  "heads" + sol[0].split(":")[1] else "tails" + sol[1].split(":")[1]
+                    val sol = listOf(activityList[0],activityList[1])
+                    var solution = if (isHeads.toString() == "true")  "heads: " + sol[0] else "tails: " + sol[1]
                     Log.w("RAWR ", solution )
 
 
