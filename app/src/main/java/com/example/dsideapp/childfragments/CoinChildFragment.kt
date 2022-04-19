@@ -42,6 +42,8 @@ class CoinChildFragment : Fragment() {
         var activityList = mutableListOf<String>()
         var activitesOnLeftScreen = ""
         var activitesOnRightScreen = ""
+        var numberForActivitesOnLeftScreen = ""
+        var numberForActivitesOnRightScreen = ""
         viewKonfetti = v.findViewById(R.id.konfettiView)
 
         v.findViewById<TextView>(R.id.Result).visibility = View.GONE
@@ -53,12 +55,12 @@ class CoinChildFragment : Fragment() {
                     val allTheStuff = it.child("data").child("cart").children
                     allTheStuff.forEach { act ->
                         //Putting activities on top left or right of the screen
-                        if (activityList.size < 2) {
-                            activitesOnLeftScreen += "" + (activityList.size + 1) + ": " + act.child("title").value.toString() + "\n"
-                        } else {
-                            activitesOnRightScreen += "" + (activityList.size + 1) + ": " + act.child(
-                                "title"
-                            ).value.toString() + "\n"
+                        if (activityList.size < 1) {
+                            activitesOnLeftScreen += "" + act.child("title").value.toString() + "\n"
+                            numberForActivitesOnLeftScreen += "" + (activityList.size + 1)
+                        } else if (activityList.size < 2){
+                            activitesOnRightScreen += "" + act.child("title").value.toString() + "\n"
+                            numberForActivitesOnRightScreen += "" + (activityList.size + 1)
                         }
                         if (activityList.size < 2) {
                             activityList.add(act.child("title").value.toString())
@@ -70,7 +72,9 @@ class CoinChildFragment : Fragment() {
                 Log.w("XD", "left" + activitesOnLeftScreen)
                 Log.w("XD", "Right" + activitesOnRightScreen)
                 v.findViewById<TextView>(R.id.left_activities_coin).setText(activitesOnLeftScreen)
-
+                v.findViewById<TextView>(R.id.number_for_left_activities_coin).setText(numberForActivitesOnLeftScreen)
+                v.findViewById<TextView>(R.id.right_activities_coin).setText(activitesOnRightScreen)
+                v.findViewById<TextView>(R.id.number_for_right_activities_coin).setText(numberForActivitesOnRightScreen)
                 //v.findViewById<TextView>(R.id.right_activities_coin).setText(activitesOnRightScreen)
                 Log.w("XD", activitesOnLeftScreen)
             }

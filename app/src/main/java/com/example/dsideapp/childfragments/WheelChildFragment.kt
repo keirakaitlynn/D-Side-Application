@@ -1,6 +1,8 @@
 package com.example.dsideapp.childfragments
 
+import android.annotation.SuppressLint
 import android.content.Context
+import android.graphics.Color
 import android.os.AsyncTask
 import android.os.Bundle
 import android.os.Handler
@@ -21,6 +23,8 @@ import java.util.ArrayList
 import kotlin.random.Random
 import android.view.Gravity
 import android.widget.Toast
+import com.example.dsideapp.R.color
+import com.example.dsideapp.R.color.*
 import com.example.dsideapp.data.Effects
 import nl.dionsegijn.konfetti.xml.KonfettiView
 
@@ -77,27 +81,79 @@ class WheelChildFragment : Fragment() {
             var sectorsSize = 0
             // list of all the activities
             var activityList = mutableListOf<String>()
-            var activitesOnLeftScreen = ""
-            var activitesOnRightScreen = ""
-
+            @SuppressLint("ResourceAsColor")
             override fun doInBackground(vararg params: Void): Void? {
                 ///Grabbing all the activities from DB to populate screen
                 //Populate an array to with DB Cart activities
+
+                //Get List of left number
+                var leftActivityNums = listOf(viewOfLayout.findViewById<TextView>(R.id.number_of_left_activities1),
+                    viewOfLayout.findViewById<TextView>(R.id.number_of_left_activities2),
+                    viewOfLayout.findViewById<TextView>(R.id.number_of_left_activities3),
+                    viewOfLayout.findViewById<TextView>(R.id.number_of_left_activities4),
+                    viewOfLayout.findViewById<TextView>(R.id.number_of_left_activities5)
+                )
+                //Get List of left activity titles
+                var leftActivityTitles = listOf(viewOfLayout.findViewById<TextView>(R.id.left_activities1),
+                    viewOfLayout.findViewById<TextView>(R.id.left_activities2),
+                    viewOfLayout.findViewById<TextView>(R.id.left_activities3),
+                    viewOfLayout.findViewById<TextView>(R.id.left_activities4),
+                    viewOfLayout.findViewById<TextView>(R.id.left_activities5)
+                )
+
+                //Get List of right number
+                var rightActivityNums = listOf(viewOfLayout.findViewById<TextView>(R.id.number_of_right_activities1),
+                    viewOfLayout.findViewById<TextView>(R.id.number_of_right_activities2),
+                    viewOfLayout.findViewById<TextView>(R.id.number_of_right_activities3),
+                    viewOfLayout.findViewById<TextView>(R.id.number_of_right_activities4),
+                    viewOfLayout.findViewById<TextView>(R.id.number_of_right_activities5)
+                )
+                //Get List of right activity titles
+                var rightActivityTitles = listOf(viewOfLayout.findViewById<TextView>(R.id.right_activities1),
+                    viewOfLayout.findViewById<TextView>(R.id.right_activities2),
+                    viewOfLayout.findViewById<TextView>(R.id.right_activities3),
+                    viewOfLayout.findViewById<TextView>(R.id.right_activities4),
+                    viewOfLayout.findViewById<TextView>(R.id.right_activities5)
+                )
+
+                var leftCounter = 0
+                var rightCounter = 0
                 var activityInfo =
                     db.child("users").child(userID.toString()).get().addOnSuccessListener {
                         if (it.exists()) {
                             val allTheStuff = it.child("data").child("cart").children
                             allTheStuff.forEach { act ->
+                                var activitesOnLeftScreen = ""
+                                var activitesOnRightScreen = ""
                                 //Putting activities on top left or right of the screen
                                 if (sectorsSize < 5) {
-                                    activitesOnLeftScreen += "" + (sectorsSize + 1) + ": " + act.child("title").value.toString() + "\n"
+                                    activitesOnLeftScreen += act.child("title").value.toString()
                                 } else if (sectorsSize < 10) {
-                                    activitesOnRightScreen += "" + (sectorsSize + 1) + ": " + act.child(
-                                        "title"
-                                    ).value.toString() + "\n"
+                                    activitesOnRightScreen += act.child("title").value.toString()
                                 }
                                 if (sectorsSize < 10) {
-                                    activityList.add(act.child("title").value.toString())
+                                    if (leftCounter<5){
+                                        activityList.add(act.child("title").value.toString())
+                                        //Adding left activites text
+                                        leftActivityTitles[leftCounter].setText(activitesOnLeftScreen)
+                                        //Adding circles
+                                        leftActivityNums[leftCounter].setText("" + (sectorsSize+1))
+                                        leftActivityNums[leftCounter].setBackgroundResource(R.drawable.rounded_corner)
+                                        leftActivityNums[leftCounter].setTextColor(purple_400)
+                                        leftCounter++
+                                    }
+                                else{
+                                    if (rightCounter<5){
+                                        activityList.add(act.child("title").value.toString())
+                                        //Adding left activites text
+                                        rightActivityTitles[rightCounter].setText(activitesOnRightScreen)
+                                        //Adding circles
+                                        rightActivityNums[rightCounter].setText("" + (sectorsSize+1))
+                                        rightActivityNums[rightCounter].setBackgroundResource(R.drawable.rounded_corner)
+                                        rightActivityNums[rightCounter].setTextColor(purple_400)
+                                        rightCounter++
+                                    }
+                                }
                                     //Update counter
                                     //Log.w("", ""+sectorsSize)
                                     sectorsSize += 1
@@ -139,8 +195,8 @@ class WheelChildFragment : Fragment() {
                         ///
                         //Display activities on screen
                         //Setting the text views with the activites listed
-                        viewOfLayout.findViewById<TextView>(R.id.left_activities).setText(activitesOnLeftScreen)
-                        viewOfLayout.findViewById<TextView>(R.id.right_activities).setText(activitesOnRightScreen)
+                        //viewOfLayout.findViewById<TextView>(R.id.left_activities).setText(activitesOnLeftScreen)
+                        //viewOfLayout.findViewById<TextView>(R.id.right_activities).setText(activitesOnRightScreen)
                         ///
 
                         // Mathematically divides up the wheel based on # of actions

@@ -57,23 +57,49 @@
 
     <TextView
         android:id="@+id/left_activities_coin"
-        android:layout_width="205dp"
+        android:layout_width="192dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="-37dp"
+        android:layout_toEndOf="@+id/number_for_left_activities_coin"
         android:gravity="left"
-        android:textColor="#FFFFFF"
         android:textSize="15sp"
+        android:translationY="20dp"
+        android:translationX="50dp"
+        app:layout_constraintLeft_toRightOf="@+id/number_for_left_activities_coin"/>
+
+    <TextView
+        android:id="@+id/number_for_left_activities_coin"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:gravity="center"
+        android:textSize="15sp"
+        android:background="@drawable/rounded_corner"
+        android:textColor="@color/purple_400"
         android:translationY="20dp" />
 
     <TextView
         android:id="@+id/right_activities_coin"
         android:layout_width="205dp"
         android:layout_height="wrap_content"
-        android:translationY="20dp"
+        android:layout_marginStart="-48dp"
+        android:layout_toEndOf="@+id/number_for_right_activities_coin"
         android:gravity="left"
         android:textColor="#FFFFFF"
         android:textSize="15sp"
-        android:translationX="205dp" />
+        android:translationX="275dp"
+        android:translationY="20dp"
+        app:layout_constraintLeft_toRightOf="@+id/number_for_right_activities_coin"/>
 
+    <TextView
+        android:id="@+id/number_for_right_activities_coin"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:gravity="center"
+        android:background="@drawable/rounded_corner"
+        android:textColor="@color/purple_400"
+        android:textSize="15sp"
+        android:translationX="205dp"
+        android:translationY="20dp" />
 
     <Button
         android:id="@+id/btn"
