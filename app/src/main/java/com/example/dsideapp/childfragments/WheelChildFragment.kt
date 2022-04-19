@@ -21,8 +21,8 @@ import java.util.ArrayList
 import kotlin.random.Random
 import android.view.Gravity
 import android.widget.Toast
-
-
+import com.example.dsideapp.data.Effects
+import nl.dionsegijn.konfetti.xml.KonfettiView
 
 
 class WheelChildFragment : Fragment() {
@@ -43,6 +43,7 @@ class WheelChildFragment : Fragment() {
     private lateinit var sectorDegrees: IntArray
     var calendar: CalendarView? = null
     private var dateView: TextView? = null
+    private lateinit var viewKonfetti: KonfettiView
 
     //getting database info
     var authorization = auth
@@ -67,6 +68,7 @@ class WheelChildFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         viewOfLayout = inflater.inflate(R.layout.fragment_child_wheel, container, false)
+        viewKonfetti = viewOfLayout.findViewById(R.id.konfettiView)
 
         class getDBInfoForWheel : AsyncTask<Void, Void, Void>() {
             // array of the user's values. RN its just #'s but who cares
@@ -195,6 +197,7 @@ class WheelChildFragment : Fragment() {
                                     val handler = Handler(context!!.mainLooper)
                                     handler.post(Runnable {
                                         Toast.makeText(activity, "You've got " + activityList[sectorsSize - (degree+1)] + " stuffs", Toast.LENGTH_SHORT).show()
+                                        explode()
                                     })
                                     isSpinning = false
                                 }
@@ -216,5 +219,8 @@ class WheelChildFragment : Fragment() {
 
         getDBInfoForWheel().execute()
         return viewOfLayout
+    }
+    private fun explode() {
+        viewKonfetti.start(Effects.explode())
     }
 }

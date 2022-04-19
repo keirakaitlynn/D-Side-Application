@@ -15,8 +15,12 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import com.example.dsideapp.auth
+import com.example.dsideapp.data.Effects
 import com.google.firebase.database.FirebaseDatabase
 import java.util.*
+import nl.dionsegijn.konfetti.xml.KonfettiView
+import android.view.animation.*
+
 
 
 class DiceChildFragment : Fragment() {
@@ -24,6 +28,7 @@ class DiceChildFragment : Fragment() {
     private var imageViewDice: ImageView? = null
     private val rng = Random()
     private lateinit var viewOfLayout: View
+    private lateinit var viewKonfetti: KonfettiView
 
     //getting database info
     var authorization = auth
@@ -40,6 +45,8 @@ class DiceChildFragment : Fragment() {
     ): View? {
         var activityList = mutableListOf<String>()
         viewOfLayout = inflater.inflate(R.layout.fragment_child_dice, container, false)
+        viewKonfetti = viewOfLayout.findViewById(R.id.konfettiView)
+
         class getDBInfoForDice : AsyncTask<Void, Void, Void>() {
             var activitesOnLeftScreen = ""
             var activitesOnRightScreen = ""
@@ -94,6 +101,7 @@ class DiceChildFragment : Fragment() {
                     val handler = Handler(context!!.mainLooper)
                     handler.post(Runnable {
                         Toast.makeText(activity, "You've got " + activityList[randomNum], Toast.LENGTH_SHORT).show()
+                        explode()
                     })
                 }
 
@@ -103,5 +111,8 @@ class DiceChildFragment : Fragment() {
         getDBInfoForDice().execute()
 
         return viewOfLayout
+    }
+    private fun explode() {
+        viewKonfetti.start(Effects.explode())
     }
 }

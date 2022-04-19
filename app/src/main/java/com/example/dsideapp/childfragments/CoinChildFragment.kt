@@ -60,7 +60,9 @@ class CoinChildFragment : Fragment() {
                                 "title"
                             ).value.toString() + "\n"
                         }
-                        activityList.add(act.child("title").value.toString())
+                        if (activityList.size < 2) {
+                            activityList.add(act.child("title").value.toString())
+                        }
                     }
                 }
                 //Display activities on screen
