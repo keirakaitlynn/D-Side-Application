@@ -11,14 +11,18 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.dsideapp.R
 import com.example.dsideapp.auth
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.FirebaseDatabase
+
+var selectedItemsForDecisionTools = mutableMapOf<DataSnapshot, Int>()
 
 // MMMMM: RecyclerView + CardView (ActivitiesFragment, CartPopUpFragment)
 class CartActivityAdapter(val context: Context, val cart: MutableList<DataSnapshot>): RecyclerView.Adapter<CartActivityAdapter.ViewHolder>() {
 
     // NOTES: size of arrays of info to bind w/ ViewHolder must be equal
-    private val selectedItemsForDecisionTools = mutableMapOf<DataSnapshot, Int>()
+
+
     private var maxTiles = cart.size // max # of tiles user can place is = to the initial size of cart
     val numImages = intArrayOf(R.drawable.ic_baseline_filter_1_24, R.drawable.ic_baseline_filter_2_24, R.drawable.ic_baseline_filter_3_24, R.drawable.ic_baseline_filter_4_24, R.drawable.ic_baseline_filter_5_24, R.drawable.ic_baseline_filter_6_24, R.drawable.ic_baseline_filter_7_24, R.drawable.ic_baseline_filter_8_24, R.drawable.ic_baseline_filter_9_24, R.drawable.ic_baseline_10k_24)
     var possibleNumsToAssign = mutableListOf<Int>(10, 9, 8, 7, 6, 5, 4, 3, 2, 1)

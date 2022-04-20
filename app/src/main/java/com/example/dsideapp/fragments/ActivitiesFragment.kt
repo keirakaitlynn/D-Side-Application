@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import com.example.dsideapp.R
 import android.view.Gravity
+import com.example.dsideapp.data.selectedItemsForDecisionTools
 
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
@@ -160,6 +161,8 @@ class ActivitiesFragment : Fragment() , HomeActivity.IOnBackPressed {
         coinButton = v.findViewById<Button>(R.id.coin_button)
         coinButton.setOnClickListener{
             replaceChildFragment(coinFragment)
+            var cartList = selectedItemsForDecisionTools
+            Log.w("AHHHHHHHHH::::", cartList.toString())
             getPreviousPageName()
         }
         diceButton = v.findViewById<Button>(R.id.dice_button)

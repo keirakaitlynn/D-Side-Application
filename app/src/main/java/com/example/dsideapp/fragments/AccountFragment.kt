@@ -13,7 +13,6 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import com.example.dsideapp.R
 import com.example.dsideapp.auth
-import com.example.dsideapp.childfragments.CoinChildFragment
 import com.example.dsideapp.childfragments.InformationChildFragment
 import com.google.firebase.database.FirebaseDatabase
 
@@ -41,7 +40,7 @@ class AccountFragment : Fragment() {
         db.child("users").child(userID.toString()).child("pfp").get().addOnSuccessListener {
             image = it.value.toString().toInt()
             Log.w("HERE : ", it.value.toString())
-
+            Log.w(image.toString(), R.drawable.pikachupfp.toString())
             var pfpImage = v.findViewById<ImageButton>(R.id.accountPFPInAccount)
             if (image == R.id.Turtle) {
                 pfpImage.setImageResource(R.drawable.turtlepfp)
