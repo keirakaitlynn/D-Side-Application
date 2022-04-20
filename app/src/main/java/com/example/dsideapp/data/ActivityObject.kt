@@ -15,7 +15,7 @@ data class ActivityObject (
     // for deserialization from a DataSnapshot.
 
     // The parameters are the ame as EventObject's.
-    fun ActivityObject.toEvent(eventTitle : String?, startTime : Date?, endTime : Date?,
+    fun toEvent(eventTitle : String?, startTime : Date?, endTime : Date?,
                                 eventUsers : MutableList<String> ) =  EventObject(
         event_title =  eventTitle,
         start_time = startTime,

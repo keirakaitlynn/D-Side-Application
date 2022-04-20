@@ -388,26 +388,6 @@ class ActivitiesFragment : Fragment() , HomeActivity.IOnBackPressed {
                                         (adapter as CartActivityAdapter).deleteItem(cartActivityToDeleteTEMP)
                                     }
                                     ItemTouchHelper.RIGHT -> {
-                                        // MMMMM: 1. LEFT Swipe functionality
-                                        Log.d("Item Swiped", "${viewHolder.position} Activity")
-                                        // NNNNN: 1. delete cartActivity from DATABASE
-                                        //Log.d("Item Swiped", "${(adapter as CartActivityAdapter).getItemsId(viewHolder.position)} Activity")
-                                        val cartActivityToDeleteID = (adapter as CartActivityAdapter).getItemsId(viewHolder.position)
-                                        var cartActivityToDeleteTEMP = activities[0] // initialize if !it.exists()
-                                        var cartActivityInfo = db.child("users").child(userID.toString()).get().addOnSuccessListener {
-                                            if (it.exists()){
-                                                // NOTES: allTheStuff = array of Activities in Cart
-                                                val cartActivityToDelete = it.child("data").child("cart").child(cartActivityToDeleteID)
-                                                cartActivityToDeleteTEMP = cartActivityToDelete
-                                                //Log.d("Deleting", "${cartActivityToDelete} Activity")
-                                                cartActivityToDelete.getRef().removeValue()
-                                            }
-                                            // NOTES: Update RecyclerAdapter with changes.
-                                            adapter?.notifyDataSetChanged()
-                                        }
-                                        // NNNNN: 2. delete cartActivity from VIEW AFTER deleting cartActivity from DATABASE (bc of viewHolder.position)
-                                        (adapter as CartActivityAdapter).deleteItem(cartActivityToDeleteTEMP)
-
                                         // XXXXX: 2. Add to Calendar functionality
                                         // inflate the layout of the popup window
                                         v = inflater.inflate(com.example.dsideapp.R.layout.fragment_eventadd_pop_up, null)
@@ -437,26 +417,33 @@ class ActivitiesFragment : Fragment() , HomeActivity.IOnBackPressed {
                                         //Creating the actual event from the button
                                         var createEventButton = v.findViewById<Button>(R.id.addEventButton)
                                         createEventButton.setOnClickListener() {
+
+                                            // MMMMM: Get activity swiped as a DataSnapshot, "cartActivityToAddToCalendarTEMP"
+                                            val cartActivityToAddToCalendarID = (adapter as CartActivityAdapter).getItemsId(viewHolder.position)
+                                            var cartActivityToAddToCalendarTEMP = activities[0] // initialize if !it.exists()
+                                            var cartActivityInfo = db.child("users").child(userID.toString()).get().addOnSuccessListener {
+                                                if (it.exists()){
+                                                    // NOTES: allTheStuff = array of Activities in Cart
+                                                    val cartActivityToAddToCalendar = it.child("data").child("cart").child(cartActivityToAddToCalendarID)
+                                                    cartActivityToAddToCalendarTEMP = cartActivityToAddToCalendar
+                                                }
+                                                // NOTES: Update RecyclerAdapter with changes.
+                                                //adapter?.notifyDataSetChanged()
+                                            }
+
                                             //Creating vars to gather user input for event info
-                                            var eventTitle = v.findViewById<TextView>(R.id.eventName)
+                                            var eventTitle = v.findViewById<TextView>(R.id.eventName).text.toString()
                                             //var eventDate = viewOfLayout.findViewById<DatePicker>(R.id.datePicker)
-                                            val day = datePicker.dayOfMonth.toString()
-                                            val month = datePicker.month.toString()
-                                            val year = datePicker.year.toString()
-                                            var eventDate: String = day + month + year
+                                            val day = datePicker.dayOfMonth
+                                            val month = datePicker.month
+                                            val year = datePicker.year
 
                                             var eventTime = v.findViewById<TextView>(R.id.TimeText)
 
-                                            //Creating a db readable event
-                                            data class stringEvent(
-                                                val event_Id: String? = null,
-                                                val event_Title: String? = null,
-                                                val event_Date: String? = null,
-                                                val event_Time: String? = null,
-                                                val event_Poster: String? = null,
-                                                val event_InviteList: String? = null,
-                                            ) {}
+                                            // MMMMM: Convert Date & Time to Date Class.
+                                            var date = Date(year, month, day)
 
+                                            // MMMMM: Add info to create Event Object.
                                             //Getting db info
                                             var authorization = auth
                                             var user = authorization.currentUser
@@ -473,40 +460,59 @@ class ActivitiesFragment : Fragment() , HomeActivity.IOnBackPressed {
                                                 eventId += (Random.nextInt(25) + 65).toChar()
                                             }
 
-                                            //Creating the event in the db, leaving friends empty
-
-                                            var addEvent = v.findViewById<Button>(R.id.addEventButton)
-                                            var dbReadableEvent = stringEvent(
-                                                eventId, eventTitle.text.toString(), eventDate.toString(),
-                                                eventTime.text.toString(), user?.email.toString(), "None"
-                                            )
-                                            //Setting the event in the db
-                                            db.child("data").child("events").child(eventId).setValue(dbReadableEvent)
-
                                             //////In here will be on button click of recycler view, friends are added to a mutable list and added to db
                                             var friendsInvited = mutableListOf<String>()
                                             var friendDBList = ""
                                             //hardcoding an added friend for testing purposes
                                             friendsInvited.add("WHBqJbAom0Yz0MQPQg0zuDnv4Xv1")
                                             friendDBList += "WHBqJbAom0Yz0MQPQg0zuDnv4Xv1;"
-                                            db.child("data").child("events").child(eventId).child("event_InviteList")
-                                                .setValue(friendDBList)
-                                            //Updating the event invite list
-                                            dbReadableEvent = stringEvent(
-                                                eventId, eventTitle.text.toString(), eventDate.toString(),
-                                                eventTime.text.toString(), user?.email.toString(), friendDBList
-                                            )
-                                            //db ref to write event info into friend's events
-                                            var friendDB = FirebaseDatabase.getInstance().getReference("users")
 
-                                            //Setting event's friend list
-                                            friendsInvited.forEach { friend ->
-                                                //putting the event in friend's events
-                                                friendDB.child(friend).child("data").child("events").child(eventId)
-                                                    .setValue(dbReadableEvent)
+                                            // MMMMM: Convert DataSnapshot to Activity.
+                                            //Log.d("KEY:TEMP", "${cartActivityToAddToCalendarTEMP.key}")
+                                            //Log.d("ID:TEMP", "${cartActivityToAddToCalendarTEMP.child("id").value}")
+                                            //Creating writeToDB function
+                                            fun dataSnapshotToActivityToEventToDB(userId: String, id: String, title: String = "None", phone: String = "None",
+                                                                              image: String = "None", loc_address: String = "None", loc_city: String = "None",
+                                                                              loc_country:String = "None", loc_zip: String = "None", loc_state: String = "None"
+                                                                              , business_name: String = "None", price: String = "None", category: String = "None", event_id : String = "None", event_title : String = "None", date : Date? = null, users_invited: MutableList<String>? = null) {
+                                                val location = LocationObject(loc_address, loc_city, loc_country, loc_zip, loc_state)
+                                                val activity = ActivityObject(if(id != "") id else "null", title, phone, image, location, business_name, price, category)
+                                                val event = users_invited?.let { it1 ->
+                                                    activity.toEvent(title, date, date,
+                                                        it1
+                                                    )
+                                                }
+
+                                                //Setting the event in the db
+                                                db.child("data").child("events").child(eventId).setValue(event)
+
                                             }
+                                            cartActivityToAddToCalendarTEMP.child("id").value
+                                            dataSnapshotToActivityToEventToDB(userId = userID.toString(), id = cartActivityToAddToCalendarTEMP.child("id").value.toString(),
+                                                title = cartActivityToAddToCalendarTEMP.child("title").value.toString(), phone = cartActivityToAddToCalendarTEMP.child("phone_contact").value.toString(), image = cartActivityToAddToCalendarTEMP.child("image_type").value.toString(),
+                                                business_name = cartActivityToAddToCalendarTEMP.child("business_name").value.toString(), price = cartActivityToAddToCalendarTEMP.child("price").value.toString(), category = cartActivityToAddToCalendarTEMP.child("category").value.toString(),
+                                                event_id = eventId, event_title = eventTitle, date = date, users_invited = friendsInvited)
                                         }
-
+                                        // XXXXX -----------------------------------------------------
+                                        // MMMMM: 1. LEFT Swipe functionality
+                                        Log.d("Item Swiped", "${viewHolder.position} Activity")
+                                        // NNNNN: 1. delete cartActivity from DATABASE
+                                        //Log.d("Item Swiped", "${(adapter as CartActivityAdapter).getItemsId(viewHolder.position)} Activity")
+                                        val cartActivityToDeleteID = (adapter as CartActivityAdapter).getItemsId(viewHolder.position)
+                                        var cartActivityToDeleteTEMP = activities[0] // initialize if !it.exists()
+                                        var cartActivityInfo = db.child("users").child(userID.toString()).get().addOnSuccessListener {
+                                            if (it.exists()){
+                                                // NOTES: allTheStuff = array of Activities in Cart
+                                                val cartActivityToDelete = it.child("data").child("cart").child(cartActivityToDeleteID)
+                                                cartActivityToDeleteTEMP = cartActivityToDelete
+                                                //Log.d("Deleting", "${cartActivityToDelete} Activity")
+                                                cartActivityToDelete.getRef().removeValue()
+                                            }
+                                            // NOTES: Update RecyclerAdapter with changes.
+                                            adapter?.notifyDataSetChanged()
+                                        }
+                                        // NNNNN: 2. delete cartActivity from VIEW AFTER deleting cartActivity from DATABASE (bc of viewHolder.position)
+                                        (adapter as CartActivityAdapter).deleteItem(cartActivityToDeleteTEMP)
                                         // XXXXX -----------------------------------------------------
                                         // show the popup window
                                         // which view you pass in doesn't matter, it is only used for the window token

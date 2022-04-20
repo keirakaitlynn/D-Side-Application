@@ -14,6 +14,8 @@ import com.example.dsideapp.auth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.FirebaseDatabase
 
+var selectedItemsForDecisionTools = mutableMapOf<DataSnapshot, Int>()
+
 // MMMMM: RecyclerView + CardView (ActivitiesFragment, CartPopUpFragment)
 class CartActivityAdapter(val context: Context, val cart: MutableList<DataSnapshot>): RecyclerView.Adapter<CartActivityAdapter.ViewHolder>() {
 
