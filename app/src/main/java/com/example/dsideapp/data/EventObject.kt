@@ -9,6 +9,7 @@ data class EventObject (
     var start_time: Date? = null,
     var end_time: Date? = null,
     var activity: ActivityObject? = null,
+    var poster: String? = null,
     var users: MutableList<String>? = null) {
     // Null default values create a no-argument default constructor, which is needed
     // for deserialization from a DataSnapshot.//

@@ -213,9 +213,9 @@ class ActivitiesFragment : Fragment() , HomeActivity.IOnBackPressed {
                     infoButton.setOnClickListener{
                         database.reference.child("users").child(auth.uid.toString()).child("data").child("curr_category").get().addOnSuccessListener {
                             categoryToWebscrape = it.value.toString()
-                            Log.w("Help me", categoryToWebscrape)//document = Jsoup.connect("https://www.yelp.com/search?cflt="+ categoryToWebscrape +"&find_loc=Long+Beach%2C+CA").get()
-                            infoDocument =
-                                Jsoup.connect("https://en.wikipedia.org/wiki/" + categoryToWebscrape).get()
+                            Log.w("Help me", categoryToWebscrape)
+                            document = Jsoup.connect("https://www.yelp.com/search?cflt="+ categoryToWebscrape +"&find_loc=Long+Beach%2C+CA").get()
+                            infoDocument = Jsoup.connect("https://en.wikipedia.org/wiki/" + categoryToWebscrape).get()
                             //////////
                             ///Info image info gathering
                             //Get the logo source of the website
