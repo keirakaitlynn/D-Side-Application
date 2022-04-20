@@ -1,5 +1,5 @@
 package com.example.dsideapp.fragments
-//
+///
 import android.media.Image
 import android.os.Bundle
 import android.util.Log
