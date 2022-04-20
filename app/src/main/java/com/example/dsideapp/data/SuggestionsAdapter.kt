@@ -28,8 +28,7 @@ class SuggestionsAdapter(context: Context?, strings: MutableList<YelpRestaurant>
         activityTitle.setText(restaurant?.name)
         activityCategory.setText(firstCategory?.title)
         activityRadius.setText(restaurant?.displayDistance())
-        Log.w("bruh",restaurant?.rating.toString())
-        activityRating.setText(restaurant?.rating.toString() + "⭐")
+        activityRating.setText("⭐" + restaurant?.rating.toString())
 
         return convertView
     }
