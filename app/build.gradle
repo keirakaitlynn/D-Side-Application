@@ -66,4 +66,5 @@ dependencies {
     implementation 'androidx.recyclerview:recyclerview:1.0.0'
     // cart interactability (swipe)
     implementation 'it.xabaras.android:recyclerview-swipedecorator:1.2.3'
+    implementation 'nl.dionsegijn:konfetti-xml:2.0.2'
 }
