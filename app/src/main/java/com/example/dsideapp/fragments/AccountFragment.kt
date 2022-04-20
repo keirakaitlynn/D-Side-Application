@@ -141,21 +141,20 @@ class AccountFragment : Fragment() {
 
         var image = 0
         db.child("users").child(userID.toString()).child("pfp").get().addOnSuccessListener {
-            image = it.value.toString().toInt()
-            Log.w("HERE : ", it.value.toString())
-            Log.w(image.toString(), R.drawable.pikachupfp.toString())
+            image = it.value.toString().trim().toInt()
+            //Log.w(image.toString(), R.id.Pikachu.toString())
             var pfpImage = v.findViewById<ImageButton>(R.id.accountPFPInAccount)
-            if (image == R.id.Turtle) {
+            if (image == R.drawable.turtlepfp) {
                 pfpImage.setImageResource(R.drawable.turtlepfp)
-            } else if (image == R.id.Pikachu) {
+            } else if (image == R.drawable.pikachupfp.toInt()) {
                 pfpImage.setImageResource(R.drawable.pikachupfp)
-            } else if (image == R.id.Avatar) {
+            } else if (image == R.drawable.avatarpfp.toInt()) {
                 pfpImage.setImageResource(R.drawable.avatarpfp)
-            } else if (image == R.id.Stitch) {
+            } else if (image == R.drawable.stitchpfp.toInt()) {
                 pfpImage.setImageResource(R.drawable.stitchpfp)
-            } else if (image == R.id.Raze) {
+            } else if (image == R.drawable.razepfp.toInt()) {
                 pfpImage.setImageResource(R.drawable.razepfp)
-            } else if (image == R.id.Ponyo) {
+            } else if (image == R.drawable.ponyopfp.toInt()) {
                 pfpImage.setImageResource(R.drawable.ponyopfp)
             }
         }
