@@ -9,7 +9,7 @@ import android.widget.Button
 import android.widget.ImageButton
 import androidx.fragment.app.FragmentTransaction
 import com.example.dsideapp.R
-
+//
 class InformationChildFragment : Fragment() {
     lateinit var teamButton : Button
     lateinit var FAQButton : Button

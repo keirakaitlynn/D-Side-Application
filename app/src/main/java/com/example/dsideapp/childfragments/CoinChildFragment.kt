@@ -1,33 +1,79 @@
 package com.example.dsideapp.childfragments
 
+import android.graphics.Camera
+import android.graphics.Matrix
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.*
 import android.widget.Button
 import android.widget.ImageView
+import android.widget.TextView
 import androidx.fragment.app.Fragment
 import com.example.dsideapp.R
+import com.example.dsideapp.auth
+import com.google.firebase.database.FirebaseDatabase
 import java.util.*
-import android.graphics.Matrix
-import android.view.animation.*
-import android.view.animation.Transformation
-import android.graphics.Camera
-import android.view.animation.LinearInterpolator
-
+import nl.dionsegijn.konfetti.xml.KonfettiView
+import com.example.dsideapp.data.Effects
 
 class CoinChildFragment : Fragment() {
 
+    private lateinit var viewKonfetti: KonfettiView
     private var coin: ImageView? = null
     private var btn: Button? = null
+    private lateinit var viewOfLayout: View
+    private var isHeads = false
+    //getting database info
+    var authorization = auth
+    var user = authorization.currentUser
+    var userID = authorization.currentUser?.uid
+    var db = FirebaseDatabase.getInstance().getReference()
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+
+        val v = inflater.inflate(R.layout.fragment_child_coin, container, false)
+        var activityList = mutableListOf<String>()
+        var activitesOnLeftScreen = ""
+        var activitesOnRightScreen = ""
+        viewKonfetti = v.findViewById(R.id.konfettiView)
+
+        v.findViewById<TextView>(R.id.Result).visibility = View.GONE
+        ///Grabbing all the activities from DB to populate screen
+        //Populate an array to with DB Cart activities
+        var activityInfo =
+            db.child("users").child(userID.toString()).get().addOnSuccessListener {
+                if (it.exists()) {
+                    val allTheStuff = it.child("data").child("cart").children
+                    allTheStuff.forEach { act ->
+                        //Putting activities on top left or right of the screen
+                        if (activityList.size < 2) {
+                            activitesOnLeftScreen += "" + (activityList.size + 1) + ": " + act.child("title").value.toString() + "\n"
+                        } else {
+                            activitesOnRightScreen += "" + (activityList.size + 1) + ": " + act.child(
+                                "title"
+                            ).value.toString() + "\n"
+                        }
+                        activityList.add(act.child("title").value.toString())
+                    }
+                }
+                //Display activities on screen
+                //Setting the text views with the activites listed
+                Log.w("XD", "left" + activitesOnLeftScreen)
+                Log.w("XD", "Right" + activitesOnRightScreen)
+                v.findViewById<TextView>(R.id.left_activities_coin).setText(activitesOnLeftScreen)
+
+                //v.findViewById<TextView>(R.id.right_activities_coin).setText(activitesOnRightScreen)
+            Log.w("XD", activitesOnLeftScreen)
+            }
         var curSide = R.drawable.heads
         var isheads = true
-        val v = inflater.inflate(R.layout.fragment_child_coin, container, false)
         coin = v.findViewById<View>(R.id.coin) as ImageView
         btn = v.findViewById<View>(R.id.btn) as Button
         btn!!.setOnClickListener {
@@ -63,14 +109,38 @@ class CoinChildFragment : Fragment() {
                     curSide = R.drawable.heads
                 }
             }
+
+
+
+            isHeads = isheads
             animation.duration = 110
             animation.interpolator = LinearInterpolator()
             coin!!.startAnimation(animation)
+            animation.setAnimationListener(object : Animation.AnimationListener {
+                override fun onAnimationStart(arg0: Animation) {
+                    v.findViewById<TextView>(R.id.Result).text = ""
+                    v.findViewById<TextView>(R.id.Result).visibility = View.GONE
+                }
+                override fun onAnimationRepeat(arg0: Animation) {}
+                override fun onAnimationEnd(arg0: Animation) {
+
+                    val sol = activitesOnLeftScreen.split("\n")
+                    var solution = if (isHeads.toString() == "true")  "heads" + sol[0].split(":")[1] else "tails" + sol[1].split(":")[1]
+                    Log.w("RAWR ", solution )
+
+
+
+
+                    v.findViewById<TextView>(R.id.Result).text = solution
+                    v.findViewById<TextView>(R.id.Result).visibility = View.VISIBLE
+                    explode()
+                }
+            })
+
         }
         return v
         }
 
-    // IGNORE EVERYTHING BELOW THIS. CLASS ROTATE3DANIMATION IS SIMPLY TO FLIP THE COIN. IF YOU NEED TO **CHANGE** HOW COIN FLIPS, THEN LOOK BELOW AND PROCEED WITH CAUTION.
     class Rotate3dAnimation(
         private val imageView: ImageView,
         private var curDrawable: Int,
@@ -118,6 +188,7 @@ class CoinChildFragment : Fragment() {
 
 
             // ----------------- ROTATE ----------------- //
+            //System.err.println(interpolatedTime)
             if (interpolatedTime >= 0.5f) {
                 if (interpolatedTime == 1f) {
                     val temp = curDrawable
@@ -142,8 +213,7 @@ class CoinChildFragment : Fragment() {
         }
     }
 
-
-    companion object {
-        val RANDOM = Random()
+    private fun explode() {
+        viewKonfetti.start(Effects.explode())
     }
 }

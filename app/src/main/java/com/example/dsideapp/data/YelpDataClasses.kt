@@ -37,6 +37,8 @@ data class YelpCategory(
 )
 
 data class YelpLocation(
-    @SerializedName("address1") val address: String
-
+    // Used to cast the info from the database into an obj. In this case it relates to the Yelp
+    // Activity Location
+    @SerializedName("address1") val address: String,
+    @SerializedName("city") val cityInfo : String
 )

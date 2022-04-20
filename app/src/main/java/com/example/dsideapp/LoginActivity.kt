@@ -16,10 +16,11 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
+import com.example.dsideapp.data.FriendClass
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 
-lateinit var auth: FirebaseAuth
+var auth: FirebaseAuth = Firebase.auth
 
 class LoginActivity : AppCompatActivity() {
 
@@ -33,9 +34,6 @@ class LoginActivity : AppCompatActivity() {
         auth = Firebase.auth
         val database = FirebaseDatabase.getInstance()
         val myRef = database.getReference("User")
-
-        myRef.setValue("Victor is testing further")
-
 
         myRef.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
@@ -106,6 +104,7 @@ class LoginActivity : AppCompatActivity() {
         println("WOOOOOOOOOOOOOOOOOOOOOOOORK")
         println(auth.toString())
         // [START sign_in_with_email]
+
         auth.signInWithEmailAndPassword(email, password)
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
@@ -139,5 +138,7 @@ class LoginActivity : AppCompatActivity() {
 
                 }
             }
+
+
     }
 }
