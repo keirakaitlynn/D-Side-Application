@@ -419,7 +419,7 @@ class ActivitiesFragment : Fragment() , HomeActivity.IOnBackPressed {
                                         createEventButton.setOnClickListener() {
 
                                             // MMMMM: Get activity swiped as a DataSnapshot, "cartActivityToAddToCalendarTEMP"
-                                            val cartActivityToAddToCalendarID = (adapter as CartActivityAdapter).getItemsId(viewHolder.position)
+                                            val cartActivityToAddToCalendarID = (adapter as CartActivityAdapter).getItemsId(viewHolder.position) // XXXXX: Getting the next activity after the activity swiped. Need to fix.
                                             var cartActivityToAddToCalendarTEMP = activities[0] // initialize if !it.exists()
                                             var cartActivityInfo = db.child("users").child(userID.toString()).get().addOnSuccessListener {
                                                 if (it.exists()){
