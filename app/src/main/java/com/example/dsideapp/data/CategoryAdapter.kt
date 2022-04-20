@@ -29,7 +29,6 @@ class CategoryAdapter(var categoriesList: MutableList<String>) :
         var tv: Button = view.findViewById(R.id.textView)
         tv.setOnClickListener {
             selectedItem = categoriesListAll.indexOf(tv.text.toString())
-            Log.w("", "GOT IT WORKING " + selectedItem)
             database.reference.child("users").child(auth.uid.toString()).child("data").child("curr_category").setValue(tv.text.toString())
             this.notifyDataSetChanged()
         }
@@ -39,7 +38,6 @@ class CategoryAdapter(var categoriesList: MutableList<String>) :
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.textView.text = categoriesList[position]
         holder.textView.setBackgroundColor(Color.parseColor("#1F1639"));
-        Log.w("bruh", position.toString())
         if (selectedItem == position) {
             holder.textView.setBackgroundColor(Color.parseColor("#42f57e"));
         }
