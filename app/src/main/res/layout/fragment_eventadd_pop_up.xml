@@ -142,7 +142,8 @@
         android:layout_gravity="end"
         android:text="Exit"
         tools:layout_editor_absoluteX="9dp"
-        tools:layout_editor_absoluteY="9dp" />
+        tools:layout_editor_absoluteY="9dp"
+        tools:ignore="MissingConstraints" />
 
 
 

@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".childfragments.CartPopUpFragment">
+    tools:context=".childfragments.CartPopUpFragment"
+    android:background="@color/purple_400">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
