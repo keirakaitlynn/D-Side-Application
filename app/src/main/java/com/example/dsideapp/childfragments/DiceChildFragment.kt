@@ -21,7 +21,9 @@ import com.google.firebase.database.FirebaseDatabase
 import java.util.*
 import nl.dionsegijn.konfetti.xml.KonfettiView
 import android.view.animation.*
-
+import com.example.dsideapp.data.selectedItemsForDecisionTools
+import com.example.dsideapp.fragments.selectedActivity
+import com.google.firebase.database.DataSnapshot
 
 
 class DiceChildFragment : Fragment() {
@@ -85,13 +87,15 @@ class DiceChildFragment : Fragment() {
                 var activityInfo =
                     db.child("users").child(userID.toString()).get().addOnSuccessListener {
                         if (it.exists()) {
-                            val allTheStuff = it.child("data").child("cart").children
-                            allTheStuff.forEach { act ->
+                            val allTheStuff = selectedItemsForDecisionTools
+                            allTheStuff.forEach { (key, value) ->
+                                var tempName = key.value.toString().substringAfter("title=")
+                                    .substringBefore("image_type=").trim()
                                 var activitesOnLeftScreen = ""
                                 var activitesOnRightScreen = ""
                                 //Putting activities on top left or right of the screen
                                 if (activityList.size < 3) {
-                                    activitesOnLeftScreen += act.child("title").value.toString()
+                                    activitesOnLeftScreen += "" + tempName + "\n"
                                     //Adding left activites text
                                     leftActivityTitles[leftCounter].setText(activitesOnLeftScreen)
                                     //Adding circles
@@ -100,7 +104,7 @@ class DiceChildFragment : Fragment() {
                                     leftActivityNums[leftCounter].setTextColor(R.color.purple_400)
                                     leftCounter++
                                 } else if (activityList.size < 6) {
-                                    activitesOnRightScreen += act.child("title").value.toString()
+                                    activitesOnRightScreen += "" + tempName + "\n"
                                     //Adding left activites text
                                     rightActivityTitles[rightCounter].setText(activitesOnRightScreen)
                                     //Adding circles
@@ -112,7 +116,7 @@ class DiceChildFragment : Fragment() {
 
                                 //Prevent more than 6 activities fomr being added
                                 if (activityList.size < 6) {
-                                    activityList.add(act.child("title").value.toString())
+                                    activityList.add(tempName)
                                 }
                             }
                         }
@@ -143,9 +147,47 @@ class DiceChildFragment : Fragment() {
                     rollDice()
                     val handler = Handler(context!!.mainLooper)
                     handler.post(Runnable {
-                        Toast.makeText(activity, "You've got " + activityList[randomNum], Toast.LENGTH_SHORT).show()
+                        var tempAct = activityList[randomNum]
+                        Toast.makeText(activity, "You've got " + tempAct, Toast.LENGTH_SHORT).show()
+                        //Save the overall result
+                        var tempDataSnapshot = ""
+                            selectedItemsForDecisionTools.forEach { (key, value) ->
+                                if (key.value.toString().substringAfter("title=")
+                                        .substringBefore("image_type=").trim().contains(tempAct)){
+                                    tempDataSnapshot = key.value.toString()
+                                }
+                        }
+                        selectedActivity.id =tempDataSnapshot.substringAfter("key =")
+                            .substringBefore(", value =").trim()
+                        selectedActivity.business_name = tempDataSnapshot.substringAfter("title=")
+                            .substringBefore(", image_type=").trim()
+                        selectedActivity.category = tempDataSnapshot.substringAfter("category=")
+                            .substringBefore(", title=").trim()
+                        selectedActivity.image_type = tempDataSnapshot.substringAfter("image_type=")
+                            .substringBefore("} }=").trim()
+                        selectedActivity.price = tempDataSnapshot.substringAfter("price=")
+                            .substringBefore(", location=").trim()
+                        selectedActivity.phone_contact = tempDataSnapshot.substringAfter("phone_contact=")
+                            .substringBefore(", price=").trim()
                         explode()
                     })
+                }
+
+                var createEventToCalendarButton: Button = viewOfLayout.findViewById(R.id.CreateEvent)
+                createEventToCalendarButton.setOnClickListener{
+                    if (!selectedActivity.id.isNullOrEmpty()){
+                        //Clear the selected from the cart
+                        selectedItemsForDecisionTools.forEach{ (key, value) ->
+                            Log.w("VALUE: ",key.key.toString())
+                            db.child("users").child(userID.toString()).child("data").child("cart")
+                                .child(key.key.toString()).removeValue()
+                        }
+                        //Now load the calendar fragment
+
+                    }
+                    else{
+                        Toast.makeText(activity, "An activity hasn't been chosen yet!", Toast.LENGTH_SHORT).show()
+                    }
                 }
 
                 return null

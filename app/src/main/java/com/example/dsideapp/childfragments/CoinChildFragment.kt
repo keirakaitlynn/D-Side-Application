@@ -11,6 +11,7 @@ import android.view.animation.*
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.example.dsideapp.R
 import com.example.dsideapp.auth
@@ -18,6 +19,8 @@ import com.google.firebase.database.FirebaseDatabase
 import java.util.*
 import nl.dionsegijn.konfetti.xml.KonfettiView
 import com.example.dsideapp.data.Effects
+import com.example.dsideapp.data.selectedItemsForDecisionTools
+import com.example.dsideapp.fragments.selectedActivity
 
 class CoinChildFragment : Fragment() {
 
@@ -52,18 +55,24 @@ class CoinChildFragment : Fragment() {
         var activityInfo =
             db.child("users").child(userID.toString()).get().addOnSuccessListener {
                 if (it.exists()) {
-                    val allTheStuff = it.child("data").child("cart").children
-                    allTheStuff.forEach { act ->
+                    val allTheStuff = selectedItemsForDecisionTools
+                    allTheStuff.forEach { (key, value) ->
                         //Putting activities on top left or right of the screen
+                        var tempName = key.value.toString().substringAfter("title=")
+                            .substringBefore("image_type=").trim()
                         if (activityList.size < 1) {
-                            activitesOnLeftScreen += "" + act.child("title").value.toString() + "\n"
-                            numberForActivitesOnLeftScreen += "" + (activityList.size + 1)
+                            if (value == 1){
+                                activitesOnLeftScreen += "" + tempName + "\n"
+                                numberForActivitesOnLeftScreen += "" + (activityList.size + 1)
+                            }
                         } else if (activityList.size < 2){
-                            activitesOnRightScreen += "" + act.child("title").value.toString() + "\n"
-                            numberForActivitesOnRightScreen += "" + (activityList.size + 1)
+                            if (value == 2){
+                                activitesOnRightScreen += "" + tempName + "\n"
+                                numberForActivitesOnRightScreen += "" + (activityList.size + 1)
+                            }
                         }
                         if (activityList.size < 2) {
-                            activityList.add(act.child("title").value.toString())
+                            activityList.add(tempName)
                         }
                     }
                 }
@@ -136,20 +145,59 @@ class CoinChildFragment : Fragment() {
 
                     v.findViewById<TextView>(R.id.Result).text = solution
                     v.findViewById<TextView>(R.id.Result).visibility = View.VISIBLE
+
+                    var tempAct = solution.split(' ')[1].trim()
+                    Toast.makeText(activity, "You've got " + tempAct, Toast.LENGTH_SHORT).show()
+                    //Save the overall result
+                    var tempDataSnapshot = ""
+                    selectedItemsForDecisionTools.forEach { (key, value) ->
+                        if (key.value.toString().substringAfter("title=")
+                                .substringBefore("image_type=").trim().contains(tempAct)){
+                            tempDataSnapshot = key.value.toString()
+                        }
+                    }
+                    selectedActivity.id =tempDataSnapshot.substringAfter("key =")
+                        .substringBefore(", value =").trim()
+                    selectedActivity.business_name = tempDataSnapshot.substringAfter("title=")
+                        .substringBefore(", image_type=").trim()
+                    selectedActivity.category = tempDataSnapshot.substringAfter("category=")
+                        .substringBefore(", title=").trim()
+                    selectedActivity.image_type = tempDataSnapshot.substringAfter("image_type=")
+                        .substringBefore("} }=").trim()
+                    selectedActivity.price = tempDataSnapshot.substringAfter("price=")
+                        .substringBefore(", location=").trim()
+                    selectedActivity.phone_contact = tempDataSnapshot.substringAfter("phone_contact=")
+                        .substringBefore(", price=").trim()
+
                     explode()
                 }
             })
 
         }
-        return v
-    }
 
-    fun clearTheCart(){
         var authorization = auth
         var user = authorization.currentUser
         var userID = authorization.currentUser?.uid
         var db = FirebaseDatabase.getInstance().getReference()
-        // db.child("users").child(userID.toString()).child("data").child("cart").
+
+        var createEventToCalendarButton: Button = v.findViewById(R.id.CreateEvent)
+        createEventToCalendarButton.setOnClickListener{
+            if (!selectedActivity.id.isNullOrEmpty()){
+                //Clear the selected from the cart
+                selectedItemsForDecisionTools.forEach{ (key, value) ->
+                    Log.w("VALUE: ",key.key.toString())
+                    db.child("users").child(userID.toString()).child("data").child("cart")
+                        .child(key.key.toString()).removeValue()
+                }
+                //Now load the calendar fragment
+
+            }
+            else{
+                Toast.makeText(activity, "An activity hasn't been chosen yet!", Toast.LENGTH_SHORT).show()
+            }
+        }
+
+        return v
     }
 
     class Rotate3dAnimation(

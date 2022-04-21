@@ -23,7 +23,6 @@
       android:translationY="20dp"
       android:gravity="center"
       android:text=""
-      android:background="@color/common_google_signin_btn_text_dark"
       android:textColor="#FFFFFF"
       android:textSize="15sp" />
     <TextView
@@ -43,7 +42,6 @@
       android:layout_height="20dp"
       android:translationY="40dp"
       android:text=""
-      android:background="@color/common_google_signin_btn_text_dark"
       android:gravity="center"
       android:textColor="#FFFFFF"
       android:textSize="15sp" />
@@ -63,7 +61,6 @@
       android:layout_width="20dp"
       android:layout_height="20dp"
       android:text=""
-      android:background="@color/common_google_signin_btn_text_dark"
       android:translationY="60dp"
       android:gravity="center"
       android:textColor="#FFFFFF"
@@ -87,7 +84,6 @@
       android:translationY="80dp"
       android:gravity="center"
       android:text=""
-      android:background="@color/common_google_signin_btn_text_dark"
       android:textColor="#FFFFFF"
       android:textSize="15sp" />
   <TextView
@@ -106,7 +102,6 @@
       android:layout_width="20dp"
       android:layout_height="20dp"
       android:text=""
-      android:background="@color/common_google_signin_btn_text_dark"
       android:translationY="100dp"
       android:gravity="center"
       android:textColor="#FFFFFF"
@@ -132,7 +127,6 @@
       android:translationX="200dp"
       android:gravity="center"
       android:text=""
-      android:background="@color/common_google_signin_btn_text_dark"
       android:textColor="#FFFFFF"
       android:textSize="15sp" />
   <TextView
@@ -153,7 +147,6 @@
       android:layout_height="20dp"
       android:translationY="40dp"
       android:text=""
-      android:background="@color/common_google_signin_btn_text_dark"
       android:gravity="center"
       android:textColor="#FFFFFF"
       android:textSize="15sp" />
@@ -174,7 +167,6 @@
       android:layout_height="20dp"
       android:translationX="200dp"
       android:text=""
-      android:background="@color/common_google_signin_btn_text_dark"
       android:translationY="60dp"
       android:gravity="center"
       android:textColor="#FFFFFF"
@@ -199,7 +191,6 @@
       android:translationY="80dp"
       android:gravity="center"
       android:text=""
-      android:background="@color/common_google_signin_btn_text_dark"
       android:textColor="#FFFFFF"
       android:textSize="15sp" />
   <TextView
@@ -218,7 +209,6 @@
       android:layout_width="20dp"
       android:layout_height="20dp"
       android:text=""
-      android:background="@color/common_google_signin_btn_text_dark"
       android:translationY="100dp"
       android:gravity="center"
       android:translationX="200dp"
@@ -235,6 +225,16 @@
       android:textColor="#FFFFFF"
       android:textSize="15sp" />
 
+  <Button
+      android:id="@+id/CreateEvent"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_alignParentBottom="true"
+      android:layout_centerHorizontal="true"
+      android:translationX="140dp"
+      android:layout_marginBottom="10dp"
+      android:backgroundTint="@color/blueVioletColor"
+      android:text="Add" />
 
   <Button
         android:id="@+id/Button"
@@ -242,8 +242,9 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="20dp"
-        android:backgroundTint="@color/blueVioletColor"
+        android:layout_marginBottom="10dp"
+      android:translationX="-140dp"
+      android:backgroundTint="@color/blueVioletColor"
         android:text="Spin!" />
 
     <ImageView

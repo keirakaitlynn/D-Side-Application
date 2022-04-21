@@ -27,6 +27,8 @@ import com.example.dsideapp.R.color
 import com.example.dsideapp.R.color.*
 import com.example.dsideapp.data.Effects
 import nl.dionsegijn.konfetti.xml.KonfettiView
+import com.example.dsideapp.data.selectedItemsForDecisionTools
+import com.example.dsideapp.fragments.selectedActivity
 
 
 class WheelChildFragment : Fragment() {
@@ -121,19 +123,27 @@ class WheelChildFragment : Fragment() {
                 var activityInfo =
                     db.child("users").child(userID.toString()).get().addOnSuccessListener {
                         if (it.exists()) {
-                            val allTheStuff = it.child("data").child("cart").children
-                            allTheStuff.forEach { act ->
+
+                            val allTheStuff = selectedItemsForDecisionTools
+                            allTheStuff.forEach { (key, value) ->
+                                Log.w("RUN THROUGH THIS: ","AGAIN!")
+                                var tempName = key.value.toString().substringAfter("title=")
+                                    .substringBefore("image_type=").trim()
                                 var activitesOnLeftScreen = ""
                                 var activitesOnRightScreen = ""
                                 //Putting activities on top left or right of the screen
                                 if (sectorsSize < 5) {
-                                    activitesOnLeftScreen += act.child("title").value.toString()
+                                    if (value < 6) {
+                                        activitesOnLeftScreen += "" + tempName + "\n"
+                                    }
                                 } else if (sectorsSize < 10) {
-                                    activitesOnRightScreen += act.child("title").value.toString()
+                                    if (value < 11) {
+                                        activitesOnRightScreen += "" + tempName + "\n"
+                                    }
                                 }
                                 if (sectorsSize < 10) {
                                     if (leftCounter<5){
-                                        activityList.add(act.child("title").value.toString())
+                                        activityList.add(tempName)
                                         //Adding left activites text
                                         leftActivityTitles[leftCounter].setText(activitesOnLeftScreen)
                                         //Adding circles
@@ -144,8 +154,8 @@ class WheelChildFragment : Fragment() {
                                     }
                                 else{
                                     if (rightCounter<5){
-                                        activityList.add(act.child("title").value.toString())
-                                        //Adding left activites text
+                                        activityList.add(tempName)
+                                        //Adding right activites text
                                         rightActivityTitles[rightCounter].setText(activitesOnRightScreen)
                                         //Adding circles
                                         rightActivityNums[rightCounter].setText("" + (sectorsSize+1))
@@ -252,7 +262,28 @@ class WheelChildFragment : Fragment() {
                                     //Log.w("", "You've got " + activityList[sectorsSize - (degree+1)])
                                     val handler = Handler(context!!.mainLooper)
                                     handler.post(Runnable {
-                                        Toast.makeText(activity, "You've got " + activityList[sectorsSize - (degree+1)] + " stuffs", Toast.LENGTH_SHORT).show()
+                                        var tempAct = activityList[sectorsSize - (degree+1)]
+                                        Toast.makeText(activity, "You've got " + tempAct, Toast.LENGTH_SHORT).show()
+                                        //Save the overall result
+                                        var tempDataSnapshot = ""
+                                        selectedItemsForDecisionTools.forEach { (key, value) ->
+                                            if (key.value.toString().substringAfter("title=")
+                                                    .substringBefore("image_type=").trim().contains(tempAct)){
+                                                tempDataSnapshot = key.value.toString()
+                                            }
+                                        }
+                                        selectedActivity.id =tempDataSnapshot.substringAfter("key =")
+                                            .substringBefore(", value =").trim()
+                                        selectedActivity.business_name = tempDataSnapshot.substringAfter("title=")
+                                            .substringBefore(", image_type=").trim()
+                                        selectedActivity.category = tempDataSnapshot.substringAfter("category=")
+                                            .substringBefore(", title=").trim()
+                                        selectedActivity.image_type = tempDataSnapshot.substringAfter("image_type=")
+                                            .substringBefore("} }=").trim()
+                                        selectedActivity.price = tempDataSnapshot.substringAfter("price=")
+                                            .substringBefore(", location=").trim()
+                                        selectedActivity.phone_contact = tempDataSnapshot.substringAfter("phone_contact=")
+                                            .substringBefore(", price=").trim()
                                         explode()
                                     })
                                     isSpinning = false
@@ -267,6 +298,23 @@ class WheelChildFragment : Fragment() {
                         isSpinning = true
                     }
 
+                }
+
+                var createEventToCalendarButton: Button = viewOfLayout.findViewById(R.id.CreateEvent)
+                createEventToCalendarButton.setOnClickListener{
+                    if (!selectedActivity.id.isNullOrEmpty()){
+                        //Clear the selected from the cart
+                        selectedItemsForDecisionTools.forEach{ (key, value) ->
+                            Log.w("VALUE: ",key.key.toString())
+                            db.child("users").child(userID.toString()).child("data").child("cart")
+                                .child(key.key.toString()).removeValue()
+                        }
+                        //Now load the calendar fragment
+
+                    }
+                    else{
+                        Toast.makeText(activity, "An activity hasn't been chosen yet!", Toast.LENGTH_SHORT).show()
+                    }
                 }
                 ///
                 return null
