@@ -101,8 +101,9 @@ class LoginActivity : AppCompatActivity() {
 
     /// THE IMPORTANT BITS
     private fun logIn(email: String, password: String) {
-        println("WOOOOOOOOOOOOOOOOOOOOOOOORK")
-        println(auth.toString())
+        println("Email: " + email)
+        println("Password: " + password)
+        println(auth.currentUser.toString())
         // [START sign_in_with_email]
 
         auth.signInWithEmailAndPassword(email, password)

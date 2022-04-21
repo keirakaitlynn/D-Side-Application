@@ -78,6 +78,13 @@ class ActivitiesFragment : Fragment() , HomeActivity.IOnBackPressed {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        //getting db info
+        //getting database info
+        var authorization = auth
+        var user = authorization.currentUser
+        var userID = authorization.currentUser?.uid
+        var db = FirebaseDatabase.getInstance().getReference()
+
         var v = inflater.inflate(R.layout.fragment_activities, container, false)
         replaceChildFragment(suggestionsFragment) // initial child fragment
 
@@ -163,20 +170,285 @@ class ActivitiesFragment : Fragment() , HomeActivity.IOnBackPressed {
         }
         coinButton = v.findViewById<Button>(R.id.coin_button)
         coinButton.setOnClickListener{
-            replaceChildFragment(coinFragment)
             var cartList = selectedItemsForDecisionTools
-            Log.w("AHHHHHHHHH::::", cartList.toString())
-            getPreviousPageName()
+            //Prevents going to coin if not enough/too many activities
+            if (cartList.size==2) {
+                replaceChildFragment(coinFragment)
+
+                ///////////////Making sure selected activities in cart go to decision tool
+
+                //Creating a decisionToolsActivitiesList data class
+                data class stringActivityList(
+                    val activity1: String? = null,
+                    val activity2: String? = null,
+                    val activity3: String? = null,
+                    val activity4: String? = null,
+                    val activity5: String? = null,
+                    val activity6: String? = null,
+                    val activity7: String? = null,
+                    val activity8: String? = null,
+                    val activity9: String? = null,
+                    val activity10: String? = null,
+
+                    ) {}
+
+                var activity_1 = "None";
+                var activity_2 = "None";
+                var activity_3 = "None";
+                var activity_4 = "None";
+                var activity_5 = "None"
+                var activity_6 = "None";
+                var activity_7 = "None";
+                var activity_8 = "None";
+                var activity_9 = "None";
+                var activity_10 = "None"
+
+                cartList.forEach { (key, value) ->
+                    if ((value) == 1) {
+                        activity_1 = key.value.toString().substringAfter("title=")
+                            .substringBefore("image_type=").trim()
+                    } else if (value == 2) {
+                        activity_2 = key.value.toString().substringAfter("title=")
+                            .substringBefore("image_type=").trim()
+                    } else if (value == 3) {
+                        activity_3 = key.value.toString().substringAfter("title=")
+                            .substringBefore("image_type=").trim()
+                    } else if (value == 4) {
+                        activity_4 = key.value.toString().substringAfter("title=")
+                            .substringBefore("image_type=").trim()
+                    } else if (value == 5) {
+                        activity_5 = key.value.toString().substringAfter("title=")
+                            .substringBefore("image_type=").trim()
+                    } else if (value == 6) {
+                        activity_6 = key.value.toString().substringAfter("title=")
+                            .substringBefore("image_type=").trim()
+                    } else if (value == 7) {
+                        activity_7 = key.value.toString().substringAfter("title=")
+                            .substringBefore("image_type=").trim()
+                    } else if (value == 8) {
+                        activity_8 = key.value.toString().substringAfter("title=")
+                            .substringBefore("image_type=").trim()
+                    } else if (value == 9) {
+                        activity_9 = key.value.toString().substringAfter("title=")
+                            .substringBefore("image_type=").trim()
+                    } else if (value == 10) {
+                        activity_10 = key.value.toString().substringAfter("title=")
+                            .substringBefore("image_type=").trim()
+                    }
+
+                }
+                db.child("users").child(userID.toString()).child("data").child("tempActivities")
+                    .setValue(
+                        stringActivityList(
+                            activity_1,
+                            activity_2,
+                            activity_3,
+                            activity_4,
+                            activity_5,
+                            activity_6,
+                            activity_7,
+                            activity_8,
+                            activity_9,
+                            activity_10
+                        )
+                    )
+                ////////////////////////////////////
+                getPreviousPageName()
+            }
+            else{
+                //Tell user the issue
+                Toast.makeText(activity, "Insufficient amount of activities selected!!!",Toast.LENGTH_SHORT).show()
+                //Clear activites selected map to prevent build up
+                selectedItemsForDecisionTools.clear()
+            }
         }
         diceButton = v.findViewById<Button>(R.id.dice_button)
         diceButton.setOnClickListener{
-            replaceChildFragment(diceFragment)
-            getPreviousPageName()
+            var cartList = selectedItemsForDecisionTools
+            //Prevents going to coin if not enough/too many activities
+            if (cartList.size>1 && cartList.size<=6) {
+                replaceChildFragment(diceFragment)
+
+                ///////////////Making sure selected activities in cart go to decision tool
+
+                //Creating a decisionToolsActivitiesList data class
+                data class stringActivityList(
+                    val activity1: String? = null,
+                    val activity2: String? = null,
+                    val activity3: String? = null,
+                    val activity4: String? = null,
+                    val activity5: String? = null,
+                    val activity6: String? = null,
+                    val activity7: String? = null,
+                    val activity8: String? = null,
+                    val activity9: String? = null,
+                    val activity10: String? = null,
+
+                    ) {}
+
+                var activity_1 = "None";
+                var activity_2 = "None";
+                var activity_3 = "None";
+                var activity_4 = "None";
+                var activity_5 = "None"
+                var activity_6 = "None";
+                var activity_7 = "None";
+                var activity_8 = "None";
+                var activity_9 = "None";
+                var activity_10 = "None"
+
+                cartList.forEach { (key, value) ->
+                    if ((value) == 1) {
+                        activity_1 = key.value.toString().substringAfter("title=")
+                            .substringBefore("image_type=").trim()
+                    } else if (value == 2) {
+                        activity_2 = key.value.toString().substringAfter("title=")
+                            .substringBefore("image_type=").trim()
+                    } else if (value == 3) {
+                        activity_3 = key.value.toString().substringAfter("title=")
+                            .substringBefore("image_type=").trim()
+                    } else if (value == 4) {
+                        activity_4 = key.value.toString().substringAfter("title=")
+                            .substringBefore("image_type=").trim()
+                    } else if (value == 5) {
+                        activity_5 = key.value.toString().substringAfter("title=")
+                            .substringBefore("image_type=").trim()
+                    } else if (value == 6) {
+                        activity_6 = key.value.toString().substringAfter("title=")
+                            .substringBefore("image_type=").trim()
+                    } else if (value == 7) {
+                        activity_7 = key.value.toString().substringAfter("title=")
+                            .substringBefore("image_type=").trim()
+                    } else if (value == 8) {
+                        activity_8 = key.value.toString().substringAfter("title=")
+                            .substringBefore("image_type=").trim()
+                    } else if (value == 9) {
+                        activity_9 = key.value.toString().substringAfter("title=")
+                            .substringBefore("image_type=").trim()
+                    } else if (value == 10) {
+                        activity_10 = key.value.toString().substringAfter("title=")
+                            .substringBefore("image_type=").trim()
+                    }
+
+                }
+                db.child("users").child(userID.toString()).child("data").child("tempActivities")
+                    .setValue(
+                        stringActivityList(
+                            activity_1,
+                            activity_2,
+                            activity_3,
+                            activity_4,
+                            activity_5,
+                            activity_6,
+                            activity_7,
+                            activity_8,
+                            activity_9,
+                            activity_10
+                        )
+                    )
+                ////////////////////////////////////
+                getPreviousPageName()
+            }
+            else{
+                //Tell user the issue
+                Toast.makeText(activity, "Insufficient amount of activities selected!!!",Toast.LENGTH_SHORT).show()
+                //Clear activites selected map to prevent build up
+                selectedItemsForDecisionTools.clear()
+            }
         }
         wheelButton = v.findViewById<Button>(R.id.wheel_button)
         wheelButton.setOnClickListener{
-            replaceChildFragment(wheelFragment)
-            getPreviousPageName()
+            var cartList = selectedItemsForDecisionTools
+            //Prevents going to coin if not enough/too many activities
+            if (cartList.size>1 && cartList.size<=10) {
+                replaceChildFragment(wheelFragment)
+
+                ///////////////Making sure selected activities in cart go to decision tool
+
+                //Creating a decisionToolsActivitiesList data class
+                data class stringActivityList(
+                    val activity1: String? = null,
+                    val activity2: String? = null,
+                    val activity3: String? = null,
+                    val activity4: String? = null,
+                    val activity5: String? = null,
+                    val activity6: String? = null,
+                    val activity7: String? = null,
+                    val activity8: String? = null,
+                    val activity9: String? = null,
+                    val activity10: String? = null,
+
+                    ) {}
+
+                var activity_1 = "None";
+                var activity_2 = "None";
+                var activity_3 = "None";
+                var activity_4 = "None";
+                var activity_5 = "None"
+                var activity_6 = "None";
+                var activity_7 = "None";
+                var activity_8 = "None";
+                var activity_9 = "None";
+                var activity_10 = "None"
+
+                cartList.forEach { (key, value) ->
+                    if ((value) == 1) {
+                        activity_1 = key.value.toString().substringAfter("title=")
+                            .substringBefore("image_type=").trim()
+                    } else if (value == 2) {
+                        activity_2 = key.value.toString().substringAfter("title=")
+                            .substringBefore("image_type=").trim()
+                    } else if (value == 3) {
+                        activity_3 = key.value.toString().substringAfter("title=")
+                            .substringBefore("image_type=").trim()
+                    } else if (value == 4) {
+                        activity_4 = key.value.toString().substringAfter("title=")
+                            .substringBefore("image_type=").trim()
+                    } else if (value == 5) {
+                        activity_5 = key.value.toString().substringAfter("title=")
+                            .substringBefore("image_type=").trim()
+                    } else if (value == 6) {
+                        activity_6 = key.value.toString().substringAfter("title=")
+                            .substringBefore("image_type=").trim()
+                    } else if (value == 7) {
+                        activity_7 = key.value.toString().substringAfter("title=")
+                            .substringBefore("image_type=").trim()
+                    } else if (value == 8) {
+                        activity_8 = key.value.toString().substringAfter("title=")
+                            .substringBefore("image_type=").trim()
+                    } else if (value == 9) {
+                        activity_9 = key.value.toString().substringAfter("title=")
+                            .substringBefore("image_type=").trim()
+                    } else if (value == 10) {
+                        activity_10 = key.value.toString().substringAfter("title=")
+                            .substringBefore("image_type=").trim()
+                    }
+
+                }
+                db.child("users").child(userID.toString()).child("data").child("tempActivities")
+                    .setValue(
+                        stringActivityList(
+                            activity_1,
+                            activity_2,
+                            activity_3,
+                            activity_4,
+                            activity_5,
+                            activity_6,
+                            activity_7,
+                            activity_8,
+                            activity_9,
+                            activity_10
+                        )
+                    )
+                ////////////////////////////////////
+                getPreviousPageName()
+            }
+            else{
+                //Tell user the issue
+                Toast.makeText(activity, "Insufficient amount of activities selected!!!",Toast.LENGTH_SHORT).show()
+                //Clear activites selected map to prevent build up
+                selectedItemsForDecisionTools.clear()
+            }
         }
         //Mine//
         ///////////////////POP UP IMAGE /////////////////////////////////
