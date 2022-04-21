@@ -18,6 +18,7 @@ import com.google.firebase.database.FirebaseDatabase
 import java.util.*
 import nl.dionsegijn.konfetti.xml.KonfettiView
 import com.example.dsideapp.data.Effects
+import com.example.dsideapp.data.selectedItemsForDecisionTools
 
 class CoinChildFragment : Fragment() {
 
@@ -52,18 +53,24 @@ class CoinChildFragment : Fragment() {
         var activityInfo =
             db.child("users").child(userID.toString()).get().addOnSuccessListener {
                 if (it.exists()) {
-                    val allTheStuff = it.child("data").child("cart").children
-                    allTheStuff.forEach { act ->
+                    val allTheStuff = selectedItemsForDecisionTools
+                    allTheStuff.forEach { (key, value) ->
                         //Putting activities on top left or right of the screen
+                        var tempName = key.value.toString().substringAfter("title=")
+                            .substringBefore("image_type=").trim()
                         if (activityList.size < 1) {
-                            activitesOnLeftScreen += "" + act.child("title").value.toString() + "\n"
-                            numberForActivitesOnLeftScreen += "" + (activityList.size + 1)
+                            if (value == 1){
+                                activitesOnLeftScreen += "" + tempName + "\n"
+                                numberForActivitesOnLeftScreen += "" + (activityList.size + 1)
+                            }
                         } else if (activityList.size < 2){
-                            activitesOnRightScreen += "" + act.child("title").value.toString() + "\n"
-                            numberForActivitesOnRightScreen += "" + (activityList.size + 1)
+                            if (value == 2){
+                                activitesOnRightScreen += "" + tempName + "\n"
+                                numberForActivitesOnRightScreen += "" + (activityList.size + 1)
+                            }
                         }
                         if (activityList.size < 2) {
-                            activityList.add(act.child("title").value.toString())
+                            activityList.add(tempName)
                         }
                     }
                 }
