@@ -73,7 +73,7 @@ class EventAddPopUpFragment : Fragment() {
         var eventDate: String = eventDay + eventMonth + eventYear
 
         var eventTime = viewOfLayout.findViewById<EditText>(R.id.TimeText)
-
+//
         //Creating a db readable event
         data class StringEvent(
             val event_Id: String? = null,
