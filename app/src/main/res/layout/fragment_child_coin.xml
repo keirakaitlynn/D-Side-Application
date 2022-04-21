@@ -110,6 +110,15 @@
         android:layout_marginTop="30dp"
         android:text="Flip"/>
 
+    <Button
+        android:id="@+id/CreateEvent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="10dp"
+        android:text="Add to calendar" />
+
     <TextView
         android:id="@+id/Result"
         android:layout_width="wrap_content"
