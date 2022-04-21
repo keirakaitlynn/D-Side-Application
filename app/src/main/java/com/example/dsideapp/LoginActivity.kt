@@ -34,7 +34,7 @@ class LoginActivity : AppCompatActivity() {
         val database = FirebaseDatabase.getInstance()
         val myRef = database.getReference("User")
 
-        myRef.setValue("Victor is testing further")
+        //myRef.setValue("Victor is testing further")
 
 
         myRef.addValueEventListener(object : ValueEventListener {

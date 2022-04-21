@@ -36,8 +36,8 @@
             android:id="@+id/layout_1.0"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:paddingLeft="16dp"
-            android:paddingRight="16dp"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
             android:orientation="vertical">
             <EditText
                 android:id="@+id/eventName"
@@ -67,13 +67,6 @@
                 android:layout_gravity="center"
                 android:text="Date"
                 android:textSize="18sp" />
-
-            <DatePicker
-                android:id="@+id/datePicker"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:datePickerMode="spinner"
-                android:calendarViewShown="false"/>
 
             <!--<Button
                 android:id="@+id/month_selected"
@@ -125,6 +118,21 @@
             <!--                app:layout_constraintStart_toStartOf="parent"-->
             <!--                app:layout_constraintTop_toTopOf="parent"-->
             <!--                app:tint="@color/white" />-->
+<!--            <DatePicker-->
+<!--                android:id="@+id/datePicker"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:calendarViewShown="false"-->
+<!--                android:datePickerMode="spinner" />-->
+
+            <DatePicker
+                android:id="@+id/datePicker"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:datePickerMode="calendar"
+                android:background="#6495ED"
+                />
+
             <Button
                 android:id="@+id/addEventButton"
                 android:layout_width="match_parent"

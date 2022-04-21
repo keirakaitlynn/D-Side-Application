@@ -42,42 +42,57 @@ class EventAddPopUpFragment : Fragment() {
         {
                 view, year, month, day ->
             val month = month + 1
-            val msg = "You Selected: $day/$month/$year"
-            Log.w("", msg)
+            //val msg = "You Selected: $day/$month/$year"
+            //Log.w("", msg)
         }
+
+        datePicker!!.setOnDateChangedListener {
+                view, year, month, dayOfMoth->
+            val month = month + 1
+
+
+//            @Override
+//            public void onDateChanged(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+//                Toast.makeText(app.com.sample.MainActivity.this," You are changed date is : "+dayOfMonth +" - "+monthOfYear+ " - "+year,Toast.LENGTH_LONG).show();
+            }
+
 
 
         auth = Firebase.auth
-        val database = FirebaseDatabase.getInstance()
+       // val database = FirebaseDatabase.getInstance()
 
         //Creating the actual event from the button
         var createEventButton = viewOfLayout.findViewById<Button>(R.id.addEventButton)
+
+        //Creating vars to gather user input for event info
+        var eventTitle = viewOfLayout.findViewById<EditText>(R.id.eventName)
+        //var eventDate = viewOfLayout.findViewById<DatePicker>(R.id.datePicker)
+        val eventDay = datePicker.dayOfMonth.toString()
+        val eventMonth = datePicker.month.toString()
+        val eventYear = datePicker.year.toString()
+        var eventDate: String = eventDay + eventMonth + eventYear
+
+        var eventTime = viewOfLayout.findViewById<EditText>(R.id.TimeText)
+
+        //Creating a db readable event
+        data class StringEvent(
+            val event_Id: String? = null,
+            val event_Title: String? = null,
+            val event_Date: String? = null,
+            val event_Time: String? = null,
+            val event_Poster: String? = null,
+            val event_InviteList: String? = null,
+        ) {}
+
+        //Getting db info
+        var authorization = auth
+        var user = authorization.currentUser
+        var userID = authorization.currentUser?.uid
+        var db = FirebaseDatabase.getInstance().getReference("users").child(userID.toString())
+
+
         createEventButton.setOnClickListener() {
-            //Creating vars to gather user input for event info
-            var eventTitle = viewOfLayout.findViewById<TextView>(R.id.eventName)
-            //var eventDate = viewOfLayout.findViewById<DatePicker>(R.id.datePicker)
-            val day = datePicker.dayOfMonth.toString()
-            val month = datePicker.month.toString()
-            val year = datePicker.year.toString()
-            var eventDate: String = day + month + year
 
-            var eventTime = viewOfLayout.findViewById<TextView>(R.id.TimeText)
-
-            //Creating a db readable event
-            data class stringEvent(
-                val event_Id: String? = null,
-                val event_Title: String? = null,
-                val event_Date: String? = null,
-                val event_Time: String? = null,
-                val event_Poster: String? = null,
-                val event_InviteList: String? = null,
-            ) {}
-
-            //Getting db info
-            var authorization = auth
-            var user = authorization.currentUser
-            var userID = authorization.currentUser?.uid
-            var db = FirebaseDatabase.getInstance().getReference("users").child(userID.toString())
 
             //Creating the random event ID
             var i = 0
@@ -91,13 +106,15 @@ class EventAddPopUpFragment : Fragment() {
 
             //Creating the event in the db, leaving friends empty
 
-            var addEvent = viewOfLayout.findViewById<Button>(R.id.addEventButton)
-            var dbReadableEvent = stringEvent(
+            var dbReadableEvent = StringEvent(
                 eventId, eventTitle.text.toString(), eventDate.toString(),
                 eventTime.text.toString(), user?.email.toString(), "None"
             )
             //Setting the event in the db
             db.child("data").child("events").child(eventId).setValue(dbReadableEvent)
+
+
+
 
             //////In here will be on button click of recycler view, friends are added to a mutable list and added to db
             var friendsInvited = mutableListOf<String>()
@@ -108,7 +125,7 @@ class EventAddPopUpFragment : Fragment() {
             db.child("data").child("events").child(eventId).child("event_InviteList")
                 .setValue(friendDBList)
             //Updating the event invite list
-            dbReadableEvent = stringEvent(
+            dbReadableEvent = StringEvent(
                 eventId, eventTitle.text.toString(), eventDate.toString(),
                 eventTime.text.toString(), user?.email.toString(), friendDBList
             )
@@ -123,16 +140,6 @@ class EventAddPopUpFragment : Fragment() {
             }
 
 
-//            //Popup window for the info
-//            var infoPopUpText = v.findViewById<TextView>(R.id.popUpTextInfo)
-//            val infoDescription = v.findViewById<TextView>(R.id.popUpTextInfo)
-//            if (infoDescription != null) {
-//                infoPopUpText.text = infoDescription.get(2).text().toString()
-//            }
-//            var infoImageView = v.findViewById<TextView>(R.id.popUpImageInfo)
-//            //textView = findViewById(R.id.title)
-//            val infoBitmap
-//            infoImageView.setImageBitmap(infoBitmap)
         }
             return viewOfLayout
         }
