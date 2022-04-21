@@ -37,6 +37,7 @@ import com.google.firebase.ktx.Firebase
 import java.util.*
 import kotlin.random.Random
 
+var selectedActivity = ActivityObject()
 
 class ActivitiesFragment : Fragment() , HomeActivity.IOnBackPressed {
     lateinit var suggestionsButton : Button

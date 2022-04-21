@@ -2,14 +2,14 @@ package com.example.dsideapp.data
 import java.util.*
 
 data class ActivityObject (
-    val id: String? = null,
+    var id: String? = null,
     var title: String? = null,
-    val phone_contact: String? = null,
+    var phone_contact: String? = null,
     var image_type: String? = null,
-    val location: LocationObject? = null,
+    var location: LocationObject? = null,
     var business_name: String? = null,
-    val price: String? = null,
-    val category: String? = null) {
+    var price: String? = null,
+    var category: String? = null) {
 
     // Null default values create a no-argument default constructor, which is needed
     // for deserialization from a DataSnapshot.
