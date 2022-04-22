@@ -180,7 +180,7 @@ class CalendarFragment : Fragment() {
 }
 */
 
-//Josh's Version to do add event to db and send event info to other users
+
 package com.example.dsideapp.fragments
 
 import android.content.Context.LAYOUT_INFLATER_SERVICE
@@ -218,6 +218,55 @@ class CalendarFragment : Fragment() {
         calendar = viewOfLayout.findViewById<View>(R.id.calendar) as CalendarView
         dateView = viewOfLayout.findViewById<View>(R.id.date_view) as TextView
         //var dayOfWeekView =  viewOfLayout.findViewById<View>(R.id.dayOfWeek) as TextView
+
+
+
+        val datePicker = viewOfLayout.findViewById<DatePicker>(R.id.datePicker)
+        val today = Calendar.getInstance()
+        datePicker.init(today.get(Calendar.YEAR), today.get(Calendar.MONTH),
+            today.get(Calendar.DAY_OF_MONTH)
+
+        )
+        {
+                view, year, month, day ->
+            val month = month + 1
+            val msg = "You Selected: $day/$month/$year"
+            Log.w("", msg)
+        }
+
+        auth = Firebase.auth
+        // val database = FirebaseDatabase.getInstance()
+
+        //Creating the actual event from the button
+        //var createEventButton = viewOfLayout.findViewById<Button>(R.id.addEventButton)
+
+        //Creating vars to gather user input for event info
+        var eventTitle = viewOfLayout.findViewById<EditText>(R.id.eventName)
+        //var eventDate = viewOfLayout.findViewById<DatePicker>(R.id.datePicker)
+        val eventDay = datePicker.dayOfMonth.toString()
+        val eventMonth = datePicker.month.toString()
+        val eventYear = datePicker.year.toString()
+        //var eventDate: String = eventDay + eventMonth + eventYear
+        var eventDate = eventMonth + " " + eventDay +", " + eventYear
+
+        var eventTime = viewOfLayout.findViewById<EditText>(R.id.TimeText)
+        //
+        //Creating a db readable event
+        data class StringEvent(
+            val event_Id: String? = null,
+            val event_Title: String? = null,
+            val event_Date: String? = null,
+            val event_Time: String? = null,
+            val event_Poster: String? = null,
+            val event_InviteList: String? = null,
+        ) {}
+
+        //Getting db info
+        var authorization = auth
+        var user = authorization.currentUser
+        var userID = authorization.currentUser?.uid
+        var db = FirebaseDatabase.getInstance().getReference("users").child(userID.toString())
+
         // Listener checks for a tap on a day
         calendar!!
             .setOnDateChangeListener {
@@ -304,52 +353,7 @@ class CalendarFragment : Fragment() {
                         true
                     }
 
-                    val datePicker = viewOfLayout.findViewById<DatePicker>(R.id.datePicker)
-                    val today = Calendar.getInstance()
-                    datePicker.init(today.get(Calendar.YEAR), today.get(Calendar.MONTH),
-                        today.get(Calendar.DAY_OF_MONTH)
 
-                    )
-                    {
-                            view, year, month, day ->
-                        val month = month + 1
-                        //val msg = "You Selected: $day/$month/$year"
-                        //Log.w("", msg)
-                    }
-
-
-                    auth = Firebase.auth
-                    // val database = FirebaseDatabase.getInstance()
-
-                    //Creating the actual event from the button
-                    //var createEventButton = viewOfLayout.findViewById<Button>(R.id.addEventButton)
-
-                    //Creating vars to gather user input for event info
-                    var eventTitle = viewOfLayout.findViewById<EditText>(R.id.eventName)
-                    //var eventDate = viewOfLayout.findViewById<DatePicker>(R.id.datePicker)
-                    val eventDay = datePicker.dayOfMonth.toString()
-                    val eventMonth = datePicker.month.toString()
-                    val eventYear = datePicker.year.toString()
-                    //var eventDate: String = eventDay + eventMonth + eventYear
-                    var eventDate = eventMonth + " " + eventDay +", " + eventYear
-
-                    var eventTime = viewOfLayout.findViewById<EditText>(R.id.TimeText)
-                    //
-                    //Creating a db readable event
-                    data class StringEvent(
-                        val event_Id: String? = null,
-                        val event_Title: String? = null,
-                        val event_Date: String? = null,
-                        val event_Time: String? = null,
-                        val event_Poster: String? = null,
-                        val event_InviteList: String? = null,
-                    ) {}
-
-                    //Getting db info
-                    var authorization = auth
-                    var user = authorization.currentUser
-                    var userID = authorization.currentUser?.uid
-                    var db = FirebaseDatabase.getInstance().getReference("users").child(userID.toString())
 
 
 
