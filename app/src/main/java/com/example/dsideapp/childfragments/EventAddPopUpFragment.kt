@@ -33,28 +33,24 @@ class EventAddPopUpFragment : Fragment() {
         viewOfLayout = inflater.inflate(R.layout.fragment_eventadd_pop_up, container, false)
 
 
-        val datePicker = viewOfLayout.findViewById<DatePicker>(R.id.datePicker)
-        val today = Calendar.getInstance()
-        datePicker.init(today.get(Calendar.YEAR), today.get(Calendar.MONTH),
-            today.get(Calendar.DAY_OF_MONTH)
-
-        )
-        {
-                view, year, month, day ->
-            val month = month + 1
-            //val msg = "You Selected: $day/$month/$year"
-            //Log.w("", msg)
-        }
-
-        datePicker!!.setOnDateChangedListener {
-                view, year, month, dayOfMoth->
-            val month = month + 1
-
-
-//            @Override
-//            public void onDateChanged(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-//                Toast.makeText(app.com.sample.MainActivity.this," You are changed date is : "+dayOfMonth +" - "+monthOfYear+ " - "+year,Toast.LENGTH_LONG).show();
-            }
+//        val datePicker = viewOfLayout.findViewById<DatePicker>(R.id.datePicker)
+//        val today = Calendar.getInstance()
+//        datePicker.init(today.get(Calendar.YEAR), today.get(Calendar.MONTH),
+//            today.get(Calendar.DAY_OF_MONTH)
+//
+//        )
+//        {
+//                view, year, month, day ->
+//            val month = month + 1
+//            //val msg = "You Selected: $day/$month/$year"
+//            //Log.w("", msg)
+//        }
+//
+//        datePicker!!.setOnDateChangedListener {
+//                view, year, month, dayOfMoth->
+//            val month = month + 1
+//
+//            }
 
 
 
@@ -67,10 +63,11 @@ class EventAddPopUpFragment : Fragment() {
         //Creating vars to gather user input for event info
         var eventTitle = viewOfLayout.findViewById<EditText>(R.id.eventName)
         //var eventDate = viewOfLayout.findViewById<DatePicker>(R.id.datePicker)
-        val eventDay = datePicker.dayOfMonth.toString()
-        val eventMonth = datePicker.month.toString()
-        val eventYear = datePicker.year.toString()
-        var eventDate: String = eventDay + eventMonth + eventYear
+//        val eventDay = datePicker.dayOfMonth.toString()
+//        val eventMonth = datePicker.month.toString()
+//        val eventYear = datePicker.year.toString()
+//        var eventDate: String = eventDay + eventMonth + eventYear
+        var eventDate = "April 21, 2022"
 
         var eventTime = viewOfLayout.findViewById<EditText>(R.id.TimeText)
 //
@@ -91,8 +88,8 @@ class EventAddPopUpFragment : Fragment() {
         var db = FirebaseDatabase.getInstance().getReference("users").child(userID.toString())
 
 
-        createEventButton.setOnClickListener() {
-
+        createEventButton.setOnClickListener {
+            Log.w("", "JOshhhhhhhhhhhhhhhh")
 
             //Creating the random event ID
             var i = 0
@@ -111,6 +108,7 @@ class EventAddPopUpFragment : Fragment() {
                 eventTime.text.toString(), user?.email.toString(), "None"
             )
             //Setting the event in the db
+            //Log.w("", "JOshhhhhhhhhhhhhhhh")
             db.child("data").child("events").child(eventId).setValue(dbReadableEvent)
 
 
