@@ -198,6 +198,7 @@ import com.example.dsideapp.auth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.ktx.Firebase
+import java.util.*
 import kotlin.random.Random
 
 
@@ -303,6 +304,19 @@ class CalendarFragment : Fragment() {
                         true
                     }
 
+                    val datePicker = viewOfLayout.findViewById<DatePicker>(R.id.datePicker)
+                    val today = Calendar.getInstance()
+                    datePicker.init(today.get(Calendar.YEAR), today.get(Calendar.MONTH),
+                        today.get(Calendar.DAY_OF_MONTH)
+
+                    )
+                    {
+                            view, year, month, day ->
+                        val month = month + 1
+                        //val msg = "You Selected: $day/$month/$year"
+                        //Log.w("", msg)
+                    }
+
 
                     auth = Firebase.auth
                     // val database = FirebaseDatabase.getInstance()
@@ -313,11 +327,11 @@ class CalendarFragment : Fragment() {
                     //Creating vars to gather user input for event info
                     var eventTitle = viewOfLayout.findViewById<EditText>(R.id.eventName)
                     //var eventDate = viewOfLayout.findViewById<DatePicker>(R.id.datePicker)
-//        val eventDay = datePicker.dayOfMonth.toString()
-//        val eventMonth = datePicker.month.toString()
-//        val eventYear = datePicker.year.toString()
-//        var eventDate: String = eventDay + eventMonth + eventYear
-                    var eventDate = "April 21, 2022"
+                    val eventDay = datePicker.dayOfMonth.toString()
+                    val eventMonth = datePicker.month.toString()
+                    val eventYear = datePicker.year.toString()
+                    //var eventDate: String = eventDay + eventMonth + eventYear
+                    var eventDate = eventMonth + " " + eventDay +", " + eventYear
 
                     var eventTime = viewOfLayout.findViewById<EditText>(R.id.TimeText)
                     //
@@ -340,6 +354,7 @@ class CalendarFragment : Fragment() {
 
 
                     var createEventButton = viewOfLayout.findViewById<Button>(R.id.addEventButton)
+
                     createEventButton.setOnClickListener {
                         Log.w("", "JOshhhhhhhhhhhhhhhh")
 
