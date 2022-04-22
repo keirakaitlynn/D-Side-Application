@@ -698,17 +698,19 @@ class ActivitiesFragment : Fragment() , HomeActivity.IOnBackPressed {
                                             val cartActivityToAddToCalendarID = (adapter as CartActivityAdapter).getItemsId(viewHolder.position) // XXXXX: Getting the next activity after the activity swiped. Need to fix.
                                             var cartActivityToAddToCalendarTEMP = activities[0] // initialize if !it.exists()
                                             var cartActivityInfo = db.child("users").child(userID.toString()).get().addOnSuccessListener {
-                                                if (it.exists()){
+                                                if (it.exists()){ // XXXXX: ------------------------------
                                                     // NOTES: allTheStuff = array of Activities in Cart
-                                                    val cartActivityToAddToCalendar = it.child("data").child("cart").child(cartActivityToAddToCalendarID)
-                                                    cartActivityToAddToCalendarTEMP = cartActivityToAddToCalendar
+                                                    cartActivityToAddToCalendarTEMP = it.child("data").child("cart").child(cartActivityToAddToCalendarID)
+                                                    Log.d("ADDING","${cartActivityToAddToCalendarTEMP}")
                                                 }
                                                 // NOTES: Update RecyclerAdapter with changes.
                                                 //adapter?.notifyDataSetChanged()
                                             }
 
+                                            Log.d("AFTERIT", "{$cartActivityToAddToCalendarTEMP}")
+
                                             //Creating vars to gather user input for event info
-                                            var eventTitle = v.findViewById<TextView>(R.id.eventName).text.toString()
+                                            //var eventTitle = v.findViewById<TextView>(R.id.eventName).text.toString()
                                             //var eventDate = viewOfLayout.findViewById<DatePicker>(R.id.datePicker)
                                             val day = datePicker.dayOfMonth
                                             val month = datePicker.month
@@ -753,6 +755,7 @@ class ActivitiesFragment : Fragment() , HomeActivity.IOnBackPressed {
                                                                               , business_name: String = "None", price: String = "None", category: String = "None", event_id : String = "None", event_title : String = "None", date : Date? = null, users_invited: MutableList<String>? = null) {
                                                 val location = LocationObject(loc_address, loc_city, loc_country, loc_zip, loc_state)
                                                 val activity = ActivityObject(if(id != "") id else "null", title, phone, image, location, business_name, price, category)
+                                                Log.d("EVENT", "${title}") // XXXXX: ------------------------------
                                                 val event = users_invited?.let { it1 ->
                                                     activity.toEvent(title, date, date,
                                                         it1
@@ -763,33 +766,38 @@ class ActivitiesFragment : Fragment() , HomeActivity.IOnBackPressed {
                                                 db.child("data").child("events").child(eventId).setValue(event)
 
                                             }
+                                            Log.d("TOEVENT", "{$cartActivityToAddToCalendarTEMP}")
                                             cartActivityToAddToCalendarTEMP.child("id").value
                                             dataSnapshotToActivityToEventToDB(userId = userID.toString(), id = cartActivityToAddToCalendarTEMP.child("id").value.toString(),
                                                 title = cartActivityToAddToCalendarTEMP.child("title").value.toString(), phone = cartActivityToAddToCalendarTEMP.child("phone_contact").value.toString(), image = cartActivityToAddToCalendarTEMP.child("image_type").value.toString(),
                                                 business_name = cartActivityToAddToCalendarTEMP.child("business_name").value.toString(), price = cartActivityToAddToCalendarTEMP.child("price").value.toString(), category = cartActivityToAddToCalendarTEMP.child("category").value.toString(),
-                                                event_id = eventId, event_title = eventTitle, date = date, users_invited = friendsInvited)
-                                        }
-                                        // XXXXX -----------------------------------------------------
-                                        // MMMMM: 1. LEFT Swipe functionality
-                                        Log.d("Item Swiped", "${viewHolder.position} Activity")
-                                        // NNNNN: 1. delete cartActivity from DATABASE
-                                        //Log.d("Item Swiped", "${(adapter as CartActivityAdapter).getItemsId(viewHolder.position)} Activity")
-                                        val cartActivityToDeleteID = (adapter as CartActivityAdapter).getItemsId(viewHolder.position)
-                                        var cartActivityToDeleteTEMP = activities[0] // initialize if !it.exists()
-                                        var cartActivityInfo = db.child("users").child(userID.toString()).get().addOnSuccessListener {
-                                            if (it.exists()){
-                                                // NOTES: allTheStuff = array of Activities in Cart
-                                                val cartActivityToDelete = it.child("data").child("cart").child(cartActivityToDeleteID)
-                                                cartActivityToDeleteTEMP = cartActivityToDelete
-                                                //Log.d("Deleting", "${cartActivityToDelete} Activity")
-                                                cartActivityToDelete.getRef().removeValue()
+                                                event_id = eventId, event_title = cartActivityToAddToCalendarTEMP.child("title").value.toString(), date = date, users_invited = friendsInvited)
+
+
+
+                                            // XXXXX -----------------------------------------------------
+                                            // MMMMM: 1. LEFT Swipe functionality
+                                            Log.d("Item Swiped RIGHT", "${viewHolder.position} Activity")
+                                            // NNNNN: 1. delete cartActivity from DATABASE
+                                            //Log.d("Item Swiped", "${(adapter as CartActivityAdapter).getItemsId(viewHolder.position)} Activity")
+                                            val cartActivityToDeleteID = (adapter as CartActivityAdapter).getItemsId(viewHolder.position)
+                                            var cartActivityToDeleteTEMP = activities[0] // initialize if !it.exists()
+                                            var cartActivityInfoTwo = db.child("users").child(userID.toString()).get().addOnSuccessListener {
+                                                if (it.exists()){
+                                                    // NOTES: allTheStuff = array of Activities in Cart
+                                                    val cartActivityToDelete = it.child("data").child("cart").child(cartActivityToDeleteID)
+                                                    cartActivityToDeleteTEMP = cartActivityToDelete
+                                                    Log.d("DELETING", "${cartActivityToDelete}")
+                                                    //Log.d("Deleting", "${cartActivityToDelete} Activity")
+                                                    cartActivityToDelete.getRef().removeValue()
+                                                }
+                                                // NOTES: Update RecyclerAdapter with changes.
+                                                adapter?.notifyDataSetChanged()
                                             }
-                                            // NOTES: Update RecyclerAdapter with changes.
-                                            adapter?.notifyDataSetChanged()
+                                            // NNNNN: 2. delete cartActivity from VIEW AFTER deleting cartActivity from DATABASE (bc of viewHolder.position)
+                                            (adapter as CartActivityAdapter).deleteItem(cartActivityToDeleteTEMP)
+                                            // XXXXX -----------------------------------------------------
                                         }
-                                        // NNNNN: 2. delete cartActivity from VIEW AFTER deleting cartActivity from DATABASE (bc of viewHolder.position)
-                                        (adapter as CartActivityAdapter).deleteItem(cartActivityToDeleteTEMP)
-                                        // XXXXX -----------------------------------------------------
                                         // show the popup window
                                         // which view you pass in doesn't matter, it is only used for the window token
                                         popupWindow2.showAtLocation(view, Gravity.CENTER, 0, 0)
