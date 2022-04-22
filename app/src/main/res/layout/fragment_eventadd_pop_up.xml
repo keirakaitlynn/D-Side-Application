@@ -68,56 +68,6 @@
                 android:text="Date"
                 android:textSize="18sp" />
 
-            <!--<Button
-                android:id="@+id/month_selected"
-                android:layout_width="263dp"
-                android:layout_height="match_parent"
-                android:layout_gravity="center"
-                android:background="@drawable/rectangle_round"
-                android:text="November"
-                android:textSize="18sp"
-                android:drawableEnd="@drawable/tick"/>
-            <TextView
-                android:id="@+id/day_label"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_gravity="center"
-                android:text="Day"
-                android:textSize="18sp" />
-            <Button
-                android:id="@+id/day_selected"
-                android:layout_width="263dp"
-                android:layout_height="match_parent"
-                android:layout_gravity="center"
-                android:background="@drawable/rectangle_round"
-                android:text="21"
-                android:textSize="18sp"
-                android:drawableEnd="@drawable/tick"/>
-            <TextView
-                android:id="@+id/year_label"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_gravity="center"
-                android:text="Year"
-                android:textSize="18sp" />
-            <Button
-                android:id="@+id/year_selected"
-                android:layout_width="263dp"
-                android:layout_height="match_parent"
-                android:layout_gravity="center"
-                android:background="@drawable/rectangle_round"
-                android:text="2021"
-                android:textSize="18sp"
-                android:drawableEnd="@drawable/tick"/>-->
-            <!--            <ImageButton-->
-            <!--                android:id="@+id/log_out"-->
-            <!--                android:layout_width="wrap_content"-->
-            <!--                android:layout_height="wrap_content"-->
-            <!--                android:src="@drawable/calendar_icon_dark"-->
-            <!--                android:backgroundTint="@color/purple_100"-->
-            <!--                app:layout_constraintStart_toStartOf="parent"-->
-            <!--                app:layout_constraintTop_toTopOf="parent"-->
-            <!--                app:tint="@color/white" />-->
             <DatePicker
                 android:id="@+id/datePicker"
                 android:layout_width="wrap_content"

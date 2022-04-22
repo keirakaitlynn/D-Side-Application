@@ -221,35 +221,13 @@ class CalendarFragment : Fragment() {
 
 
 
-        val datePicker = viewOfLayout.findViewById<DatePicker>(R.id.datePicker)
-        val today = Calendar.getInstance()
-        datePicker.init(today.get(Calendar.YEAR), today.get(Calendar.MONTH),
-            today.get(Calendar.DAY_OF_MONTH)
-
-        )
-        {
-                view, year, month, day ->
-            val month = month + 1
-            val msg = "You Selected: $day/$month/$year"
-            Log.w("", msg)
-        }
-
         auth = Firebase.auth
         // val database = FirebaseDatabase.getInstance()
 
         //Creating the actual event from the button
         //var createEventButton = viewOfLayout.findViewById<Button>(R.id.addEventButton)
 
-        //Creating vars to gather user input for event info
-        var eventTitle = viewOfLayout.findViewById<EditText>(R.id.eventName)
-        //var eventDate = viewOfLayout.findViewById<DatePicker>(R.id.datePicker)
-        val eventDay = datePicker.dayOfMonth.toString()
-        val eventMonth = datePicker.month.toString()
-        val eventYear = datePicker.year.toString()
-        //var eventDate: String = eventDay + eventMonth + eventYear
-        var eventDate = eventMonth + " " + eventDay +", " + eventYear
 
-        var eventTime = viewOfLayout.findViewById<EditText>(R.id.TimeText)
         //
         //Creating a db readable event
         data class StringEvent(
@@ -314,17 +292,6 @@ class CalendarFragment : Fragment() {
                     true
                 }
 
-
-//                viewOfLayout = inflater.inflate(R.layout.fragment_tester_activity, null)
-//                // create the popup window
-//                width = LinearLayout.LayoutParams.FILL_PARENT
-//                height = LinearLayout.LayoutParams.FILL_PARENT
-//                focusable = true // lets taps outside the popup also dismiss it
-//                popupWindow = PopupWindow(viewOfLayout, width, height, focusable)
-
-                // show the popup window for the new event
-                // which view you pass in doesn't matter, it is only used for the window tolken or token idk :)
-
                 var newEventButton: Button
 
                 newEventButton= viewOfLayout.findViewById<Button>(R.id.newEvent)
@@ -353,9 +320,30 @@ class CalendarFragment : Fragment() {
                         true
                     }
 
+                    val datePicker = viewOfLayout.findViewById<DatePicker>(R.id.datePicker)
+                    val today = Calendar.getInstance()
 
+                    datePicker.init(today.get(Calendar.YEAR), today.get(Calendar.MONTH),
+                        today.get(Calendar.DAY_OF_MONTH)
 
+                    )
+                    {
+                            view, year, month, day ->
+                        val month = month + 1
+                        val msg = "You Selected: $day/$month/$year"
+                        Log.w("", msg)
+                    }
 
+                    //Creating vars to gather user input for event info
+                    var eventTitle = viewOfLayout.findViewById<EditText>(R.id.eventName)
+                    //var eventDate = viewOfLayout.findViewById<DatePicker>(R.id.datePicker)
+                    val eventDay = datePicker.dayOfMonth.toString()
+                    val eventMonth = datePicker.month.toString()
+                    val eventYear = datePicker.year.toString()
+                    //var eventDate: String = eventDay + eventMonth + eventYear
+                    var eventDate = eventMonth + " " + eventDay +", " + eventYear
+
+                    var eventTime = viewOfLayout.findViewById<EditText>(R.id.TimeText)
 
                     var createEventButton = viewOfLayout.findViewById<Button>(R.id.addEventButton)
 
