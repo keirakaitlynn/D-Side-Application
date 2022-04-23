@@ -786,6 +786,7 @@ class ActivitiesFragment : Fragment() , HomeActivity.IOnBackPressed {
                                                         }
                                                         // NNNNN: 2. delete cartActivity from VIEW AFTER deleting cartActivity from DATABASE (bc of viewHolder.position)
                                                         (adapter as CartActivityAdapter).deleteItem(cartActivity)
+                                                        //(adapter as CartActivityAdapter).notifyDataSetChanged()
 
                                                     }
                                                     Log.d("TOEVENT", "{$cartActivityToAddToCalendarTEMP}")
