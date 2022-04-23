@@ -371,8 +371,6 @@ class CalendarFragment : Fragment() {
                         db.child("data").child("events").child(eventId).setValue(dbReadableEvent)
 
 
-
-
                         //////In here will be on button click of recycler view, friends are added to a mutable list and added to db
                         var friendsInvited = mutableListOf<String>()
                         var friendDBList = ""
@@ -396,13 +394,49 @@ class CalendarFragment : Fragment() {
                                 .setValue(dbReadableEvent)
                         }
 
+                        var v = inflater.inflate(R.layout.activity_dailyview, null)
+                        var eventTime1 = v.findViewById<EditText>(R.id.timeEvent)
+                        var eventDate1 = v.findViewById<EditText>(R.id.DateText)
+                        var eventTitle1 = v.findViewById<EditText>(R.id.ActivityTitleText)
+
+
+                        eventDate = eventDate1.toString()
+                        eventTime = eventTime1
+                        eventTitle = eventTitle1
+
+
 
                     }
 
+
+
                 }
 
+//                //after creating an event, the daily view will load the added event
+//                var v = inflater.inflate(R.layout.activity_dailyview, null)
+//
+//                var updateEventButton: Button
+//
+//                updateEventButton= v.findViewById<Button>(R.id.updateButton)
+//
+//
+//                db.child("data").child("events").child(eventId)
+//                    .setValue(v.findViewById<EditText>(R.id.ActivityTitleText).text.toString())
+//
+//
+//                db.child("data").child("events").child(eventId)
+//                    .setValue(v.findViewById<EditText>(R.id.DateText).text.toString())
+//
+//                db.child("data").child("events").child(eventId)
+//                    .setValue(v.findViewById<EditText>(R.id.timeEvent).text.toString())
 
 
+
+            }
+
+        return viewOfLayout
+    }
+}
                 //var exitButton = v.findViewById<Button>(R.id.exitPollCreateButton)//
 //                newEventButton= viewOfLayout.findViewById<Button>(R.id.newEvent)
 //
@@ -485,8 +519,4 @@ class CalendarFragment : Fragment() {
                //     popupWindow.dismiss()
                //     true
                // }
-            }
 
-        return viewOfLayout
-    }
-}
