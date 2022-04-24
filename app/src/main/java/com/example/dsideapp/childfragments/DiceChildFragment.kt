@@ -19,13 +19,18 @@ import java.util.*
 import nl.dionsegijn.konfetti.xml.KonfettiView
 import android.view.animation.*
 import android.widget.*
+import com.example.dsideapp.data.ActivityObject
+import com.example.dsideapp.data.LocationObject
 import com.example.dsideapp.data.selectedItemsForDecisionTools
 import com.example.dsideapp.fragments.selectedActivity
+import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.DataSnapshot
+import com.google.firebase.ktx.Firebase
 
 
 class DiceChildFragment : Fragment() {
 
+    private var selectedActivityID: String? = ""
     private var imageViewDice: ImageView? = null
     private val rng = Random()
     private lateinit var viewOfLayout: View
@@ -153,6 +158,8 @@ class DiceChildFragment : Fragment() {
                                 if (key.value.toString().substringAfter("title=")
                                         .substringBefore("image_type=").trim().contains(tempAct)){
                                     tempDataSnapshot = key.value.toString()
+                                    Log.d("selectedActivityID", "${key.key}")
+                                    selectedActivityID = key.key
                                 }
                         }
                         selectedActivity.id =tempDataSnapshot.substringAfter("key =")
@@ -189,6 +196,149 @@ class DiceChildFragment : Fragment() {
                         val focusable = true // lets taps outside the popup also dismiss it
                         val popupWindow = PopupWindow(viewOfLayout, width, height, focusable)
                         // XXXXX -------------------------------------------------------------------------------------------------
+
+
+
+                        val datePicker = viewOfLayout.findViewById<DatePicker>(R.id.datePicker)
+                        val today = Calendar.getInstance()
+                        datePicker.init(today.get(Calendar.YEAR), today.get(Calendar.MONTH),
+                            today.get(Calendar.DAY_OF_MONTH)
+
+                        )
+                        {
+                                view, year, month, day ->
+                            val month = month + 1
+                            val msg = "You Selected: $day/$month/$year"
+                            Log.w("", msg)
+                        }
+
+                        auth = Firebase.auth
+                        val database = FirebaseDatabase.getInstance()
+
+                        //Creating the actual event from the button
+                        var createEventButton = viewOfLayout.findViewById<Button>(R.id.addEventButton)
+                        createEventButton.setOnClickListener() {
+
+                            // MMMMM: Get activity swiped as a DataSnapshot, "cartActivityToAddToCalendarTEMP"
+                            val cartActivityToAddToCalendarID = selectedActivityID
+                            var cartActivityToAddToCalendarTEMP : DataSnapshot? = null // initialize if !it.exists()
+                            var cartActivityInfo = db.child("users").child(userID.toString()).get().addOnSuccessListener {
+                                if (it.exists()){ // XXXXX: ------------------------------
+                                    // NOTES: allTheStuff = array of Activities in Cart
+                                    cartActivityToAddToCalendarTEMP =
+                                        cartActivityToAddToCalendarID?.let { it1 ->
+                                            it.child("data").child("cart").child(
+                                                it1
+                                            )
+                                        }
+                                    Log.d("ADDING","${cartActivityToAddToCalendarTEMP}")
+
+                                    //Creating vars to gather user input for event info
+                                    //var eventTitle = viewOfLayout.findViewById<TextView>(R.id.eventName).text.toString()
+                                    //var eventDate = viewOfLayout.findViewById<DatePicker>(R.id.datePicker)
+                                    val day = datePicker.dayOfMonth
+                                    val month = datePicker.month
+                                    val year = datePicker.year
+
+                                    var eventTime = viewOfLayout.findViewById<TextView>(R.id.TimeText)
+
+                                    // MMMMM: Convert Date & Time to Date Class.
+                                    var date = Date(year, month, day)
+
+                                    // MMMMM: Add info to create Event Object.
+                                    //Getting db info
+                                    var authorization = auth
+                                    var user = authorization.currentUser
+                                    var userID = authorization.currentUser?.uid
+                                    var db = FirebaseDatabase.getInstance().getReference("users").child(userID.toString())
+
+                                    //Creating the random event ID
+                                    var i = 0
+                                    var eventId = ""
+                                    for (i in 1..5) {
+                                        eventId += kotlin.random.Random.nextInt(9)
+                                    }
+                                    for (i in 1..5) {
+                                        eventId += (kotlin.random.Random.nextInt(25) + 65).toChar()
+                                    }
+
+                                    //////In here will be on button click of recycler view, friends are added to a mutable list and added to db
+                                    var friendsInvited = mutableListOf<String>()
+                                    var friendDBList = ""
+                                    //hardcoding an added friend for testing purposes
+                                    friendsInvited.add("WHBqJbAom0Yz0MQPQg0zuDnv4Xv1")
+                                    friendDBList += "WHBqJbAom0Yz0MQPQg0zuDnv4Xv1;"
+
+                                    // MMMMM: 1. Convert DataSnapshot to Activity.
+                                    //Log.d("KEY:TEMP", "${cartActivityToAddToCalendarTEMP.key}")
+                                    //Log.d("ID:TEMP", "${cartActivityToAddToCalendarTEMP.child("id").value}")
+                                    //Creating writeToDB function
+                                    fun dataSnapshotToActivityToEventToDB(cartActivity: DataSnapshot, userId: String, id: String, title: String = "None", phone: String = "None",
+                                                                          image: String = "None", loc_address: String = "None", loc_city: String = "None",
+                                                                          loc_country:String = "None", loc_zip: String = "None", loc_state: String = "None"
+                                                                          , business_name: String = "None", price: String = "None", category: String = "None", event_id : String = "None", event_title : String = "None", date : Date? = null, users_invited: MutableList<String>? = null) {
+                                        val location = LocationObject(loc_address, loc_city, loc_country, loc_zip, loc_state)
+                                        val activity = ActivityObject(if(id != "") id else "null", title, phone, image, location, business_name, price, category)
+                                        Log.d("EVENT TITLE", "${title}") // XXXXX: ------------------------------
+                                        val event = users_invited?.let { it1 ->
+                                            activity.toEvent(title, date, date,
+                                                it1
+                                            )
+                                        }
+                                        Log.d("EVENT", "${event}")
+
+                                        //Setting the event in the db
+                                        //db.child("data").child("events").child(eventId).setValue(event)
+                                        //db.child("data").child("events").child(eventId).setValue(title)
+                                        //                    //Creating a db readable event
+                                        data class stringEvent(
+                                            val id: String? = null,
+                                            val event_title: String? = null,
+                                            val start_time: String? = null,
+                                            val end_time: String? = null,
+                                            val activity: ActivityObject? = null,
+                                            val users: String? = null,
+                                        ) {}
+                                        if (date != null) {
+                                            db.child("data").child("events").child(eventId).setValue(stringEvent(event_id, title, date.toString(), date.toString(), activity, users_invited.toString()))
+                                        }
+
+                                        // MMMMM: 2. LEFT Swipe functionality
+                                        // NNNNN: 1. delete cartActivity from DATABASE
+                                        val cartActivityToDelete =
+                                            activity.id?.let { it1 ->
+                                                it.child("data").child("cart").child(
+                                                    it1
+                                                )
+                                            }
+                                        if (cartActivityToDelete != null) {
+                                            cartActivityToDelete.getRef().removeValue()
+                                        }
+                                        // NNNNN: 2. delete cartActivity from VIEW AFTER deleting cartActivity from DATABASE (bc of viewHolder.position)
+                                        //(adapter as CartActivityAdapter).deleteItem(cartActivity)
+                                        //(adapter as CartActivityAdapter).notifyDataSetChanged()
+
+                                    }
+                                    Log.d("TOEVENT", "{$cartActivityToAddToCalendarTEMP}")
+                                    cartActivityToAddToCalendarTEMP?.child("id")?.value
+                                    cartActivityToAddToCalendarTEMP?.let { it1 ->
+                                        dataSnapshotToActivityToEventToDB(
+                                            it1, userId = userID.toString(), id = cartActivityToAddToCalendarTEMP!!.child("id").value.toString(),
+                                            title = cartActivityToAddToCalendarTEMP!!.child("title").value.toString(), phone = cartActivityToAddToCalendarTEMP!!.child("phone_contact").value.toString(), image = cartActivityToAddToCalendarTEMP!!.child("image_type").value.toString(),
+                                            business_name = cartActivityToAddToCalendarTEMP!!.child("business_name").value.toString(), price = cartActivityToAddToCalendarTEMP!!.child("price").value.toString(), category = cartActivityToAddToCalendarTEMP!!.child("category").value.toString(),
+                                            event_id = eventId, event_title = cartActivityToAddToCalendarTEMP!!.child("title").value.toString(), date = date, users_invited = friendsInvited)
+                                    }
+
+                                    // XXXXX -----------------------------------------------------
+                                    //Log.d("Item Swiped RIGHT", "${viewHolder.position} Activity")
+                                    // XXXXX -----------------------------------------------------
+                                }
+                                // NOTES: Update RecyclerAdapter with changes.
+                                //adapter?.notifyDataSetChanged()
+                            }
+
+                            Log.d("AFTERIT", "{$cartActivityToAddToCalendarTEMP}")
+                        }
 
 
 

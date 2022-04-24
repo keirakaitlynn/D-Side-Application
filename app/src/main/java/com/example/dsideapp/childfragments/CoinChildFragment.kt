@@ -195,10 +195,10 @@ class CoinChildFragment : Fragment() {
                 val height = LinearLayout.LayoutParams.MATCH_PARENT
                 val focusable = true // lets taps outside the popup also dismiss it
                 val popupWindow = PopupWindow(v, width, height, focusable)
-
-
-
                 // XXXXX -------------------------------------------------------------------------------------------------
+
+
+
                 val datePicker = v.findViewById<DatePicker>(R.id.datePicker)
                 val today = Calendar.getInstance()
                 datePicker.init(today.get(Calendar.YEAR), today.get(Calendar.MONTH),
@@ -339,11 +339,10 @@ class CoinChildFragment : Fragment() {
 
                     Log.d("AFTERIT", "{$cartActivityToAddToCalendarTEMP}")
                 }
+
+
+
                 // XXXXX -------------------------------------------------------------------------------------------------
-
-
-
-
                 // show the popup window
                 // which view you pass in doesn't matter, it is only used for the window token
                 popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0)
