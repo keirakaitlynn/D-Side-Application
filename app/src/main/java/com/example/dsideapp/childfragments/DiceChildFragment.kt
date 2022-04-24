@@ -6,21 +6,19 @@ import android.os.AsyncTask
 import android.os.Bundle
 import android.os.Handler
 import android.util.Log
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import androidx.fragment.app.Fragment
 import com.example.dsideapp.R
-import android.widget.ImageView
-import android.widget.TextView
-import android.widget.Toast
 import com.example.dsideapp.auth
 import com.example.dsideapp.data.Effects
 import com.google.firebase.database.FirebaseDatabase
 import java.util.*
 import nl.dionsegijn.konfetti.xml.KonfettiView
 import android.view.animation.*
+import android.widget.*
 import com.example.dsideapp.data.selectedItemsForDecisionTools
 import com.example.dsideapp.fragments.selectedActivity
 import com.google.firebase.database.DataSnapshot
@@ -177,13 +175,31 @@ class DiceChildFragment : Fragment() {
                 createEventToCalendarButton.setOnClickListener{
                     if (!selectedActivity.id.isNullOrEmpty()){
                         //Clear the selected from the cart
-                        selectedItemsForDecisionTools.forEach{ (key, value) ->
-                            Log.w("VALUE: ",key.key.toString())
-                            db.child("users").child(userID.toString()).child("data").child("cart")
-                                .child(key.key.toString()).removeValue()
-                        }
+//                        selectedItemsForDecisionTools.forEach{ (key, value) ->
+//                            Log.w("VALUE: ",key.key.toString())
+//                            db.child("users").child(userID.toString()).child("data").child("cart")
+//                                .child(key.key.toString()).removeValue()
+//                        }
                         //Now load the calendar fragment
+                        // MMMMM: Load the calendar fragment ------------------------------------------------
+                        viewOfLayout = inflater.inflate(com.example.dsideapp.R.layout.fragment_eventadd_pop_up, null)
+                        // create the popup window
+                        val width = LinearLayout.LayoutParams.MATCH_PARENT
+                        val height = LinearLayout.LayoutParams.MATCH_PARENT
+                        val focusable = true // lets taps outside the popup also dismiss it
+                        val popupWindow = PopupWindow(viewOfLayout, width, height, focusable)
+                        // XXXXX -------------------------------------------------------------------------------------------------
 
+
+
+                        // XXXXX -------------------------------------------------------------------------------------------------
+                        // show the popup window
+                        // which view you pass in doesn't matter, it is only used for the window token
+                        popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0)
+                        viewOfLayout.setOnTouchListener { v, event ->
+                            popupWindow.dismiss()
+                            true
+                        }
                     }
                     else{
                         Toast.makeText(activity, "An activity hasn't been chosen yet!", Toast.LENGTH_SHORT).show()
