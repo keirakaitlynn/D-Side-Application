@@ -38,6 +38,7 @@ import java.util.*
 import kotlin.random.Random
 
 var selectedActivity = ActivityObject()
+var ppw = PopupWindow()
 
 class ActivitiesFragment : Fragment() , HomeActivity.IOnBackPressed {
     lateinit var suggestionsButton : Button
@@ -69,7 +70,6 @@ class ActivitiesFragment : Fragment() , HomeActivity.IOnBackPressed {
     private lateinit var infoBitmap: Bitmap
     private lateinit var infoImageView: ImageView
     private lateinit var rvRestaurants: RecyclerView
-    private lateinit var ppw: PopupWindow
     // MMMMM: RecyclerView + CardView (ActivitiesFragment, CartPopUpFragment)
     private var layoutManager: RecyclerView.LayoutManager? = null
     private var adapter: RecyclerView.Adapter<CartActivityAdapter.ViewHolder>? = null

@@ -38,10 +38,14 @@ class HomeActivity : AppCompatActivity() {
     }
 
     private fun replaceFragment(fragment: Fragment): Boolean {
+        if (ppw.isShowing){
+            ppw.dismiss()
+        }
         if (fragment != null) {
             supportFragmentManager.beginTransaction().replace(R.id.fragment_view, fragment).commit()
             return true
         }
+
         return false
     }
 

@@ -14,6 +14,7 @@ import com.example.dsideapp.fragments.*
 import com.example.dsideapp.R
 import com.example.dsideapp.childfragments.InformationChildFragment
 
+
 class HomeFragment : Fragment() {
     private val activityTesterFragment = ActivityTesterFragment()
     private val concertsFragment = PollsFragment()
