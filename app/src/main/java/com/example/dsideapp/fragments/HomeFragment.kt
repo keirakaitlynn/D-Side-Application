@@ -35,7 +35,7 @@ class HomeFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
        // val v = inflater.inflate(com.example.dsideapp.R.layout.fragment_home, container, false)
-
+//
 
         var viewOfLayout = inflater.inflate(R.layout.fragment_home, container, false)
         overallView = viewOfLayout
