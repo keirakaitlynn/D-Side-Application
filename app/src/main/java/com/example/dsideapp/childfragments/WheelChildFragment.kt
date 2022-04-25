@@ -29,6 +29,7 @@ import com.example.dsideapp.R.color.*
 import com.example.dsideapp.data.Effects
 import nl.dionsegijn.konfetti.xml.KonfettiView
 import com.example.dsideapp.data.selectedItemsForDecisionTools
+import com.example.dsideapp.fragments.CalendarFragment
 import com.example.dsideapp.fragments.CreatePollFragment
 import com.example.dsideapp.fragments.selectedActivity
 import com.example.dsideapp.fragments.ppw
@@ -321,6 +322,7 @@ class WheelChildFragment : Fragment() {
                             Log.w("Made it here", "!")
                             pleaseWorkManager = fragmentManager
                         }
+                        selectedItemsForDecisionTools.clear()
                         ppw.dismiss()
                     }
                     else{

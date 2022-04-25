@@ -21,6 +21,7 @@ import java.util.*
 import nl.dionsegijn.konfetti.xml.KonfettiView
 import com.example.dsideapp.data.Effects
 import com.example.dsideapp.data.selectedItemsForDecisionTools
+import com.example.dsideapp.fragments.CalendarFragment
 import com.example.dsideapp.fragments.ppw
 import com.example.dsideapp.fragments.selectedActivity
 import com.example.dsideapp.fragments.ppw
@@ -202,6 +203,7 @@ class CoinChildFragment : Fragment() {
                     Log.w("Made it here", "!")
                     pleaseWorkManager = fragmentManager
                 }
+                selectedItemsForDecisionTools.clear()
                 ppw.dismiss()
             }
             else{

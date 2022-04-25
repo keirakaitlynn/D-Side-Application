@@ -195,12 +195,13 @@ import androidx.core.content.ContextCompat.getSystemService
 import androidx.fragment.app.Fragment
 import com.example.dsideapp.R
 import com.example.dsideapp.auth
+import com.example.dsideapp.data.ActivityObject
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.ktx.Firebase
 import java.util.*
 import kotlin.random.Random
-
+import com.example.dsideapp.fragments.selectedActivity
 
 class CalendarFragment : Fragment() {
     private lateinit var viewOfLayout: View
@@ -403,8 +404,6 @@ class CalendarFragment : Fragment() {
                         eventDate = eventDate1.toString()
                         eventTime = eventTime1
                         eventTitle = eventTitle1
-
-
 
                     }
 

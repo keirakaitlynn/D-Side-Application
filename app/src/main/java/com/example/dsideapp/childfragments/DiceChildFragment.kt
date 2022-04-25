@@ -23,6 +23,7 @@ import nl.dionsegijn.konfetti.xml.KonfettiView
 import android.view.animation.*
 import androidx.fragment.app.FragmentManager
 import com.example.dsideapp.data.selectedItemsForDecisionTools
+import com.example.dsideapp.fragments.CalendarFragment
 import com.example.dsideapp.fragments.ppw
 import com.example.dsideapp.fragments.selectedActivity
 import com.google.firebase.database.DataSnapshot
@@ -195,6 +196,7 @@ class DiceChildFragment : Fragment() {
                             pleaseWorkManager = fragmentManager
                         }
                         ppw.dismiss()
+                        selectedItemsForDecisionTools.clear()
                     }
                     else{
                         Toast.makeText(activity, "An activity hasn't been chosen yet!", Toast.LENGTH_SHORT).show()

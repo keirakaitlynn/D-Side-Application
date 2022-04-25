@@ -9,8 +9,12 @@ import android.view.ViewGroup
 import android.widget.*
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
 import com.example.dsideapp.R
 import com.example.dsideapp.auth
+import com.example.dsideapp.data.ActivityObject
+import com.example.dsideapp.fragments.HomeFragment
+import com.example.dsideapp.fragments.selectedActivity
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.ktx.Firebase
@@ -22,6 +26,7 @@ import kotlin.random.Random
 class EventAddPopUpFragment : Fragment() {
 
     private lateinit var viewOfLayout: View
+    private var pleaseWorkManager : FragmentManager? = null
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreateView(
@@ -137,9 +142,22 @@ class EventAddPopUpFragment : Fragment() {
                     .setValue(dbReadableEvent)
             }
 
-
+            selectedActivity = ActivityObject()
         }
-            return viewOfLayout
+        var exitCalendarButton = viewOfLayout.findViewById<Button>(R.id.exitButton)
+        exitCalendarButton.setOnClickListener{
+            val fragmentManager = activity?.getSupportFragmentManager()
+            Log.w("IDK WHY YOU ARE HERE: ",fragmentManager.toString())
+            if (fragmentManager != null) {
+                fragmentManager.beginTransaction()
+                    .replace(com.example.dsideapp.R.id.fragment_view, HomeFragment()).commit()
+                Log.w("Made it here", "!")
+                pleaseWorkManager = fragmentManager
+            }
+            selectedActivity = ActivityObject()
+        }
+
+        return viewOfLayout
         }
 
 }
