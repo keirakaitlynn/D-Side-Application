@@ -70,7 +70,7 @@ class HomeFragment : Fragment() {
             val fragmentManager = getActivity()?.getSupportFragmentManager()
             Log.w("Home: ",fragmentManager.toString())
             if (fragmentManager != null) {
-                fragmentManager.beginTransaction().replace(com.example.dsideapp.R.id.fragment_view,  PollsFragment()).commit()
+                fragmentManager.beginTransaction().replace(com.example.dsideapp.R.id.fragment_view,  ConcertsFragment()).commit()
             }
         }
 
