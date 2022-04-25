@@ -35,6 +35,9 @@ class LoginActivity : AppCompatActivity() {
         val database = FirebaseDatabase.getInstance()
         val myRef = database.getReference("User")
 
+        //myRef.setValue("Victor is testing further")
+
+
         myRef.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 // This method is called once with the initial value and again
@@ -139,7 +142,5 @@ class LoginActivity : AppCompatActivity() {
 
                 }
             }
-
-
     }
 }

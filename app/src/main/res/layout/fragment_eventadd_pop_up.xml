@@ -36,9 +36,12 @@
             android:id="@+id/layout_1.0"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:paddingLeft="16dp"
-            android:paddingRight="16dp"
-            android:orientation="vertical">
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            android:orientation="vertical"
+            app:layout_constraintLeft_toLeftOf="@id/scrollView2"
+            app:layout_constraintTop_toTopOf="@id/scrollView2">
+
             <EditText
                 android:id="@+id/eventName"
                 android:layout_width="wrap_content"
@@ -47,7 +50,8 @@
                 android:textSize="19sp"
                 android:textStyle="bold"
                 android:background="@drawable/rectangle_round"
-                android:hint="Event Name"/>
+                android:hint="Event Name"
+                app:layout_constraintTop_toTopOf="@id/scrollView2"/>
 
 
             <EditText
@@ -58,7 +62,8 @@
                 android:textSize="19sp"
                 android:textStyle="bold"
                 android:background="@drawable/rectangle_round"
-                android:hint="Start Time"/>
+                android:hint="Start Time"
+                app:layout_constraintTop_toBottomOf="@id/eventName"/>
 
             <TextView
                 android:id="@+id/Date"
@@ -66,71 +71,32 @@
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
                 android:text="Date"
-                android:textSize="18sp" />
+                android:textSize="18sp"
+                app:layout_constraintTop_toBottomOf="@id/TimeText"/>
 
             <DatePicker
                 android:id="@+id/datePicker"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:calendarViewShown="false"
                 android:datePickerMode="spinner"
-                android:calendarViewShown="false"/>
+                app:layout_constraintTop_toBottomOf="@id/Date"/>
 
-            <!--<Button
-                android:id="@+id/month_selected"
-                android:layout_width="263dp"
-                android:layout_height="match_parent"
-                android:layout_gravity="center"
-                android:background="@drawable/rectangle_round"
-                android:text="November"
-                android:textSize="18sp"
-                android:drawableEnd="@drawable/tick"/>
-            <TextView
-                android:id="@+id/day_label"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_gravity="center"
-                android:text="Day"
-                android:textSize="18sp" />
-            <Button
-                android:id="@+id/day_selected"
-                android:layout_width="263dp"
-                android:layout_height="match_parent"
-                android:layout_gravity="center"
-                android:background="@drawable/rectangle_round"
-                android:text="21"
-                android:textSize="18sp"
-                android:drawableEnd="@drawable/tick"/>
-            <TextView
-                android:id="@+id/year_label"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_gravity="center"
-                android:text="Year"
-                android:textSize="18sp" />
-            <Button
-                android:id="@+id/year_selected"
-                android:layout_width="263dp"
-                android:layout_height="match_parent"
-                android:layout_gravity="center"
-                android:background="@drawable/rectangle_round"
-                android:text="2021"
-                android:textSize="18sp"
-                android:drawableEnd="@drawable/tick"/>-->
-            <!--            <ImageButton-->
-            <!--                android:id="@+id/log_out"-->
-            <!--                android:layout_width="wrap_content"-->
-            <!--                android:layout_height="wrap_content"-->
-            <!--                android:src="@drawable/calendar_icon_dark"-->
-            <!--                android:backgroundTint="@color/purple_100"-->
-            <!--                app:layout_constraintStart_toStartOf="parent"-->
-            <!--                app:layout_constraintTop_toTopOf="parent"-->
-            <!--                app:tint="@color/white" />-->
+<!--            <DatePicker-->
+<!--                android:id="@+id/datePicker"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:datePickerMode="calendar"-->
+<!--                android:background="#6495ED"-->
+<!--                />-->
+
             <Button
                 android:id="@+id/addEventButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:backgroundTint="@color/purple_100"
-                android:text="Add +" />
+                android:text="Add +"
+                app:layout_constraintTop_toBottomOf="@id/datePicker"/>
         </LinearLayout>
 
     </ScrollView>
