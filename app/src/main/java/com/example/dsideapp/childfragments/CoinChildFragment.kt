@@ -13,6 +13,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
 import com.example.dsideapp.R
 import com.example.dsideapp.auth
 import com.google.firebase.database.FirebaseDatabase
@@ -20,10 +21,13 @@ import java.util.*
 import nl.dionsegijn.konfetti.xml.KonfettiView
 import com.example.dsideapp.data.Effects
 import com.example.dsideapp.data.selectedItemsForDecisionTools
+import com.example.dsideapp.fragments.ppw
 import com.example.dsideapp.fragments.selectedActivity
+import com.example.dsideapp.fragments.ppw
 
 class CoinChildFragment : Fragment() {
 
+    private var pleaseWorkManager : FragmentManager? = null
     private lateinit var viewKonfetti: KonfettiView
     private var coin: ImageView? = null
     private var btn: Button? = null
@@ -190,7 +194,15 @@ class CoinChildFragment : Fragment() {
                         .child(key.key.toString()).removeValue()
                 }
                 //Now load the calendar fragment
-
+                val fragmentManager = activity?.getSupportFragmentManager()
+                Log.w("IDK WHY YOU ARE HERE: ",fragmentManager.toString())
+                if (fragmentManager != null) {
+                    fragmentManager.beginTransaction()
+                        .replace(com.example.dsideapp.R.id.fragment_view, EventAddPopUpFragment()).commit()
+                    Log.w("Made it here", "!")
+                    pleaseWorkManager = fragmentManager
+                }
+                ppw.dismiss()
             }
             else{
                 Toast.makeText(activity, "An activity hasn't been chosen yet!", Toast.LENGTH_SHORT).show()

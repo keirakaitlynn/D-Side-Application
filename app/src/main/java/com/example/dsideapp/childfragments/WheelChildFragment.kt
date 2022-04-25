@@ -23,13 +23,15 @@ import java.util.ArrayList
 import kotlin.random.Random
 import android.view.Gravity
 import android.widget.Toast
+import androidx.fragment.app.FragmentManager
 import com.example.dsideapp.R.color
 import com.example.dsideapp.R.color.*
 import com.example.dsideapp.data.Effects
 import nl.dionsegijn.konfetti.xml.KonfettiView
 import com.example.dsideapp.data.selectedItemsForDecisionTools
+import com.example.dsideapp.fragments.CreatePollFragment
 import com.example.dsideapp.fragments.selectedActivity
-
+import com.example.dsideapp.fragments.ppw
 
 class WheelChildFragment : Fragment() {
 
@@ -42,6 +44,7 @@ class WheelChildFragment : Fragment() {
 //        val v = inflater.inflate(R.layout.fragment_child_wheel, container, false)
 //        return v
 //    }
+    private var pleaseWorkManager : FragmentManager? = null
 
     private lateinit var viewOfLayout: View
 
@@ -310,7 +313,15 @@ class WheelChildFragment : Fragment() {
                                 .child(key.key.toString()).removeValue()
                         }
                         //Now load the calendar fragment
-
+                        val fragmentManager = activity?.getSupportFragmentManager()
+                        Log.w("IDK WHY YOU ARE HERE: ",fragmentManager.toString())
+                        if (fragmentManager != null) {
+                            fragmentManager.beginTransaction()
+                                .replace(com.example.dsideapp.R.id.fragment_view, EventAddPopUpFragment()).commit()
+                            Log.w("Made it here", "!")
+                            pleaseWorkManager = fragmentManager
+                        }
+                        ppw.dismiss()
                     }
                     else{
                         Toast.makeText(activity, "An activity hasn't been chosen yet!", Toast.LENGTH_SHORT).show()
