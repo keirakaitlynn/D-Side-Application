@@ -337,7 +337,6 @@ class CoinChildFragment : Fragment() {
                                             it1
                                         )
                                     }
-                                Log.w("HABLERGA", cartActivityToDelete!!.key.toString())
                                 if (cartActivityToDelete != null) {
                                     cartActivityToDelete.getRef().removeValue()
                                 }
