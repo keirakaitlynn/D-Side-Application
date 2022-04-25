@@ -13,7 +13,7 @@
   <!--        android:layout_height="55dp"-->
   <!--        android:gravity="center"-->
   <!--        android:text="Roll and win!"-->
-  <!--        android:textColor="#FFFFFF" />-->
+  <!--        android:textColor="#FFFFFF" />-->//
 
   <ImageView
       android:id="@+id/image_view_dice"
