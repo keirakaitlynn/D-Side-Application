@@ -21,7 +21,7 @@ import com.google.firebase.ktx.Firebase
 import java.time.format.DateTimeFormatter
 import java.util.*
 import kotlin.random.Random
-
+import com.example.dsideapp.data.selectedItemsForDecisionTools
 
 class EventAddPopUpFragment : Fragment() {
 
@@ -143,6 +143,7 @@ class EventAddPopUpFragment : Fragment() {
             }
 
             selectedActivity = ActivityObject()
+            selectedItemsForDecisionTools.clear()
         }
         var exitCalendarButton = viewOfLayout.findViewById<Button>(R.id.exitButton)
         exitCalendarButton.setOnClickListener{
