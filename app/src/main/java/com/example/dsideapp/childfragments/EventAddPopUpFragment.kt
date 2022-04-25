@@ -22,6 +22,9 @@ import java.time.format.DateTimeFormatter
 import java.util.*
 import kotlin.random.Random
 import com.example.dsideapp.data.selectedItemsForDecisionTools
+import com.example.dsideapp.childfragments.ppwCoin
+import com.example.dsideapp.childfragments.ppwWheel
+import com.example.dsideapp.childfragments.ppwDice
 
 class EventAddPopUpFragment : Fragment() {
 
@@ -143,8 +146,18 @@ class EventAddPopUpFragment : Fragment() {
             }
 
             selectedActivity = ActivityObject()
+            if (ppwCoin.isShowing){
+                ppwCoin.dismiss()
+            }
+            if (ppwDice.isShowing){
+                ppwDice.dismiss()
+            }
+            if (ppwWheel.isShowing){
+                ppwWheel.dismiss()
+            }
             selectedItemsForDecisionTools.clear()
         }
+
         var exitCalendarButton = viewOfLayout.findViewById<Button>(R.id.exitButton)
         exitCalendarButton.setOnClickListener{
             val fragmentManager = activity?.getSupportFragmentManager()
@@ -156,6 +169,15 @@ class EventAddPopUpFragment : Fragment() {
                 pleaseWorkManager = fragmentManager
             }
             selectedActivity = ActivityObject()
+            if (ppwCoin.isShowing){
+                ppwCoin.dismiss()
+            }
+            if (ppwDice.isShowing){
+                ppwDice.dismiss()
+            }
+            if (ppwWheel.isShowing){
+                ppwWheel.dismiss()
+            }
         }
 
         return viewOfLayout

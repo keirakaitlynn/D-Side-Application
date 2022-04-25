@@ -1,7 +1,6 @@
 package com.example.dsideapp.childfragments
 
 import android.annotation.SuppressLint
-import android.media.Image
 import android.os.AsyncTask
 import android.os.Bundle
 import android.os.Handler
@@ -21,10 +20,7 @@ import com.example.dsideapp.data.Effects
 import com.google.firebase.database.FirebaseDatabase
 import java.util.*
 import nl.dionsegijn.konfetti.xml.KonfettiView
-import android.view.animation.*
 import com.example.dsideapp.data.selectedItemsForDecisionTools
-import com.example.dsideapp.fragments.CalendarFragment
-import com.example.dsideapp.fragments.ppw
 import com.example.dsideapp.fragments.selectedActivity
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.DataSnapshot
@@ -33,6 +29,10 @@ import com.example.dsideapp.data.ActivityObject
 import com.example.dsideapp.data.LocationObject
 import com.google.firebase.ktx.Firebase
 import androidx.fragment.app.FragmentManager
+import com.example.dsideapp.fragments.HomeFragment
+import com.example.dsideapp.fragments.ppw
+
+var ppwDice = PopupWindow()
 
 class DiceChildFragment : Fragment() {
     private var selectedActivityID: String? = ""
@@ -212,7 +212,7 @@ class DiceChildFragment : Fragment() {
                         val width = LinearLayout.LayoutParams.MATCH_PARENT
                         val height = LinearLayout.LayoutParams.MATCH_PARENT
                         val focusable = true // lets taps outside the popup also dismiss it
-                        val popupWindow = PopupWindow(viewOfLayout, width, height, focusable)
+                        ppwDice = PopupWindow(viewOfLayout, width, height, focusable)
                         // XXXXX -------------------------------------------------------------------------------------------------
 
 
@@ -354,18 +354,51 @@ class DiceChildFragment : Fragment() {
                                 // NOTES: Update RecyclerAdapter with changes.
                                 //adapter?.notifyDataSetChanged()
                             }
+                            val fragmentManager = activity?.getSupportFragmentManager()
+                            Log.w("IDK WHY YOU ARE HERE: ",fragmentManager.toString())
+                            if (fragmentManager != null) {
+                                fragmentManager.beginTransaction()
+                                    .replace(com.example.dsideapp.R.id.fragment_view, HomeFragment()).commit()
+                                Log.w("Made it here", "!")
+                                pleaseWorkManager = fragmentManager
+                            }
+                            selectedActivity = ActivityObject()
+                            if (ppwCoin.isShowing){
+                                ppwCoin.dismiss()
+                            }
+                            if (ppw.isShowing){
+                                ppw.dismiss()
+                            }
+                            selectedItemsForDecisionTools.clear()
 
                             Log.d("AFTERIT", "{$cartActivityToAddToCalendarTEMP}")
                         }
 
-
+                        var exitCalendarButton = viewOfLayout.findViewById<Button>(R.id.exitButton)
+                        exitCalendarButton.setOnClickListener{
+                            val fragmentManager = activity?.getSupportFragmentManager()
+                            Log.w("IDK WHY YOU ARE HERE: ",fragmentManager.toString())
+                            if (fragmentManager != null) {
+                                fragmentManager.beginTransaction()
+                                    .replace(com.example.dsideapp.R.id.fragment_view, HomeFragment()).commit()
+                                Log.w("Made it here", "!")
+                                pleaseWorkManager = fragmentManager
+                            }
+                            selectedActivity = ActivityObject()
+                            if (ppwDice.isShowing){
+                                ppwDice.dismiss()
+                            }
+                            if (ppw.isShowing){
+                                ppw.dismiss()
+                            }
+                        }
 
                         // XXXXX -------------------------------------------------------------------------------------------------
                         // show the popup window
                         // which view you pass in doesn't matter, it is only used for the window token
-                        popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0)
+                        ppwDice.showAtLocation(view, Gravity.CENTER, 0, 0)
                         viewOfLayout.setOnTouchListener { v, event ->
-                            popupWindow.dismiss()
+                            ppwDice.dismiss()
                             true
                         }
                     }
