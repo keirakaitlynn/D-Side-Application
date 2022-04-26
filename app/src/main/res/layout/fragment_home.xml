@@ -31,59 +31,60 @@
 
     <ImageButton
         android:id="@+id/activities_button"
-        android:layout_width="170dp"
-        android:layout_height="170dp"
+        android:layout_width="140dp"
+        android:layout_height="140dp"
         android:layout_gravity="center"
         android:scaleType="fitXY"
         android:src="@drawable/activity_icon_dark"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.066"
+        app:layout_constraintHorizontal_bias="0.202"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.52" />
+        app:layout_constraintVertical_bias="0.519" />
 
     <ImageButton
         android:id="@+id/concerts_button"
-        android:layout_width="170dp"
-        android:layout_height="170dp"
+        android:layout_width="140dp"
+        android:layout_height="140dp"
         android:layout_gravity="center"
         android:scaleType="fitXY"
         android:src="@drawable/ic_polls"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.066"
+        app:layout_constraintHorizontal_bias="0.202"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/activities_button"
-        app:layout_constraintVertical_bias="0.191" />
+        app:layout_constraintVertical_bias="0.187" />
 
     <ImageButton
         android:id="@+id/information_button"
-        android:layout_width="170dp"
-        android:layout_height="170dp"
+        android:layout_width="140dp"
+        android:layout_height="140dp"
         android:layout_gravity="center"
         android:scaleType="fitXY"
         android:src="@drawable/info_icon"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.937"
+        app:layout_constraintHorizontal_bias="0.826"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.52" />
+        app:layout_constraintVertical_bias="0.519" />
 
     <ImageButton
         android:id="@+id/calendar_button"
-        android:layout_width="170dp"
-        android:layout_height="170dp"
+        android:layout_width="140dp"
+        android:layout_height="140dp"
         android:layout_gravity="center"
         android:scaleType="fitXY"
         android:src="@drawable/calendar_icon_dark"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.937"
+        app:layout_constraintHorizontal_bias="0.826"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/information_button"
-        app:layout_constraintVertical_bias="0.191" />
+        app:layout_constraintVertical_bias="0.187"
+        tools:targetApi="p" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
