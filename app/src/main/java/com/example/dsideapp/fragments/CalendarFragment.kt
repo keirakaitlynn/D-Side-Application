@@ -208,13 +208,6 @@ class CalendarFragment : Fragment() {
         auth = Firebase.auth
         val database = FirebaseDatabase.getInstance()
 
-        var last_checked = Long.MIN_VALUE
-        database.reference.child("users").child(auth.uid.toString()).child("last_checked").get().addOnSuccessListener {
-            Log.i("firebase", "Got value ${it.value}")
-            last_checked = it.value as Long
-        }.addOnFailureListener{
-            Log.e("firebase", "Error getting data", it)
-        }
         val events = arrayListOf<EventObject>()
         try {
             var ref = database.reference.child("users").child(auth.uid.toString()).child("data")
@@ -226,56 +219,68 @@ class CalendarFragment : Fragment() {
                         val readItem = productSnapshot.getValue(EventObject::class.java)
                         events.add(readItem!!)
                     }
-                    if(events.size != 0) {
-                        for (eventItr in events) {
-                            //IF EVENT PASSED AND HASN'T BEEN CHECKED
-                            if (Date().getTime() > (eventItr.end_time!!).time && (eventItr.end_time!!).time  > last_checked) {
-                                var waiting = true
-                                Log.w("data", "Event has passed")
-                                //SHOW POPUP
-                                // inflate the layout of the popup window
-                                viewOfLayout = inflater.inflate(com.example.dsideapp.R.layout.fragment_feedback_pop_up, null)
-                                // create the popup window
-                                val width = LinearLayout.LayoutParams.WRAP_CONTENT
-                                val height = LinearLayout.LayoutParams.WRAP_CONTENT
-                                val focusable = false // lets taps outside the popup also dismiss it
-                                val popupWindow = PopupWindow(viewOfLayout, width, height, focusable)
 
-                                //Popup window for the event name and buttons
-                                popUpEventText = viewOfLayout.findViewById(R.id.popUpEventName)
-                                popUpEventLike = viewOfLayout.findViewById(R.id.like_button)
-                                popUpEventDislike = viewOfLayout.findViewById(R.id.dislike_button)
+                    var last_checked = Long.MIN_VALUE
+                    database.reference.child("users").child(auth.uid.toString()).child("last_checked").get().addOnSuccessListener {
+                        Log.i("firebase", "Got value ${it.value}")
+                        last_checked = it.value as Long
+                        if(events.size != 0) {
+                            for (eventItr in events) {
+                                //IF EVENT PASSED AND HASN'T BEEN CHECKED
+                                if (Date().time > (eventItr.end_time!!).time && (eventItr.end_time!!).time  > last_checked) {
+                                    var waiting = true
+                                    //SHOW POPUP
+                                    // inflate the layout of the popup window
+                                    viewOfLayout = inflater.inflate(com.example.dsideapp.R.layout.fragment_feedback_pop_up, null)
+                                    // create the popup window
+                                    val width = LinearLayout.LayoutParams.WRAP_CONTENT
+                                    val height = LinearLayout.LayoutParams.WRAP_CONTENT
+                                    val focusable = false // lets taps outside the popup also dismiss it
+                                    val popupWindow = PopupWindow(viewOfLayout, width, height, focusable)
 
-                                popUpEventText.text = eventItr.event_title
+                                    //Popup window for the event name and buttons
+                                    popUpEventText = viewOfLayout.findViewById(R.id.popUpEventName)
+                                    popUpEventLike = viewOfLayout.findViewById(R.id.like_button)
+                                    popUpEventDislike = viewOfLayout.findViewById(R.id.dislike_button)
 
-                                popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0)
-                                Log.w("data", "Popup Shown")
-                                //Set up text and setOnClickListeners
-                                popUpEventText.text = eventItr.event_title
-                                popUpEventLike.setOnClickListener {
-                                    //Add eventItr's activity category to user favorites.
-                                    var userdb = FirebaseDatabase.getInstance().getReference("users")
-                                    //THIS CODE LINE IS NOT TESTED. IT WAS ADDED WHILE THE ENTIRE FUNCTION WAS COMMENTED OUT :(
-                                    val curr_favorites = userdb.child(auth.uid.toString()).child("favorite_Activities").get().toString()
-                                    if(curr_favorites == null){
-                                        userdb.child(auth.uid.toString()).child("favorite_Activities").setValue(eventItr.activity!!.category)
+                                    popUpEventText.text = eventItr.event_title
+
+                                    popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0)
+                                    //Set up text and setOnClickListeners
+                                    popUpEventText.text = eventItr.event_title
+                                    popUpEventLike.setOnClickListener {
+                                        //Add eventItr's activity category to user favorites.
+                                        var userdb = FirebaseDatabase.getInstance().getReference("users")
+                                        //THIS CODE LINE IS NOT TESTED. IT WAS ADDED WHILE THE ENTIRE FUNCTION WAS COMMENTED OUT :(
+                                        userdb.child(auth.uid.toString()).child("favorite_Activities").get().addOnSuccessListener {
+                                            var curr_favorites = HashSet(it.value.toString().split(","))
+                                            if(curr_favorites.first().equals("")){
+                                                curr_favorites.remove("")
+                                            }
+                                            curr_favorites.add(eventItr.activity!!.category.toString())
+                                            Log.w("help", curr_favorites.toString())
+                                            userdb.child(auth.uid.toString()).child("favorite_Activities").setValue(curr_favorites.toString().replace("[","").replace("]",""))
+                                            popupWindow.dismiss()
+                                        }.addOnFailureListener{
+                                            Log.e("firebase", "Error getting data", it)
+                                        }
                                     }
-                                    else {
-                                        userdb.child(auth.uid.toString()).child("favorite_Activities").setValue(curr_favorites + "," + eventItr.activity!!.category)
+                                    popUpEventDislike.setOnClickListener {
+                                        //Do nothing probably?
+                                        popupWindow.dismiss()
                                     }
-                                    popupWindow.dismiss()
+                                    // show the popup window
+                                    // which view you pass in doesn't matter, it is only used for the window token
                                 }
-                                popUpEventDislike.setOnClickListener {
-                                    //Do nothing probably?
-                                    popupWindow.dismiss()
-                                }
-                                // show the popup window
-                                // which view you pass in doesn't matter, it is only used for the window token
                             }
                         }
-                    }
-                    else {
-                        Log.w("data", "Events are empty")
+                        else {
+                            Log.w("data", "Events are empty")
+                        }
+                        database.reference.child("users").child(auth.uid.toString()).child("last_checked").setValue(Date().getTime())
+                    }.addOnFailureListener{
+                        Log.e("firebase", "Error getting data", it)
+                        database.reference.child("users").child(auth.uid.toString()).child("last_checked").setValue(Date().getTime())
                     }
                 }
 
@@ -287,7 +292,6 @@ class CalendarFragment : Fragment() {
             e.printStackTrace()
         }
 
-        database.reference.child("users").child(auth.uid.toString()).child("last_checked").setValue(Date().getTime())
 
         //Popup Code
 
