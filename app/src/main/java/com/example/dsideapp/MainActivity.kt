@@ -16,9 +16,7 @@ import android.widget.*
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import androidx.core.app.ActivityCompat.startActivityForResult
-
-
-
+import com.example.dsideapp.data.FriendClass
 
 
 class MainActivity : AppCompatActivity() {
@@ -67,6 +65,7 @@ class MainActivity : AppCompatActivity() {
         button.setOnClickListener{
             email = findViewById(R.id.emailInput)
             password = findViewById(R.id.passInput)
+
             createAccount(email.getText().toString().trim(), password.getText().toString().trim())
         }
         //Sending pfp up to db
@@ -125,11 +124,21 @@ class MainActivity : AppCompatActivity() {
         // [START create_user_with_email]
         auth.createUserWithEmailAndPassword(email, password)
             .addOnCompleteListener(this) { task ->
+                var location = findViewById<EditText>(R.id.Location)
+
                 if (task.isSuccessful) {
                     // Sign in success, update UI with the signed-in user's information
                     Log.d(TAG, "createUserWithEmail:                    success")
                     val user = auth.currentUser
+                    var userID = findViewById<EditText>(R.id.displayName)
+                    database.reference.child("users").child(auth.currentUser!!.uid.toString()).child("location")
+                        .setValue(location.text.toString())
+                    //writeNewUser(auth.uid.toString(), email.substring(0,13), email, pfp)
                     writeNewUser(auth.uid.toString(), email.substring(0,13), email, pfp)
+                    val x = FriendClass(user!!.email.toString(), user!!.uid.toString(), userID.text.toString() )
+                    if (user != null) {
+                        database.reference.child("Phonebook").child(user.email.toString().split("@")[0]).setValue(x)
+                    }
 
                 } else {
                     // If sign in fails, display a message to the user.
@@ -144,6 +153,7 @@ class MainActivity : AppCompatActivity() {
     /// THE IMPORTANT BITS
     private fun logIn(email: String, password: String) {
         // [START sign_in_with_email]
+        auth
         auth.signInWithEmailAndPassword(email, password)
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {

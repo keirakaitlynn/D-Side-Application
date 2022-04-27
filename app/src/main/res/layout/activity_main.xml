@@ -49,6 +49,32 @@
 
             android:inputType="textPassword" />
 
+        <EditText
+            android:id="@+id/displayName"
+            style="@style/edittext_round"
+            android:background="@drawable/rectangle_round"
+            android:minHeight="56dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:paddingStart="25dp"
+            android:drawableStart="@drawable/icon_user_smallxxxhdpi"
+            android:hint="DisplayName "
+            android:inputType="text" />
+
+        <EditText
+            android:id="@+id/Location"
+            style="@style/edittext_round"
+            android:background="@drawable/rectangle_round"
+            android:minHeight="56dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:paddingStart="25dp"
+            android:drawableStart="@drawable/icon_user_smallxxxhdpi"
+            android:hint="Location "
+            android:inputType="text" />
+
 
         <!-- Profile Picture Selector -->
         <HorizontalScrollView
