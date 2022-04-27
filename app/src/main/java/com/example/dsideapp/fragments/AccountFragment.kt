@@ -9,16 +9,19 @@ import android.widget.*
 import androidx.fragment.app.Fragment
 import com.example.dsideapp.R
 import com.example.dsideapp.auth
+import com.example.dsideapp.childfragments.AddFriendFragment
 import com.example.dsideapp.data.FriendClass
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import androidx.fragment.app.FragmentManager
+
 
 
 class AccountFragment : Fragment() {
     private lateinit var listView  : ListView
-
+    private val addFriendFragment = AddFriendFragment()
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -33,6 +36,16 @@ class AccountFragment : Fragment() {
         var user_DB_Name = ""
         var user_DB_UserName = ""
         var user_DB_Location = ""
+
+        var addFriendButton = v.findViewById<Button>(R.id.addFriendButton)
+        addFriendButton.setOnClickListener{
+            Log.w("Me ", "I'm trying to change fragment")
+            val fragmentManager = getActivity()?.getSupportFragmentManager()
+            if (fragmentManager != null) {
+                fragmentManager.beginTransaction().replace(com.example.dsideapp.R.id.fragment_view, addFriendFragment).commit()
+            }
+        }
+
 
         // Goes through the children of the DB and saves their variables to the user_DB_ variables
         // So we can check them with the user's new variables that they type in.

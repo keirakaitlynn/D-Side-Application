@@ -15,6 +15,7 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
+import com.example.dsideapp.data.FriendClass
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 
@@ -103,6 +104,9 @@ class MainActivity : AppCompatActivity() {
                     Log.d(TAG, "createUserWithEmail:                    success")
                     val user = auth.currentUser
                     writeNewUser(auth.uid.toString(), email.substring(0,13), email)
+                    val x = FriendClass(user!!.email.toString(), user!!.uid.toString(), user!!.displayName )
+                    database.reference.child("Phonebook").child(user.email.toString().split("@")[0]).setValue(x)
+
 
                 } else {
                     // If sign in fails, display a message to the user.
