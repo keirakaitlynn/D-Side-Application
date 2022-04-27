@@ -261,14 +261,7 @@ class CalendarFragment : Fragment() {
 
                 val weekDay = 1;
 
-                //dayOfWeekView!!.text = weekDay
 
-                // In here we can probably just make a popup / change page with a view of the day and stuff
-
-                // inflate the layout of the popup window
-                //val inflater = getSystemService(LAYOUT_INFLATER_SERVICE) as LayoutInflater?
-////                val popupView: View? =
-//                    inflater?.inflate(com.example.dsideapp.R.layout.activity_dailyview, null)
                 viewOfLayout = inflater.inflate(R.layout.activity_dailyview, null)
                 // create the popup window
                 var width = LinearLayout.LayoutParams.FILL_PARENT
@@ -280,11 +273,10 @@ class CalendarFragment : Fragment() {
                 // which view you pass in doesn't matter, it is only used for the window tolken or token idk :)
 
                 popupWindow.showAtLocation(view, Gravity.CENTER, 0, 1)
-                var windowButton: Button
                 lateinit var tempView: View
 
-                //var exitButton = v.findViewById<Button>(R.id.exitPollCreateButton)//
-                windowButton= viewOfLayout.findViewById<Button>(R.id.lol)
+
+                var windowButton: Button = viewOfLayout.findViewById<Button>(R.id.lol)
 
                 windowButton.setOnClickListener{
                     Log.w("", "PLEASE WOOOOORK PopUp Window button")
@@ -292,9 +284,9 @@ class CalendarFragment : Fragment() {
                     true
                 }
 
-                var newEventButton: Button
+                //----------------NEW EVENT BUTTON----------------------
 
-                newEventButton= viewOfLayout.findViewById<Button>(R.id.newEvent)
+                var newEventButton: Button = viewOfLayout.findViewById<Button>(R.id.newEvent)
 
                 newEventButton.setOnClickListener() {
 
@@ -310,9 +302,8 @@ class CalendarFragment : Fragment() {
 
                     popupWindow.showAtLocation(view, Gravity.CENTER, 0, 1)
 
-
-                    var exitWindowButton: Button
-                    exitWindowButton= viewOfLayout.findViewById<Button>(R.id.exitButton)
+                    //exit window declaration
+                    var exitWindowButton: Button = viewOfLayout.findViewById<Button>(R.id.exitButton)
 
                     exitWindowButton.setOnClickListener{
                         Log.w("", "PLEASE WOOOOORK PopUp Window button")
@@ -334,6 +325,16 @@ class CalendarFragment : Fragment() {
                         Log.w("", msg)
                     }
 
+
+                    //Creating the random event ID
+                    var i = 0
+                    var eventId = ""
+                    for (i in 1..5) {
+                        eventId += Random.nextInt(9)
+                    }
+                    for (i in 1..5) {
+                        eventId += (Random.nextInt(25) + 65).toChar()
+                    }
                     //Creating vars to gather user input for event info
                     var eventTitle = viewOfLayout.findViewById<EditText>(R.id.eventName)
                     //var eventDate = viewOfLayout.findViewById<DatePicker>(R.id.datePicker)
@@ -348,17 +349,17 @@ class CalendarFragment : Fragment() {
                     var createEventButton = viewOfLayout.findViewById<Button>(R.id.addEventButton)
 
                     createEventButton.setOnClickListener {
-                        Log.w("", "JOshhhhhhhhhhhhhhhh")
+                        //Log.w("", "JOshhhhhhhhhhhhhhhh")
 
-                        //Creating the random event ID
-                        var i = 0
-                        var eventId = ""
-                        for (i in 1..5) {
-                            eventId += Random.nextInt(9)
-                        }
-                        for (i in 1..5) {
-                            eventId += (Random.nextInt(25) + 65).toChar()
-                        }
+//                        //Creating the random event ID
+//                        var i = 0
+//                        var eventId = ""
+//                        for (i in 1..5) {
+//                            eventId += Random.nextInt(9)
+//                        }
+//                        for (i in 1..5) {
+//                            eventId += (Random.nextInt(25) + 65).toChar()
+//                        }
 
                         //Creating the event in the db, leaving friends empty
 
@@ -408,6 +409,18 @@ class CalendarFragment : Fragment() {
 
                     }
 
+                    var deleteEventButton = viewOfLayout.findViewById<Button>(R.id.deleteButton)
+
+                    deleteEventButton.setOnClickListener {
+
+                        Log.w("", "JOshhhhhhhhhhhhhhhh")
+
+                        db.child("data").child("events").child(eventId).removeValue()
+
+                    }
+
+
+
 
 
                 }
@@ -437,86 +450,4 @@ class CalendarFragment : Fragment() {
         return viewOfLayout
     }
 }
-                //var exitButton = v.findViewById<Button>(R.id.exitPollCreateButton)//
-//                newEventButton= viewOfLayout.findViewById<Button>(R.id.newEvent)
-//
-
-//                //Creating the actual event from the button
-//                var createEventButton = viewOfLayout.findViewById<Button>(R.id.newEvent)
-//                createEventButton.setOnClickListener(){
-//                    //Creating vars to gather user input for event info
-//                    var eventTitle = viewOfLayout.findViewById<TextView>(R.id.ActivityTitleText)
-//                    var eventDate = viewOfLayout.findViewById<TextView>(R.id.DateText)
-//                    var eventTime = viewOfLayout.findViewById<TextView>(R.id.TimeText)
-//
-//                    //Creating a db readable event
-//                    data class stringEvent(
-//                        val event_Id: String? = null,
-//                        val event_Title: String? = null,
-//                        val event_Date: String? = null,
-//                        val event_Time: String? = null,
-//                        val event_Poster: String? = null,
-//                        val event_InviteList: String? = null,
-//                    ) {}
-//
-//                    //Getting db info
-//                    var authorization = auth
-//                    var user = authorization.currentUser
-//                    var userID = authorization.currentUser?.uid
-//                    var db = FirebaseDatabase.getInstance().getReference("users").child(userID.toString())
-//
-//                    //Creating the random event ID
-//                    var i = 0
-//                    var eventId = ""
-//                    for(i in 1..5){
-//                         eventId += Random.nextInt(9)
-//                    }
-//                    for(i in 1..5){
-//                         eventId += (Random.nextInt(25) + 65).toChar()
-//                    }
-//
-//                    //Creating the event in the db, leving friends empty
-//                    var dbReadableEvent = stringEvent(eventId, eventTitle.text.toString(), eventDate.text.toString(),
-//                        eventTime.text.toString(), user?.email.toString(),"None")
-//                    //Setting the event in the db
-//                    db.child("data").child("events").child(eventId).setValue(dbReadableEvent)
-//
-//                    //////In here will be on button click of recycler view, friends are added to a mutable list and added to db
-//                    var friendsInvited = mutableListOf<String>()
-//                    var friendDBList = ""
-//                    //hardcoding an added friend for testing purposes
-//                    friendsInvited.add("WHBqJbAom0Yz0MQPQg0zuDnv4Xv1")
-//                    friendDBList += "WHBqJbAom0Yz0MQPQg0zuDnv4Xv1;"
-//                    db.child("data").child("events").child(eventId).child("event_InviteList")
-//                        .setValue(friendDBList)
-//                    //Updating the event invite list
-//                    dbReadableEvent = stringEvent(eventId, eventTitle.text.toString(), eventDate.text.toString(),
-//                        eventTime.text.toString(), user?.email.toString(),friendDBList)
-//                    //db ref to write event info into friend's events
-//                    var friendDB = FirebaseDatabase.getInstance().getReference("users")
-//
-//                    //Setting event's friend list
-//                    friendsInvited.forEach{friend ->
-//                        //putting the event in friend's events
-//                        friendDB.child(friend).child("data").child("events").child(eventId).setValue(dbReadableEvent)
-//                    }
-                    //////
-
-
-
-                    //Just adding friends to db so that child path exists
-                    //var friend_db = FirebaseDatabase.getInstance().getReference("users")
-                   // db.child("friends").child("WHBqJbAom0Yz0MQPQg0zuDnv4Xv1").
-                    //    setValue("WHBqJbAom0Yz0MQPQg0zuDnv4Xv1")
-                   // db.child("friends").child("LKal75HYTcSwFwri88v6OQNSGkt2").
-                   //     setValue("LKal75HYTcSwFwri88v6OQNSGkt2")
-                  //  db.child("friends").child("IaV5KRr1XEXqvVHENqI4ukP4qVm2").
-                  //      setValue("IaV5KRr1XEXqvVHENqI4ukP4qVm2")
-
-
-                //dismiss the popup window when touched
-               // viewOfLayout?.setOnTouchListener { v, event ->
-               //     popupWindow.dismiss()
-               //     true
-               // }
 

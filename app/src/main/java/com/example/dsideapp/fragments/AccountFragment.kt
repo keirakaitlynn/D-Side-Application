@@ -1,5 +1,6 @@
 package com.example.dsideapp.fragments
 
+import android.content.Intent
 import android.media.Image
 import android.os.Bundle
 import android.util.Log
@@ -11,10 +12,12 @@ import android.widget.EditText
 import android.widget.ImageButton
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
+import com.example.dsideapp.LoginActivity
 import com.example.dsideapp.R
 import com.example.dsideapp.auth
 import com.example.dsideapp.childfragments.CoinChildFragment
 import com.example.dsideapp.childfragments.InformationChildFragment
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 
 class AccountFragment : Fragment() {
@@ -25,7 +28,29 @@ class AccountFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        //DB info//
+
+        //LOG OUT: please do no delete :)
+        var viewOfLayout = inflater.inflate(R.layout.fragment_account, container, false)
+
+        FirebaseAuth.getInstance()
+
+        var imageButton = viewOfLayout.findViewById<View>(R.id.log_out) as ImageButton
+        //textView = findViewById(R.id.logged_in)
+
+        //textView.setText("Welcome")
+
+        //logs out user from app after clickining on the log out icon
+        imageButton.setOnClickListener {
+            FirebaseAuth.getInstance().signOut()
+            //Log.w("USER ID ", auth.uid.toString())
+            val intent = Intent(activity, LoginActivity::class.java)
+            activity?.startActivity(intent)
+            //finish()
+            //viewOfLayout = inflater.inflate(R.layout.activity_login, container, false)
+            //startActivity(intent)
+        }
+
+            //DB info//
         var authorization = auth
         var user = authorization.currentUser
         var userID = authorization.currentUser?.uid
