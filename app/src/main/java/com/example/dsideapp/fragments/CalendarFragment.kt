@@ -288,7 +288,7 @@ class CalendarFragment : Fragment() {
 
                 var newEventButton: Button = viewOfLayout.findViewById<Button>(R.id.addEventButton)
 
-                newEventButton.setOnClickListener() {
+                newEventButton.setOnClickListener {
 
 //                    viewOfLayout = inflater.inflate(R.layout.fragment_eventadd_pop_up, null)
 //                    // create the popup window
@@ -448,21 +448,22 @@ class CalendarFragment : Fragment() {
 //
 //                    }
 
-//                    var deleteEventButton = viewOfLayout.findViewById<Button>(R.id.deleteButton)
-//
-//                    deleteEventButton.setOnClickListener {
-//
-//                        Log.w("", "JOshhhhhhhhhhhhhhhh")
-//
-//                        db.child("data").child("events").child(eventId).removeValue()
-//
-//                    }
+                    var deleteEventButton = viewOfLayout.findViewById<Button>(R.id.DeleteEventButton)
+
+                    deleteEventButton.setOnClickListener {
+
+                        Log.w("", "JOshhhhhhhhhhhhhhhh")
+
+                        db.child("data").child("events").child(eventId).removeValue()
+
+                    }
 
 
 
 
 
                 }
+
 
 //                //after creating an event, the daily view will load the added event
 //                var v = inflater.inflate(R.layout.activity_dailyview, null)
