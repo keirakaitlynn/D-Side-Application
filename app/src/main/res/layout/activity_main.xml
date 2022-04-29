@@ -56,7 +56,7 @@
             android:minHeight="56dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="10dp"
             android:paddingStart="25dp"
             android:drawableStart="@drawable/icon_user_smallxxxhdpi"
             android:hint="DisplayName "
@@ -69,7 +69,7 @@
             android:minHeight="56dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="10dp"
             android:paddingStart="25dp"
             android:drawableStart="@drawable/icon_user_smallxxxhdpi"
             android:hint="Location "
@@ -128,7 +128,7 @@
             android:id="@+id/sign_up"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="10dp"
             android:minHeight="68dp"
             android:text="Sign Up" />
         <LinearLayout
