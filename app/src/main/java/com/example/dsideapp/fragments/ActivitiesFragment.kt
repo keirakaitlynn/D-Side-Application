@@ -202,8 +202,6 @@ class ActivitiesFragment : Fragment() , HomeActivity.IOnBackPressed {
             @SuppressLint("ClickableViewAccessibility")
             override fun doInBackground(vararg params: String): List<Document>? {
                 try {
-                    val auth = Firebase.auth
-                    val database = FirebaseDatabase.getInstance()
                     //Initial Jsoup variables.
                     //yelp_webscraper is used to keep the url updating simple.
 
@@ -370,6 +368,13 @@ class ActivitiesFragment : Fragment() , HomeActivity.IOnBackPressed {
                             }
 
                             override fun onQueryTextSubmit(s: String?): Boolean {
+                                Log.w("data",":) :" + s)
+                                Log.w("Change was detected","!")
+                                val fragmentManager = getActivity()?.getSupportFragmentManager()
+                                if (fragmentManager != null) {
+                                    fragmentManager.beginTransaction().replace(com.example.dsideapp.R.id.activities_view,  SuggestionsChildFragment()).commit()
+                                }
+                                Log.w("data",":( :" + s)
                                 return false
                             }
                         })
