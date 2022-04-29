@@ -383,6 +383,24 @@ class CalendarFragment : Fragment() {
                         friendDB.child(friend).child("data").child("events").child(eventId)
                             .setValue(dbReadableEvent)
                     }
+
+                    //assign each textview to a variable to update the UI with the added event information
+                    val eventTime1 = viewOfLayout.findViewById<TextView>(R.id.eventTimeText)
+                    val eventDate1 = viewOfLayout.findViewById<TextView>(R.id.eventDateText)
+                    val eventTitle1 = viewOfLayout.findViewById<TextView>(R.id.eventNameText)
+
+
+                    val eventTimeString = eventTime.text.toString()
+                    val eventDateString = eventDate.toString()
+                    val eventTitleString = eventTitle.text.toString()
+
+                    eventTime1.setText(eventTimeString)
+                    eventDate1.setText(eventDateString)
+                    eventTitle1.setText(eventTitleString)
+
+
+
+
 //                    var createEventButton = viewOfLayout.findViewById<Button>(R.id.addEventButton)
 //
 //                    createEventButton.setOnClickListener {
@@ -456,9 +474,45 @@ class CalendarFragment : Fragment() {
 
                         db.child("data").child("events").child(eventId).removeValue()
 
+
+                        eventTime1.setText(" ")
+                        eventDate1.setText(" ")
+                        eventTitle1.setText(" ")
+
                     }
 
 
+                //after creating an event, the daily view will load the added event
+
+                var updateEventButton: Button
+
+                updateEventButton= viewOfLayout.findViewById<Button>(R.id.updateEventButton)
+
+                updateEventButton.setOnClickListener {
+                    db.child("data").child("events").child(eventId)
+                        .setValue(viewOfLayout.findViewById<EditText>(R.id.eventName).text.toString())
+
+
+                    db.child("data").child("events").child(eventId)
+                        .setValue(eventDate).toString()
+
+                    db.child("data").child("events").child(eventId)
+                        .setValue(viewOfLayout.findViewById<EditText>(R.id.TimeText).text.toString())
+
+                    val eventTime1 = viewOfLayout.findViewById<TextView>(R.id.eventTimeText)
+                    val eventDate1 = viewOfLayout.findViewById<TextView>(R.id.eventDateText)
+                    val eventTitle1 = viewOfLayout.findViewById<TextView>(R.id.eventNameText)
+
+
+                    val eventTimeString = eventTime.text.toString()
+                    val eventDateString = eventDate.toString()
+                    val eventTitleString = eventTitle.text.toString()
+
+                    eventTime1.setText(eventTimeString)
+                    eventDate1.setText(eventDateString)
+                    eventTitle1.setText(eventTitleString)
+
+                }
 
 
 

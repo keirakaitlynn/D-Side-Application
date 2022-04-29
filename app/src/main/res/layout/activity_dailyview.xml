@@ -39,6 +39,32 @@
             android:paddingLeft="5dp"
             android:paddingRight="5dp"
             android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/eventDateText"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:text="Date"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/eventNameText"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:text="Name"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/eventTimeText"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:text="Time"
+                android:textSize="18sp" />
+
+
             <EditText
                 android:id="@+id/eventName"
                 android:layout_width="wrap_content"
@@ -48,6 +74,8 @@
                 android:textStyle="bold"
                 android:background="@drawable/rectangle_round"
                 android:hint="Event Name"/>
+
+
 
 
             <EditText
@@ -60,18 +88,12 @@
                 android:background="@drawable/rectangle_round"
                 android:hint="Start Time"/>
 
-            <TextView
-                android:id="@+id/Date"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_gravity="center"
-                android:text="Date"
-                android:textSize="18sp" />
 
             <DatePicker
                 android:id="@+id/datePicker"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
                 android:calendarViewShown="false"
                 android:datePickerMode="spinner" />
 
