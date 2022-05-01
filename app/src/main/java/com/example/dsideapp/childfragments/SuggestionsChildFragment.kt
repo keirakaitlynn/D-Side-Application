@@ -74,7 +74,7 @@ class SuggestionsChildFragment : Fragment() {
                 Retrofit.Builder().baseUrl(BASE_URL).addConverterFactory(GsonConverterFactory.create())
                     .build()
             val yelpService = retrofit.create(YelpService::class.java)                  // A filter just reduces # of results due to specificity
-            yelpService.searchRestaurants("Bearer $API_KEY", null, null,it.value.toString(),null,"1",null,null,null,"Los Angeles", ).enqueue(object :
+            yelpService.searchRestaurants("Bearer $API_KEY", it.value.toString(), null,null,null,"1",null,null,null,"Los Angeles", ).enqueue(object :
                 Callback<YelpSearchResult> {
                 override fun onResponse(call: Call<YelpSearchResult>, response: Response<YelpSearchResult>) {
                     Log.i(TAG, "onResponse $response")
