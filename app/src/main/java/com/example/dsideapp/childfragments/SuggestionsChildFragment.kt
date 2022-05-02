@@ -127,7 +127,7 @@ class SuggestionsChildFragment : Fragment() {
                     //Actually saving activity to db
                     writeNewActivity(userId = userID.toString(), id = randID,
                         title = restaurants.get(0).name, phone = restaurants.get(0).phoneNum, image = restaurants.get(0).imageUrl,
-                        business_name = "", price = restaurants.get(0).price, category = restaurants.get(0).categories.get(0).title)
+                        business_name = "", price = restaurants.get(0).price, category = restaurants.get(0).categories.get(0).Title)
                 }
                 // MMMMM: addToCart() -------------------------------------------------------------//
 

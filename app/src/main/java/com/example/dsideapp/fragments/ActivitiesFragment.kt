@@ -1,6 +1,7 @@
 package com.example.dsideapp.fragments
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -39,6 +40,7 @@ import com.google.firebase.ktx.Firebase
 import org.jsoup.nodes.Document
 import java.util.ArrayList
 
+import org.json.JSONArray
 
 class ActivitiesFragment : Fragment() , HomeActivity.IOnBackPressed {
     lateinit var suggestionsButton : Button
@@ -81,8 +83,8 @@ class ActivitiesFragment : Fragment() , HomeActivity.IOnBackPressed {
         savedInstanceState: Bundle?
     ): View? {
         var v = inflater.inflate(R.layout.fragment_activities, container, false)
-        replaceChildFragment(suggestionsFragment) // initial child fragment
 
+        replaceChildFragment(suggestionsFragment) // initial child fragment
         //function for loading backstack page name
         fun getPreviousPageName(vararg params: Void): String{
             var previousPageName = ""
@@ -206,9 +208,9 @@ class ActivitiesFragment : Fragment() , HomeActivity.IOnBackPressed {
                     //yelp_webscraper is used to keep the url updating simple.
 
                     Log.w("infobutton", "entered doinbackground")
-                    var connection = Jsoup.connect("https://www.yelp.com/search?cflt=" + params.first() + "&find_loc=Long+Beach%2C+CA")
+                    var connection = Jsoup.connect("https://www.yelp.com/search?cflt=" + params.first().replace(" ","_") + "&find_loc=Long+Beach%2C+CA")
                     var document = connection.get()
-                    var infoConnection = Jsoup.connect("https://en.wikipedia.org/wiki/" + params.first())
+                    var infoConnection = Jsoup.connect("https://en.wikipedia.org/wiki/" + params.first().replace(" ","_"))
                     var infoDocument = infoConnection.get()
                     var toreturn = listOf(document, infoDocument)
                     Log.w("infobutton", "entered Jsoup connections")
@@ -333,6 +335,22 @@ class ActivitiesFragment : Fragment() , HomeActivity.IOnBackPressed {
 
                     //// MMMMM: ====================================================================
                     /// -----------
+
+                    var categories = ArrayList<String>()
+                    categories.add("Cake")
+                    categories.add("Cars")
+                    categories.add("Coffee")
+                    categories.add("Tea")
+                    categories.add("Cookies")
+                    categories.add("Juice Bars")
+                    categories.add("Smoothies")
+                    categories.add("Dance Club")
+                    categories.add("Dive Bar")
+                    categories.add("Dining")
+                    categories.add("Bowling")
+                    categories.add("Lounges")
+                    categories.add("Pizza")
+                    categories.add("Seafood")
                     val searchButton = v.findViewById<Button>(R.id.search_button)
                     searchButton.setOnClickListener{
                         //// NNNNN: ====================================================================
@@ -340,26 +358,18 @@ class ActivitiesFragment : Fragment() , HomeActivity.IOnBackPressed {
                         //val listView = v.findViewById<ListView>(R.id.listView)
                         //val names = arrayOf("Android", "Java", "Php", "Python", "C", "C++", "Kotlin")
 
-                        var categories = ArrayList<String>()
-                        categories.add("Cake")
-                        categories.add("Cars")
-                        categories.add("Coffee & Tea")
-                        categories.add("Cookies")
-                        categories.add("Juice Bars & Smoothies")
-                        categories.add("Dance Clubs")
-                        categories.add("Dive Bars")
-                        categories.add("Dining")
-                        categories.add("Bowling")
-                        categories.add("Lounges")
-                        categories.add("Pizza")
-                        categories.add("Seafood")
-
                         val categoryRecyclerView = v.findViewById<RecyclerView>(R.id.categoryRecyclerView)
                         val categoryAdapter = CategoryAdapter(categories)
                         categoryRecyclerView.setLayoutManager(LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false))
                         categoryRecyclerView.setAdapter(categoryAdapter)
 
                         categoryRecyclerView.setNestedScrollingEnabled(false);
+
+                        Log.w("Change was detected","!")
+                        val fragmentManager = getActivity()?.getSupportFragmentManager()
+                        if (fragmentManager != null) {
+                            fragmentManager.beginTransaction().replace(com.example.dsideapp.R.id.activities_view,  SuggestionsChildFragment()).commit()
+                        }
 
                         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
                             override fun onQueryTextChange(newText: String?): Boolean {
@@ -462,6 +472,7 @@ class ActivitiesFragment : Fragment() , HomeActivity.IOnBackPressed {
         WebScratch().execute()
         return v
     }
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

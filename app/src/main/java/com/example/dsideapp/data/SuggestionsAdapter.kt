@@ -26,7 +26,7 @@ class SuggestionsAdapter(context: Context?, strings: MutableList<YelpRestaurant>
         val activityRating = convertView.findViewById(com.example.dsideapp.R.id.activity_rating) as TextView
         val firstCategory = restaurant?.categories?.get(0)
         activityTitle.setText(restaurant?.name)
-        activityCategory.setText(firstCategory?.title)
+        activityCategory.setText(firstCategory?.Title)
         activityRadius.setText(restaurant?.displayDistance())
         activityRating.setText("⭐" + restaurant?.rating.toString())
 

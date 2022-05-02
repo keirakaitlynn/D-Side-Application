@@ -27,6 +27,12 @@ class CategoryAdapter(var categoriesList: MutableList<String>) :
         val layoutInflater = LayoutInflater.from(parent.context)
         val view: View = layoutInflater.inflate(R.layout.row_item, parent, false)
         var tv: Button = view.findViewById(R.id.textView)
+        database.reference.child("users").child(auth.uid.toString()).child("data").child("curr_category").get().addOnSuccessListener {
+            selectedItem = categoriesListAll.indexOf(it.value.toString())
+            if (tv.text == it.value.toString()) {
+                tv.setBackgroundColor(Color.parseColor("#42f57e"))
+            }
+        }
         tv.setOnClickListener {
             selectedItem = categoriesListAll.indexOf(tv.text.toString())
             database.reference.child("users").child(auth.uid.toString()).child("data").child("curr_category").setValue(tv.text.toString())
