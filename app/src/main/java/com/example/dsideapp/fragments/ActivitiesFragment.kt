@@ -786,7 +786,6 @@ class ActivitiesFragment : Fragment() , HomeActivity.IOnBackPressed {
                                             Log.w("", msg)
                                         }
 
-                                        auth = Firebase.auth
                                         val database = FirebaseDatabase.getInstance()
 
                                         //Creating the actual event from the button

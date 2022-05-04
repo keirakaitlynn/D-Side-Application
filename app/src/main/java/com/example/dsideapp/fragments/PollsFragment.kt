@@ -192,7 +192,7 @@ class PollsFragment : Fragment() {
                 if (fragmentManager != null) {
                     fragmentManager.beginTransaction().replace(com.example.dsideapp.R.id.fragment_view,  PollsFragment()).commit()
                     Log.w("Made it here","!")
-                    pleaseWorkManager = fragmentManager
+                    //pleaseWorkManager = fragmentManager
                 }
                 //Log.w("Twas null","!")
                 ////MIGHT NOT NEED
@@ -207,13 +207,10 @@ class PollsFragment : Fragment() {
             if (fragmentManager != null) {
                 fragmentManager.beginTransaction().replace(com.example.dsideapp.R.id.fragment_view,  PastPollsFragment()).commit()
                 Log.w("Made it here","!")
-                pleaseWorkManager = fragmentManager
+                //pleaseWorkManager = fragmentManager
             }
         }
         ////////
-
-
-        }
         //-----------------------------
         //Iterate through every currently active poll
         var pollInfo = db.get().addOnSuccessListener {
