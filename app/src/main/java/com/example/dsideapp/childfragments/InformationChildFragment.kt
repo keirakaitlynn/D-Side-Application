@@ -11,7 +11,6 @@ import androidx.fragment.app.FragmentTransaction
 import com.example.dsideapp.R
 
 class InformationChildFragment : Fragment() {
-
     lateinit var teamButton : Button
     lateinit var FAQButton : Button
     lateinit var BackButton : ImageButton
@@ -33,6 +32,7 @@ class InformationChildFragment : Fragment() {
         teamButton.setOnClickListener{
             replaceChildFragment(teamFragment)
         }
+
         FAQButton = v.findViewById<Button>(R.id.ToFAQPage)
         FAQButton.setOnClickListener{
             replaceChildFragment(FAQFragment)
@@ -44,9 +44,15 @@ class InformationChildFragment : Fragment() {
         }
         return v
     }
+//
     private fun replaceChildFragment(childFragment : Fragment) {
-        val transaction: FragmentTransaction = getChildFragmentManager().beginTransaction()
-        transaction.replace(R.id.TextInfoFragment_View, childFragment).addToBackStack(null).commit()
+        val fragmentManager = getActivity()?.getSupportFragmentManager()
+        if (fragmentManager != null) {
+            fragmentManager.beginTransaction().replace(com.example.dsideapp.R.id.fragment_view, childFragment).commit()
+        }
+    //TextInfoFragment_View
+        /*val transaction: FragmentTransaction = getChildFragmentManager().beginTransaction()
+        transaction.replace(R.id.informationFragment_View, childFragment).addToBackStack(null).commit()*/
     }
     private fun replaceParentFragment() {
         val transaction: FragmentTransaction = getParentFragmentManager().beginTransaction()

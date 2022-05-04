@@ -4,15 +4,19 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.util.Log
 import android.view.*
-import android.widget.Button
-import android.widget.ImageView
-import android.widget.LinearLayout
-import android.widget.PopupWindow
+import android.widget.*
 import androidx.recyclerview.widget.RecyclerView
 import com.example.dsideapp.R
 import com.example.dsideapp.auth
+import com.example.dsideapp.fragments.PollsFragment
 import com.google.android.material.internal.ContextUtils.getActivity
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
+import androidx.appcompat.app.AppCompatActivity
+import java.util.*
+
 
 class RecyclerAdapterForTitles(val context: Context, val objectPoll: MutableList<PollObject>): RecyclerView.Adapter<RecyclerAdapterForTitles.ViewHolder>() {
 
@@ -111,9 +115,17 @@ lateinit var temp2: ViewGroup
                 val focusable = true // lets taps outside the popup also dismiss it
                 //
                 var dbVoters = p.voters
-
+                fun refreshTheFragment(){
+                    val manager = (context as AppCompatActivity).supportFragmentManager
+                    Log.w("HERE BE I: ", manager.toString())
+                    if (manager != null) {
+                        manager.beginTransaction().replace(com.example.dsideapp.R.id.fragment_view,  PollsFragment()).commit()
+                        Log.w("Made it here","!")
+                    }
+                }
                 //Log.w("", p.poll_options.toString())
-                if (dbVoters?.split(',')?.contains(user?.email.toString()) == false) {
+                if (dbVoters?.split(',')?.contains(user?.email.toString()) == false &&
+                    p.poll_end_time.toString().toLong() > Date().getTime()) {
 
                     if (numOfOptions == 6) {
                         v = LayoutInflater.from(context).inflate(R.layout.fragment_vote6_poll, null)
@@ -141,6 +153,7 @@ lateinit var temp2: ViewGroup
                         b6.setOnClickListener {
                             db.child("Public Polls").child(p.id.toString()).child("opt6Vote")
                                 .setValue("" + (p.poll_vote_count!![5] + 1))
+                            refreshTheFragment()
                             popupWindow.dismiss()
                             true
                             db.child("Public Polls").child(p.id.toString()).child("voters")
@@ -153,6 +166,7 @@ lateinit var temp2: ViewGroup
                         b5.setOnClickListener {
                             db.child("Public Polls").child(p.id.toString()).child("opt5Vote")
                                 .setValue("" + (p.poll_vote_count!![4] + 1))
+                            refreshTheFragment()
                             popupWindow.dismiss()
                             true
                             db.child("Public Polls").child(p.id.toString()).child("voters")
@@ -165,6 +179,7 @@ lateinit var temp2: ViewGroup
                         b4.setOnClickListener {
                             db.child("Public Polls").child(p.id.toString()).child("opt4Vote")
                                 .setValue("" + (p.poll_vote_count!![3] + 1))
+                            refreshTheFragment()
                             popupWindow.dismiss()
                             true
                             db.child("Public Polls").child(p.id.toString()).child("voters")
@@ -177,6 +192,7 @@ lateinit var temp2: ViewGroup
                         b3.setOnClickListener {
                             db.child("Public Polls").child(p.id.toString()).child("opt3Vote")
                                 .setValue("" + (p.poll_vote_count!![2] + 1))
+                            refreshTheFragment()
                             popupWindow.dismiss()
                             true
                             db.child("Public Polls").child(p.id.toString()).child("voters")
@@ -189,6 +205,7 @@ lateinit var temp2: ViewGroup
                         b2.setOnClickListener {
                             db.child("Public Polls").child(p.id.toString()).child("opt2Vote")
                                 .setValue("" + (p.poll_vote_count!![1] + 1))
+                            refreshTheFragment()
                             popupWindow.dismiss()
                             true
                             db.child("Public Polls").child(p.id.toString()).child("voters")
@@ -201,6 +218,7 @@ lateinit var temp2: ViewGroup
                         b1.setOnClickListener {
                             db.child("Public Polls").child(p.id.toString()).child("opt1Vote")
                                 .setValue("" + (p.poll_vote_count!![0] + 1))
+                            refreshTheFragment()
                             popupWindow.dismiss()
                             true
                             db.child("Public Polls").child(p.id.toString()).child("voters")
@@ -234,6 +252,7 @@ lateinit var temp2: ViewGroup
                         b5.setOnClickListener {
                             db.child("Public Polls").child(p.id.toString()).child("opt5Vote")
                                 .setValue("" + (p.poll_vote_count!![4] + 1))
+                            refreshTheFragment()
                             popupWindow.dismiss()
                             true
                             db.child("Public Polls").child(p.id.toString()).child("voters")
@@ -246,6 +265,7 @@ lateinit var temp2: ViewGroup
                         b4.setOnClickListener {
                             db.child("Public Polls").child(p.id.toString()).child("opt4Vote")
                                 .setValue("" + (p.poll_vote_count!![3] + 1))
+                            refreshTheFragment()
                             popupWindow.dismiss()
                             true
                             db.child("Public Polls").child(p.id.toString()).child("voters")
@@ -258,6 +278,7 @@ lateinit var temp2: ViewGroup
                         b3.setOnClickListener {
                             db.child("Public Polls").child(p.id.toString()).child("opt3Vote")
                                 .setValue("" + (p.poll_vote_count!![2] + 1))
+                            refreshTheFragment()
                             popupWindow.dismiss()
                             true
                             db.child("Public Polls").child(p.id.toString()).child("voters")
@@ -270,6 +291,7 @@ lateinit var temp2: ViewGroup
                         b2.setOnClickListener {
                             db.child("Public Polls").child(p.id.toString()).child("opt2Vote")
                                 .setValue("" + (p.poll_vote_count!![1] + 1))
+                            refreshTheFragment()
                             popupWindow.dismiss()
                             true
                             db.child("Public Polls").child(p.id.toString()).child("voters")
@@ -282,6 +304,7 @@ lateinit var temp2: ViewGroup
                         b1.setOnClickListener {
                             db.child("Public Polls").child(p.id.toString()).child("opt1Vote")
                                 .setValue("" + (p.poll_vote_count!![0] + 1))
+                            refreshTheFragment()
                             popupWindow.dismiss()
                             true
                             db.child("Public Polls").child(p.id.toString()).child("voters")
@@ -313,6 +336,7 @@ lateinit var temp2: ViewGroup
                         b4.setOnClickListener {
                             db.child("Public Polls").child(p.id.toString()).child("opt4Vote")
                                 .setValue("" + (p.poll_vote_count!![3] + 1))
+                            refreshTheFragment()
                             popupWindow.dismiss()
                             true
                             db.child("Public Polls").child(p.id.toString()).child("voters")
@@ -325,6 +349,7 @@ lateinit var temp2: ViewGroup
                         b3.setOnClickListener {
                             db.child("Public Polls").child(p.id.toString()).child("opt3Vote")
                                 .setValue("" + (p.poll_vote_count!![2] + 1))
+                            refreshTheFragment()
                             popupWindow.dismiss()
                             true
                             db.child("Public Polls").child(p.id.toString()).child("voters")
@@ -337,6 +362,7 @@ lateinit var temp2: ViewGroup
                         b2.setOnClickListener {
                             db.child("Public Polls").child(p.id.toString()).child("opt2Vote")
                                 .setValue("" + (p.poll_vote_count!![1] + 1))
+                            refreshTheFragment()
                             popupWindow.dismiss()
                             true
                             db.child("Public Polls").child(p.id.toString()).child("voters")
@@ -349,6 +375,7 @@ lateinit var temp2: ViewGroup
                         b1.setOnClickListener {
                             db.child("Public Polls").child(p.id.toString()).child("opt1Vote")
                                 .setValue("" + (p.poll_vote_count!![0] + 1))
+                            refreshTheFragment()
                             popupWindow.dismiss()
                             true
                             db.child("Public Polls").child(p.id.toString()).child("voters")
@@ -378,6 +405,7 @@ lateinit var temp2: ViewGroup
                         b3.setOnClickListener {
                             db.child("Public Polls").child(p.id.toString()).child("opt3Vote")
                                 .setValue("" + (p.poll_vote_count!![2] + 1))
+                            refreshTheFragment()
                             popupWindow.dismiss()
                             true
                             db.child("Public Polls").child(p.id.toString()).child("voters")
@@ -390,6 +418,7 @@ lateinit var temp2: ViewGroup
                         b2.setOnClickListener {
                             db.child("Public Polls").child(p.id.toString()).child("opt2Vote")
                                 .setValue("" + (p.poll_vote_count!![1] + 1))
+                            refreshTheFragment()
                             popupWindow.dismiss()
                             true
                             db.child("Public Polls").child(p.id.toString()).child("voters")
@@ -402,6 +431,7 @@ lateinit var temp2: ViewGroup
                         b1.setOnClickListener {
                             db.child("Public Polls").child(p.id.toString()).child("opt1Vote")
                                 .setValue("" + (p.poll_vote_count!![0] + 1))
+                            refreshTheFragment()
                             popupWindow.dismiss()
                             true
                             db.child("Public Polls").child(p.id.toString()).child("voters")
@@ -428,6 +458,7 @@ lateinit var temp2: ViewGroup
                         b2.setOnClickListener {
                             db.child("Public Polls").child(p.id.toString()).child("opt2Vote")
                                 .setValue("" + (p.poll_vote_count!![1] + 1))
+                            refreshTheFragment()
                             popupWindow.dismiss()
                             true
                             db.child("Public Polls").child(p.id.toString()).child("voters")
@@ -440,17 +471,333 @@ lateinit var temp2: ViewGroup
                         b1.setOnClickListener {
                             db.child("Public Polls").child(p.id.toString()).child("opt1Vote")
                                 .setValue("" + (p.poll_vote_count!![0] + 1))
+                            refreshTheFragment()
                             popupWindow.dismiss()
                             true
                             db.child("Public Polls").child(p.id.toString()).child("voters")
                                 .setValue(
                                     dbVoters + user?.email.toString() + ","
                                 )
+
                         }
                         //
                     }
                 }
-//
+                else{
+                    Log.w("","WE MADE IT TO THE ELSE STATEMENT!")
+                    val votes = p.calc_perc_n_lock()
+                    if (numOfOptions == 6) {
+                        v = LayoutInflater.from(context).inflate(R.layout.fragment_vote6_result, null)
+                        layoutThingy = R.layout.fragment_vote6_result
+                        val b6 = v.findViewById<TextView>(R.id.resultView6)
+                        var ref = db.child("Public Polls").child(p.id.toString()).child("opt6Vote")
+                        ref.addValueEventListener(object : ValueEventListener {
+                            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                                b6.text = p.poll_options?.get(5).toString() + " = " +
+                                       votes[5] + "%"
+                            }
+                            override fun onCancelled(error: DatabaseError) {
+                                Log.w("WARNING","")
+                            }
+                        })
+
+                        val b1 = v.findViewById<TextView>(R.id.resultView)
+                        ref = db.child("Public Polls").child(p.id.toString()).child("opt1Vote")
+                        ref.addValueEventListener(object : ValueEventListener {
+                            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                                b1.text = p.poll_options?.get(0).toString() + " = " +
+                                        votes[0] + "%"
+                            }
+                            override fun onCancelled(error: DatabaseError) {
+                                Log.w("WARNING","")
+                            }
+                        })
+
+                        val b2 = v.findViewById<TextView>(R.id.resultView2)
+                        ref = db.child("Public Polls").child(p.id.toString()).child("opt2Vote")
+                        ref.addValueEventListener(object : ValueEventListener {
+                            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                                b2.text = p.poll_options?.get(1).toString() + " = " +
+                                        votes[1] + "%"
+                            }
+                            override fun onCancelled(error: DatabaseError) {
+                                Log.w("WARNING","")
+                            }
+                        })
+                        val b3 = v.findViewById<TextView>(R.id.resultView3)
+                        ref = db.child("Public Polls").child(p.id.toString()).child("opt3Vote")
+                        ref.addValueEventListener(object : ValueEventListener {
+                            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                                b3.text = p.poll_options?.get(2).toString() + " = " +
+                                        votes[2] + "%"
+                            }
+                            override fun onCancelled(error: DatabaseError) {
+                                Log.w("WARNING","")
+                            }
+                        })
+                        val b4 = v.findViewById<TextView>(R.id.resultView4)
+                        ref = db.child("Public Polls").child(p.id.toString()).child("opt4Vote")
+                        ref.addValueEventListener(object : ValueEventListener {
+                            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                                b4.text = p.poll_options?.get(3).toString() + " = " +
+                                        votes[3] + "%"
+                            }
+                            override fun onCancelled(error: DatabaseError) {
+                                Log.w("WARNING","")
+                            }
+                        })
+                        val b5 = v.findViewById<TextView>(R.id.resultView5)
+                        ref = db.child("Public Polls").child(p.id.toString()).child("opt5Vote")
+                        ref.addValueEventListener(object : ValueEventListener {
+                            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                                b5.text = p.poll_options?.get(4).toString() + " = " +
+                                        votes[4] + "%"
+                            }
+                            override fun onCancelled(error: DatabaseError) {
+                                Log.w("WARNING","")
+                            }
+                        })
+                        var popupView =
+                            LayoutInflater.from(getActivity(context)).inflate(layoutThingy, null);
+                        var popupWindow = PopupWindow(
+                            v,
+                            WindowManager.LayoutParams.MATCH_PARENT,
+                            WindowManager.LayoutParams.MATCH_PARENT
+                        );
+                        popupWindow.showAtLocation(popupView, Gravity.CENTER, 0, 0);
+                        v.setOnTouchListener { v, event ->
+                            popupWindow.dismiss()
+                            true
+                        }
+
+                        //
+                    } else if (numOfOptions == 5) {
+                        v = LayoutInflater.from(context).inflate(R.layout.fragment_vote5_result, null)
+                        layoutThingy = R.layout.fragment_vote5_result
+                        val b1 = v.findViewById<TextView>(R.id.resultView)
+                        var ref = db.child("Public Polls").child(p.id.toString()).child("opt1Vote")
+                        ref.addValueEventListener(object : ValueEventListener {
+                            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                                b1.text = p.poll_options?.get(0).toString() + " = " +
+                                        votes[0] + "%"
+                            }
+                            override fun onCancelled(error: DatabaseError) {
+                                Log.w("WARNING","")
+                            }
+                        })
+
+                        val b2 = v.findViewById<TextView>(R.id.resultView2)
+                        ref = db.child("Public Polls").child(p.id.toString()).child("opt2Vote")
+                        ref.addValueEventListener(object : ValueEventListener {
+                            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                                b2.text = p.poll_options?.get(1).toString() + " = " +
+                                        votes[1] + "%"
+                            }
+                            override fun onCancelled(error: DatabaseError) {
+                                Log.w("WARNING","")
+                            }
+                        })
+                        val b3 = v.findViewById<TextView>(R.id.resultView3)
+                        ref = db.child("Public Polls").child(p.id.toString()).child("opt3Vote")
+                        ref.addValueEventListener(object : ValueEventListener {
+                            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                                b3.text = p.poll_options?.get(3).toString() + " = " +
+                                        votes[2] + "%"
+                            }
+                            override fun onCancelled(error: DatabaseError) {
+                                Log.w("WARNING","")
+                            }
+                        })
+                        val b4 = v.findViewById<TextView>(R.id.resultView4)
+                        ref = db.child("Public Polls").child(p.id.toString()).child("opt4Vote")
+                        ref.addValueEventListener(object : ValueEventListener {
+                            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                                b4.text = p.poll_options?.get(3).toString() + " = " +
+                                        votes[3] + "%"
+                            }
+                            override fun onCancelled(error: DatabaseError) {
+                                Log.w("WARNING","")
+                            }
+                        })
+                        val b5 = v.findViewById<TextView>(R.id.resultView5)
+                        ref = db.child("Public Polls").child(p.id.toString()).child("opt5Vote")
+                        ref.addValueEventListener(object : ValueEventListener {
+                            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                                b5.text = p.poll_options?.get(4).toString() + " = " +
+                                        votes[4] + "%"
+                            }
+                            override fun onCancelled(error: DatabaseError) {
+                                Log.w("WARNING","")
+                            }
+                        })
+                        var popupView =
+                            LayoutInflater.from(getActivity(context)).inflate(layoutThingy, null);
+                        var popupWindow = PopupWindow(
+                            v,
+                            WindowManager.LayoutParams.MATCH_PARENT,
+                            WindowManager.LayoutParams.MATCH_PARENT
+                        );
+                        popupWindow.showAtLocation(popupView, Gravity.CENTER, 0, 0);
+                        v.setOnTouchListener { v, event ->
+                            popupWindow.dismiss()
+                            true
+                        }
+                        //
+                    } else if (numOfOptions == 4) {
+                        v = LayoutInflater.from(context).inflate(R.layout.fragment_vote4_result, null)
+                        layoutThingy = R.layout.fragment_vote4_result
+                        val b1 = v.findViewById<TextView>(R.id.resultView)
+                        var ref = db.child("Public Polls").child(p.id.toString()).child("opt1Vote")
+                        ref.addValueEventListener(object : ValueEventListener {
+                            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                                b1.text = p.poll_options?.get(0).toString() + " = " +
+                                        votes[0] + "%"
+                            }
+                            override fun onCancelled(error: DatabaseError) {
+                                Log.w("WARNING","")
+                            }
+                        })
+
+                        val b2 = v.findViewById<TextView>(R.id.resultView2)
+                        ref = db.child("Public Polls").child(p.id.toString()).child("opt2Vote")
+                        ref.addValueEventListener(object : ValueEventListener {
+                            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                                b2.text = p.poll_options?.get(1).toString() + " = " +
+                                        votes[1] + "%"
+                            }
+                            override fun onCancelled(error: DatabaseError) {
+                                Log.w("WARNING","")
+                            }
+                        })
+                        val b3 = v.findViewById<TextView>(R.id.resultView3)
+                        ref = db.child("Public Polls").child(p.id.toString()).child("opt3Vote")
+                        ref.addValueEventListener(object : ValueEventListener {
+                            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                                b3.text = p.poll_options?.get(3).toString() + " = " +
+                                        votes[2] + "%"
+                            }
+                            override fun onCancelled(error: DatabaseError) {
+                                Log.w("WARNING","")
+                            }
+                        })
+                        val b4 = v.findViewById<TextView>(R.id.resultView4)
+                        ref = db.child("Public Polls").child(p.id.toString()).child("opt4Vote")
+                        ref.addValueEventListener(object : ValueEventListener {
+                            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                                b4.text = p.poll_options?.get(3).toString() + " = " +
+                                        votes[3] + "%"
+                            }
+                            override fun onCancelled(error: DatabaseError) {
+                                Log.w("WARNING","")
+                            }
+                        })
+                        var popupView =
+                            LayoutInflater.from(getActivity(context)).inflate(layoutThingy, null);
+                        var popupWindow = PopupWindow(
+                            v,
+                            WindowManager.LayoutParams.MATCH_PARENT,
+                            WindowManager.LayoutParams.MATCH_PARENT
+                        );
+                        popupWindow.showAtLocation(popupView, Gravity.CENTER, 0, 0);
+                        v.setOnTouchListener { v, event ->
+                            popupWindow.dismiss()
+                            true
+                        }
+                        //
+                    } else if (numOfOptions == 3) {
+                        v = LayoutInflater.from(context).inflate(R.layout.fragment_vote3_result, null)
+                        layoutThingy = R.layout.fragment_vote3_result
+                        val b1 = v.findViewById<TextView>(R.id.resultView)
+                        var ref = db.child("Public Polls").child(p.id.toString()).child("opt1Vote")
+                        ref.addValueEventListener(object : ValueEventListener {
+                            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                                b1.text = p.poll_options?.get(0).toString() + " = " +
+                                        votes[0] + "%"
+                            }
+                            override fun onCancelled(error: DatabaseError) {
+                                Log.w("WARNING","")
+                            }
+                        })
+
+                        val b2 = v.findViewById<TextView>(R.id.resultView2)
+                        ref = db.child("Public Polls").child(p.id.toString()).child("opt2Vote")
+                        ref.addValueEventListener(object : ValueEventListener {
+                            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                                b2.text = p.poll_options?.get(1).toString() + " = " +
+                                        votes[1] + "%"
+                            }
+                            override fun onCancelled(error: DatabaseError) {
+                                Log.w("WARNING","")
+                            }
+                        })
+                        val b3 = v.findViewById<TextView>(R.id.resultView3)
+                        ref = db.child("Public Polls").child(p.id.toString()).child("opt3Vote")
+                        ref.addValueEventListener(object : ValueEventListener {
+                            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                                b3.text = p.poll_options?.get(3).toString() + " = " +
+                                        votes[2] + "%"
+                            }
+                            override fun onCancelled(error: DatabaseError) {
+                                Log.w("WARNING","")
+                            }
+                        })
+                        var popupView =
+                            LayoutInflater.from(getActivity(context)).inflate(layoutThingy, null);
+                        var popupWindow = PopupWindow(
+                            v,
+                            WindowManager.LayoutParams.MATCH_PARENT,
+                            WindowManager.LayoutParams.MATCH_PARENT
+                        );
+                        popupWindow.showAtLocation(popupView, Gravity.CENTER, 0, 0);
+                        v.setOnTouchListener { v, event ->
+                            popupWindow.dismiss()
+                            true
+                        }
+                        //
+                    } else {
+                        Log.w("","I guess we're here???")
+                        v = LayoutInflater.from(context).inflate(R.layout.fragment_vote2_result, null)
+                        layoutThingy = R.layout.fragment_vote2_result
+                        val title = v.findViewById<Button>(R.id.vote_poll_title)
+                        title.text = p.business_name
+                        val b1 = v.findViewById<TextView>(R.id.resultView)
+                        var ref = db.child("Public Polls").child(p.id.toString()).child("opt1Vote")
+                        ref.addValueEventListener(object : ValueEventListener {
+                            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                                b1.text = p.poll_options?.get(0).toString() + " = " +
+                                        votes[0] + "%"
+                            }
+                            override fun onCancelled(error: DatabaseError) {
+                                Log.w("WARNING","")
+                            }
+                        })
+                        var ref2 = db.child("Public Polls").child(p.id.toString()).child("opt2Vote")
+                        val b2 = v.findViewById<TextView>(R.id.resultView2)
+                        ref2.addValueEventListener(object : ValueEventListener {
+                            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                                b2.text = p.poll_options?.get(1).toString() + " = " +
+                                        votes[1] + "%"
+                            }
+                            override fun onCancelled(error: DatabaseError) {
+                                Log.w("WARNING","")
+                            }
+                        })
+                        var popupView =
+                            LayoutInflater.from(getActivity(context)).inflate(layoutThingy, null);
+                        var popupWindow = PopupWindow(
+                            v,
+                            WindowManager.LayoutParams.MATCH_PARENT,
+                            WindowManager.LayoutParams.MATCH_PARENT
+                        );
+                        popupWindow.showAtLocation(popupView, Gravity.CENTER, 0, 0);
+                        v.setOnTouchListener { v, event ->
+                            popupWindow.dismiss()
+                            true
+                        }
+                        //
+                    }
+                }
+
                 //var popupView = LayoutInflater.from(getActivity(context)).inflate(layoutThingy, null);
                 //var popupWindow = PopupWindow(v, WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT);
                 //popupWindow.showAtLocation(popupView, Gravity.CENTER, 0, 0);

@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import com.example.dsideapp.R
 import android.view.Gravity
+import com.example.dsideapp.data.selectedItemsForDecisionTools
 
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
@@ -20,6 +21,7 @@ import android.os.Handler
 import android.os.Looper
 import android.util.Log
 import android.widget.*
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.core.widget.TextViewCompat.setTextAppearance
 import androidx.recyclerview.widget.LinearLayoutManager
 
@@ -39,8 +41,11 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.ktx.Firebase
 import org.jsoup.nodes.Document
 import java.util.ArrayList
+import java.util.*
+import kotlin.random.Random
 
 import org.json.JSONArray
+var selectedActivity = ActivityObject()
 
 class ActivitiesFragment : Fragment() , HomeActivity.IOnBackPressed {
     lateinit var suggestionsButton : Button
@@ -75,16 +80,23 @@ class ActivitiesFragment : Fragment() , HomeActivity.IOnBackPressed {
     private lateinit var ppw: PopupWindow
     // MMMMM: RecyclerView + CardView (ActivitiesFragment, CartPopUpFragment)
     private var layoutManager: RecyclerView.LayoutManager? = null
-    private var adapter: RecyclerView.Adapter<RecyclerAdapter.ViewHolder>? = null
+    private var adapter: RecyclerView.Adapter<CartActivityAdapter.ViewHolder>? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        var v = inflater.inflate(R.layout.fragment_activities, container, false)
+        //getting db info
+        //getting database info
+        var authorization = auth
+        var user = authorization.currentUser
+        var userID = authorization.currentUser?.uid
+        var db = FirebaseDatabase.getInstance().getReference()
 
+        var v = inflater.inflate(R.layout.fragment_activities, container, false)
         replaceChildFragment(suggestionsFragment) // initial child fragment
+
         //function for loading backstack page name
         fun getPreviousPageName(vararg params: Void): String{
             var previousPageName = ""
@@ -163,12 +175,8 @@ class ActivitiesFragment : Fragment() , HomeActivity.IOnBackPressed {
 
         suggestionsButton = v.findViewById<Button>(R.id.suggestions_button)
         suggestionsButton.setOnClickListener{
-            setTextAppearance(suggestionsButton, R.style.button_page_selected)
-            //Unga bunga way of doing this, but it works lol
-            setTextAppearance(coinButton, R.style.button_page)
-            setTextAppearance(diceButton, R.style.button_page)
-            setTextAppearance(wheelButton, R.style.button_page)
             replaceChildFragment(suggestionsFragment)
+            getPreviousPageName()
         }
         coinButton = v.findViewById<Button>(R.id.coin_button)
         coinButton.setOnClickListener{
@@ -178,6 +186,97 @@ class ActivitiesFragment : Fragment() , HomeActivity.IOnBackPressed {
             setTextAppearance(diceButton, R.style.button_page)
             setTextAppearance(wheelButton, R.style.button_page)
             replaceChildFragment(coinFragment)
+            var cartList = selectedItemsForDecisionTools
+            //Prevents going to coin if not enough/too many activities
+            if (cartList.size==2) {
+                replaceChildFragment(coinFragment)
+
+                ///////////////Making sure selected activities in cart go to decision tool
+
+                //Creating a decisionToolsActivitiesList data class
+                data class stringActivityList(
+                    val activity1: String? = null,
+                    val activity2: String? = null,
+                    val activity3: String? = null,
+                    val activity4: String? = null,
+                    val activity5: String? = null,
+                    val activity6: String? = null,
+                    val activity7: String? = null,
+                    val activity8: String? = null,
+                    val activity9: String? = null,
+                    val activity10: String? = null,
+
+                    ) {}
+
+                var activity_1 = "None";
+                var activity_2 = "None";
+                var activity_3 = "None";
+                var activity_4 = "None";
+                var activity_5 = "None"
+                var activity_6 = "None";
+                var activity_7 = "None";
+                var activity_8 = "None";
+                var activity_9 = "None";
+                var activity_10 = "None"
+
+                cartList.forEach { (key, value) ->
+                    if ((value) == 1) {
+                        activity_1 = key.value.toString().substringAfter("title=")
+                            .substringBefore("image_type=").trim()
+                    } else if (value == 2) {
+                        activity_2 = key.value.toString().substringAfter("title=")
+                            .substringBefore("image_type=").trim()
+                    } else if (value == 3) {
+                        activity_3 = key.value.toString().substringAfter("title=")
+                            .substringBefore("image_type=").trim()
+                    } else if (value == 4) {
+                        activity_4 = key.value.toString().substringAfter("title=")
+                            .substringBefore("image_type=").trim()
+                    } else if (value == 5) {
+                        activity_5 = key.value.toString().substringAfter("title=")
+                            .substringBefore("image_type=").trim()
+                    } else if (value == 6) {
+                        activity_6 = key.value.toString().substringAfter("title=")
+                            .substringBefore("image_type=").trim()
+                    } else if (value == 7) {
+                        activity_7 = key.value.toString().substringAfter("title=")
+                            .substringBefore("image_type=").trim()
+                    } else if (value == 8) {
+                        activity_8 = key.value.toString().substringAfter("title=")
+                            .substringBefore("image_type=").trim()
+                    } else if (value == 9) {
+                        activity_9 = key.value.toString().substringAfter("title=")
+                            .substringBefore("image_type=").trim()
+                    } else if (value == 10) {
+                        activity_10 = key.value.toString().substringAfter("title=")
+                            .substringBefore("image_type=").trim()
+                    }
+
+                }
+                db.child("users").child(userID.toString()).child("data").child("tempActivities")
+                    .setValue(
+                        stringActivityList(
+                            activity_1,
+                            activity_2,
+                            activity_3,
+                            activity_4,
+                            activity_5,
+                            activity_6,
+                            activity_7,
+                            activity_8,
+                            activity_9,
+                            activity_10
+                        )
+                    )
+                ////////////////////////////////////
+                getPreviousPageName()
+            }
+            else{
+                //Tell user the issue
+                Toast.makeText(activity, "Insufficient amount of activities selected!!!",Toast.LENGTH_SHORT).show()
+                //Clear activites selected map to prevent build up
+                selectedItemsForDecisionTools.clear()
+            }
         }
         diceButton = v.findViewById<Button>(R.id.dice_button)
         diceButton.setOnClickListener{
@@ -187,6 +286,97 @@ class ActivitiesFragment : Fragment() , HomeActivity.IOnBackPressed {
             setTextAppearance(coinButton, R.style.button_page)
             setTextAppearance(wheelButton, R.style.button_page)
             replaceChildFragment(diceFragment)
+            var cartList = selectedItemsForDecisionTools
+            //Prevents going to coin if not enough/too many activities
+            if (cartList.size>1 && cartList.size<=6) {
+                replaceChildFragment(diceFragment)
+
+                ///////////////Making sure selected activities in cart go to decision tool
+
+                //Creating a decisionToolsActivitiesList data class
+                data class stringActivityList(
+                    val activity1: String? = null,
+                    val activity2: String? = null,
+                    val activity3: String? = null,
+                    val activity4: String? = null,
+                    val activity5: String? = null,
+                    val activity6: String? = null,
+                    val activity7: String? = null,
+                    val activity8: String? = null,
+                    val activity9: String? = null,
+                    val activity10: String? = null,
+
+                    ) {}
+
+                var activity_1 = "None";
+                var activity_2 = "None";
+                var activity_3 = "None";
+                var activity_4 = "None";
+                var activity_5 = "None"
+                var activity_6 = "None";
+                var activity_7 = "None";
+                var activity_8 = "None";
+                var activity_9 = "None";
+                var activity_10 = "None"
+
+                cartList.forEach { (key, value) ->
+                    if ((value) == 1) {
+                        activity_1 = key.value.toString().substringAfter("title=")
+                            .substringBefore("image_type=").trim()
+                    } else if (value == 2) {
+                        activity_2 = key.value.toString().substringAfter("title=")
+                            .substringBefore("image_type=").trim()
+                    } else if (value == 3) {
+                        activity_3 = key.value.toString().substringAfter("title=")
+                            .substringBefore("image_type=").trim()
+                    } else if (value == 4) {
+                        activity_4 = key.value.toString().substringAfter("title=")
+                            .substringBefore("image_type=").trim()
+                    } else if (value == 5) {
+                        activity_5 = key.value.toString().substringAfter("title=")
+                            .substringBefore("image_type=").trim()
+                    } else if (value == 6) {
+                        activity_6 = key.value.toString().substringAfter("title=")
+                            .substringBefore("image_type=").trim()
+                    } else if (value == 7) {
+                        activity_7 = key.value.toString().substringAfter("title=")
+                            .substringBefore("image_type=").trim()
+                    } else if (value == 8) {
+                        activity_8 = key.value.toString().substringAfter("title=")
+                            .substringBefore("image_type=").trim()
+                    } else if (value == 9) {
+                        activity_9 = key.value.toString().substringAfter("title=")
+                            .substringBefore("image_type=").trim()
+                    } else if (value == 10) {
+                        activity_10 = key.value.toString().substringAfter("title=")
+                            .substringBefore("image_type=").trim()
+                    }
+
+                }
+                db.child("users").child(userID.toString()).child("data").child("tempActivities")
+                    .setValue(
+                        stringActivityList(
+                            activity_1,
+                            activity_2,
+                            activity_3,
+                            activity_4,
+                            activity_5,
+                            activity_6,
+                            activity_7,
+                            activity_8,
+                            activity_9,
+                            activity_10
+                        )
+                    )
+                ////////////////////////////////////
+                getPreviousPageName()
+            }
+            else{
+                //Tell user the issue
+                Toast.makeText(activity, "Insufficient amount of activities selected!!!",Toast.LENGTH_SHORT).show()
+                //Clear activites selected map to prevent build up
+                selectedItemsForDecisionTools.clear()
+            }
         }
         wheelButton = v.findViewById<Button>(R.id.wheel_button)
         wheelButton.setOnClickListener{
@@ -196,6 +386,97 @@ class ActivitiesFragment : Fragment() , HomeActivity.IOnBackPressed {
             setTextAppearance(coinButton, R.style.button_page)
             setTextAppearance(diceButton, R.style.button_page)
             replaceChildFragment(wheelFragment)
+            var cartList = selectedItemsForDecisionTools
+            //Prevents going to coin if not enough/too many activities
+            if (cartList.size>1 && cartList.size<=10) {
+                replaceChildFragment(wheelFragment)
+
+                ///////////////Making sure selected activities in cart go to decision tool
+
+                //Creating a decisionToolsActivitiesList data class
+                data class stringActivityList(
+                    val activity1: String? = null,
+                    val activity2: String? = null,
+                    val activity3: String? = null,
+                    val activity4: String? = null,
+                    val activity5: String? = null,
+                    val activity6: String? = null,
+                    val activity7: String? = null,
+                    val activity8: String? = null,
+                    val activity9: String? = null,
+                    val activity10: String? = null,
+
+                    ) {}
+
+                var activity_1 = "None";
+                var activity_2 = "None";
+                var activity_3 = "None";
+                var activity_4 = "None";
+                var activity_5 = "None"
+                var activity_6 = "None";
+                var activity_7 = "None";
+                var activity_8 = "None";
+                var activity_9 = "None";
+                var activity_10 = "None"
+
+                cartList.forEach { (key, value) ->
+                    if ((value) == 1) {
+                        activity_1 = key.value.toString().substringAfter("title=")
+                            .substringBefore("image_type=").trim()
+                    } else if (value == 2) {
+                        activity_2 = key.value.toString().substringAfter("title=")
+                            .substringBefore("image_type=").trim()
+                    } else if (value == 3) {
+                        activity_3 = key.value.toString().substringAfter("title=")
+                            .substringBefore("image_type=").trim()
+                    } else if (value == 4) {
+                        activity_4 = key.value.toString().substringAfter("title=")
+                            .substringBefore("image_type=").trim()
+                    } else if (value == 5) {
+                        activity_5 = key.value.toString().substringAfter("title=")
+                            .substringBefore("image_type=").trim()
+                    } else if (value == 6) {
+                        activity_6 = key.value.toString().substringAfter("title=")
+                            .substringBefore("image_type=").trim()
+                    } else if (value == 7) {
+                        activity_7 = key.value.toString().substringAfter("title=")
+                            .substringBefore("image_type=").trim()
+                    } else if (value == 8) {
+                        activity_8 = key.value.toString().substringAfter("title=")
+                            .substringBefore("image_type=").trim()
+                    } else if (value == 9) {
+                        activity_9 = key.value.toString().substringAfter("title=")
+                            .substringBefore("image_type=").trim()
+                    } else if (value == 10) {
+                        activity_10 = key.value.toString().substringAfter("title=")
+                            .substringBefore("image_type=").trim()
+                    }
+
+                }
+                db.child("users").child(userID.toString()).child("data").child("tempActivities")
+                    .setValue(
+                        stringActivityList(
+                            activity_1,
+                            activity_2,
+                            activity_3,
+                            activity_4,
+                            activity_5,
+                            activity_6,
+                            activity_7,
+                            activity_8,
+                            activity_9,
+                            activity_10
+                        )
+                    )
+                ////////////////////////////////////
+                getPreviousPageName()
+            }
+            else{
+                //Tell user the issue
+                Toast.makeText(activity, "Insufficient amount of activities selected!!!",Toast.LENGTH_SHORT).show()
+                //Clear activites selected map to prevent build up
+                selectedItemsForDecisionTools.clear()
+            }
         }
         //Mine//
         ///////////////////POP UP IMAGE /////////////////////////////////
@@ -415,12 +696,12 @@ class ActivitiesFragment : Fragment() , HomeActivity.IOnBackPressed {
                         // inflate the layout of the popup window
                         v = inflater.inflate(com.example.dsideapp.R.layout.fragment_cart_pop_up, null)
                         // create the popup window
-                        val width = LinearLayout.LayoutParams.WRAP_CONTENT
-                        val height = LinearLayout.LayoutParams.WRAP_CONTENT
+                        val width = LinearLayout.LayoutParams.MATCH_PARENT
+                        val height = LinearLayout.LayoutParams.MATCH_PARENT
                         val focusable = true // lets taps outside the popup also dismiss it
                         val popupWindow = PopupWindow(v, width, height, focusable)
 
-                        //getting database info
+                        ///getting database info
                         var authorization = auth
                         var user = authorization.currentUser
                         var userID = authorization.currentUser?.uid
@@ -432,7 +713,7 @@ class ActivitiesFragment : Fragment() , HomeActivity.IOnBackPressed {
                         val activities = mutableListOf<DataSnapshot>()
                         layoutManager = LinearLayoutManager(requireContext())
                         rv.layoutManager = layoutManager
-                        adapter = RecyclerAdapter(requireContext(), activities)
+                        adapter = CartActivityAdapter(requireContext(), activities)
                         rv.adapter = adapter
                         // MMMMM: -----------------------------------------------------------------//
                         var activityInfo = db.child("users").child(userID.toString()).get().addOnSuccessListener {
@@ -444,15 +725,201 @@ class ActivitiesFragment : Fragment() , HomeActivity.IOnBackPressed {
                                 allTheStuff.forEach{
                                     act ->
                                     tempCartActivityText += act.child("title").value.toString() + "\n"
-                                    // MMMMM: Add to list to send to RecyclerAdapter class.
+                                    // NNNNN: Add to list to send to RecyclerAdapter class.
                                     activities.add(act)
                                 }
                             }
                             // NOTES: v.findViewById<TextView>(R.id.cart_activity_title).text = tempCartActivityText
                             // NOTES: var tempCartActivityText = "Activity 1\nActivity 4\nActivity 10\n"
-                            // MMMMM: Update RecyclerAdapter with changes.
+                            // NNNNN: Update RecyclerAdapter with changes.
                             adapter?.notifyDataSetChanged()
                         }
+                        /// MMMMM: Cart Interactability (Swipe) ----------------------------------------------------------------//
+                        val swipeGesture = object : SwipeGesture(requireContext()) {
+                            override fun onSwiped(
+                                viewHolder: RecyclerView.ViewHolder,
+                                direction: Int
+                            ) {
+                                when(direction){
+                                    ItemTouchHelper.LEFT -> {
+                                        // MMMMM: 1. LEFT Swipe functionality
+                                        Log.d("Item Swiped", "${viewHolder.position} Activity")
+                                        // NNNNN: 1. delete cartActivity from DATABASE
+                                        //Log.d("Item Swiped", "${(adapter as CartActivityAdapter).getItemsId(viewHolder.position)} Activity")
+                                        val cartActivityToDeleteID = (adapter as CartActivityAdapter).getItemsId(viewHolder.position)
+                                        var cartActivityToDeleteTEMP = activities[0] // initialize if !it.exists()
+                                        var cartActivityInfo = db.child("users").child(userID.toString()).get().addOnSuccessListener {
+                                            if (it.exists()){
+                                                // NOTES: allTheStuff = array of Activities in Cart
+                                                val cartActivityToDelete = it.child("data").child("cart").child(cartActivityToDeleteID)
+                                                cartActivityToDeleteTEMP = cartActivityToDelete
+                                                //Log.d("Deleting", "${cartActivityToDelete} Activity")
+                                                cartActivityToDelete.getRef().removeValue()
+                                            }
+                                            // NOTES: Update RecyclerAdapter with changes.
+                                            adapter?.notifyDataSetChanged()
+                                        }
+                                        // NNNNN: 2. delete cartActivity from VIEW AFTER deleting cartActivity from DATABASE (bc of viewHolder.position)
+                                        (adapter as CartActivityAdapter).deleteItem(cartActivityToDeleteTEMP)
+                                    }
+                                    ItemTouchHelper.RIGHT -> {
+                                        // XXXXX: 2. Add to Calendar functionality
+                                        // inflate the layout of the popup window
+                                        v = inflater.inflate(com.example.dsideapp.R.layout.fragment_eventadd_pop_up, null)
+                                        // create the popup window
+                                        val width = LinearLayout.LayoutParams.MATCH_PARENT
+                                        val height = LinearLayout.LayoutParams.MATCH_PARENT
+                                        val focusable = true // lets taps outside the popup also dismiss it
+                                        val popupWindow2 = PopupWindow(v, width, height, focusable)
+                                        // XXXXX -----------------------------------------------------
+
+                                        val datePicker = v.findViewById<DatePicker>(R.id.datePicker)
+                                        val today = Calendar.getInstance()
+                                        datePicker.init(today.get(Calendar.YEAR), today.get(Calendar.MONTH),
+                                            today.get(Calendar.DAY_OF_MONTH)
+
+                                        )
+                                        {
+                                                view, year, month, day ->
+                                            val month = month + 1
+                                            val msg = "You Selected: $day/$month/$year"
+                                            Log.w("", msg)
+                                        }
+
+                                        auth = Firebase.auth
+                                        val database = FirebaseDatabase.getInstance()
+
+                                        //Creating the actual event from the button
+                                        var createEventButton = v.findViewById<Button>(R.id.addEventButton)
+                                        createEventButton.setOnClickListener() {
+
+                                            // MMMMM: Get activity swiped as a DataSnapshot, "cartActivityToAddToCalendarTEMP"
+                                            val cartActivityToAddToCalendarID = (adapter as CartActivityAdapter).getItemsId(viewHolder.position) // XXXXX: Getting the next activity after the activity swiped. Need to fix.
+                                            var cartActivityToAddToCalendarTEMP = activities[0] // initialize if !it.exists()
+                                            var cartActivityInfo = db.child("users").child(userID.toString()).get().addOnSuccessListener {
+                                                if (it.exists()){ // XXXXX: ------------------------------
+                                                    // NOTES: allTheStuff = array of Activities in Cart
+                                                    cartActivityToAddToCalendarTEMP = it.child("data").child("cart").child(cartActivityToAddToCalendarID)
+                                                    Log.d("ADDING","${cartActivityToAddToCalendarTEMP}")
+
+                                                    //Creating vars to gather user input for event info
+                                                    //var eventTitle = v.findViewById<TextView>(R.id.eventName).text.toString()
+                                                    //var eventDate = viewOfLayout.findViewById<DatePicker>(R.id.datePicker)
+                                                    val day = datePicker.dayOfMonth
+                                                    val month = datePicker.month
+                                                    val year = datePicker.year
+
+                                                    var eventTime = v.findViewById<TextView>(R.id.TimeText)
+
+                                                    // MMMMM: Convert Date & Time to Date Class.
+                                                    var date = Date(year, month, day)
+
+                                                    // MMMMM: Add info to create Event Object.
+                                                    //Getting db info
+                                                    var authorization = auth
+                                                    var user = authorization.currentUser
+                                                    var userID = authorization.currentUser?.uid
+                                                    var db = FirebaseDatabase.getInstance().getReference("users").child(userID.toString())
+
+                                                    //Creating the random event ID
+                                                    var i = 0
+                                                    var eventId = ""
+                                                    for (i in 1..5) {
+                                                        eventId += Random.nextInt(9)
+                                                    }
+                                                    for (i in 1..5) {
+                                                        eventId += (Random.nextInt(25) + 65).toChar()
+                                                    }
+
+                                                    //////In here will be on button click of recycler view, friends are added to a mutable list and added to db
+                                                    var friendsInvited = mutableListOf<String>()
+                                                    var friendDBList = ""
+                                                    //hardcoding an added friend for testing purposes
+                                                    friendsInvited.add("WHBqJbAom0Yz0MQPQg0zuDnv4Xv1")
+                                                    friendDBList += "WHBqJbAom0Yz0MQPQg0zuDnv4Xv1;"
+
+                                                    // MMMMM: 1. Convert DataSnapshot to Activity.
+                                                    //Log.d("KEY:TEMP", "${cartActivityToAddToCalendarTEMP.key}")
+                                                    //Log.d("ID:TEMP", "${cartActivityToAddToCalendarTEMP.child("id").value}")
+                                                    //Creating writeToDB function
+                                                    fun dataSnapshotToActivityToEventToDB(cartActivity: DataSnapshot, userId: String, id: String, title: String = "None", phone: String = "None",
+                                                                                          image: String = "None", loc_address: String = "None", loc_city: String = "None",
+                                                                                          loc_country:String = "None", loc_zip: String = "None", loc_state: String = "None"
+                                                                                          , business_name: String = "None", price: String = "None", category: String = "None", event_id : String = "None", event_title : String = "None", date : Date? = null, users_invited: MutableList<String>? = null) {
+                                                        val location = LocationObject(loc_address, loc_city, loc_country, loc_zip, loc_state)
+                                                        val activity = ActivityObject(if(id != "") id else "null", title, phone, image, location, business_name, price, category)
+                                                        Log.d("EVENT TITLE", "${title}") // XXXXX: ------------------------------
+                                                        val event = users_invited?.let { it1 ->
+                                                            activity.toEvent(title, date, date,
+                                                                it1
+                                                            )
+                                                        }
+                                                        Log.d("EVENT", "${event}")
+
+                                                        //Setting the event in the db
+                                                        //db.child("data").child("events").child(eventId).setValue(event)
+                                                        //db.child("data").child("events").child(eventId).setValue(title)
+                                                        //                    //Creating a db readable event
+                                                        data class stringEvent(
+                                                            val id: String? = null,
+                                                            val event_title: String? = null,
+                                                            val start_time: String? = null,
+                                                            val end_time: String? = null,
+                                                            val activity: ActivityObject? = null,
+                                                            val users: String? = null,
+                                                        ) {}
+                                                        if (date != null) {
+                                                            db.child("data").child("events").child(eventId).setValue(stringEvent(event_id, title, date.toString(), date.toString(), activity, users_invited.toString()))
+                                                        }
+
+                                                        // MMMMM: 2. LEFT Swipe functionality
+                                                        // NNNNN: 1. delete cartActivity from DATABASE
+                                                        val cartActivityToDelete =
+                                                            activity.id?.let { it1 ->
+                                                                it.child("data").child("cart").child(
+                                                                    it1
+                                                                )
+                                                            }
+                                                        if (cartActivityToDelete != null) {
+                                                            cartActivityToDelete.getRef().removeValue()
+                                                        }
+                                                        // NNNNN: 2. delete cartActivity from VIEW AFTER deleting cartActivity from DATABASE (bc of viewHolder.position)
+                                                        (adapter as CartActivityAdapter).deleteItem(cartActivity)
+                                                        //(adapter as CartActivityAdapter).notifyDataSetChanged()
+
+                                                    }
+                                                    Log.d("TOEVENT", "{$cartActivityToAddToCalendarTEMP}")
+                                                    cartActivityToAddToCalendarTEMP.child("id").value
+                                                    dataSnapshotToActivityToEventToDB(cartActivityToAddToCalendarTEMP, userId = userID.toString(), id = cartActivityToAddToCalendarTEMP.child("id").value.toString(),
+                                                        title = cartActivityToAddToCalendarTEMP.child("title").value.toString(), phone = cartActivityToAddToCalendarTEMP.child("phone_contact").value.toString(), image = cartActivityToAddToCalendarTEMP.child("image_type").value.toString(),
+                                                        business_name = cartActivityToAddToCalendarTEMP.child("business_name").value.toString(), price = cartActivityToAddToCalendarTEMP.child("price").value.toString(), category = cartActivityToAddToCalendarTEMP.child("category").value.toString(),
+                                                        event_id = eventId, event_title = cartActivityToAddToCalendarTEMP.child("title").value.toString(), date = date, users_invited = friendsInvited)
+
+                                                    // XXXXX -----------------------------------------------------
+                                                    Log.d("Item Swiped RIGHT", "${viewHolder.position} Activity")
+                                                    // XXXXX -----------------------------------------------------
+                                                }
+                                                // NOTES: Update RecyclerAdapter with changes.
+                                                //adapter?.notifyDataSetChanged()
+                                            }
+
+                                            Log.d("AFTERIT", "{$cartActivityToAddToCalendarTEMP}")
+                                        }
+                                        // show the popup window
+                                        // which view you pass in doesn't matter, it is only used for the window token
+                                        popupWindow2.showAtLocation(view, Gravity.CENTER, 0, 0)
+                                        v.setOnTouchListener { v, event ->
+                                            popupWindow2.dismiss()
+                                            true
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        val touchHelper = ItemTouchHelper(swipeGesture)
+                        touchHelper.attachToRecyclerView(rv)
+                        /// MMMMM: -------------------------------------------------------------------------------------------//
+
                         // show the popup window
                         // which view you pass in doesn't matter, it is only used for the window token
                         popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0)
@@ -472,7 +939,6 @@ class ActivitiesFragment : Fragment() , HomeActivity.IOnBackPressed {
         WebScratch().execute()
         return v
     }
-
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

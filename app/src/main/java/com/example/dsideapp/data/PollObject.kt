@@ -27,7 +27,7 @@ data class PollObject (
         if (winner_index != null) {
             if (curr_votes != 0) {
                 this.poll_vote_count.forEach {
-                    to_return.add(((it / curr_votes) * 100).toDouble())
+                    to_return.add(((it * 100/ curr_votes) ).toDouble())
                 }
             } else {
                 System.err.println("There are no votes in this poll. " +
