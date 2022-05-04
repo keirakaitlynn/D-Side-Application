@@ -245,6 +245,14 @@ class CalendarFragment : Fragment() {
         var userID = authorization.currentUser?.uid
         var db = FirebaseDatabase.getInstance().getReference("users").child(userID.toString())
 
+
+//
+//        val eventTime1 = viewOfLayout.findViewById<TextView>(R.id.eventTimeText)
+//        val eventDate1 = viewOfLayout.findViewById<TextView>(R.id.eventDateText)
+//        val eventTitle1 = viewOfLayout.findViewById<TextView>(R.id.eventNameText)
+
+
+
         // Listener checks for a tap on a day
         calendar!!
             .setOnDateChangeListener {
@@ -290,26 +298,7 @@ class CalendarFragment : Fragment() {
 
                 newEventButton.setOnClickListener {
 
-//                    viewOfLayout = inflater.inflate(R.layout.fragment_eventadd_pop_up, null)
-//                    // create the popup window
-//                    var width = LinearLayout.LayoutParams.FILL_PARENT
-//                    var height = LinearLayout.LayoutParams.FILL_PARENT
-//                    var focusable = true // lets taps outside the popup also dismiss it
-//                    var popupWindow = PopupWindow(viewOfLayout, width, height, focusable)
-//
-//                    // show the popup window
-//                    // which view you pass in doesn't matter, it is only used for the window tolken or token idk :)
-//
-//                    popupWindow.showAtLocation(view, Gravity.CENTER, 0, 1)
-//
-//                    //exit window declaration
-//                    var exitWindowButton: Button = viewOfLayout.findViewById<Button>(R.id.exitButton)
-//
-//                    exitWindowButton.setOnClickListener{
-//                        Log.w("", "PLEASE WOOOOORK PopUp Window button")
-//                        popupWindow.dismiss()
-//                        true
-//                    }
+
 
                     val datePicker = viewOfLayout.findViewById<DatePicker>(R.id.datePicker)
                     val today = Calendar.getInstance()
@@ -399,73 +388,6 @@ class CalendarFragment : Fragment() {
                     eventTitle1.setText(eventTitleString)
 
 
-
-
-//                    var createEventButton = viewOfLayout.findViewById<Button>(R.id.addEventButton)
-//
-//                    createEventButton.setOnClickListener {
-//                        //Log.w("", "JOshhhhhhhhhhhhhhhh")
-//
-////                        //Creating the random event ID
-////                        var i = 0
-////                        var eventId = ""
-////                        for (i in 1..5) {
-////                            eventId += Random.nextInt(9)
-////                        }
-////                        for (i in 1..5) {
-////                            eventId += (Random.nextInt(25) + 65).toChar()
-////                        }
-//
-//                        //Creating the event in the db, leaving friends empty
-//
-//                        var dbReadableEvent = StringEvent(
-//                            eventId, eventTitle.text.toString(), eventDate.toString(),
-//                            eventTime.text.toString(), user?.email.toString(), "None"
-//                        )
-//                        //Setting the event in the db
-//                        //Log.w("", "JOshhhhhhhhhhhhhhhh")
-//                        db.child("data").child("events").child(eventId).setValue(dbReadableEvent)
-//
-//
-//
-//
-//                        //////In here will be on button click of recycler view, friends are added to a mutable list and added to db
-//                        var friendsInvited = mutableListOf<String>()
-//                        var friendDBList = ""
-//                        //hardcoding an added friend for testing purposes
-//                        friendsInvited.add("WHBqJbAom0Yz0MQPQg0zuDnv4Xv1")
-//                        friendDBList += "WHBqJbAom0Yz0MQPQg0zuDnv4Xv1;"
-//                        db.child("data").child("events").child(eventId).child("event_InviteList")
-//                            .setValue(friendDBList)
-//                        //Updating the event invite list
-//                        dbReadableEvent = StringEvent(
-//                            eventId, eventTitle.text.toString(), eventDate.toString(),
-//                            eventTime.text.toString(), user?.email.toString(), friendDBList
-//                        )
-//                        //db ref to write event info into friend's events
-//                        var friendDB = FirebaseDatabase.getInstance().getReference("users")
-//
-//                        //Setting event's friend list
-//                        friendsInvited.forEach { friend ->
-//                            //putting the event in friend's events
-//                            friendDB.child(friend).child("data").child("events").child(eventId)
-//                                .setValue(dbReadableEvent)
-//                        }
-//
-//
-////                        var v = inflater.inflate(R.layout.activity_dailyview, null)
-////                        var eventTime1 = v.findViewById<EditText>(R.id.timeEvent)
-////                        var eventDate1 = v.findViewById<EditText>(R.id.DateText)
-////                        var eventTitle1 = v.findViewById<EditText>(R.id.ActivityTitleText)
-////
-////
-////                        eventDate = eventDate1.toString()
-////                        eventTime = eventTime1
-////                        eventTitle = eventTitle1
-//
-//
-//                    }
-
                     var deleteEventButton = viewOfLayout.findViewById<Button>(R.id.DeleteEventButton)
 
                     deleteEventButton.setOnClickListener {
@@ -519,27 +441,20 @@ class CalendarFragment : Fragment() {
                 }
 
 
-//                //after creating an event, the daily view will load the added event
-//                var v = inflater.inflate(R.layout.activity_dailyview, null)
-//
-//                var updateEventButton: Button
-//
-//                updateEventButton= v.findViewById<Button>(R.id.updateButton)
-//
-//
-//                db.child("data").child("events").child(eventId)
-//                    .setValue(v.findViewById<EditText>(R.id.ActivityTitleText).text.toString())
-//
-//
-//                db.child("data").child("events").child(eventId)
-//                    .setValue(v.findViewById<EditText>(R.id.DateText).text.toString())
-//
-//                db.child("data").child("events").child(eventId)
-//                    .setValue(v.findViewById<EditText>(R.id.timeEvent).text.toString())
-
 
 
             }
+
+
+//
+//        val eventTimeString = eventTime.text.toString()
+//        val eventDateString = eventDate.toString()
+//        val eventTitleString = eventTitle.text.toString()
+//
+//        eventTime1.setText(eventTimeString)
+//        eventDate1.setText(eventDateString)
+//        eventTitle1.setText(eventTitleString)
+
 
         return viewOfLayout
     }

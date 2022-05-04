@@ -21,6 +21,8 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 
 class AccountFragment : Fragment() {
+    lateinit var imageButton: ImageButton
+    private lateinit var viewOfLayout: View
     lateinit var infoButton : ImageButton
     private val infoFragment = InformationChildFragment()
     override fun onCreateView(
@@ -29,36 +31,19 @@ class AccountFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
 
-        //LOG OUT: please do no delete :)
-        var viewOfLayout = inflater.inflate(R.layout.fragment_account, container, false)
 
-        FirebaseAuth.getInstance()
-
-        var imageButton = viewOfLayout.findViewById<View>(R.id.log_out) as ImageButton
-        //textView = findViewById(R.id.logged_in)
-
-        //textView.setText("Welcome")
-
-        //logs out user from app after clickining on the log out icon
-        imageButton.setOnClickListener {
-            FirebaseAuth.getInstance().signOut()
-            //Log.w("USER ID ", auth.uid.toString())
-            val intent = Intent(activity, LoginActivity::class.java)
-            activity?.startActivity(intent)
-            //finish()
-            //viewOfLayout = inflater.inflate(R.layout.activity_login, container, false)
-            //startActivity(intent)
-        }
-
-            //DB info//
+        //DB info//
         var authorization = auth
         var user = authorization.currentUser
         var userID = authorization.currentUser?.uid
-        var db = FirebaseDatabase.getInstance().getReference()
+        var db = FirebaseDatabase.getInstance().reference
+
+
+
 
         var v = inflater.inflate(R.layout.fragment_account, container, false)
         var saveChangesButton = v.findViewById<Button>(R.id.changesSaveButton)
-        saveChangesButton.setOnClickListener{
+        saveChangesButton.setOnClickListener {
             db.child("users").child(userID.toString()).child("username")
                 .setValue(v.findViewById<EditText>(R.id.user_name).text.toString())
         }
@@ -82,6 +67,28 @@ class AccountFragment : Fragment() {
                 pfpImage.setImageResource(R.drawable.ponyopfp)
             }
         }
+
+        viewOfLayout =
+            inflater.inflate(R.layout.fragment_account, container, false)
+
+        FirebaseAuth.getInstance()
+
+        imageButton = viewOfLayout.findViewById<View>(R.id.log_out) as ImageButton
+        //textView = findViewById(R.id.logged_in)
+
+        //textView.setText("Welcome")
+
+        imageButton.setOnClickListener {
+            FirebaseAuth.getInstance().signOut()
+            Log.w("", "LOG OUT !!!!!!!!!!!!!!")
+            val intent = Intent(activity, LoginActivity::class.java)
+            activity?.startActivity(intent)
+            //finish()
+            //viewOfLayout = inflater.inflate(R.layout.activity_login, container, false)
+            //startActivity(intent)
+
+        }
+
         return v
     }
     private fun replaceChildFragment(childFragment : Fragment) {
