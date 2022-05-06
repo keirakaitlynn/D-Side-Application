@@ -39,7 +39,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="20dp"
         android:backgroundTint="@color/blueVioletColor"
-        android:text="Spin!" />
+        android:text="Add Friend!" />
 
 
 

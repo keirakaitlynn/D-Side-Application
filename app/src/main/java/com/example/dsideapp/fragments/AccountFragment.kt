@@ -17,8 +17,6 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import androidx.fragment.app.FragmentManager
 
-
-
 class AccountFragment : Fragment() {
     private lateinit var listView  : ListView
     private val addFriendFragment = AddFriendFragment()
@@ -165,7 +163,6 @@ class AccountFragment : Fragment() {
             override fun onCancelled(databaseError: DatabaseError) {}
         })
         v.findViewById<EditText>(R.id.friends_list)
-
         return v
     }
 }
