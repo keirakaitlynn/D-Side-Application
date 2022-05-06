@@ -24,8 +24,6 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import androidx.fragment.app.FragmentManager
 
-
-
 class AccountFragment : Fragment() {
     private lateinit var listView  : ListView
     private val addFriendFragment = AddFriendFragment()
