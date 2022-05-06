@@ -233,6 +233,7 @@ class CalendarFragment : Fragment() {
         data class StringEvent(
             val event_Id: String? = null,
             val event_Title: String? = null,
+            //change to date
             val event_Date: String? = null,
             val event_Time: String? = null,
             val event_Poster: String? = null,
@@ -245,11 +246,6 @@ class CalendarFragment : Fragment() {
         var userID = authorization.currentUser?.uid
         var db = FirebaseDatabase.getInstance().getReference("users").child(userID.toString())
 
-
-//
-//        val eventTime1 = viewOfLayout.findViewById<TextView>(R.id.eventTimeText)
-//        val eventDate1 = viewOfLayout.findViewById<TextView>(R.id.eventDateText)
-//        val eventTitle1 = viewOfLayout.findViewById<TextView>(R.id.eventNameText)
 
 
 
@@ -276,7 +272,6 @@ class CalendarFragment : Fragment() {
                 var height = LinearLayout.LayoutParams.FILL_PARENT
                 var focusable = true // lets taps outside the popup also dismiss it
                 var popupWindow = PopupWindow(viewOfLayout, width, height, focusable)
-
                 // show the popup window
                 // which view you pass in doesn't matter, it is only used for the window tolken or token idk :)
 
@@ -284,10 +279,102 @@ class CalendarFragment : Fragment() {
                 lateinit var tempView: View
 
 
+                val calDay = dayOfMonth.toString()
+                val calmonth1 = month  + 1
+                val calMonth = calmonth1.toString()
+                val calYear = year.toString()
+                //var eventDate: String = eventDay + eventMonth + eventYear
+                var calDate = calMonth + calDay + calYear
+                Log.w("", calDay)
+                Log.w("", calMonth)
+                Log.w("", calYear)
+                Log.w("", calDate)
+
+
+
+                var DateTxt = viewOfLayout.findViewById<TextView>(R.id.eventDateText)
+                var NameTxt = viewOfLayout.findViewById<TextView>(R.id.eventNameText)
+                var TimeTxt = viewOfLayout.findViewById<TextView>(R.id.eventTimeText)
+
+                var DateEdit = viewOfLayout.findViewById<TextView>(R.id.eventDateText)
+                var NameEdit = viewOfLayout.findViewById<TextView>(R.id.eventName)
+                var TimeEdit = viewOfLayout.findViewById<TextView>(R.id.TimeText)
+
+
+                var timeString: String
+                var dateString: String
+                var nameString: String
+
+
+
+
+
+                var dbRef = FirebaseDatabase.getInstance().getReference("users").child(userID.toString())
+                    .child("data").child("events")
+
+                var dbEventRef = dbRef.get().addOnSuccessListener {
+                    if (it.exists()) {
+
+                        var allEvents = it.children
+                        allEvents.forEach { event ->
+
+
+                            var dbDateRef = event.child("event_Date").value.toString()
+                            var dbTimeRef = event.child("event_Time").value.toString()
+                            var dbNameRef = event.child("event_Title").value.toString()
+                            Log.w("", dbDateRef)
+                            Log.w("", dbTimeRef)
+                            Log.w("", dbNameRef)
+
+                            if (dbDateRef == calDate) {
+                                timeString = dbTimeRef
+                                dateString = dbDateRef
+                                nameString = dbNameRef
+
+                                TimeTxt.setText(timeString)
+                                DateTxt.setText(dateString)
+                                NameTxt.setText(nameString)
+
+                                DateEdit.setText(dateString)
+                                TimeEdit.setText(timeString)
+                                NameEdit.setText(nameString)
+
+
+                            }
+
+                        }
+                    }
+                }
+
+
+//                var dbDateRef = db.child("data").child("events").child("event_Date").get().toString()
+//                var dbTimeRef = db.child("data").child("events").child("event_Time").get().toString()
+//                var dbNameRef = db.child("data").child("events").child("event_Title").get().toString()
+//                Log.w("Event Id", dbEventIdRef)
+//                Log.w("", dbDateRef)
+//                Log.w("", dbTimeRef)
+//                Log.w("", dbNameRef)
+//                Log.w("", "PLEASE WOOOOORK")
+//
+//
+//                if (dbDateRef == calDate) {
+//                    timeString = dbDateRef
+//                    dateString = dbTimeRef
+//                    nameString = dbNameRef
+//
+//                    TimeTxt.setText(timeString)
+//                    DateTxt.setText(dateString)
+//                    NameTxt.setText(nameString)
+//
+//
+//                }
+
+
+
                 var windowButton: Button = viewOfLayout.findViewById<Button>(R.id.exitButton)
 
                 windowButton.setOnClickListener{
-                    Log.w("", "PLEASE WOOOOORK PopUp Window button")
+                    //Log.w("", "PLEASE WOOOOORK PopUp Window button")
                     popupWindow.dismiss()
                     true
                 }
@@ -310,8 +397,8 @@ class CalendarFragment : Fragment() {
                     {
                             view, year, month, day ->
                         val month = month + 1
-                        val msg = "You Selected: $day/$month/$year"
-                        Log.w("", msg)
+                        //val msg = "You Selected: $day/$month/$year"
+                        //Log.w("", msg)
                     }
 
 
@@ -328,10 +415,11 @@ class CalendarFragment : Fragment() {
                     var eventTitle = viewOfLayout.findViewById<EditText>(R.id.eventName)
                     //var eventDate = viewOfLayout.findViewById<DatePicker>(R.id.datePicker)
                     val eventDay = datePicker.dayOfMonth.toString()
-                    val eventMonth = datePicker.month.toString()
+                    val month1 = datePicker.month + 1
+                    val eventMonth = month1.toString()
                     val eventYear = datePicker.year.toString()
                     //var eventDate: String = eventDay + eventMonth + eventYear
-                    var eventDate = eventMonth + " " + eventDay +", " + eventYear
+                    var eventDate = eventMonth + eventDay + eventYear
 
                     var eventTime = viewOfLayout.findViewById<EditText>(R.id.TimeText)
 
