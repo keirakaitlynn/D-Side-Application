@@ -1,18 +1,25 @@
 package com.example.dsideapp.fragments
-
+///
+import android.media.Image
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.EditText
+import android.widget.ImageButton
 import android.widget.*
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentTransaction
 import com.example.dsideapp.R
 import com.example.dsideapp.auth
 import com.example.dsideapp.childfragments.AddFriendFragment
 import com.example.dsideapp.data.FriendClass
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
+import com.example.dsideapp.childfragments.InformationChildFragment
+import com.example.dsideapp.auth
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import androidx.fragment.app.FragmentManager
@@ -22,6 +29,8 @@ import androidx.fragment.app.FragmentManager
 class AccountFragment : Fragment() {
     private lateinit var listView  : ListView
     private val addFriendFragment = AddFriendFragment()
+    lateinit var infoButton : ImageButton
+    private val infoFragment = InformationChildFragment()
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -74,7 +83,7 @@ class AccountFragment : Fragment() {
                             }
 
                             else if(x.key.toString() == "favorite_Activities"){
-                                listView = v.findViewById<ListView>(R.id.favorite_activities_list)
+                                listView = v.findViewById<ListView>(R.id.past_activities_list)
                                 var favorite_Activities = MutableList<String>(0){""}
                                 var current = 0
                                 var currentFavoriteActivity = ""
@@ -143,6 +152,26 @@ class AccountFragment : Fragment() {
 
         }
 
+        var image = 0
+        db.child("users").child(userID.toString()).child("pfp").get().addOnSuccessListener {
+            image = it.value.toString().trim().toInt()
+            //Log.w(image.toString(), R.id.Pikachu.toString())
+            var pfpImage = v.findViewById<ImageButton>(R.id.accountPFPInAccount)
+            if (image == R.drawable.turtlepfp) {
+                pfpImage.setImageResource(R.drawable.turtlepfp)
+            } else if (image == R.drawable.pikachupfp.toInt()) {
+                pfpImage.setImageResource(R.drawable.pikachupfp)
+            } else if (image == R.drawable.avatarpfp.toInt()) {
+                pfpImage.setImageResource(R.drawable.avatarpfp)
+            } else if (image == R.drawable.stitchpfp.toInt()) {
+                pfpImage.setImageResource(R.drawable.stitchpfp)
+            } else if (image == R.drawable.razepfp.toInt()) {
+                pfpImage.setImageResource(R.drawable.razepfp)
+            } else if (image == R.drawable.ponyopfp.toInt()) {
+                pfpImage.setImageResource(R.drawable.ponyopfp)
+            }
+        }
+
         // Reads and displays the user's info on the Account Fragment under friends.
         db.child("users").child(auth.uid.toString()).child("data").child("Friends").addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
@@ -165,7 +194,10 @@ class AccountFragment : Fragment() {
             override fun onCancelled(databaseError: DatabaseError) {}
         })
         v.findViewById<EditText>(R.id.friends_list)
-
         return v
+    }
+    private fun replaceChildFragment(childFragment : Fragment) {
+        val transaction: FragmentTransaction = getChildFragmentManager().beginTransaction()
+        transaction.replace(R.id.activities_view, childFragment).addToBackStack(null).commit()
     }
 }
