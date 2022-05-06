@@ -279,16 +279,18 @@ class CalendarFragment : Fragment() {
                 lateinit var tempView: View
 
 
-                val calDay = dayOfMonth.toString()
-                val calmonth1 = month  + 1
-                val calMonth = calmonth1.toString()
-                val calYear = year.toString()
-                //var eventDate: String = eventDay + eventMonth + eventYear
-                var calDate = calMonth + calDay + calYear
-                Log.w("", calDay)
-                Log.w("", calMonth)
-                Log.w("", calYear)
-                Log.w("", calDate)
+//                val calDay = dayOfMonth.toString()
+//                val calmonth1 = month  + 1
+//                val calMonth = calmonth1.toString()
+//                val calYear = year.toString()
+//                //var eventDate: String = eventDay + eventMonth + eventYear
+//                var calDate = calMonth + calDay + calYear
+//                Log.w("", calDay)
+//                Log.w("", calMonth)
+//                Log.w("", calYear)
+//                Log.w("", calDate)
+
+                var calDate = Date(year, month, dayOfMonth)
 
 
 
@@ -326,7 +328,7 @@ class CalendarFragment : Fragment() {
                             Log.w("", dbTimeRef)
                             Log.w("", dbNameRef)
 
-                            if (dbDateRef == calDate) {
+                            if (dbDateRef == calDate.toString()) {
                                 timeString = dbTimeRef
                                 dateString = dbDateRef
                                 nameString = dbNameRef
@@ -346,28 +348,6 @@ class CalendarFragment : Fragment() {
                     }
                 }
 
-
-//                var dbDateRef = db.child("data").child("events").child("event_Date").get().toString()
-//                var dbTimeRef = db.child("data").child("events").child("event_Time").get().toString()
-//                var dbNameRef = db.child("data").child("events").child("event_Title").get().toString()
-//                Log.w("Event Id", dbEventIdRef)
-//                Log.w("", dbDateRef)
-//                Log.w("", dbTimeRef)
-//                Log.w("", dbNameRef)
-//                Log.w("", "PLEASE WOOOOORK")
-//
-//
-//                if (dbDateRef == calDate) {
-//                    timeString = dbDateRef
-//                    dateString = dbTimeRef
-//                    nameString = dbNameRef
-//
-//                    TimeTxt.setText(timeString)
-//                    DateTxt.setText(dateString)
-//                    NameTxt.setText(nameString)
-//
-//
-//                }
 
 
 
@@ -414,12 +394,12 @@ class CalendarFragment : Fragment() {
                     //Creating vars to gather user input for event info
                     var eventTitle = viewOfLayout.findViewById<EditText>(R.id.eventName)
                     //var eventDate = viewOfLayout.findViewById<DatePicker>(R.id.datePicker)
-                    val eventDay = datePicker.dayOfMonth.toString()
-                    val month1 = datePicker.month + 1
-                    val eventMonth = month1.toString()
-                    val eventYear = datePicker.year.toString()
+                    val eventDay = datePicker.dayOfMonth
+                    val eventMonth = datePicker.month
+                    //val eventMonth = month1.toString()
+                    val eventYear = datePicker.year
                     //var eventDate: String = eventDay + eventMonth + eventYear
-                    var eventDate = eventMonth + eventDay + eventYear
+                    var eventDate = Date(eventYear, eventMonth, eventDay)
 
                     var eventTime = viewOfLayout.findViewById<EditText>(R.id.TimeText)
 
