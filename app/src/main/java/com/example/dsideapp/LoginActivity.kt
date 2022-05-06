@@ -16,10 +16,11 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
+import com.example.dsideapp.data.FriendClass
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 
-lateinit var auth: FirebaseAuth
+var auth: FirebaseAuth = Firebase.auth
 
 class LoginActivity : AppCompatActivity() {
 
@@ -103,9 +104,11 @@ class LoginActivity : AppCompatActivity() {
 
     /// THE IMPORTANT BITS
     private fun logIn(email: String, password: String) {
-        println("WOOOOOOOOOOOOOOOOOOOOOOOORK")
-        println(auth.toString())
+        println("Email: " + email)
+        println("Password: " + password)
+        println(auth.currentUser.toString())
         // [START sign_in_with_email]
+
         auth.signInWithEmailAndPassword(email, password)
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
@@ -139,5 +142,7 @@ class LoginActivity : AppCompatActivity() {
 
                 }
             }
+
+
     }
 }
