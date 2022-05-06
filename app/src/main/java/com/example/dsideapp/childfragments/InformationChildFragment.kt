@@ -48,7 +48,7 @@ class InformationChildFragment : Fragment() {
     private fun replaceChildFragment(childFragment : Fragment) {
         val fragmentManager = getActivity()?.getSupportFragmentManager()
         if (fragmentManager != null) {
-            fragmentManager.beginTransaction().replace(com.example.dsideapp.R.id.fragment_view, childFragment).commit()
+            fragmentManager.beginTransaction().replace(com.example.dsideapp.R.id.TextInfoFragment_View, childFragment).commit()
         }
     //TextInfoFragment_View
         /*val transaction: FragmentTransaction = getChildFragmentManager().beginTransaction()
