@@ -1,21 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".childfragments.TeamChildFragment">
+    android:orientation="vertical"
+    android:padding="8dp"
+    tools:context=".childfragments.FAQChildFragment">
 
     <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_margin="20dp"
-        android:text
-  = "Team 7
-&#10;Keira Wong: Hello there! I'm Keira abd I am a fourth-year Computer Science student with plans to pursue a Masters in Graphic Design post-graduation. My goal is to work towards becoming a well-rounded, multi-disciplinary graphics designer with a strong foundation in programming so that I am able to collaborate with other creatives on large projects and handle a wide variety of tasks in the future.
-&#10;Estafania Lopez: Hello! I'm Estefania, or Este for short, I'm currently a fourth year computer science student. With many areas of volunteerings in the engineering field, as well as  proficiencies in many langauges, I am to bring work and leadership.
-&#10;Joshua Vallido: I am a fourth year at California State University of Long Beach working towards a Bachelor's degree in Computer Science. I am a hard worker who enjoys a dynamic environment and is interested in seeing all the opportunities the world has to offer.
-&#10;Victor Rodriguez: Hey! I'm Victor Rodriguez. Just a humble student who loves computer science. Everyday is a new opportunity to learn.
-&#10;Sooyoung Kawasaki: Hello! I'm Sooyoung. I'm a Comp Science major hoping to bring leadership from personal growth and volunteering through nonprofit organization and skills through experience and learning from my fellow colleagues." />
+    <!--    <TextView-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="match_parent"-->
+    <!--        android:layout_margin="20dp"-->
+    <!--        android:text-->
+    <!--  = "Team 7-->
+    <!--&#10;Keira Wong: Hello there! I'm Keira abd I am a fourth-year Computer Science student with plans to pursue a Masters in Graphic Design post-graduation. My goal is to work towards becoming a well-rounded, multi-disciplinary graphics designer with a strong foundation in programming so that I am able to collaborate with other creatives on large projects and handle a wide variety of tasks in the future.-->
+    <!--&#10;Estafania Lopez: Hello! I'm Estefania, or Este for short, I'm currently a fourth year computer science student. With many areas of volunteerings in the engineering field, as well as  proficiencies in many langauges, I am to bring work and leadership.-->
+    <!--&#10;Joshua Vallido: I am a fourth year at California State University of Long Beach working towards a Bachelor's degree in Computer Science. I am a hard worker who enjoys a dynamic environment and is interested in seeing all the opportunities the world has to offer.-->
+    <!--&#10;Victor Rodriguez: Hey! I'm Victor Rodriguez. Just a humble student who loves computer science. Everyday is a new opportunity to learn.-->
+    <!--&#10;Sooyoung Kawasaki: Hello! I'm Sooyoung. I'm a Comp Science major hoping to bring leadership from personal growth and volunteering through nonprofit organization and skills through experience and learning from my fellow colleagues." />-->
 
-</RelativeLayout>
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/FAQRecyclerView"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+
+</LinearLayout>
