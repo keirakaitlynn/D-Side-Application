@@ -56,7 +56,7 @@ class InformationChildFragment : Fragment() {
     }
     private fun replaceParentFragment() {
         val transaction: FragmentTransaction = getParentFragmentManager().beginTransaction()
-        transaction.replace(R.id.info_view, Fragment()).addToBackStack(null).commit()
+        transaction.replace(R.id.fragment_view, Fragment()).addToBackStack(null).commit()
     }
 
 }

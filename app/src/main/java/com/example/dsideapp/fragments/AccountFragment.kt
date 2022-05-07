@@ -185,8 +185,4 @@ class AccountFragment : Fragment() {
         v.findViewById<EditText>(R.id.friends_list)
         return v
     }
-    private fun replaceChildFragment(childFragment : Fragment) {
-        val transaction: FragmentTransaction = getChildFragmentManager().beginTransaction()
-        transaction.replace(R.id.info_view, childFragment).addToBackStack(null).commit()
-    }
 }
