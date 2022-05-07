@@ -45,23 +45,32 @@ class AccountFragment : Fragment() {
         }
         var image = 0
         db.child("users").child(userID.toString()).child("pfp").get().addOnSuccessListener {
-            image = it.value.toString().toInt()
-            Log.w("HERE : ", it.value.toString())
-
-            var pfpImage = v.findViewById<ImageButton>(R.id.accountPFPInAccount)
-            if (image == R.id.Turtle) {
-                pfpImage.setImageResource(R.drawable.turtlepfp)
-            } else if (image == R.id.Pikachu) {
-                pfpImage.setImageResource(R.drawable.pikachupfp)
-            } else if (image == R.id.Avatar) {
-                pfpImage.setImageResource(R.drawable.avatarpfp)
-            } else if (image == R.id.Stitch) {
-                pfpImage.setImageResource(R.drawable.stitchpfp)
-            } else if (image == R.id.Raze) {
-                pfpImage.setImageResource(R.drawable.razepfp)
-            } else if (image == R.id.Ponyo) {
-                pfpImage.setImageResource(R.drawable.ponyopfp)
+            if (it.exists()) {
+                image = it.value.toString().toInt()
+                Log.w("HERE : ", it.value.toString())
+                var pfpImage = v.findViewById<ImageButton>(R.id.accountPFPInAccount)
+                when (image) {
+                    R.id.Turtle -> {
+                        pfpImage.setImageResource(R.drawable.turtlepfp)
+                    }
+                    R.id.Pikachu -> {
+                        pfpImage.setImageResource(R.drawable.pikachupfp)
+                    }
+                    R.id.Avatar -> {
+                        pfpImage.setImageResource(R.drawable.avatarpfp)
+                    }
+                    R.id.Stitch -> {
+                        pfpImage.setImageResource(R.drawable.stitchpfp)
+                    }
+                    R.id.Raze -> {
+                        pfpImage.setImageResource(R.drawable.razepfp)
+                    }
+                    R.id.Ponyo -> {
+                        pfpImage.setImageResource(R.drawable.ponyopfp)
+                    }
+                }
             }
+
         }
 
         return v
