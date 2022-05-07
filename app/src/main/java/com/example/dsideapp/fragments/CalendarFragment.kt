@@ -247,11 +247,38 @@ class CalendarFragment : Fragment() {
                 .child("events")
             ref.addValueEventListener(object : ValueEventListener {
                 override fun onDataChange(dataSnapshot: DataSnapshot) {
-
                     for (productSnapshot in dataSnapshot.getChildren()) {
-                        val readItem = productSnapshot.getValue(EventObject::class.java)
-                        events.add(readItem!!)
+                        try {
+                            val toAppend = EventObject(
+                                productSnapshot.child("id").getValue(String::class.java),
+                                productSnapshot.child("event_title").getValue(String::class.java),
+                                Date(
+                                    productSnapshot.child("start_time").getValue(String::class.java)
+                                ),
+                                Date(
+                                    productSnapshot.child("end_time").getValue(String::class.java)
+                                ),
+                                productSnapshot.child("activity")
+                                    .getValue(ActivityObject::class.java),
+                                productSnapshot.child("poster").getValue(String::class.java),
+                                productSnapshot.child("users").getValue(String::class.java)!!
+                                    .replace("[", "").replace("]", "").split(", ").toMutableList()
+                            )
+                            events.add(toAppend)
+                        } catch(e: Throwable){
+                            Log.w("Error", "Found wrong event formatting")
+                        }
                     }
+                    /*
+
+    var id: String? = null,
+    var event_title: String? = null,
+    var start_time: Date? = null,
+    var end_time: Date? = null,
+    var activity: ActivityObject? = null,
+    var poster: String? = null,
+    var users: MutableList<String>? = null) {
+                     */
 
                     var last_checked = Long.MIN_VALUE
                     database.reference.child("users").child(auth.uid.toString()).child("last_checked").get().addOnSuccessListener {
@@ -260,6 +287,10 @@ class CalendarFragment : Fragment() {
                         if(events.size != 0) {
                             for (eventItr in events) {
                                 //IF EVENT PASSED AND HASN'T BEEN CHECKED
+                                Log.w("itrDay", eventItr.toString())
+                                Log.w("itrTime", (eventItr.end_time!!).time.toString())
+                                Log.w("Calendar", Calendar.getInstance().get(Calendar.YEAR).toString())
+                                Log.w("nowTime", Date().time.toString())
                                 if (Date().time > (eventItr.end_time!!).time && (eventItr.end_time!!).time  > last_checked) {
                                     var waiting = true
                                     //SHOW POPUP
