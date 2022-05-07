@@ -78,5 +78,28 @@
                 android:textColor="@color/pink"
                 android:text="@string/sign_up_underlined"/>
         </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:orientation="horizontal"
+            android:layout_marginTop="10dp">
+
+            <TextView
+                android:id="@+id/textView3"
+                android:layout_width="wrap_content"
+                android:layout_height="35dp"
+                android:text="Forgot your account?" />
+
+            <TextView
+                android:id="@+id/recover_email"
+                android:layout_width="wrap_content"
+                android:layout_height="35dp"
+                android:paddingStart="10dp"
+                android:textStyle="bold"
+                android:textColor="@color/pink"
+                android:text="@string/recover_underlined"/>
+        </LinearLayout>
     </LinearLayout>
 </LinearLayout>

@@ -9,7 +9,9 @@ import androidx.fragment.app.Fragment
 import com.example.dsideapp.R
 import com.example.dsideapp.auth
 import com.example.dsideapp.data.*
+import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.ktx.Firebase
 import com.lorentzos.flingswipe.SwipeFlingAdapterView
 import retrofit2.Call
 import retrofit2.Callback
@@ -63,29 +65,35 @@ class SuggestionsChildFragment : Fragment() {
         swipeFlingAdapterView.adapter = arrayAdapter
 
         // MMMMM: ==========================================================================================
-        val retrofit =
-            Retrofit.Builder().baseUrl(BASE_URL).addConverterFactory(GsonConverterFactory.create())
-                .build()
-        val yelpService = retrofit.create(YelpService::class.java)                  // A filter just reduces # of results due to specificity
-        yelpService.searchRestaurants("Bearer $API_KEY", null, null,"bars",null,"1",null,null,null,"Los Angeles", ).enqueue(object :
-            Callback<YelpSearchResult> {
-            override fun onResponse(call: Call<YelpSearchResult>, response: Response<YelpSearchResult>) {
-                Log.i(TAG, "onResponse $response")
-                val body = response.body()
-                // Log.w("\n\nHELP\n\n", body.toString())
-                if (body == null) {
-                    Log.w(TAG, "Did not receive valid response body from Yelp API... exiting")
-                    return
-                }
-                restaurants.addAll(body.restaurants)
-                arrayAdapter?.notifyDataSetChanged()
-                Log.w(TAG, "Done")
-            }
+        val auth = Firebase.auth
+        val database = FirebaseDatabase.getInstance()
 
-            override fun onFailure(call: Call<YelpSearchResult>, t: Throwable) {
-                Log.i(TAG, "onFailure $t")
-            }
-        })
+        database.reference.child("users").child(auth.uid.toString()).child("data").child("curr_category").get().addOnSuccessListener {
+            Log.w("dbread",it.value.toString())
+            val retrofit =
+                Retrofit.Builder().baseUrl(BASE_URL).addConverterFactory(GsonConverterFactory.create())
+                    .build()
+            val yelpService = retrofit.create(YelpService::class.java)                  // A filter just reduces # of results due to specificity
+            yelpService.searchRestaurants("Bearer $API_KEY", it.value.toString(), null,null,null,"1",null,null,null,"Los Angeles", ).enqueue(object :
+                Callback<YelpSearchResult> {
+                override fun onResponse(call: Call<YelpSearchResult>, response: Response<YelpSearchResult>) {
+                    Log.i(TAG, "onResponse $response")
+                    val body = response.body()
+                    // Log.w("\n\nHELP\n\n", body.toString())
+                    if (body == null) {
+                        Log.w(TAG, "Did not receive valid response body from Yelp API... exiting")
+                        return
+                    }
+                    restaurants.addAll(body.restaurants)
+                    arrayAdapter?.notifyDataSetChanged()
+                    Log.w(TAG, "Done")
+                }
+
+                override fun onFailure(call: Call<YelpSearchResult>, t: Throwable) {
+                    Log.i(TAG, "onFailure $t")
+                }
+            })
+        }
         // MMMMM: ==========================================================================================
 
         swipeFlingAdapterView.setFlingListener(object : SwipeFlingAdapterView.onFlingListener {
@@ -119,7 +127,7 @@ class SuggestionsChildFragment : Fragment() {
                     //Actually saving activity to db
                     writeNewActivity(userId = userID.toString(), id = randID,
                         title = restaurants.get(0).name, phone = restaurants.get(0).phoneNum, image = restaurants.get(0).imageUrl,
-                        business_name = "", price = restaurants.get(0).price, category = restaurants.get(0).categories.get(0).title)
+                        business_name = "", price = restaurants.get(0).price, category = restaurants.get(0).categories.get(0).Title)
                 }
                 // MMMMM: addToCart() -------------------------------------------------------------//
 

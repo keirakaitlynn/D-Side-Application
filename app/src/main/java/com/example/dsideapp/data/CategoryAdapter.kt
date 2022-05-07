@@ -1,5 +1,6 @@
 package com.example.dsideapp.data
 
+import android.graphics.Color
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -7,12 +8,18 @@ import android.view.ViewGroup
 import android.widget.*
 import androidx.recyclerview.widget.RecyclerView
 import com.example.dsideapp.R
-import java.util.ArrayList
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.ktx.Firebase
 
 /// -----------
 class CategoryAdapter(var categoriesList: MutableList<String>) :
     RecyclerView.Adapter<CategoryAdapter.ViewHolder>(), Filterable {
     var categoriesListAll: List<String> = ArrayList(categoriesList)
+    var selectedItem = -1
+    val auth = Firebase.auth
+    val database = FirebaseDatabase.getInstance()
+
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
@@ -20,15 +27,26 @@ class CategoryAdapter(var categoriesList: MutableList<String>) :
         val layoutInflater = LayoutInflater.from(parent.context)
         val view: View = layoutInflater.inflate(R.layout.row_item, parent, false)
         var tv: Button = view.findViewById(R.id.textView)
-        tv.setOnClickListener{
-            Log.w("","GOT IT WORKING")
-            //Toast.makeText(view.context, categoriesList[adapterPosition], Toast.LENGTH_SHORT).show()
+        database.reference.child("users").child(auth.uid.toString()).child("data").child("curr_category").get().addOnSuccessListener {
+            selectedItem = categoriesListAll.indexOf(it.value.toString())
+            if (tv.text == it.value.toString()) {
+                tv.setBackgroundColor(Color.parseColor("#42f57e"))
+            }
+        }
+        tv.setOnClickListener {
+            selectedItem = categoriesListAll.indexOf(tv.text.toString())
+            database.reference.child("users").child(auth.uid.toString()).child("data").child("curr_category").setValue(tv.text.toString())
+            this.notifyDataSetChanged()
         }
         return ViewHolder(view)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.textView.text = categoriesList[position]
+        holder.textView.setBackgroundColor(Color.parseColor("#1F1639"));
+        if (selectedItem == position) {
+            holder.textView.setBackgroundColor(Color.parseColor("#42f57e"));
+        }
     }
 
     override fun getItemCount(): Int {

@@ -1,8 +1,9 @@
 package com.example.dsideapp.fragments
-///
+
 import android.media.Image
 import android.os.Bundle
 import android.util.Log
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -39,6 +40,7 @@ class AccountFragment : Fragment() {
         var user = authorization.currentUser
         var userID = authorization.currentUser?.uid
         var db = FirebaseDatabase.getInstance().getReference()
+
         var v = inflater.inflate(R.layout.fragment_account, container, false)
         var user_DB_Name = ""
         var user_DB_UserName = ""
@@ -193,9 +195,5 @@ class AccountFragment : Fragment() {
         })
         v.findViewById<EditText>(R.id.friends_list)
         return v
-    }
-    private fun replaceChildFragment(childFragment : Fragment) {
-        val transaction: FragmentTransaction = getChildFragmentManager().beginTransaction()
-        transaction.replace(R.id.activities_view, childFragment).addToBackStack(null).commit()
     }
 }

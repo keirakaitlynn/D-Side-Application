@@ -36,6 +36,9 @@ class LoginActivity : AppCompatActivity() {
         val database = FirebaseDatabase.getInstance()
         val myRef = database.getReference("User")
 
+        //myRef.setValue("Victor is testing further")
+
+
         myRef.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 // This method is called once with the initial value and again
@@ -65,6 +68,27 @@ class LoginActivity : AppCompatActivity() {
             // KEIRA: Change View from this activity to Main Activity
             val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
+        }
+
+        textView = findViewById(R.id.recover_email)
+        textView.setOnClickListener {
+            email = findViewById(R.id.emailInput)
+            Firebase.auth.sendPasswordResetEmail(email.getText().toString().trim())
+                .addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+                        Toast.makeText(baseContext, "Email sent.",
+                            Toast.LENGTH_SHORT).show()
+                        Log.d(TAG, "Email sent.")
+                    } else {
+                        Toast.makeText(baseContext, "Email was not sent.",
+                            Toast.LENGTH_SHORT).show()
+                        Log.d(TAG, "Email not sent.")
+                    }
+                }.addOnFailureListener {
+                    Toast.makeText(baseContext, "Email was not sent.",
+                        Toast.LENGTH_SHORT).show()
+                    Log.d(TAG, "Email not sent.")
+                }
         }
     }
     public override fun onStart() {

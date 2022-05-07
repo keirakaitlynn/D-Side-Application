@@ -31,7 +31,7 @@ private val createThePollFragment = CreatePollFragment()
 class PollsFragment : Fragment() {
     private var adapter: RecyclerView.Adapter<RecyclerAdapterForTitles.ViewHolder>? = null
     private var layoutManager: RecyclerView.LayoutManager? = null
-    private var pleaseWorkManager : FragmentManager? = null
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -61,7 +61,7 @@ class PollsFragment : Fragment() {
             // inflate the layout of the popup window
             v = inflater.inflate(com.example.dsideapp.R.layout.fragment_create_poll, null)
             // create the popup window
-            val width = LinearLayout.LayoutParams.MATCH_PARENT
+            val width = LinearLayout.LayoutParams.WRAP_CONTENT
             val height = LinearLayout.LayoutParams.WRAP_CONTENT
             val focusable = true // lets taps outside the popup also dismiss it
             val popupWindow = PopupWindow(v, width, height, focusable)
@@ -76,6 +76,7 @@ class PollsFragment : Fragment() {
             }
 
             var createButton = v.findViewById<Button>(R.id.pollCreateButton)
+
             ////CREATE POLL////
             createButton.setOnClickListener {
                 var pollId: String
@@ -161,7 +162,6 @@ class PollsFragment : Fragment() {
                         val voters: String? = null
                     ) {}
 
-
                     var dbReadablePoll = stringPoll(
                         pollTitleInPopUp.text.toString(),
                         pollId,
@@ -192,7 +192,7 @@ class PollsFragment : Fragment() {
                 if (fragmentManager != null) {
                     fragmentManager.beginTransaction().replace(com.example.dsideapp.R.id.fragment_view,  PollsFragment()).commit()
                     Log.w("Made it here","!")
-                    pleaseWorkManager = fragmentManager
+                    //pleaseWorkManager = fragmentManager
                 }
                 //Log.w("Twas null","!")
                 ////MIGHT NOT NEED
@@ -207,11 +207,10 @@ class PollsFragment : Fragment() {
             if (fragmentManager != null) {
                 fragmentManager.beginTransaction().replace(com.example.dsideapp.R.id.fragment_view,  PastPollsFragment()).commit()
                 Log.w("Made it here","!")
-                pleaseWorkManager = fragmentManager
+                //pleaseWorkManager = fragmentManager
             }
         }
         ////////
-
         //-----------------------------
         //Iterate through every currently active poll
         var pollInfo = db.get().addOnSuccessListener {
@@ -307,20 +306,12 @@ class PollsFragment : Fragment() {
         return v
     }
     private fun replaceChildFragment(childFragment : Fragment) {
-        requireActivity().supportFragmentManager
         val transaction: FragmentTransaction = getChildFragmentManager().beginTransaction()
-        transaction.replace(R.id.fragment_view, childFragment).addToBackStack(null).commit()
+        transaction.replace(R.id.activities_view, childFragment).addToBackStack(null).commit()
     }
-    private inner class pollAddEventListener: ChildEventListener, Fragment() {
+    private class pollAddEventListener : ChildEventListener, Fragment() {
         override fun onChildAdded(snapshot: DataSnapshot, previousChildName: String?) {
             Log.w("Addition was detected","!")
-            //val fragmentManager = activity?.supportFragmentManager
-            /*Log.w("OnChildAdded: ",pleaseWorkManager.toString())
-            if (pleaseWorkManager != null) {
-                //fragmentManager.beginTransaction().detach(this).attach(this).commit()
-                //fragmentManager.beginTransaction().replace(com.example.dsideapp.R.id.fragment_view,  PollsFragment()).commit()
-                pleaseWorkManager?.beginTransaction()?.replace(com.example.dsideapp.R.id.fragment_view,  PollsFragment())?.commit()
-            }*/
         }
 
         override fun onChildChanged(snapshot: DataSnapshot, previousChildName: String?) {

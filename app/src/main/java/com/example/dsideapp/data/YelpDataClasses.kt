@@ -33,7 +33,7 @@ data class YelpRestaurant(
 }
 
 data class YelpCategory(
-    val title: String
+    @SerializedName("title") val Title: String
 )
 
 data class YelpLocation(
