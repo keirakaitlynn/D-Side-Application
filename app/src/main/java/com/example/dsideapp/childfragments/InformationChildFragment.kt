@@ -9,10 +9,11 @@ import android.widget.Button
 import android.widget.ImageButton
 import androidx.fragment.app.FragmentTransaction
 import com.example.dsideapp.R
-//
+
 class InformationChildFragment : Fragment() {
     lateinit var teamButton : Button
     lateinit var FAQButton : Button
+    lateinit var BackButton : ImageButton
 
     private val teamFragment = TeamChildFragment()
     private val FAQFragment = FAQChildFragment()
@@ -25,6 +26,8 @@ class InformationChildFragment : Fragment() {
         // Inflate the layout for this fragment
         var v = inflater.inflate(R.layout.fragment_information_child, container, false)
 
+        // create the popup window
+        //Popup window for the event name and buttons
         teamButton = v.findViewById<Button>(R.id.ToTeamPage)
         teamButton.setOnClickListener{
             replaceChildFragment(teamFragment)
@@ -35,15 +38,25 @@ class InformationChildFragment : Fragment() {
             replaceChildFragment(FAQFragment)
         }
 
+        BackButton = v.findViewById<ImageButton>(R.id.ToAccountPage)
+        BackButton.setOnClickListener{
+            replaceParentFragment()
+        }
         return v
     }
 //
     private fun replaceChildFragment(childFragment : Fragment) {
         val fragmentManager = getActivity()?.getSupportFragmentManager()
         if (fragmentManager != null) {
-            fragmentManager.beginTransaction().replace(com.example.dsideapp.R.id.fragment_view, childFragment).commit()
+            fragmentManager.beginTransaction().replace(com.example.dsideapp.R.id.TextInfoFragment_View, childFragment).commit()
         }
+    //TextInfoFragment_View
         /*val transaction: FragmentTransaction = getChildFragmentManager().beginTransaction()
         transaction.replace(R.id.informationFragment_View, childFragment).addToBackStack(null).commit()*/
     }
+    private fun replaceParentFragment() {
+        val transaction: FragmentTransaction = getParentFragmentManager().beginTransaction()
+        transaction.replace(R.id.fragment_view, Fragment()).addToBackStack(null).commit()
+    }
+
 }

@@ -122,6 +122,13 @@ class CalendarFragment : Fragment() {
                                 popUpEventText.text = eventItr.event_title
                                 popUpEventLike.setOnClickListener {
                                     //Add eventItr's activity category to user favorites.
+                                    var userdb = FirebaseDatabase.getInstance().getReference("users")
+                                    //THIS CODE LINE IS NOT TESTED. IT WAS ADDED WHILE THE ENTIRE FUNCTION WAS COMMENTED OUT :(
+                                    val curr_favorites = userdb.child(userID).child("favorite_Activities").get().toString()
+                                    if(curr_favorites == null){
+
+                                    }
+                                    userdb.child(userID).child("favorite_Activities").setValue( + "," + eventItr.activity.category)
                                     popupWindow.dismiss()
                                 }
                                 popUpEventDislike.setOnClickListener {
@@ -180,7 +187,7 @@ class CalendarFragment : Fragment() {
 }
 */
 
-
+//Josh's Version to do add event to db and send event info to other users
 package com.example.dsideapp.fragments
 
 import android.content.Context.LAYOUT_INFLATER_SERVICE
@@ -192,13 +199,23 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.core.content.ContextCompat.getSystemService
+import android.widget.CalendarView
+import android.widget.LinearLayout
+import android.widget.PopupWindow
+import android.widget.TextView
 import androidx.fragment.app.Fragment
 import com.example.dsideapp.R
 import com.example.dsideapp.auth
-import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.ktx.Firebase
+import com.example.dsideapp.data.EventObject
 import java.util.*
+import com.google.firebase.ktx.Firebase
+import com.example.dsideapp.data.ActivityObject
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.ValueEventListener
+import java.io.IOException
 import kotlin.random.Random
 
 
@@ -206,6 +223,10 @@ class CalendarFragment : Fragment() {
     private lateinit var viewOfLayout: View
     var calendar: CalendarView? = null
     private var dateView: TextView? = null
+    //Popup Variables
+    private lateinit var popUpEventText: TextView
+    private lateinit var popUpEventLike: ImageButton
+    private lateinit var popUpEventDislike: ImageButton
 
     override fun onCreateView(
 
@@ -214,7 +235,137 @@ class CalendarFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         viewOfLayout = inflater.inflate(R.layout.fragment_calendar, container, false)
-        // Variables for easy manipulation of objects in the activity_main.xml file   🙂
+
+        //PUTTING IN FEEDBACK PLS WORK :(
+        //PUTTING IN FEEDBACK PLS WORK :(
+
+        auth = Firebase.auth
+        val database = FirebaseDatabase.getInstance()
+
+        val events = arrayListOf<EventObject>()
+        try {
+            var ref = database.reference.child("users").child(auth.uid.toString()).child("data")
+                .child("events")
+            ref.addValueEventListener(object : ValueEventListener {
+                override fun onDataChange(dataSnapshot: DataSnapshot) {
+                    for (productSnapshot in dataSnapshot.getChildren()) {
+                        try {
+                            val toAppend = EventObject(
+                                productSnapshot.child("id").getValue(String::class.java),
+                                productSnapshot.child("event_title").getValue(String::class.java),
+                                Date(
+                                    productSnapshot.child("start_time").getValue(String::class.java)
+                                ),
+                                Date(
+                                    productSnapshot.child("end_time").getValue(String::class.java)
+                                ),
+                                productSnapshot.child("activity")
+                                    .getValue(ActivityObject::class.java),
+                                productSnapshot.child("poster").getValue(String::class.java),
+                                productSnapshot.child("users").getValue(String::class.java)!!
+                                    .replace("[", "").replace("]", "").split(", ").toMutableList()
+                            )
+                            events.add(toAppend)
+                        } catch(e: Throwable){
+                            Log.w("Error", "Found wrong event formatting")
+                        }
+                    }
+                    /*
+    var id: String? = null,
+    var event_title: String? = null,
+    var start_time: Date? = null,
+    var end_time: Date? = null,
+    var activity: ActivityObject? = null,
+    var poster: String? = null,
+    var users: MutableList<String>? = null) {
+                     */
+
+                    var last_checked = Long.MIN_VALUE
+                    database.reference.child("users").child(auth.uid.toString()).child("last_checked").get().addOnSuccessListener {
+                        Log.i("firebase", "Got value ${it.value}")
+                        last_checked = it.value as Long
+                        if(events.size != 0) {
+                            for (eventItr in events) {
+                                //IF EVENT PASSED AND HASN'T BEEN CHECKED
+                                Log.w("itrDay", eventItr.toString())
+                                Log.w("itrTime", (eventItr.end_time!!).time.toString())
+                                Log.w("Calendar", Calendar.getInstance().get(Calendar.YEAR).toString())
+                                Log.w("nowTime", Date().time.toString())
+                                if (Date().time > (eventItr.end_time!!).time && (eventItr.end_time!!).time  > last_checked) {
+                                    var waiting = true
+                                    //SHOW POPUP
+                                    // inflate the layout of the popup window
+                                    viewOfLayout = inflater.inflate(com.example.dsideapp.R.layout.fragment_feedback_pop_up, null)
+                                    // create the popup window
+                                    val width = LinearLayout.LayoutParams.WRAP_CONTENT
+                                    val height = LinearLayout.LayoutParams.WRAP_CONTENT
+                                    val focusable = false // lets taps outside the popup also dismiss it
+                                    val popupWindow = PopupWindow(viewOfLayout, width, height, focusable)
+
+                                    //Popup window for the event name and buttons
+                                    popUpEventText = viewOfLayout.findViewById(R.id.popUpEventName)
+                                    popUpEventLike = viewOfLayout.findViewById(R.id.like_button)
+                                    popUpEventDislike = viewOfLayout.findViewById(R.id.dislike_button)
+
+                                    popUpEventText.text = eventItr.event_title
+
+                                    popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0)
+                                    //Set up text and setOnClickListeners
+                                    popUpEventText.text = eventItr.event_title
+                                    popUpEventLike.setOnClickListener {
+                                        //Add eventItr's activity category to user favorites.
+                                        var userdb = FirebaseDatabase.getInstance().getReference("users")
+                                        //THIS CODE LINE IS NOT TESTED. IT WAS ADDED WHILE THE ENTIRE FUNCTION WAS COMMENTED OUT :(
+                                        userdb.child(auth.uid.toString()).child("favorite_Activities").get().addOnSuccessListener {
+                                            var curr_favorites = HashSet(it.value.toString().split(","))
+                                            if(curr_favorites.first().equals("")){
+                                                curr_favorites.remove("")
+                                            }
+                                            curr_favorites.add(eventItr.activity!!.category.toString())
+                                            Log.w("help", curr_favorites.toString())
+                                            userdb.child(auth.uid.toString()).child("favorite_Activities").setValue(curr_favorites.toString().replace("[","").replace("]",""))
+                                            popupWindow.dismiss()
+                                        }.addOnFailureListener{
+                                            Log.e("firebase", "Error getting data", it)
+                                        }
+                                    }
+                                    popUpEventDislike.setOnClickListener {
+                                        //Do nothing probably?
+                                        popupWindow.dismiss()
+                                    }
+                                    // show the popup window
+                                    // which view you pass in doesn't matter, it is only used for the window token
+                                }
+                            }
+                        }
+                        else {
+                            Log.w("data", "Events are empty")
+                        }
+                        database.reference.child("users").child(auth.uid.toString()).child("last_checked").setValue(Date().getTime())
+                    }.addOnFailureListener{
+                        Log.e("firebase", "Error getting data", it)
+                        database.reference.child("users").child(auth.uid.toString()).child("last_checked").setValue(Date().getTime())
+                    }
+                }
+
+                override fun onCancelled(databaseError: DatabaseError) {
+                    throw databaseError.toException()
+                }
+            })
+        } catch (e: IOException) {
+            e.printStackTrace()
+        }
+
+
+
+        //Popup Code
+
+        //GET ALL EVENTS IN USER DB AND PUTS IT IN EVENTS ARRAYLIST
+        //ITERATE THROUGH EVENTS IF SIZE != 0
+
+        //PUTTING IN FEEDBACK PLS WORK :(
+        //PUTTING IN FEEDBACK PLS WORK :(
+// Variables for easy manipulation of objects in the activity_main.xml file   🙂
         calendar = viewOfLayout.findViewById<View>(R.id.calendar) as CalendarView
         dateView = viewOfLayout.findViewById<View>(R.id.date_view) as TextView
         //var dayOfWeekView =  viewOfLayout.findViewById<View>(R.id.dayOfWeek) as TextView
@@ -351,7 +502,7 @@ class CalendarFragment : Fragment() {
                                 nameString = dbTitleRef
 
                                 TimeTxt.setText(timeString)
-                               // DateTxt.setText(dateString)
+                                // DateTxt.setText(dateString)
                                 NameTxt.setText(nameString)
 
                                 //DateEdit.setText(dateString)
@@ -474,7 +625,7 @@ class CalendarFragment : Fragment() {
 
 
 //DELETE BUTTON STARTS HERE
-                var deleteEventButton = viewOfLayout.findViewById<Button>(R.id.DeleteEventButton)
+                    var deleteEventButton = viewOfLayout.findViewById<Button>(R.id.DeleteEventButton)
 
                     deleteEventButton.setOnClickListener {
 
@@ -501,13 +652,13 @@ class CalendarFragment : Fragment() {
                     }
 
 
-                //after creating an event, the daily view will load the added event
+                    //after creating an event, the daily view will load the added event
 //UPDATE BUTTON STARTS HERE
-                var updateEventButton: Button
+                    var updateEventButton: Button
 
-                updateEventButton= viewOfLayout.findViewById<Button>(R.id.updateEventButton)
+                    updateEventButton= viewOfLayout.findViewById<Button>(R.id.updateEventButton)
 
-                updateEventButton.setOnClickListener {
+                    updateEventButton.setOnClickListener {
 
 
 
@@ -587,7 +738,7 @@ class CalendarFragment : Fragment() {
 
 
 
-                }
+                    }
 
                 }
 
@@ -596,4 +747,3 @@ class CalendarFragment : Fragment() {
         return viewOfLayout
     }
 }
-

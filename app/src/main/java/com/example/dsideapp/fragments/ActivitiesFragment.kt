@@ -1,6 +1,7 @@
 package com.example.dsideapp.fragments
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -15,9 +16,13 @@ import com.example.dsideapp.data.selectedItemsForDecisionTools
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.AsyncTask
+import android.os.AsyncTask.execute
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import android.widget.*
 import androidx.recyclerview.widget.ItemTouchHelper
+import androidx.core.widget.TextViewCompat.setTextAppearance
 import androidx.recyclerview.widget.LinearLayoutManager
 
 import com.example.dsideapp.auth
@@ -34,9 +39,12 @@ import com.example.dsideapp.data.*
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.ktx.Firebase
+import org.jsoup.nodes.Document
+import java.util.ArrayList
 import java.util.*
 import kotlin.random.Random
 
+import org.json.JSONArray
 var selectedActivity = ActivityObject()
 
 class ActivitiesFragment : Fragment() , HomeActivity.IOnBackPressed {
@@ -90,7 +98,8 @@ class ActivitiesFragment : Fragment() , HomeActivity.IOnBackPressed {
         replaceChildFragment(suggestionsFragment) // initial child fragment
 
         //function for loading backstack page name
-        fun getPreviousPageName(vararg params: Void): Void?{
+        fun getPreviousPageName(vararg params: Void): String{
+            var previousPageName = ""
             if (getChildFragmentManager().backStackEntryCount > 1){
                 ppw.dismiss()
             }
@@ -101,7 +110,7 @@ class ActivitiesFragment : Fragment() , HomeActivity.IOnBackPressed {
             //getting name of previous page
             var previousPageCount = getChildFragmentManager().backStackEntryCount
             if (previousPageCount >1){
-                var previousPageName = getChildFragmentManager().getBackStackEntryAt(previousPageCount-1).name.toString()
+                previousPageName = getChildFragmentManager().getBackStackEntryAt(previousPageCount-1).name.toString()
                 //Checks if page count updates
                 //Log.w("Page: ",
                 //    getChildFragmentManager().getBackStackEntryAt(previousPageCount-1).name.toString())
@@ -121,7 +130,7 @@ class ActivitiesFragment : Fragment() , HomeActivity.IOnBackPressed {
                 true
             }
             //---- BackStack Name ----
-            return null
+            return previousPageName
         }
 
         //function for loading backstack page name
@@ -171,6 +180,12 @@ class ActivitiesFragment : Fragment() , HomeActivity.IOnBackPressed {
         }
         coinButton = v.findViewById<Button>(R.id.coin_button)
         coinButton.setOnClickListener{
+            setTextAppearance(coinButton, R.style.button_page_selected)
+            //Unga bunga way of doing this, but it works lol
+            setTextAppearance(suggestionsButton, R.style.button_page)
+            setTextAppearance(diceButton, R.style.button_page)
+            setTextAppearance(wheelButton, R.style.button_page)
+            replaceChildFragment(coinFragment)
             var cartList = selectedItemsForDecisionTools
             //Prevents going to coin if not enough/too many activities
             if (cartList.size==2) {
@@ -265,6 +280,12 @@ class ActivitiesFragment : Fragment() , HomeActivity.IOnBackPressed {
         }
         diceButton = v.findViewById<Button>(R.id.dice_button)
         diceButton.setOnClickListener{
+            setTextAppearance(diceButton, R.style.button_page_selected)
+            //Unga bunga way of doing this, but it works lol
+            setTextAppearance(suggestionsButton, R.style.button_page)
+            setTextAppearance(coinButton, R.style.button_page)
+            setTextAppearance(wheelButton, R.style.button_page)
+            replaceChildFragment(diceFragment)
             var cartList = selectedItemsForDecisionTools
             //Prevents going to coin if not enough/too many activities
             if (cartList.size>1 && cartList.size<=6) {
@@ -359,6 +380,12 @@ class ActivitiesFragment : Fragment() , HomeActivity.IOnBackPressed {
         }
         wheelButton = v.findViewById<Button>(R.id.wheel_button)
         wheelButton.setOnClickListener{
+            setTextAppearance(wheelButton, R.style.button_page_selected)
+            //Unga bunga way of doing this, but it works lol
+            setTextAppearance(suggestionsButton, R.style.button_page)
+            setTextAppearance(coinButton, R.style.button_page)
+            setTextAppearance(diceButton, R.style.button_page)
+            replaceChildFragment(wheelFragment)
             var cartList = selectedItemsForDecisionTools
             //Prevents going to coin if not enough/too many activities
             if (cartList.size>1 && cartList.size<=10) {
@@ -453,30 +480,103 @@ class ActivitiesFragment : Fragment() , HomeActivity.IOnBackPressed {
         }
         //Mine//
         ///////////////////POP UP IMAGE /////////////////////////////////
+
+        class WebScratchUpdater : AsyncTask<String, Void, List<Document>>(){
+            @SuppressLint("ClickableViewAccessibility")
+            override fun doInBackground(vararg params: String): List<Document>? {
+                try {
+                    //Initial Jsoup variables.
+                    //yelp_webscraper is used to keep the url updating simple.
+
+                    Log.w("infobutton", "entered doinbackground")
+                    var connection = Jsoup.connect("https://www.yelp.com/search?cflt=" + params.first().replace(" ","_") + "&find_loc=Long+Beach%2C+CA")
+                    var document = connection.get()
+                    var infoConnection = Jsoup.connect("https://en.wikipedia.org/wiki/" + params.first().replace(" ","_"))
+                    var infoDocument = infoConnection.get()
+                    var toreturn = listOf(document, infoDocument)
+                    Log.w("infobutton", "entered Jsoup connections")
+
+                    infoImg = infoDocument.getElementsByTag("img").first()!!
+                    // Locate the src attribute
+                    infoImgSrc = infoImg.absUrl("src")
+                    println("\n\n" + infoImgSrc + "\n\n")
+                    //Download image from URL
+                    infoInput = java.net.URL(infoImgSrc).openStream()
+                    // Decode Bitmap
+                    infoBitmap = BitmapFactory.decodeStream(infoInput)
+                    Log.w("infobutton", "downloaded images and decoded bitmaps")
+
+                    val infoDescription = infoDocument.select("p")
+
+                    // inflate the layout of the popup window
+                    var vPop = inflater.inflate(com.example.dsideapp.R.layout.fragment_info_pop_up, null)
+                    // create the popup window
+                    val width = LinearLayout.LayoutParams.WRAP_CONTENT
+                    val height = LinearLayout.LayoutParams.WRAP_CONTENT
+                    val focusable = true // lets taps outside the popup also dismiss it
+                    val popupWindow = PopupWindow(vPop, width, height, focusable)
+                    Log.w("infobutton", "inflated and reacted popupWindow")
+
+                    //Popup window for the info
+                    infoPopUpText = vPop.findViewById(R.id.popUpTextInfo)
+                    if (infoDescription != null) {
+                        infoPopUpText.text = infoDescription.get(1).text().toString()
+                    }
+                    infoImageView = vPop.findViewById(R.id.popUpImageInfo)
+                    //textView = findViewById(R.id.title)
+                    infoImageView.setImageBitmap(infoBitmap)
+
+                    // show the popup window
+                    // which view you pass in doesn't matter, it is only used for the window token
+                    Log.w("infobutton", "Prepared to do popupWindow")
+                    Handler(Looper.getMainLooper()).post {
+                        popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0)
+                    }
+
+                    Log.w("infobutton", "Popupwindow showd at location")
+                    v.setOnTouchListener { v, event ->
+                        popupWindow.dismiss()
+                        true
+                    }
+                    return toreturn
+                    //
+                } catch (e: IOException) {
+                    e.printStackTrace()
+                }
+                return null
+            }
+
+            override fun onPostExecute(result: List<Document>) {
+                super.onPostExecute(result)
+            }
+        }
         class WebScratch : AsyncTask<Void, Void, Void>() {
 
             @SuppressLint("ClickableViewAccessibility")
             override fun doInBackground(vararg params: Void): Void? {
                 try {
-                    //Connect to the website
-                    var categoriesToWebscrape = ArrayList<String>()
-                    categoriesToWebscrape.add("Cake")
-                    categoriesToWebscrape.add("Cars")
-                    categoriesToWebscrape.add("Coffee & Tea")
-                    categoriesToWebscrape.add("Cookies")
-                    categoriesToWebscrape.add("Juice Bars & Smoothies")
-                    categoriesToWebscrape.add("Dance Clubs")
-                    categoriesToWebscrape.add("Dive Bars")
-                    categoriesToWebscrape.add("Dining")
-                    categoriesToWebscrape.add("Bowling")
-                    categoriesToWebscrape.add("Lounges")
-                    categoriesToWebscrape.add("Pizza")
-                    categoriesToWebscrape.add("Seafood")
-                    var document =
-                        Jsoup.connect("https://www.yelp.com/search?cflt="+ categoriesToWebscrape.get(0) +"&find_loc=Long+Beach%2C+CA").get()
-                    var infoDocument =
-                        Jsoup.connect("https://en.wikipedia.org/wiki/" + categoriesToWebscrape.get(0)).get()
+                    val auth = Firebase.auth
+                    val database = FirebaseDatabase.getInstance()
+                    //Initial Jsoup variables.
+                    //yelp_webscraper is used to keep the url updating simple.
+                    var yelp_webscraper = arrayListOf("https://www.yelp.com/search?cflt=", "Recreation", "&find_loc=Long+Beach%2C+CA")
+                    var connection = Jsoup.connect(yelp_webscraper[0] + yelp_webscraper[1] + yelp_webscraper[2])
+                    var document = connection.get()
+                    var infoConnection = Jsoup.connect("https://en.wikipedia.org/wiki/" + yelp_webscraper[1])
+                    var infoDocument = infoConnection.get()
+                    //
 
+
+                    //Update webscraper using new keyword "Cake" through changing URL and getting connection.
+
+                    database.reference.child("users").child(auth.uid.toString()).child("data").child("curr_category").get().addOnSuccessListener {
+                        yelp_webscraper[1] = it.value.toString()
+                        Log.w("Help me", yelp_webscraper[1])
+                    }
+                    connection.url(yelp_webscraper[0] + yelp_webscraper[1] + yelp_webscraper[2])
+                    document = connection.get()
+                    infoConnection.url("https://en.wikipedia.org/wiki/" + yelp_webscraper[1])
+                    infoDocument = infoConnection.get()
                     //////////
                     ///Info image info gathering
                     //Get the logo source of the website
@@ -488,33 +588,17 @@ class ActivitiesFragment : Fragment() , HomeActivity.IOnBackPressed {
                     infoInput = java.net.URL(infoImgSrc).openStream()
                     // Decode Bitmap
                     infoBitmap = BitmapFactory.decodeStream(infoInput)
-                    ///
+
                     val infoDescription = infoDocument.select("p")
                     val infoButton = v.findViewById<ImageButton>(R.id.info_button)
+
                     infoButton.setOnClickListener{
-                        // inflate the layout of the popup window
-                        v = inflater.inflate(com.example.dsideapp.R.layout.fragment_info_pop_up, null)
-                        // create the popup window
-                        val width = LinearLayout.LayoutParams.WRAP_CONTENT
-                        val height = LinearLayout.LayoutParams.WRAP_CONTENT
-                        val focusable = true // lets taps outside the popup also dismiss it
-                        val popupWindow = PopupWindow(v, width, height, focusable)
-
-                        //Popup window for the info
-                        infoPopUpText = v.findViewById(R.id.popUpTextInfo)
-                        if (infoDescription != null) {
-                            infoPopUpText.text = infoDescription.get(1).text().toString()
-                        }
-                        infoImageView = v.findViewById(R.id.popUpImageInfo)
-                        //textView = findViewById(R.id.title)
-                        infoImageView.setImageBitmap(infoBitmap)
-
-                        // show the popup window
-                        // which view you pass in doesn't matter, it is only used for the window token
-                        popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0)
-                        v.setOnTouchListener { v, event ->
-                            popupWindow.dismiss()
-                            true
+                        Log.w("infobutton", "clicked")
+                        database.reference.child("users").child(auth.uid.toString()).child("data").child("curr_category").get().addOnSuccessListener {
+                            var documents = WebScratchUpdater().execute(it.value.toString())
+                            Log.w("info", documents.toString())
+                        }.addOnFailureListener {
+                            Log.w("failure","rip")
                         }
                     }
                     //////////////
@@ -532,26 +616,28 @@ class ActivitiesFragment : Fragment() , HomeActivity.IOnBackPressed {
 
                     //// MMMMM: ====================================================================
                     /// -----------
+
+                    var categories = ArrayList<String>()
+                    categories.add("Cake")
+                    categories.add("Cars")
+                    categories.add("Coffee")
+                    categories.add("Tea")
+                    categories.add("Cookies")
+                    categories.add("Juice Bars")
+                    categories.add("Smoothies")
+                    categories.add("Dance Club")
+                    categories.add("Dive Bar")
+                    categories.add("Dining")
+                    categories.add("Bowling")
+                    categories.add("Lounges")
+                    categories.add("Pizza")
+                    categories.add("Seafood")
                     val searchButton = v.findViewById<Button>(R.id.search_button)
                     searchButton.setOnClickListener{
                         //// NNNNN: ====================================================================
                         val searchView = v.findViewById<SearchView>(R.id.searchView)
                         //val listView = v.findViewById<ListView>(R.id.listView)
                         //val names = arrayOf("Android", "Java", "Php", "Python", "C", "C++", "Kotlin")
-
-                        var categories = ArrayList<String>()
-                        categories.add("Cake")
-                        categories.add("Cars")
-                        categories.add("Coffee & Tea")
-                        categories.add("Cookies")
-                        categories.add("Juice Bars & Smoothies")
-                        categories.add("Dance Clubs")
-                        categories.add("Dive Bars")
-                        categories.add("Dining")
-                        categories.add("Bowling")
-                        categories.add("Lounges")
-                        categories.add("Pizza")
-                        categories.add("Seafood")
 
                         val categoryRecyclerView = v.findViewById<RecyclerView>(R.id.categoryRecyclerView)
                         val categoryAdapter = CategoryAdapter(categories)
@@ -560,6 +646,12 @@ class ActivitiesFragment : Fragment() , HomeActivity.IOnBackPressed {
 
                         categoryRecyclerView.setNestedScrollingEnabled(false);
 
+                        Log.w("Change was detected","!")
+                        val fragmentManager = getActivity()?.getSupportFragmentManager()
+                        if (fragmentManager != null) {
+                            fragmentManager.beginTransaction().replace(com.example.dsideapp.R.id.activities_view,  SuggestionsChildFragment()).commit()
+                        }
+
                         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
                             override fun onQueryTextChange(newText: String?): Boolean {
                                 categoryAdapter.filter.filter(newText)
@@ -567,6 +659,13 @@ class ActivitiesFragment : Fragment() , HomeActivity.IOnBackPressed {
                             }
 
                             override fun onQueryTextSubmit(s: String?): Boolean {
+                                Log.w("data",":) :" + s)
+                                Log.w("Change was detected","!")
+                                val fragmentManager = getActivity()?.getSupportFragmentManager()
+                                if (fragmentManager != null) {
+                                    fragmentManager.beginTransaction().replace(com.example.dsideapp.R.id.activities_view,  SuggestionsChildFragment()).commit()
+                                }
+                                Log.w("data",":( :" + s)
                                 return false
                             }
                         })
@@ -687,7 +786,6 @@ class ActivitiesFragment : Fragment() , HomeActivity.IOnBackPressed {
                                             Log.w("", msg)
                                         }
 
-                                        auth = Firebase.auth
                                         val database = FirebaseDatabase.getInstance()
 
                                         //Creating the actual event from the button

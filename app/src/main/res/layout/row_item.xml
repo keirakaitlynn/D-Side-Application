@@ -11,8 +11,9 @@
         style="@style/button_small_unselected"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:backgroundTint="@color/buttoncolor"
         android:textColor="@color/white"
-        android:layout_marginLeft="10dp"
+    android:layout_marginLeft="10dp"
         android:text="TextView" />
     <!-- -->
     <!-- -->
