@@ -323,7 +323,9 @@ class CalendarFragment : Fragment() {
 
                             var dbDateRef = event.child("event_Date").value.toString()
                             var dbTimeRef = event.child("event_Time").value.toString()
+                            var dbStartTimeRef = event.child("start_time").value.toString()
                             var dbNameRef = event.child("event_Title").value.toString()
+                            var dbTitleRef = event.child("event_title").value.toString()
                             Log.w("", dbDateRef)
                             Log.w("", dbTimeRef)
                             Log.w("", dbNameRef)
@@ -338,6 +340,21 @@ class CalendarFragment : Fragment() {
                                 NameTxt.setText(nameString)
 
                                 DateEdit.setText(dateString)
+                                TimeEdit.setText(timeString)
+                                NameEdit.setText(nameString)
+
+
+                            }
+                            else if (dbStartTimeRef == calDate.toString()) {
+                                timeString = dbStartTimeRef
+                                //dateString = dbDateRef
+                                nameString = dbTitleRef
+
+                                TimeTxt.setText(timeString)
+                               // DateTxt.setText(dateString)
+                                NameTxt.setText(nameString)
+
+                                //DateEdit.setText(dateString)
                                 TimeEdit.setText(timeString)
                                 NameEdit.setText(nameString)
 
