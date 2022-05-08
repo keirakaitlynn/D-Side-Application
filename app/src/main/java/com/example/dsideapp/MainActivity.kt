@@ -137,7 +137,7 @@ class MainActivity : AppCompatActivity() {
                     database.reference.child("users").child(auth.currentUser!!.uid.toString()).child("location")
                         .setValue(location.text.toString())
                     //writeNewUser(auth.uid.toString(), email.substring(0,13), email, pfp)
-
+                    Log.w("FUCKKKKKKKKKKKKKK",  userID.text.toString())
                     writeNewUser(auth.uid.toString(), email.substring(0,13), email, pfp)
                     val x = FriendClass(user!!.email.toString(), user!!.uid.toString(), userID.text.toString() )
                     if (user != null) {

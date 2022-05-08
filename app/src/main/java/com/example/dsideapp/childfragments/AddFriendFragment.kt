@@ -56,7 +56,7 @@ class AddFriendFragment : Fragment() {
                 val a = it.getValue() as HashMap<String?, String?>
 
                 Log.w("Plz", "${a.get("email")}  and ${a.get("uid")}")
-                val b = FriendClass(a.get("email"), a.get("uid"), "")
+                val b = FriendClass(a.get("email"), a.get("uid"), a.get("userName"))
                 db.child("users").child(auth.uid.toString()).child("data").child("Friends").child(x).setValue(b)
             }.addOnFailureListener{
                 Log.w("Failure reading", it)
