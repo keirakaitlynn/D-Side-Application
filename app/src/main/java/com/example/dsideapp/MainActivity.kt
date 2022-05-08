@@ -146,7 +146,7 @@ class MainActivity : AppCompatActivity() {
 
 
                     val profileUpdates = userProfileChangeRequest {
-                        displayName = "" //put in the account field info here
+                        displayName = userID.toString() //put in the account field info here
                     }
 
                     user!!.updateProfile(profileUpdates)
@@ -175,7 +175,7 @@ class MainActivity : AppCompatActivity() {
                 if (task.isSuccessful) {
                     // Sign in success, update UI with the signed-in user's information
                     Log.d(TAG, "signInWithEmail:success")
-                    val user = auth.currentUser
+                    val user = Firebase.auth.currentUser
                     user?.let {
                         // Name, email address, and profile photo Url
                         val name = user.displayName
