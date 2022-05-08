@@ -284,7 +284,12 @@ class CalendarFragment : Fragment() {
                     var last_checked = Long.MIN_VALUE
                     database.reference.child("users").child(auth.uid.toString()).child("last_checked").get().addOnSuccessListener {
                         Log.i("firebase", "Got value ${it.value}")
-                        last_checked = it.value as Long
+                        if(it.value == null){
+                            last_checked = Date().time
+                        }
+                        else {
+                            last_checked = it.value as Long
+                        }
                         if(events.size != 0) {
                             for (eventItr in events) {
                                 //IF EVENT PASSED AND HASN'T BEEN CHECKED
