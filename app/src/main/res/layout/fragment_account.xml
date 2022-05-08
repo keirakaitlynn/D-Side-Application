@@ -160,6 +160,12 @@
                 android:layout_height="wrap_content"
                 android:backgroundTint="@color/pink"
                 android:text="Save"/>
+            <Button
+                android:id="@+id/addFriendButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/blueVioletColor"
+                android:text="Look Up Friend"/>
 
             <ScrollView
                 android:id="@+id/past_activities_list_scroll"
@@ -192,12 +198,7 @@
                         android:scaleType="fitXY"
                         android:src="@drawable/info_icon"
                         android:layout_gravity="right"/>
-                    <Button
-                        android:id="@+id/addFriendButton"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:backgroundTint="@color/blueVioletColor"
-                        android:text="Lookup Friends"/>
+
 
                 </LinearLayout>
 
@@ -205,12 +206,7 @@
 
         </LinearLayout>
 
-    <FrameLayout
-        android:id="@+id/info_view"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
 
-    </FrameLayout>
 <!--
     <ImageButton
         android:id="@+id/log_out"

@@ -21,9 +21,7 @@ import com.example.dsideapp.data.FriendClass
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import androidx.core.app.ActivityCompat.startActivityForResult
-
-
-
+import com.google.firebase.auth.ktx.userProfileChangeRequest
 
 
 class MainActivity : AppCompatActivity() {
@@ -133,8 +131,22 @@ class MainActivity : AppCompatActivity() {
                 if (task.isSuccessful) {
                     // Sign in success, update UI with the signed-in user's information
                     Log.d(TAG, "createUserWithEmail:                    success")
-                    val user = auth.currentUser
+                    var user = Firebase.auth.currentUser
+
                     writeNewUser(auth.uid.toString(), email.substring(0,13), email, pfp)
+
+
+                    val profileUpdates = userProfileChangeRequest {
+                        displayName = "" //put in the account field info here
+                    }
+
+                    user!!.updateProfile(profileUpdates)
+                        .addOnCompleteListener { task ->
+                            if (task.isSuccessful) {
+                                Log.d(TAG, "User profile updated.")
+                            }
+                        }
+
                     val x = FriendClass(user!!.email.toString(), user!!.uid.toString(), user!!.displayName )
                     database.reference.child("Phonebook").child(user.email.toString().split("@")[0]).setValue(x)
 
