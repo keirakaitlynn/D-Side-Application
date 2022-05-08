@@ -223,7 +223,7 @@ class CalendarFragment : Fragment() {
     private lateinit var viewOfLayout: View
     var calendar: CalendarView? = null
     private var dateView: TextView? = null
-    //Popup Variables
+    //Popup Variables//
     private lateinit var popUpEventText: TextView
     private lateinit var popUpEventLike: ImageButton
     private lateinit var popUpEventDislike: ImageButton
