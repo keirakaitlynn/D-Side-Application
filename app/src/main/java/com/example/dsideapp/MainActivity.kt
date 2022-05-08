@@ -156,9 +156,6 @@ class MainActivity : AppCompatActivity() {
                             }
                         }
 
-                    val x = FriendClass(user!!.email.toString(), user!!.uid.toString(), user!!.displayName )
-                    database.reference.child("Phonebook").child(user.email.toString().split("@")[0]).setValue(x)
-
                 } else {
                     // If sign in fails, display a message to the user.
                     Log.w(TAG, "createUserWithEmail:failure", task.exception)
