@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:background="@color/pink"
+    android:background="@color/purple_400"
     tools:context=".fragments.AccountFragment">
 
     <androidx.core.widget.NestedScrollView
@@ -31,7 +31,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:background="@color/black_overlay"
+                android:background="@color/purple_200"
                 android:orientation="vertical"
                 android:text="Account Information"
                 android:textSize="25sp" />
@@ -40,9 +40,9 @@
                 android:id="@+id/accountPFPInAccount"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:src="@drawable/default_profile_pic"
                 android:layout_gravity="center"
-                android:scaleType="fitXY"
-                android:src="@drawable/default_profile_pic" />
+                android:scaleType="fitXY"/>
 
             <TextView
                 android:id="@+id/user_email_label"
@@ -57,7 +57,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
-                android:background="@color/black_overlay"
+                android:background="@color/purple_200"
                 android:text="barackobama42@mgail.com"
                 android:textSize="18sp" />
 
@@ -73,7 +73,7 @@
                 android:layout_width="263dp"
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
-                android:background="@color/black_overlay"
+                android:background="@color/purple_200"
                 android:text="obamaUWU"
                 android:textSize="18sp" />
             <TextView
@@ -88,7 +88,7 @@
                 android:layout_width="263dp"
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
-                android:background="@color/black_overlay"
+                android:background="@color/purple_200"
                 android:text=""
                 android:inputType="textPassword"
                 android:textSize="18sp" />
@@ -105,7 +105,7 @@
                 android:layout_width="263dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:background="@color/black_overlay"
+                android:background="@color/purple_200"
                 android:text="Your name here"
                 android:textSize="18sp" />
             <TextView
@@ -121,7 +121,7 @@
                 android:layout_width="263dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:background="@color/black_overlay"
+                android:background="@color/purple_200"
                 android:text="Your location here"
                 android:textSize="18sp" />
 
@@ -139,7 +139,7 @@
                 android:layout_height="match_parent"
                 android:textDirection="ltr"
                 android:nestedScrollingEnabled="true"
-                android:background="@color/black_overlay"/>
+                android:background="@color/purple_200"/>
             <TextView
                 android:id="@+id/favorite_activities_label"
                 android:layout_width="wrap_content"
@@ -147,18 +147,26 @@
                 android:layout_gravity="center"
                 android:text="Past Activities"
                 android:textSize="18sp" />
+
             <ListView
                 android:id="@+id/past_activities_list"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textDirection="ltr"
-                android:background="@color/black_overlay" />
+                android:background="@color/purple_200" />
             <Button
                 android:id="@+id/changesSaveButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:backgroundTint="@color/blueVioletColor"
+                android:backgroundTint="@color/pink"
                 android:text="Save"/>
+            <Button
+                android:id="@+id/addFriendButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/blueVioletColor"
+                android:text="Look Up Friend"/>
+
             <ScrollView
                 android:id="@+id/past_activities_list_scroll"
                 android:layout_width="match_parent"
@@ -190,10 +198,23 @@
                         android:scaleType="fitXY"
                         android:src="@drawable/info_icon"
                         android:layout_gravity="right"/>
+
+
                 </LinearLayout>
 
             </ScrollView>
 
         </LinearLayout>
+
+
+<!--
+    <ImageButton
+        android:id="@+id/log_out"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@mipmap/logout"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />-->
+
     </androidx.core.widget.NestedScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>

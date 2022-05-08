@@ -1,8 +1,9 @@
 package com.example.dsideapp.fragments
-///
+
 import android.media.Image
 import android.os.Bundle
 import android.util.Log
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,6 +15,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import com.example.dsideapp.R
 import com.example.dsideapp.auth
+import com.example.dsideapp.childfragments.AddFriendFragment
 import com.example.dsideapp.data.FriendClass
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -21,13 +23,13 @@ import com.example.dsideapp.childfragments.InformationChildFragment
 import com.example.dsideapp.auth
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
-
+import androidx.fragment.app.FragmentManager
 
 class AccountFragment : Fragment() {
     private lateinit var listView  : ListView
+    private val addFriendFragment = AddFriendFragment()
     lateinit var infoButton : ImageButton
     private val infoFragment = InformationChildFragment()
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -38,10 +40,21 @@ class AccountFragment : Fragment() {
         var user = authorization.currentUser
         var userID = authorization.currentUser?.uid
         var db = FirebaseDatabase.getInstance().getReference()
+
         var v = inflater.inflate(R.layout.fragment_account, container, false)
         var user_DB_Name = ""
         var user_DB_UserName = ""
         var user_DB_Location = ""
+
+        var addFriendButton = v.findViewById<Button>(R.id.addFriendButton)
+        addFriendButton.setOnClickListener{
+            Log.w("Me ", "I'm trying to change fragment")
+            val fragmentManager = getActivity()?.getSupportFragmentManager()
+            if (fragmentManager != null) {
+                fragmentManager.beginTransaction().replace(com.example.dsideapp.R.id.fragment_view, addFriendFragment).commit()
+            }
+        }
+
 
         // Goes through the children of the DB and saves their variables to the user_DB_ variables
         // So we can check them with the user's new variables that they type in.
@@ -141,21 +154,30 @@ class AccountFragment : Fragment() {
 
         var image = 0
         db.child("users").child(userID.toString()).child("pfp").get().addOnSuccessListener {
-            image = it.value.toString().trim().toInt()
-            //Log.w(image.toString(), R.id.Pikachu.toString())
-            var pfpImage = v.findViewById<ImageButton>(R.id.accountPFPInAccount)
-            if (image == R.drawable.turtlepfp) {
-                pfpImage.setImageResource(R.drawable.turtlepfp)
-            } else if (image == R.drawable.pikachupfp.toInt()) {
-                pfpImage.setImageResource(R.drawable.pikachupfp)
-            } else if (image == R.drawable.avatarpfp.toInt()) {
-                pfpImage.setImageResource(R.drawable.avatarpfp)
-            } else if (image == R.drawable.stitchpfp.toInt()) {
-                pfpImage.setImageResource(R.drawable.stitchpfp)
-            } else if (image == R.drawable.razepfp.toInt()) {
-                pfpImage.setImageResource(R.drawable.razepfp)
-            } else if (image == R.drawable.ponyopfp.toInt()) {
-                pfpImage.setImageResource(R.drawable.ponyopfp)
+            if (it.exists()) {
+                image = it.value.toString().toInt()
+                Log.w("HERE : ", it.value.toString())
+                var pfpImage = v.findViewById<ImageButton>(R.id.accountPFPInAccount)
+                when (image) {
+                    R.id.Turtle -> {
+                        pfpImage.setImageResource(R.drawable.turtlepfp)
+                    }
+                    R.id.Pikachu -> {
+                        pfpImage.setImageResource(R.drawable.pikachupfp)
+                    }
+                    R.id.Avatar -> {
+                        pfpImage.setImageResource(R.drawable.avatarpfp)
+                    }
+                    R.id.Stitch -> {
+                        pfpImage.setImageResource(R.drawable.stitchpfp)
+                    }
+                    R.id.Raze -> {
+                        pfpImage.setImageResource(R.drawable.razepfp)
+                    }
+                    R.id.Ponyo -> {
+                        pfpImage.setImageResource(R.drawable.ponyopfp)
+                    }
+                }
             }
         }
 
@@ -182,9 +204,5 @@ class AccountFragment : Fragment() {
         })
         v.findViewById<EditText>(R.id.friends_list)
         return v
-    }
-    private fun replaceChildFragment(childFragment : Fragment) {
-        val transaction: FragmentTransaction = getChildFragmentManager().beginTransaction()
-        transaction.replace(R.id.activities_view, childFragment).addToBackStack(null).commit()
     }
 }

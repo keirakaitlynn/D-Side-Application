@@ -21,6 +21,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 
 var auth: FirebaseAuth = Firebase.auth
+val selectedItemsForDecisionTools = emptyMap<DataSnapshot, Int>()
 
 class LoginActivity : AppCompatActivity() {
 
@@ -67,6 +68,27 @@ class LoginActivity : AppCompatActivity() {
             // KEIRA: Change View from this activity to Main Activity
             val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
+        }
+
+        textView = findViewById(R.id.recover_email)
+        textView.setOnClickListener {
+            email = findViewById(R.id.emailInput)
+            Firebase.auth.sendPasswordResetEmail(email.getText().toString().trim())
+                .addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+                        Toast.makeText(baseContext, "Email sent.",
+                            Toast.LENGTH_SHORT).show()
+                        Log.d(TAG, "Email sent.")
+                    } else {
+                        Toast.makeText(baseContext, "Email was not sent.",
+                            Toast.LENGTH_SHORT).show()
+                        Log.d(TAG, "Email not sent.")
+                    }
+                }.addOnFailureListener {
+                    Toast.makeText(baseContext, "Email was not sent.",
+                        Toast.LENGTH_SHORT).show()
+                    Log.d(TAG, "Email not sent.")
+                }
         }
     }
     public override fun onStart() {

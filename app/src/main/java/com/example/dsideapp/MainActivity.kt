@@ -11,13 +11,17 @@ import com.google.firebase.database.ValueEventListener
 import com.google.firebase.ktx.Firebase
 import android.content.ContentValues.TAG
 import android.content.Intent
+import android.widget.Button
+import android.widget.EditText
 import android.media.Image
 import android.widget.*
+import android.widget.TextView
+import android.widget.Toast
+import com.example.dsideapp.data.FriendClass
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import androidx.core.app.ActivityCompat.startActivityForResult
-import com.example.dsideapp.data.FriendClass
-
+import com.google.firebase.auth.ktx.userProfileChangeRequest
 
 class MainActivity : AppCompatActivity() {
 
@@ -65,7 +69,6 @@ class MainActivity : AppCompatActivity() {
         button.setOnClickListener{
             email = findViewById(R.id.emailInput)
             password = findViewById(R.id.passInput)
-
             createAccount(email.getText().toString().trim(), password.getText().toString().trim())
         }
         //Sending pfp up to db
@@ -129,16 +132,32 @@ class MainActivity : AppCompatActivity() {
                 if (task.isSuccessful) {
                     // Sign in success, update UI with the signed-in user's information
                     Log.d(TAG, "createUserWithEmail:                    success")
-                    val user = auth.currentUser
+                    var user = Firebase.auth.currentUser
                     var userID = findViewById<EditText>(R.id.displayName)
                     database.reference.child("users").child(auth.currentUser!!.uid.toString()).child("location")
                         .setValue(location.text.toString())
                     //writeNewUser(auth.uid.toString(), email.substring(0,13), email, pfp)
+
                     writeNewUser(auth.uid.toString(), email.substring(0,13), email, pfp)
                     val x = FriendClass(user!!.email.toString(), user!!.uid.toString(), userID.text.toString() )
                     if (user != null) {
                         database.reference.child("Phonebook").child(user.email.toString().split("@")[0]).setValue(x)
                     }
+
+
+                    val profileUpdates = userProfileChangeRequest {
+                        displayName = "" //put in the account field info here
+                    }
+
+                    user!!.updateProfile(profileUpdates)
+                        .addOnCompleteListener { task ->
+                            if (task.isSuccessful) {
+                                Log.d(TAG, "User profile updated.")
+                            }
+                        }
+
+                    val x = FriendClass(user!!.email.toString(), user!!.uid.toString(), user!!.displayName )
+                    database.reference.child("Phonebook").child(user.email.toString().split("@")[0]).setValue(x)
 
                 } else {
                     // If sign in fails, display a message to the user.
