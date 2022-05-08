@@ -378,7 +378,6 @@ class CoinChildFragment : Fragment() {
                         ppw.dismiss()
                     }
                     selectedItemsForDecisionTools.clear()
-
                     Log.d("AFTERIT", "{$cartActivityToAddToCalendarTEMP}")
                 }
 

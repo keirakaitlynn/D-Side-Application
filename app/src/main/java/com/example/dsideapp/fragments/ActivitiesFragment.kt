@@ -185,10 +185,10 @@ class ActivitiesFragment : Fragment() , HomeActivity.IOnBackPressed {
             setTextAppearance(suggestionsButton, R.style.button_page)
             setTextAppearance(diceButton, R.style.button_page)
             setTextAppearance(wheelButton, R.style.button_page)
-            replaceChildFragment(coinFragment)
             var cartList = selectedItemsForDecisionTools
             //Prevents going to coin if not enough/too many activities
             if (cartList.size==2) {
+
                 replaceChildFragment(coinFragment)
 
                 ///////////////Making sure selected activities in cart go to decision tool
@@ -285,7 +285,6 @@ class ActivitiesFragment : Fragment() , HomeActivity.IOnBackPressed {
             setTextAppearance(suggestionsButton, R.style.button_page)
             setTextAppearance(coinButton, R.style.button_page)
             setTextAppearance(wheelButton, R.style.button_page)
-            replaceChildFragment(diceFragment)
             var cartList = selectedItemsForDecisionTools
             //Prevents going to coin if not enough/too many activities
             if (cartList.size>1 && cartList.size<=6) {
@@ -385,7 +384,6 @@ class ActivitiesFragment : Fragment() , HomeActivity.IOnBackPressed {
             setTextAppearance(suggestionsButton, R.style.button_page)
             setTextAppearance(coinButton, R.style.button_page)
             setTextAppearance(diceButton, R.style.button_page)
-            replaceChildFragment(wheelFragment)
             var cartList = selectedItemsForDecisionTools
             //Prevents going to coin if not enough/too many activities
             if (cartList.size>1 && cartList.size<=10) {
