@@ -1,8 +1,6 @@
 package com.example.dsideapp.childfragments
 
 import android.annotation.SuppressLint
-import android.content.Context
-import android.graphics.Color
 import android.os.AsyncTask
 import android.os.Bundle
 import android.os.Handler
@@ -15,26 +13,28 @@ import android.view.animation.LinearInterpolator
 import android.view.animation.RotateAnimation
 import android.widget.*
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentTransaction
 import com.example.dsideapp.R
 import com.example.dsideapp.auth
 import com.google.firebase.database.FirebaseDatabase
 import kotlin.random.Random
 import android.view.Gravity
 import android.widget.Toast
-import com.example.dsideapp.R.color
+import androidx.fragment.app.FragmentManager
 import com.example.dsideapp.R.color.*
 import com.example.dsideapp.data.ActivityObject
 import com.example.dsideapp.data.Effects
 import com.example.dsideapp.data.LocationObject
 import nl.dionsegijn.konfetti.xml.KonfettiView
 import com.example.dsideapp.data.selectedItemsForDecisionTools
+import com.example.dsideapp.fragments.HomeFragment
 import com.example.dsideapp.fragments.selectedActivity
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.ktx.Firebase
 import java.util.*
+import com.example.dsideapp.fragments.ppw
 
+var ppwWheel = PopupWindow()
 
 class WheelChildFragment : Fragment() {
 
@@ -47,6 +47,7 @@ class WheelChildFragment : Fragment() {
 //        val v = inflater.inflate(R.layout.fragment_child_wheel, container, false)
 //        return v
 //    }
+    private var pleaseWorkManager : FragmentManager? = null
 
     private var selectedActivityID: String? = ""
 
@@ -312,20 +313,31 @@ class WheelChildFragment : Fragment() {
                 var createEventToCalendarButton: Button = viewOfLayout.findViewById(R.id.CreateEvent)
                 createEventToCalendarButton.setOnClickListener{
                     if (!selectedActivity.id.isNullOrEmpty()){
+                       /*
                         //Clear the selected from the cart
-//                        selectedItemsForDecisionTools.forEach{ (key, value) ->
-//                            Log.w("VALUE: ",key.key.toString())
-//                            db.child("users").child(userID.toString()).child("data").child("cart")
-//                                .child(key.key.toString()).removeValue()
-//                        }
+                        selectedItemsForDecisionTools.forEach{ (key, value) ->
+                            Log.w("VALUE: ",key.key.toString())
+                            db.child("users").child(userID.toString()).child("data").child("cart")
+                                .child(key.key.toString()).removeValue()
+                        }
                         //Now load the calendar fragment
+                        val fragmentManager = activity?.getSupportFragmentManager()
+                        Log.w("IDK WHY YOU ARE HERE: ",fragmentManager.toString())
+                        if (fragmentManager != null) {
+                            fragmentManager.beginTransaction()
+                                .replace(com.example.dsideapp.R.id.fragment_view, EventAddPopUpFragment()).commit()
+                            Log.w("Made it here", "!")
+                            pleaseWorkManager = fragmentManager
+                        }
+                        selectedItemsForDecisionTools.clear()
+                        ppw.dismiss()*/
                         // MMMMM: Load the calendar fragment ------------------------------------------------
                         viewOfLayout = inflater.inflate(com.example.dsideapp.R.layout.fragment_eventadd_pop_up, null)
                         // create the popup window
                         val width = LinearLayout.LayoutParams.MATCH_PARENT
                         val height = LinearLayout.LayoutParams.MATCH_PARENT
                         val focusable = true // lets taps outside the popup also dismiss it
-                        val popupWindow = PopupWindow(viewOfLayout, width, height, focusable)
+                        ppwWheel = PopupWindow(viewOfLayout, width, height, focusable)
                         // XXXXX -------------------------------------------------------------------------------------------------
 
 
@@ -466,17 +478,50 @@ class WheelChildFragment : Fragment() {
                                 // NOTES: Update RecyclerAdapter with changes.
                                 //adapter?.notifyDataSetChanged()
                             }
+                            val fragmentManager = activity?.getSupportFragmentManager()
+                            Log.w("IDK WHY YOU ARE HERE: ",fragmentManager.toString())
+                            if (fragmentManager != null) {
+                                fragmentManager.beginTransaction()
+                                    .replace(com.example.dsideapp.R.id.fragment_view, HomeFragment()).commit()
+                                Log.w("Made it here", "!")
+                                pleaseWorkManager = fragmentManager
+                            }
+                            selectedActivity = ActivityObject()
+                            if (ppwCoin.isShowing){
+                                ppwCoin.dismiss()
+                            }
+                            if (ppw.isShowing){
+                                ppw.dismiss()
+                            }
+                            selectedItemsForDecisionTools.clear()
 
                             Log.d("AFTERIT", "{$cartActivityToAddToCalendarTEMP}")
                         }
 
-
+                        var exitCalendarButton = viewOfLayout.findViewById<Button>(R.id.exitButton)
+                        exitCalendarButton.setOnClickListener{
+                            val fragmentManager = activity?.getSupportFragmentManager()
+                            Log.w("IDK WHY YOU ARE HERE: ",fragmentManager.toString())
+                            if (fragmentManager != null) {
+                                fragmentManager.beginTransaction()
+                                    .replace(com.example.dsideapp.R.id.fragment_view, HomeFragment()).commit()
+                                Log.w("Made it here", "!")
+                                pleaseWorkManager = fragmentManager
+                            }
+                            selectedActivity = ActivityObject()
+                            if (ppwWheel.isShowing){
+                                ppwWheel.dismiss()
+                            }
+                            if (ppw.isShowing){
+                                ppw.dismiss()
+                            }
+                        }
                         // XXXXX -------------------------------------------------------------------------------------------------
                         // show the popup window
                         // which view you pass in doesn't matter, it is only used for the window token
-                        popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0)
+                        ppwWheel.showAtLocation(view, Gravity.CENTER, 0, 0)
                         viewOfLayout.setOnTouchListener { v, event ->
-                            popupWindow.dismiss()
+                            ppwWheel.dismiss()
                             true
                         }
                     }

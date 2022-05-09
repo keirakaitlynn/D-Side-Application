@@ -46,6 +46,7 @@ import kotlin.random.Random
 
 import org.json.JSONArray
 var selectedActivity = ActivityObject()
+var ppw = PopupWindow()
 
 class ActivitiesFragment : Fragment() , HomeActivity.IOnBackPressed {
     lateinit var suggestionsButton : Button
@@ -77,7 +78,6 @@ class ActivitiesFragment : Fragment() , HomeActivity.IOnBackPressed {
     private lateinit var infoBitmap: Bitmap
     private lateinit var infoImageView: ImageView
     private lateinit var rvRestaurants: RecyclerView
-    private lateinit var ppw: PopupWindow
     // MMMMM: RecyclerView + CardView (ActivitiesFragment, CartPopUpFragment)
     private var layoutManager: RecyclerView.LayoutManager? = null
     private var adapter: RecyclerView.Adapter<CartActivityAdapter.ViewHolder>? = null
@@ -185,10 +185,10 @@ class ActivitiesFragment : Fragment() , HomeActivity.IOnBackPressed {
             setTextAppearance(suggestionsButton, R.style.button_page)
             setTextAppearance(diceButton, R.style.button_page)
             setTextAppearance(wheelButton, R.style.button_page)
-            replaceChildFragment(coinFragment)
             var cartList = selectedItemsForDecisionTools
             //Prevents going to coin if not enough/too many activities
             if (cartList.size==2) {
+
                 replaceChildFragment(coinFragment)
 
                 ///////////////Making sure selected activities in cart go to decision tool
@@ -285,7 +285,6 @@ class ActivitiesFragment : Fragment() , HomeActivity.IOnBackPressed {
             setTextAppearance(suggestionsButton, R.style.button_page)
             setTextAppearance(coinButton, R.style.button_page)
             setTextAppearance(wheelButton, R.style.button_page)
-            replaceChildFragment(diceFragment)
             var cartList = selectedItemsForDecisionTools
             //Prevents going to coin if not enough/too many activities
             if (cartList.size>1 && cartList.size<=6) {
@@ -385,7 +384,6 @@ class ActivitiesFragment : Fragment() , HomeActivity.IOnBackPressed {
             setTextAppearance(suggestionsButton, R.style.button_page)
             setTextAppearance(coinButton, R.style.button_page)
             setTextAppearance(diceButton, R.style.button_page)
-            replaceChildFragment(wheelFragment)
             var cartList = selectedItemsForDecisionTools
             //Prevents going to coin if not enough/too many activities
             if (cartList.size>1 && cartList.size<=10) {
@@ -618,20 +616,35 @@ class ActivitiesFragment : Fragment() , HomeActivity.IOnBackPressed {
                     /// -----------
 
                     var categories = ArrayList<String>()
+                    categories.add("Bowling")
+                    categories.add("Lounges")
+                    categories.add("Pizza")
+                    categories.add("Seafood")
+                    categories.add("Hiking")
+                    categories.add("Archery")
+                    categories.add("Tennis")
+                    categories.add("Soccer")
+                    categories.add("Arcade")
+                    categories.add("Paintball")
                     categories.add("Cake")
                     categories.add("Cars")
                     categories.add("Coffee")
                     categories.add("Tea")
                     categories.add("Cookies")
-                    categories.add("Juice Bars")
+                    categories.add("Juice")
                     categories.add("Smoothies")
                     categories.add("Dance Club")
                     categories.add("Dive Bar")
                     categories.add("Dining")
-                    categories.add("Bowling")
-                    categories.add("Lounges")
                     categories.add("Pizza")
                     categories.add("Seafood")
+                    categories.add("Nature")
+                    categories.add("Baseball")
+                    categories.add("Fashion")
+                    categories.add("Malls")
+                    categories.add("Beaches")
+                    categories.add("Parks")
+
                     val searchButton = v.findViewById<Button>(R.id.search_button)
                     searchButton.setOnClickListener{
                         //// NNNNN: ====================================================================
@@ -802,12 +815,12 @@ class ActivitiesFragment : Fragment() , HomeActivity.IOnBackPressed {
                                                     Log.d("ADDING","${cartActivityToAddToCalendarTEMP}")
 
                                                     //Creating vars to gather user input for event info
-                                                    //var eventTitle = v.findViewById<TextView>(R.id.eventName).text.toString()
                                                     //var eventDate = viewOfLayout.findViewById<DatePicker>(R.id.datePicker)
                                                     val day = datePicker.dayOfMonth
                                                     val month = datePicker.month
                                                     val year = datePicker.year
 
+                                                    var eventTitle = v.findViewById<TextView>(R.id.eventName).text.toString()
                                                     var eventTime = v.findViewById<TextView>(R.id.TimeText)
 
                                                     // MMMMM: Convert Date & Time to Date Class.
@@ -847,9 +860,10 @@ class ActivitiesFragment : Fragment() , HomeActivity.IOnBackPressed {
                                                                                           , business_name: String = "None", price: String = "None", category: String = "None", event_id : String = "None", event_title : String = "None", date : Date? = null, users_invited: MutableList<String>? = null) {
                                                         val location = LocationObject(loc_address, loc_city, loc_country, loc_zip, loc_state)
                                                         val activity = ActivityObject(if(id != "") id else "null", title, phone, image, location, business_name, price, category)
-                                                        Log.d("EVENT TITLE", "${title}") // XXXXX: ------------------------------
+                                                        Log.d("EVENT TITLE", "${event_title}") // XXXXX: ------------------------------
+                                                        Log.d("EVENT DATE", "${date.toString()}") // XXXXX: ------------------------------
                                                         val event = users_invited?.let { it1 ->
-                                                            activity.toEvent(title, date, date,
+                                                            activity.toEvent(event_title, date, date,
                                                                 it1
                                                             )
                                                         }
@@ -868,7 +882,7 @@ class ActivitiesFragment : Fragment() , HomeActivity.IOnBackPressed {
                                                             val users: String? = null,
                                                         ) {}
                                                         if (date != null) {
-                                                            db.child("data").child("events").child(eventId).setValue(stringEvent(event_id, title, date.toString(), date.toString(), activity, users_invited.toString()))
+                                                            db.child("data").child("events").child(eventId).setValue(stringEvent(event_id, event_title, date.toString(), date.toString(), activity, users_invited.toString()))
                                                         }
 
                                                         // MMMMM: 2. LEFT Swipe functionality
@@ -892,7 +906,7 @@ class ActivitiesFragment : Fragment() , HomeActivity.IOnBackPressed {
                                                     dataSnapshotToActivityToEventToDB(cartActivityToAddToCalendarTEMP, userId = userID.toString(), id = cartActivityToAddToCalendarTEMP.child("id").value.toString(),
                                                         title = cartActivityToAddToCalendarTEMP.child("title").value.toString(), phone = cartActivityToAddToCalendarTEMP.child("phone_contact").value.toString(), image = cartActivityToAddToCalendarTEMP.child("image_type").value.toString(),
                                                         business_name = cartActivityToAddToCalendarTEMP.child("business_name").value.toString(), price = cartActivityToAddToCalendarTEMP.child("price").value.toString(), category = cartActivityToAddToCalendarTEMP.child("category").value.toString(),
-                                                        event_id = eventId, event_title = cartActivityToAddToCalendarTEMP.child("title").value.toString(), date = date, users_invited = friendsInvited)
+                                                        event_id = eventId, event_title = eventTitle, date = date, users_invited = friendsInvited)
 
                                                     // XXXXX -----------------------------------------------------
                                                     Log.d("Item Swiped RIGHT", "${viewHolder.position} Activity")

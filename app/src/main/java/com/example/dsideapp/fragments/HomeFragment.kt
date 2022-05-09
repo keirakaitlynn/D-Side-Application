@@ -13,6 +13,8 @@ import androidx.fragment.app.FragmentTransaction
 import com.example.dsideapp.fragments.*
 import com.example.dsideapp.R
 import com.example.dsideapp.childfragments.InformationChildFragment
+import com.example.dsideapp.fragments.ppw
+
 
 class HomeFragment : Fragment() {
     private val activityTesterFragment = ActivityTesterFragment()
@@ -33,7 +35,7 @@ class HomeFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
        // val v = inflater.inflate(com.example.dsideapp.R.layout.fragment_home, container, false)
-
+//
 
         var viewOfLayout = inflater.inflate(R.layout.fragment_home, container, false)
         overallView = viewOfLayout
@@ -43,6 +45,9 @@ class HomeFragment : Fragment() {
         activitiesButton = viewOfLayout.findViewById<View>(R.id.activities_button) as ImageButton
         activitiesButton.setOnClickListener {
             val fragmentManager = getActivity()?.getSupportFragmentManager()
+            if (ppw.isShowing){
+                ppw.dismiss()
+            }
             if (fragmentManager != null) {
                 fragmentManager.beginTransaction().replace(com.example.dsideapp.R.id.fragment_view, ActivitiesFragment()).commit()
             }
@@ -51,6 +56,9 @@ class HomeFragment : Fragment() {
         calendarButton = viewOfLayout.findViewById<View>(R.id.calendar_button) as ImageButton
         calendarButton.setOnClickListener {
             val fragmentManager = getActivity()?.getSupportFragmentManager()
+            if (ppw.isShowing){
+                ppw.dismiss()
+            }
             if (fragmentManager != null) {
                 fragmentManager.beginTransaction().replace(com.example.dsideapp.R.id.fragment_view,  CalendarFragment()).commit()
             }
@@ -59,6 +67,9 @@ class HomeFragment : Fragment() {
         infoButton = viewOfLayout.findViewById<View>(R.id.information_button) as ImageButton
         infoButton.setOnClickListener {
             val fragmentManager = getActivity()?.getSupportFragmentManager()
+            if (ppw.isShowing){
+                ppw.dismiss()
+            }
             if (fragmentManager != null) {
                 fragmentManager.beginTransaction().replace(com.example.dsideapp.R.id.fragment_view, appInfoFragment).commit()
             }
@@ -69,8 +80,11 @@ class HomeFragment : Fragment() {
         concertsButton.setOnClickListener {
             val fragmentManager = getActivity()?.getSupportFragmentManager()
             Log.w("Home: ",fragmentManager.toString())
+            if (ppw.isShowing){
+                ppw.dismiss()
+            }
             if (fragmentManager != null) {
-                fragmentManager.beginTransaction().replace(com.example.dsideapp.R.id.fragment_view,  PollsFragment()).commit()
+                fragmentManager.beginTransaction().replace(com.example.dsideapp.R.id.fragment_view,  ConcertsFragment()).commit()
             }
         }
 

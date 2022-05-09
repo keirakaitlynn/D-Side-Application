@@ -9,19 +9,27 @@ import android.view.ViewGroup
 import android.widget.*
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
 import com.example.dsideapp.R
 import com.example.dsideapp.auth
+import com.example.dsideapp.data.ActivityObject
+import com.example.dsideapp.fragments.HomeFragment
+import com.example.dsideapp.fragments.selectedActivity
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.ktx.Firebase
 import java.time.format.DateTimeFormatter
 import java.util.*
 import kotlin.random.Random
-
+import com.example.dsideapp.data.selectedItemsForDecisionTools
+import com.example.dsideapp.childfragments.ppwCoin
+import com.example.dsideapp.childfragments.ppwWheel
+import com.example.dsideapp.childfragments.ppwDice
 
 class EventAddPopUpFragment : Fragment() {
 
     private lateinit var viewOfLayout: View
+    private var pleaseWorkManager : FragmentManager? = null
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreateView(
@@ -137,9 +145,42 @@ class EventAddPopUpFragment : Fragment() {
                     .setValue(dbReadableEvent)
             }
 
-
+            selectedActivity = ActivityObject()
+            if (ppwCoin.isShowing){
+                ppwCoin.dismiss()
+            }
+            if (ppwDice.isShowing){
+                ppwDice.dismiss()
+            }
+            if (ppwWheel.isShowing){
+                ppwWheel.dismiss()
+            }
+            selectedItemsForDecisionTools.clear()
         }
-            return viewOfLayout
+
+        var exitCalendarButton = viewOfLayout.findViewById<Button>(R.id.exitButton)
+        exitCalendarButton.setOnClickListener{
+            val fragmentManager = activity?.getSupportFragmentManager()
+            Log.w("IDK WHY YOU ARE HERE: ",fragmentManager.toString())
+            if (fragmentManager != null) {
+                fragmentManager.beginTransaction()
+                    .replace(com.example.dsideapp.R.id.fragment_view, HomeFragment()).commit()
+                Log.w("Made it here", "!")
+                pleaseWorkManager = fragmentManager
+            }
+            selectedActivity = ActivityObject()
+            if (ppwCoin.isShowing){
+                ppwCoin.dismiss()
+            }
+            if (ppwDice.isShowing){
+                ppwDice.dismiss()
+            }
+            if (ppwWheel.isShowing){
+                ppwWheel.dismiss()
+            }
+        }
+
+        return viewOfLayout
         }
 
 }

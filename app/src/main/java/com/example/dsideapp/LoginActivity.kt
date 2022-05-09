@@ -21,6 +21,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 
 var auth: FirebaseAuth = Firebase.auth
+val selectedItemsForDecisionTools = emptyMap<DataSnapshot, Int>()
 
 class LoginActivity : AppCompatActivity() {
 
@@ -163,7 +164,5 @@ class LoginActivity : AppCompatActivity() {
 
                 }
             }
-
-
     }
 }

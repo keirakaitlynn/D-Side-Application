@@ -187,7 +187,6 @@ class CalendarFragment : Fragment() {
 }
 */
 
-//Josh's Version to do add event to db and send event info to other users
 package com.example.dsideapp.fragments
 
 import android.content.Context.LAYOUT_INFLATER_SERVICE
@@ -197,33 +196,33 @@ import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.*
-import androidx.core.content.ContextCompat.getSystemService
 import android.widget.CalendarView
 import android.widget.LinearLayout
 import android.widget.PopupWindow
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import com.example.dsideapp.R
-import com.example.dsideapp.auth
-import com.google.firebase.database.FirebaseDatabase
 import com.example.dsideapp.data.EventObject
+import com.google.firebase.database.FirebaseDatabase
 import java.util.*
-import com.google.firebase.ktx.Firebase
+import kotlin.random.Random
+import android.widget.*
+import com.example.dsideapp.auth
 import com.example.dsideapp.data.ActivityObject
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
+import com.google.firebase.ktx.Firebase
 import java.io.IOException
-import kotlin.random.Random
+import com.example.dsideapp.fragments.selectedActivity
 
 
 class CalendarFragment : Fragment() {
     private lateinit var viewOfLayout: View
     var calendar: CalendarView? = null
     private var dateView: TextView? = null
-    //Popup Variables
+    //Popup Variables//
     private lateinit var popUpEventText: TextView
     private lateinit var popUpEventLike: ImageButton
     private lateinit var popUpEventDislike: ImageButton
@@ -271,6 +270,7 @@ class CalendarFragment : Fragment() {
                         }
                     }
                     /*
+
     var id: String? = null,
     var event_title: String? = null,
     var start_time: Date? = null,
@@ -283,7 +283,12 @@ class CalendarFragment : Fragment() {
                     var last_checked = Long.MIN_VALUE
                     database.reference.child("users").child(auth.uid.toString()).child("last_checked").get().addOnSuccessListener {
                         Log.i("firebase", "Got value ${it.value}")
-                        last_checked = it.value as Long
+                        if(it.value == null){
+                            last_checked = Date().time
+                        }
+                        else {
+                            last_checked = it.value as Long
+                        }
                         if(events.size != 0) {
                             for (eventItr in events) {
                                 //IF EVENT PASSED AND HASN'T BEEN CHECKED
@@ -357,7 +362,6 @@ class CalendarFragment : Fragment() {
         }
 
 
-
         //Popup Code
 
         //GET ALL EVENTS IN USER DB AND PUTS IT IN EVENTS ARRAYLIST
@@ -365,7 +369,10 @@ class CalendarFragment : Fragment() {
 
         //PUTTING IN FEEDBACK PLS WORK :(
         //PUTTING IN FEEDBACK PLS WORK :(
-// Variables for easy manipulation of objects in the activity_main.xml file   🙂
+
+        // Variables for easy manipulation of objects in the activity_main.xml file   🙂
+        viewOfLayout = inflater.inflate(R.layout.fragment_calendar, container, false)
+        // Variables for easy manipulation of objects in the activity_main.xml file   🙂
         calendar = viewOfLayout.findViewById<View>(R.id.calendar) as CalendarView
         dateView = viewOfLayout.findViewById<View>(R.id.date_view) as TextView
         //var dayOfWeekView =  viewOfLayout.findViewById<View>(R.id.dayOfWeek) as TextView
