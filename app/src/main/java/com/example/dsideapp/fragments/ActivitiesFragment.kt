@@ -278,6 +278,14 @@ class ActivitiesFragment : Fragment() , HomeActivity.IOnBackPressed {
                 selectedItemsForDecisionTools.clear()
             }
         }
+        suggestionsButton = v.findViewById<Button>(R.id.suggestions_button)
+        suggestionsButton.setOnClickListener{
+            setTextAppearance(suggestionsButton, R.style.button_page_selected)
+            //Unga bunga way of doing this, but it works lol
+            setTextAppearance(diceButton, R.style.button_page)
+            setTextAppearance(coinButton, R.style.button_page)
+            setTextAppearance(wheelButton, R.style.button_page)
+        }
         diceButton = v.findViewById<Button>(R.id.dice_button)
         diceButton.setOnClickListener{
             setTextAppearance(diceButton, R.style.button_page_selected)
@@ -747,6 +755,12 @@ class ActivitiesFragment : Fragment() , HomeActivity.IOnBackPressed {
                             // NNNNN: Update RecyclerAdapter with changes.
                             adapter?.notifyDataSetChanged()
                         }
+                        /// MMMMM: Cart Interactability (Exit) ------------------------
+                        var exitCartButton = v.findViewById<Button>(R.id.exitCartButton)
+                        exitCartButton.setOnClickListener() {
+                            popupWindow.dismiss()
+                        }
+
                         /// MMMMM: Cart Interactability (Swipe) ----------------------------------------------------------------//
                         val swipeGesture = object : SwipeGesture(requireContext()) {
                             override fun onSwiped(
@@ -778,6 +792,7 @@ class ActivitiesFragment : Fragment() , HomeActivity.IOnBackPressed {
                                         popupWindow.dismiss()
                                     }
                                     ItemTouchHelper.RIGHT -> {
+                                        popupWindow.dismiss()
                                         // XXXXX: 2. Add to Calendar functionality
                                         // inflate the layout of the popup window
                                         v = inflater.inflate(com.example.dsideapp.R.layout.fragment_eventadd_pop_up, null)
@@ -917,7 +932,6 @@ class ActivitiesFragment : Fragment() , HomeActivity.IOnBackPressed {
                                                 // NOTES: Update RecyclerAdapter with changes.
                                                 //adapter?.notifyDataSetChanged()
                                             }
-                                            popupWindow.dismiss()
 
                                             Log.d("AFTERIT", "{$cartActivityToAddToCalendarTEMP}")
                                         }
