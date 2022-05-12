@@ -760,20 +760,22 @@ class ActivitiesFragment : Fragment() , HomeActivity.IOnBackPressed {
                                         // NNNNN: 1. delete cartActivity from DATABASE
                                         //Log.d("Item Swiped", "${(adapter as CartActivityAdapter).getItemsId(viewHolder.position)} Activity")
                                         val cartActivityToDeleteID = (adapter as CartActivityAdapter).getItemsId(viewHolder.position)
-                                        var cartActivityToDeleteTEMP = activities[0] // initialize if !it.exists()
+                                        //var cartActivityToDeleteTEMP = activities[0] // initialize if !it.exists()
                                         var cartActivityInfo = db.child("users").child(userID.toString()).get().addOnSuccessListener {
                                             if (it.exists()){
                                                 // NOTES: allTheStuff = array of Activities in Cart
                                                 val cartActivityToDelete = it.child("data").child("cart").child(cartActivityToDeleteID)
-                                                cartActivityToDeleteTEMP = cartActivityToDelete
-                                                //Log.d("Deleting", "${cartActivityToDelete} Activity")
+                                                //cartActivityToDeleteTEMP = cartActivityToDelete
+                                                Log.d("Deleting", "${cartActivityToDelete}")
                                                 cartActivityToDelete.getRef().removeValue()
+
+                                                // NNNNN: 2. delete cartActivity from VIEW AFTER deleting cartActivity from DATABASE (bc of viewHolder.position)
+                                                (adapter as CartActivityAdapter).deleteItem(cartActivityToDelete)
                                             }
                                             // NOTES: Update RecyclerAdapter with changes.
                                             adapter?.notifyDataSetChanged()
                                         }
-                                        // NNNNN: 2. delete cartActivity from VIEW AFTER deleting cartActivity from DATABASE (bc of viewHolder.position)
-                                        (adapter as CartActivityAdapter).deleteItem(cartActivityToDeleteTEMP)
+                                        popupWindow.dismiss()
                                     }
                                     ItemTouchHelper.RIGHT -> {
                                         // XXXXX: 2. Add to Calendar functionality
@@ -915,6 +917,7 @@ class ActivitiesFragment : Fragment() , HomeActivity.IOnBackPressed {
                                                 // NOTES: Update RecyclerAdapter with changes.
                                                 //adapter?.notifyDataSetChanged()
                                             }
+                                            popupWindow.dismiss()
 
                                             Log.d("AFTERIT", "{$cartActivityToAddToCalendarTEMP}")
                                         }
