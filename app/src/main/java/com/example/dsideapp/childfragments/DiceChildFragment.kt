@@ -374,7 +374,7 @@ class DiceChildFragment : Fragment() {
                             Log.d("AFTERIT", "{$cartActivityToAddToCalendarTEMP}")
                         }
 
-                        var exitCalendarButton = viewOfLayout.findViewById<Button>(R.id.exitButton)
+                        /*var exitCalendarButton = viewOfLayout.findViewById<Button>(R.id.exitButton)
                         exitCalendarButton.setOnClickListener{
                             val fragmentManager = activity?.getSupportFragmentManager()
                             Log.w("IDK WHY YOU ARE HERE: ",fragmentManager.toString())
@@ -391,7 +391,7 @@ class DiceChildFragment : Fragment() {
                             if (ppw.isShowing){
                                 ppw.dismiss()
                             }
-                        }
+                        }*/
 
                         // XXXXX -------------------------------------------------------------------------------------------------
                         // show the popup window
@@ -399,6 +399,21 @@ class DiceChildFragment : Fragment() {
                         ppwDice.showAtLocation(view, Gravity.CENTER, 0, 0)
                         viewOfLayout.setOnTouchListener { v, event ->
                             ppwDice.dismiss()
+                            val fragmentManager = activity?.getSupportFragmentManager()
+                            Log.w("IDK WHY YOU ARE HERE: ",fragmentManager.toString())
+                            if (fragmentManager != null) {
+                                fragmentManager.beginTransaction()
+                                    .replace(com.example.dsideapp.R.id.fragment_view, HomeFragment()).commit()
+                                Log.w("Made it here", "!")
+                                pleaseWorkManager = fragmentManager
+                            }
+                            selectedActivity = ActivityObject()
+                            if (ppwDice.isShowing){
+                                ppwDice.dismiss()
+                            }
+                            if (ppw.isShowing){
+                                ppw.dismiss()
+                            }
                             true
                         }
                     }
