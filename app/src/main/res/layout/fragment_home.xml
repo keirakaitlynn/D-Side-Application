@@ -44,12 +44,12 @@
         app:layout_constraintVertical_bias="0.519" />
 
     <ImageButton
-        android:id="@+id/concerts_button"
+        android:id="@+id/polls_button"
         android:layout_width="140dp"
         android:layout_height="140dp"
         android:layout_gravity="center"
         android:scaleType="fitXY"
-        android:src="@drawable/ic_polls"
+        android:src="@drawable/polls_icon_dark"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.202"

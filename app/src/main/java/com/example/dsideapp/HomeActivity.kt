@@ -28,7 +28,7 @@ class HomeActivity : AppCompatActivity() {
             when(it.itemId) {
                 R.id.navbar_home -> replaceFragment(homeFragment)
                 R.id.navbar_activities -> replaceFragment(activitiesFragment)
-                R.id.navbar_concerts -> replaceFragment(concertsFragment)
+                R.id.navbar_polls -> replaceFragment(concertsFragment)
                 R.id.navbar_calendar -> replaceFragment(calendarFragment)
                 //REPLACE NAVBAR_ACCOUNT WITH THIS WHEN WE GET TO ACCOUNT PAGE WORK -> accountFragment
                 R.id.navbar_account -> replaceFragment(accountFragment)

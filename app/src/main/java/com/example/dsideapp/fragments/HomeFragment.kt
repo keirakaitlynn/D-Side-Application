@@ -5,15 +5,11 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.ImageButton
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
-import androidx.fragment.app.FragmentTransaction
 import com.example.dsideapp.fragments.*
 import com.example.dsideapp.R
 import com.example.dsideapp.childfragments.InformationChildFragment
-import com.example.dsideapp.fragments.ppw
 
 
 class HomeFragment : Fragment() {
@@ -76,7 +72,7 @@ class HomeFragment : Fragment() {
         }
 
         //add concerts(polls) button and transaction
-        concertsButton = viewOfLayout.findViewById<View>(R.id.concerts_button) as ImageButton
+        concertsButton = viewOfLayout.findViewById<View>(R.id.polls_button) as ImageButton
         concertsButton.setOnClickListener {
             val fragmentManager = getActivity()?.getSupportFragmentManager()
             Log.w("Home: ",fragmentManager.toString())
