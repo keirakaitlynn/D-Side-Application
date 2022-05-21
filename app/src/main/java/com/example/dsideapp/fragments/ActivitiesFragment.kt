@@ -278,6 +278,14 @@ class ActivitiesFragment : Fragment() , HomeActivity.IOnBackPressed {
                 selectedItemsForDecisionTools.clear()
             }
         }
+        suggestionsButton = v.findViewById<Button>(R.id.suggestions_button)
+        suggestionsButton.setOnClickListener{
+            setTextAppearance(suggestionsButton, R.style.button_page_selected)
+            //Unga bunga way of doing this, but it works lol
+            setTextAppearance(diceButton, R.style.button_page)
+            setTextAppearance(coinButton, R.style.button_page)
+            setTextAppearance(wheelButton, R.style.button_page)
+        }
         diceButton = v.findViewById<Button>(R.id.dice_button)
         diceButton.setOnClickListener{
             setTextAppearance(diceButton, R.style.button_page_selected)
@@ -747,6 +755,12 @@ class ActivitiesFragment : Fragment() , HomeActivity.IOnBackPressed {
                             // NNNNN: Update RecyclerAdapter with changes.
                             adapter?.notifyDataSetChanged()
                         }
+                        /// MMMMM: Cart Interactability (Exit) ------------------------
+                        var exitCartButton = v.findViewById<Button>(R.id.exitCartButton)
+                        exitCartButton.setOnClickListener() {
+                            popupWindow.dismiss()
+                        }
+
                         /// MMMMM: Cart Interactability (Swipe) ----------------------------------------------------------------//
                         val swipeGesture = object : SwipeGesture(requireContext()) {
                             override fun onSwiped(
@@ -760,22 +774,25 @@ class ActivitiesFragment : Fragment() , HomeActivity.IOnBackPressed {
                                         // NNNNN: 1. delete cartActivity from DATABASE
                                         //Log.d("Item Swiped", "${(adapter as CartActivityAdapter).getItemsId(viewHolder.position)} Activity")
                                         val cartActivityToDeleteID = (adapter as CartActivityAdapter).getItemsId(viewHolder.position)
-                                        var cartActivityToDeleteTEMP = activities[0] // initialize if !it.exists()
+                                        //var cartActivityToDeleteTEMP = activities[0] // initialize if !it.exists()
                                         var cartActivityInfo = db.child("users").child(userID.toString()).get().addOnSuccessListener {
                                             if (it.exists()){
                                                 // NOTES: allTheStuff = array of Activities in Cart
                                                 val cartActivityToDelete = it.child("data").child("cart").child(cartActivityToDeleteID)
-                                                cartActivityToDeleteTEMP = cartActivityToDelete
-                                                //Log.d("Deleting", "${cartActivityToDelete} Activity")
+                                                //cartActivityToDeleteTEMP = cartActivityToDelete
+                                                Log.d("Deleting", "${cartActivityToDelete}")
                                                 cartActivityToDelete.getRef().removeValue()
+
+                                                // NNNNN: 2. delete cartActivity from VIEW AFTER deleting cartActivity from DATABASE (bc of viewHolder.position)
+                                                (adapter as CartActivityAdapter).deleteItem(cartActivityToDelete)
                                             }
                                             // NOTES: Update RecyclerAdapter with changes.
                                             adapter?.notifyDataSetChanged()
                                         }
-                                        // NNNNN: 2. delete cartActivity from VIEW AFTER deleting cartActivity from DATABASE (bc of viewHolder.position)
-                                        (adapter as CartActivityAdapter).deleteItem(cartActivityToDeleteTEMP)
+                                        popupWindow.dismiss()
                                     }
                                     ItemTouchHelper.RIGHT -> {
+                                        popupWindow.dismiss()
                                         // XXXXX: 2. Add to Calendar functionality
                                         // inflate the layout of the popup window
                                         v = inflater.inflate(com.example.dsideapp.R.layout.fragment_eventadd_pop_up, null)

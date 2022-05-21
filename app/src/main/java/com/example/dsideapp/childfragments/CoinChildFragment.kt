@@ -381,7 +381,7 @@ class CoinChildFragment : Fragment() {
                     Log.d("AFTERIT", "{$cartActivityToAddToCalendarTEMP}")
                 }
 
-                var exitCalendarButton = v.findViewById<Button>(R.id.exitButton)
+                /*var exitCalendarButton = v.findViewById<Button>(R.id.exitButton)
                 exitCalendarButton.setOnClickListener{
                     val fragmentManager = activity?.getSupportFragmentManager()
                     Log.w("IDK WHY YOU ARE HERE: ",fragmentManager.toString())
@@ -398,7 +398,7 @@ class CoinChildFragment : Fragment() {
                     if (ppw.isShowing){
                         ppw.dismiss()
                     }
-                }
+                }*/
 
                 // XXXXX -------------------------------------------------------------------------------------------------
                 // show the popup window
@@ -406,6 +406,21 @@ class CoinChildFragment : Fragment() {
                 ppwCoin.showAtLocation(view, Gravity.CENTER, 0, 0)
                 v.setOnTouchListener { v, event ->
                     ppwCoin.dismiss()
+                    val fragmentManager = activity?.getSupportFragmentManager()
+                    Log.w("IDK WHY YOU ARE HERE: ",fragmentManager.toString())
+                    if (fragmentManager != null) {
+                        fragmentManager.beginTransaction()
+                            .replace(com.example.dsideapp.R.id.fragment_view, HomeFragment()).commit()
+                        Log.w("Made it here", "!")
+                        pleaseWorkManager = fragmentManager
+                    }
+                    selectedActivity = ActivityObject()
+                    if (ppwCoin.isShowing){
+                        ppwCoin.dismiss()
+                    }
+                    if (ppw.isShowing){
+                        ppw.dismiss()
+                    }
                     true
                 }
                 // ----------------------------------------------------------------------------------
